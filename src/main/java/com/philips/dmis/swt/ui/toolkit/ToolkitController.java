@@ -10,10 +10,7 @@ import com.philips.dmis.swt.ui.toolkit.js.pages.InitFunction;
 import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
-import com.philips.dmis.swt.ui.toolkit.widgets.HasCode;
-import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
-import com.philips.dmis.swt.ui.toolkit.widgets.Page;
-import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
+import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -36,7 +33,7 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
     private final HasConstantStorage constantStorageImpl = new StaticValueStorage();
     private final Map<String, HasCode> codeModules = new LinkedHashMap<>();
 
-    public ToolkitController(List<? extends JsModule> jsModules, List<? extends Page> pages) throws WebControllerException, WidgetConfigurationException {
+    public ToolkitController(List<? extends JsModule> jsModules, List<Page> pages) throws WebControllerException, WidgetConfigurationException {
         if (jsModules == null || jsModules.isEmpty()) {
             throw new WebControllerException("missing modules");
         }
@@ -45,7 +42,10 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         }
         this.jsModules = jsModules;
 
-        pages = pages.stream().filter(Constants.DEBUG_PAGE_FILTER).toList();
+        if (Constants.DEBUG && Constants.DEBUG_ROOT_PAGE != null) {
+            DependencyFinder dependencyFinder = new DependencyFinder(Constants.DEBUG_ROOT_PAGE, pages);
+            pages = dependencyFinder.find();
+        }
 
         Page firstPage = null;
         Page defaultPage = null;

@@ -57,4 +57,9 @@ public class SetDataAdapterEnabledStatement extends MethodStatement {
         dataAdapter.validate(toolkit);
         enabled.validate(toolkit);
     }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(enabled);
+    }
 }

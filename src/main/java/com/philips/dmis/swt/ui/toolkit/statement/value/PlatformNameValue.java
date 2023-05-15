@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.GetOsName;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -36,5 +37,9 @@ public class PlatformNameValue extends ValueStatement {
             return;
         }
         validated = true;
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
     }
 }

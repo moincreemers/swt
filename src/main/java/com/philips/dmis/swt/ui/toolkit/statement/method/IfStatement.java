@@ -203,4 +203,13 @@ public class IfStatement extends MethodStatement {
             elseStatement.validate(toolkit);
         }
     }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        for (Case c : cases) {
+            statements.add(c.valueStatement);
+            statements.addAll(c.statements);
+        }
+        statements.addAll(elseStatements);
+    }
 }

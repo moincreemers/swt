@@ -9,6 +9,7 @@ import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetDocumentHashFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 import com.philips.dmis.swt.ui.toolkit.widgets.ViewType;
@@ -28,6 +29,10 @@ public class OpenPageStatement extends MethodStatement {
     public OpenPageStatement(Class<? extends Page> pageClass, ValueStatement valueStatement) {
         this.pageClass = pageClass;
         this.valueStatement = valueStatement;
+    }
+
+    public Class<? extends Page> getPageClass() {
+        return pageClass;
     }
 
     @Override
@@ -71,5 +76,10 @@ public class OpenPageStatement extends MethodStatement {
         if (valueStatement != null) {
             valueStatement.validate(toolkit);
         }
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(valueStatement);
     }
 }

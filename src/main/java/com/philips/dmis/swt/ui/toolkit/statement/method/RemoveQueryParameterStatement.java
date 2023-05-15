@@ -50,4 +50,9 @@ public class RemoveQueryParameterStatement extends MethodStatement {
         dataSourceSupplier.validate(toolkit);
         nameStatement.validate(toolkit);
     }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(nameStatement);
+    }
 }

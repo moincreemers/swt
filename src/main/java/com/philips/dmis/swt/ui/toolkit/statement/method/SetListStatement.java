@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
 import com.philips.dmis.swt.ui.toolkit.js.pages.SetListFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -46,5 +47,10 @@ public class SetListStatement extends MethodStatement {
         validated = true;
         targetWidget.validate(toolkit);
         list.validate(toolkit);
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(list);
     }
 }

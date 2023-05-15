@@ -45,4 +45,8 @@ public class RemoveAllQueryParametersStatement extends MethodStatement {
         validated = true;
         dataSourceSupplier.validate(toolkit);
     }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+    }
 }

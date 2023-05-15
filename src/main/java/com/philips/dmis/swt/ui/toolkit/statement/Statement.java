@@ -23,4 +23,6 @@ public abstract class Statement {
     public abstract void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException;
 
     public abstract void validate(Toolkit toolkit) throws WidgetConfigurationException;
+
+    public abstract void getReferences(List<Statement> statements);
 }

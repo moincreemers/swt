@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
 import com.philips.dmis.swt.ui.toolkit.js.pages.SetTextFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasText;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -47,5 +48,10 @@ public class SetTextStatement extends MethodStatement {
         validated = true;
         targetWidget.validate(toolkit);
         valueStatement.validate(toolkit);
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(valueStatement);
     }
 }

@@ -54,4 +54,10 @@ public class SetQueryParameterStatement extends MethodStatement {
         nameStatement.validate(toolkit);
         valueStatement.validate(toolkit);
     }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(nameStatement);
+        statements.add(valueStatement);
+    }
 }

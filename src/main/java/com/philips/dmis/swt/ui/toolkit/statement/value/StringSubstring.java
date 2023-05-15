@@ -4,6 +4,7 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -58,6 +59,15 @@ public class StringSubstring extends ValueStatement {
         start.validate(toolkit);
         if (end != null) {
             end.validate(toolkit);
+        }
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(string);
+        statements.add(start);
+        if (end != null) {
+            statements.add(end);
         }
     }
 }

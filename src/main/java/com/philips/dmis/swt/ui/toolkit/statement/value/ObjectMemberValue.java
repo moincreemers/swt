@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.ResolveObjectMemberOrPath;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -47,5 +48,11 @@ public class ObjectMemberValue extends ValueStatement {
         validated = true;
         object.validate(toolkit);
         memberNameOrPath.validate(toolkit);
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(object);
+        statements.add(memberNameOrPath);
     }
 }

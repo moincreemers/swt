@@ -5,6 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsFunction;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.method.CallStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Code;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -65,5 +66,10 @@ public class CallValue extends ValueStatement {
             return;
         }
         validated = true;
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.addAll(parameterValues);
     }
 }

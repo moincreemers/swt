@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -23,6 +24,10 @@ public class GetPageValue extends ValueStatement {
     public GetPageValue(Class<? extends Page> pageClass, ValueStatement valueStatement) {
         this.pageClass = pageClass;
         this.valueStatement = valueStatement;
+    }
+
+    public Class<? extends Page> getPageClass() {
+        return pageClass;
     }
 
     @Override
@@ -54,6 +59,13 @@ public class GetPageValue extends ValueStatement {
         }
         if (valueStatement != null) {
             valueStatement.validate(toolkit);
+        }
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        if (valueStatement != null) {
+            statements.add(valueStatement);
         }
     }
 }

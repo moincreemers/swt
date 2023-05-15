@@ -48,4 +48,9 @@ public class SetEnabledStatement extends MethodStatement {
         targetWidget.validate(toolkit);
         valueStatement.validate(toolkit);
     }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(valueStatement);
+    }
 }

@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.pages.AddDataFunction;
 import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ConstantValue;
 import com.philips.dmis.swt.ui.toolkit.widgets.DataBoundWidget;
@@ -52,5 +53,10 @@ public class AddDataStatement extends MethodStatement {
         validated = true;
         dataBoundWidget.validate(toolkit);
         numberOfRecords.validate(toolkit);
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(numberOfRecords);
     }
 }

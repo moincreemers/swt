@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.GetSessionValueFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -50,5 +51,11 @@ public class GetGlobalValue extends ValueStatement {
         validated = true;
         key.validate(toolkit);
         defaultValue.validate(toolkit);
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(key);
+        statements.add(defaultValue);
     }
 }

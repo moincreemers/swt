@@ -3,6 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.statement.mapper;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.method.CallStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -41,5 +42,10 @@ public class Call extends MapStatement {
     @Override
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
         callStatement.validate(toolkit);
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        statements.add(callStatement);
     }
 }

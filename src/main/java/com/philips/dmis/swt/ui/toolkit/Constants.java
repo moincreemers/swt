@@ -1,9 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit;
 
-import com.philips.dmis.swt.ui.AbstractViewerPage;
+import com.philips.dmis.swt.ui.ExamplesPage;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
-
-import java.util.function.Predicate;
 
 public class Constants {
     public static final String MAIN_MODULE_NAME = "Singular";
@@ -14,9 +12,12 @@ public class Constants {
 
     public static final boolean DEBUG = true;
     public static final JsLogLevel JS_LOG_LEVEL = JsLogLevel.INFO;
-    public static final Predicate<Page> DEBUG_PAGE_FILTER =
-            page -> !DEBUG
-                    | page instanceof AbstractViewerPage;
+
+    // Uncomment this to get the Viewer demo pages:
+    // public static final Class<? extends Page> DEBUG_ROOT_PAGE = LoginPage.class;
+
+    // Uncomment this to get the general SWT demo pages:
+    public static final Class<? extends Page> DEBUG_ROOT_PAGE = ExamplesPage.class;
 
 
     public static boolean isLogLevel(JsLogLevel logLevel) {

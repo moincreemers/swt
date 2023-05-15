@@ -4,6 +4,7 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -130,6 +131,34 @@ public class DateCreateValue extends ValueStatement {
             if (milliSecond != null) {
                 milliSecond.validate(toolkit);
             }
+        }
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        if (dateValue != null) {
+            statements.add(dateValue);
+        }
+        if (year != null) {
+            statements.add(year);
+        }
+        if (monthIndex != null) {
+            statements.add(monthIndex);
+        }
+        if (day != null) {
+            statements.add(day);
+        }
+        if (hour != null) {
+            statements.add(hour);
+        }
+        if (minute != null) {
+            statements.add(minute);
+        }
+        if (second != null) {
+            statements.add(second);
+        }
+        if (milliSecond != null) {
+            statements.add(milliSecond);
         }
     }
 }

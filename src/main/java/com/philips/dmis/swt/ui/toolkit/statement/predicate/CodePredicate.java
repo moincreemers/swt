@@ -3,9 +3,12 @@ package com.philips.dmis.swt.ui.toolkit.statement.predicate;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
+
+import java.util.List;
 
 /**
  * Constructs a predicate using Javascript.
@@ -47,5 +50,9 @@ public class CodePredicate extends PredicateStatement {
         if (js.indexOf("return") == -1) {
             throw new WidgetConfigurationException("missing return statement");
         }
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
     }
 }

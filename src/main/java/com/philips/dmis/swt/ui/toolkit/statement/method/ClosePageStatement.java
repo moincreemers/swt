@@ -8,6 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.js.global.GetDocumentHashFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetDocumentHashFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -95,6 +96,13 @@ public class ClosePageStatement extends MethodStatement {
         }
         if (valueStatement != null) {
             valueStatement.validate(toolkit);
+        }
+    }
+
+    @Override
+    public void getReferences(List<Statement> statements) {
+        if (valueStatement != null) {
+            statements.add(valueStatement);
         }
     }
 }
