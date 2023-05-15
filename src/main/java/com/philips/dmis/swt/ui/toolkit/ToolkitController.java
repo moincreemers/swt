@@ -41,40 +41,31 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
             throw new WebControllerException("no pages provided");
         }
         this.jsModules = jsModules;
-
-        if (Constants.DEBUG && Constants.DEBUG_ROOT_PAGE != null) {
-            DependencyFinder dependencyFinder = new DependencyFinder(Constants.DEBUG_ROOT_PAGE, pages);
-            pages = dependencyFinder.find();
-        }
-
-        Page firstPage = null;
-        Page defaultPage = null;
-        for (Page page : pages) {
-            if (firstPage == null) {
-                firstPage = page;
-            }
+        this.defaultPage = findRootPage(pages);
+        DependencyFinder dependencyFinder = new DependencyFinder(defaultPage.getClass(), pages);
+        List<Page> logicalPages = dependencyFinder.find();
+        for(Page page: logicalPages){
             LOG.info("PAGE FOUND: " + page.getId() + ", " + page.getClass().getName());
             this.pages.put(page.getClass(), page);
-            if (page.isDefault() && defaultPage == null) {
-                LOG.info("HOME PAGE: " + page.getId() + ", " + page.getClass().getName());
-                defaultPage = page;
-            }
         }
-        if (this.pages.isEmpty()) {
-            throw new WebControllerException("no web pages found");
-        }
-        // no default marked, first page as default but which page is default is undefined.
-        if (defaultPage == null) {
-            defaultPage = firstPage;
-            LOG.info("DEFAULT PAGE: " + defaultPage.getId() + ", " + defaultPage.getClass().getName());
-        }
-
-        // validation
-        for (Page page : pages) {
+        LOG.info("DEFAULT PAGE: " + defaultPage.getId() + ", " + defaultPage.getClass().getName());
+        for (Page page : logicalPages) {
             page.validate(this);
         }
+    }
 
-        this.defaultPage = defaultPage;
+    private Page findRootPage(List<Page> pages) throws WebControllerException {
+        Page defaultPage = null;
+        for (Page page : pages) {
+            if (page.isDefault()) {
+                defaultPage = page;
+                break;
+            }
+        }
+        if (defaultPage == null) {
+            throw new WebControllerException("no default page defined");
+        }
+        return defaultPage;
     }
 
     private CacheStrategy getCacheStrategy(HttpServletRequest request) {

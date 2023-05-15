@@ -1,6 +1,10 @@
 package com.philips.dmis.swt.ui.toolkit;
 
-import com.philips.dmis.swt.ui.*;
+import com.philips.dmis.swt.ui.demo.*;
+import com.philips.dmis.swt.ui.forview.LoginPage;
+import com.philips.dmis.swt.ui.forview.PatientDetails;
+import com.philips.dmis.swt.ui.forview.PatientDocuments;
+import com.philips.dmis.swt.ui.forview.PatientSearch;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

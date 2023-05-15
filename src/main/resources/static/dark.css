@@ -69,6 +69,7 @@ ul.tk-sc-tabs>li.tk-selected{z-index:1;background-color:#0075ff!important;color:
 ::-webkit-scrollbar-corner{background-color:#3a3a3a;}
 
 .tk-bordered{border:1px solid #666 !important;}
+div.grid.tk-bordered>div.grid-row>div.grid-cell{border-right:1px solid #666;border-bottom:1px solid #666;}
 div.tk-panel-banner.tk-bordered{border:1px solid #666 !important;}
 div.tk-panel-success.tk-bordered{border:1px solid #05874d !important;}
 div.tk-panel-info.tk-bordered{border:1px solid #0872c5 !important;}
