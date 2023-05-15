@@ -1,0 +1,50 @@
+package com.philips.dmis.swt.ui.toolkit.statement.method;
+
+import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
+import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.pages.SetAutocompleteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
+import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
+import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
+
+import java.util.List;
+
+public class SetAutocompleteStatement extends MethodStatement {
+    private final Widget targetWidget;
+    private final ValueStatement autocomplete;
+
+    public SetAutocompleteStatement(Widget widget, ValueStatement autocomplete) {
+        this.targetWidget = widget;
+        this.autocomplete = autocomplete;
+    }
+
+    @Override
+    public JsType getType() {
+        return JsType.VOID;
+    }
+
+    @Override
+    public List<JsParameter> getParameters() {
+        return NO_PARAMETERS;
+    }
+
+    @Override
+    public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
+        js.append("%s(%s);",
+                JsPagesModule.getQualifiedId(targetWidget, SetAutocompleteFunction.class),
+                ValueStatement.valueOf(toolkit, autocomplete, widget));
+    }
+
+    @Override
+    public void validate(Toolkit toolkit) throws WidgetConfigurationException {
+        if (validated) {
+            return;
+        }
+        validated = true;
+        targetWidget.validate(toolkit);
+        autocomplete.validate(toolkit);
+    }
+}

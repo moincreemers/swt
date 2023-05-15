@@ -1,0 +1,62 @@
+package com.philips.dmis.swt.ui.toolkit.statement.method;
+
+import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
+import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.pages.RefreshFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.value.V;
+import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
+import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
+import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
+
+import java.util.List;
+
+public class RefreshStatement extends MethodStatement {
+    private final Widget targetWidget;
+    private final ValueStatement reason;
+
+    public RefreshStatement(Widget widget) {
+        this.targetWidget = widget;
+        this.reason = null;
+    }
+
+    public RefreshStatement(Widget widget, String reason) {
+        this(widget, V.Const(reason));
+    }
+
+    public RefreshStatement(Widget widget, ValueStatement reason) {
+        this.targetWidget = widget;
+        this.reason = reason;
+    }
+
+    @Override
+    public JsType getType() {
+        return JsType.VOID;
+    }
+
+    @Override
+    public List<JsParameter> getParameters() {
+        return NO_PARAMETERS;
+    }
+
+    @Override
+    public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
+        js.append("%s(%s);",
+                JsPagesModule.getQualifiedId(targetWidget, RefreshFunction.class),
+                ValueStatement.valueOf(toolkit, reason != null ? reason : V.Const(JsPagesModule.REASON_USER), widget));
+    }
+
+    @Override
+    public void validate(Toolkit toolkit) throws WidgetConfigurationException {
+        if (validated) {
+            return;
+        }
+        validated = true;
+        targetWidget.validate(toolkit);
+        if (reason != null) {
+            reason.validate(toolkit);
+        }
+    }
+}
