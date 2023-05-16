@@ -198,12 +198,18 @@ Because Singular is a Java framework, no outsourcing to web design agencies is n
 
 ## Negatives
 
-Will Singular still be able to do everything I want?
+1. Will Singular still be able to do everything I want?
 
 Probably not everything, but that is also the point. Singular forces people to look at what is actually needed, not
 what we want. What we want is often more than what we are able to justify in terms of cost.
 
 For edge cases, extension is still very much possible and relatively easy to do.
+
+2. It can still be difficult to use because the SWT API is quite extensive
+
+Yes, this is definitely a tradeoff. We did not want to end up with a domain specific language but the complexity of
+dealing with for example data adapters can feel overwhelming. This is similar to having to learn a new programming
+language.
 
 ## Singular use cases
 
