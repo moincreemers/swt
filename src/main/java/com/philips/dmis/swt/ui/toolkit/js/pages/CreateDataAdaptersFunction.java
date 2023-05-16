@@ -51,9 +51,8 @@ public class CreateDataAdaptersFunction implements JsFunction, IsPageModuleMembe
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("()=>{");
 
-        if (widget instanceof HasDataSource<?>) {
+        if (widget instanceof HasDataSource<?> hasDataSource) {
             // this is the case for widgets that USE a data source
-            HasDataSource<?> hasDataSource = (HasDataSource<?>) widget;
             for (DataSourceUsage dataSourceUsage : DataSourceUsage.values()) {
                 if (!hasDataSource.hasDataSource(dataSourceUsage)) {
                     continue;
@@ -67,6 +66,7 @@ public class CreateDataAdaptersFunction implements JsFunction, IsPageModuleMembe
             }
         } else if (widget instanceof DataSourceSupplier dataSourceSupplier) {
             // this is the case for widgets that ARE a data source
+            generateDataAdapters(toolkit, DataSourceUsage.IMPORT, dataSourceSupplier.getDataAdapters(), js);
             generateDataAdapters(toolkit, DataSourceUsage.TRANSFORM, dataSourceSupplier.getDataAdapters(), js);
         }
 
@@ -84,12 +84,14 @@ public class CreateDataAdaptersFunction implements JsFunction, IsPageModuleMembe
                 JsPagesModule.getId(widget, DataAdaptersVariable.class),
                 dataSourceUsage.name());
         for (DataAdapter dataAdapter : dataAdapters) {
-            js.append("adapters.push({");
-            js.append("id:'%s',", dataAdapter.getId());
-            js.append("type:'%s',", dataAdapter.getClass().getSimpleName());
-            js.append("fn:");
-            dataAdapter.renderJs(toolkit, widget, js);
-            js.append("});");
+            if (dataAdapter.isDataSourceUsage(dataSourceUsage)) {
+                js.append("adapters.push({");
+                js.append("id:'%s',", dataAdapter.getId());
+                js.append("type:'%s',", dataAdapter.getClass().getSimpleName());
+                js.append("fn:");
+                dataAdapter.renderJs(toolkit, widget, js);
+                js.append("});");
+            }
         }
         js.append("%s['%s']=adapters;",
                 JsPagesModule.getId(widget, DataAdaptersVariable.class),

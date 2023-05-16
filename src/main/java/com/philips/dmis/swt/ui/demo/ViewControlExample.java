@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ViewControlExample extends Page {
     public ViewControlExample() throws Exception {
-        super(true);
     }
 
     @Override
@@ -62,17 +61,17 @@ public class ViewControlExample extends Page {
         add(HtmlButton.openPage("Select Food Types", SelectFoodTypesDialog.class, V.Const("fruits")));
 
         add(new HtmlParagraph("Click the button to open the Dialog and then inspect the state of the view controller " +
-                "in the address bar. The value \"fruits\" should appear as an argument."));
+                "in the address bar while clicking OK."));
 
         add(new HtmlParagraph("Using the return value of another page " +
-                "can be done using the onActivate event (see below) of the page and the GetReturnValue statement:"));
+                "can be done using the onActivate event (see below) of the page and the GetPageArgument statement:"));
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS,
                 "onActivate(\n" +
                     "  new ActivateEventHandler(\n" +
                     "    M.Set(selectedFoodTypeLabel,\n" +
                     "      V.Concat(\n" +
                     "        V.Const(\"The selected food type is: \"),\n" +
-                    "        V.GetReturnValue()\n" +
+                    "        V.GetPageArgument()\n" +
                     "    )\n" +
                     "  )\n" +
                     ")"));
@@ -89,7 +88,7 @@ public class ViewControlExample extends Page {
 
         add(new HtmlParagraph("This works because the onActivate event is fired for any page that " +
                 "becomes the active page. As soon as the Dialog is closed, the previous page becomes the activate page " +
-                "and we can then use the return value."));
+                "and we can then use the value passed to the page."));
 
         add(new HtmlHeading("Page events", 2));
         add(new HtmlParagraph("The view controller raises these events when switching between pages:"));

@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.data.ArrayDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -29,7 +30,8 @@ public class DialogsExamplePage extends Page {
                 Arrays.asList(ViewPosition.DIALOG_CENTER.name(), ViewPosition.DIALOG_TOP_LEFT.name(),
                         ViewPosition.DIALOG_TOP_RIGHT.name(), ViewPosition.DIALOG_BOTTOM_RIGHT.name(),
                         ViewPosition.DIALOG_BOTTOM_LEFT.name())));
-        SingleChoice dialogPosition = popupDialogs.add(new SingleChoice().addDataSource(dialogPositionStaticData));
+        SingleChoice dialogPosition = popupDialogs.add(new SingleChoice()
+                .addDataSource(dialogPositionStaticData, new ArrayDataAdapter()));
         dialogPosition.setValue(ViewPosition.DIALOG_CENTER.name());
         HtmlButton showDialog = popupDialogs.add(new HtmlButton("Show popup dialog"));
         showDialog.onClick(new ClickEventHandler(
@@ -46,7 +48,8 @@ public class DialogsExamplePage extends Page {
         StaticData sidebarPositionStaticData = popupDialogs.add(new StaticData(
                 Arrays.asList(ViewPosition.SIDEBAR_TOP.name(), ViewPosition.SIDEBAR_RIGHT.name(),
                         ViewPosition.SIDEBAR_BOTTOM.name(), ViewPosition.SIDEBAR_LEFT.name())));
-        SingleChoice sidebarPosition = sidebarDialogs.add(new SingleChoice().addDataSource(sidebarPositionStaticData));
+        SingleChoice sidebarPosition = sidebarDialogs.add(new SingleChoice()
+                .addDataSource(sidebarPositionStaticData, new ArrayDataAdapter()));
         sidebarPosition.setValue(ViewPosition.SIDEBAR_TOP.name());
         HtmlButton showSidebar = sidebarDialogs.add(new HtmlButton("Show sidebar dialog"));
         showSidebar.onClick(new ClickEventHandler(

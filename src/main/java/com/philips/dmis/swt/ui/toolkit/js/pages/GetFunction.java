@@ -73,13 +73,8 @@ public class GetFunction implements JsFunction, IsPageModuleMember {
                 js.append("return %s().value;", JsPagesModule.getId(widget, GetElementFunction.class));
             }
         } else if (widget instanceof DataSourceSupplier) {
-            if (widget instanceof HasCalculatedValue) {
-                js.append("return %s;",
-                        JsPagesModule.getQualifiedId(widget, DataVariable.class));
-            } else {
-                js.append("return %s;",
-                        JsPagesModule.getQualifiedId(widget, DataVariable.class));
-            }
+            js.append("return %s;",
+                    JsPagesModule.getQualifiedId(widget, DataVariable.class));
         } else if (widget instanceof ContainerWidget<?> containerWidget) {
             js.append("let data={};");
             for (Widget child : containerWidget) {

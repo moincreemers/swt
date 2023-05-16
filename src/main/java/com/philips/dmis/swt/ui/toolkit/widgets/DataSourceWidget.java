@@ -131,8 +131,15 @@ public abstract class DataSourceWidget extends Widget implements DataSourceSuppl
         for (HasDataSource<?> hasDataSource : subscribers.keySet()) {
             hasDataSource.asWidget().validate(toolkit);
         }
+        boolean hasImportDataAdapter = false;
         for (DataAdapter dataAdapter : dataAdapters) {
             dataAdapter.validate(toolkit);
+            if (dataAdapter.isDataSourceUsage(DataSourceUsage.IMPORT)) {
+                hasImportDataAdapter = true;
+            }
+        }
+        if (!expectServiceResponse && !hasImportDataAdapter) {
+            throw new WidgetConfigurationException("missing data adapter in data source for import");
         }
     }
 }

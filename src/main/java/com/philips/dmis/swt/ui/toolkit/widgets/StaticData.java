@@ -32,6 +32,7 @@ public class StaticData extends DataSourceWidget {
             return;
         }
         setJson(json);
+        setCacheType(CacheType.DISABLED);
     }
 
     public StaticData(Object object) throws IOException {

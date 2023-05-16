@@ -16,7 +16,7 @@ public class SidebarBottomDialogExample extends Page {
 
         add(new HtmlParagraph("This is a simple sidebar dialog page."));
 
-        add(HtmlLink.openPage("Back to Examples", ExamplesPage.class));
+        add(HtmlLink.openPage("Back to Examples", MainDemoPage.class));
         add(HtmlButton.closePage("Close", V.Ok));
     }
 }

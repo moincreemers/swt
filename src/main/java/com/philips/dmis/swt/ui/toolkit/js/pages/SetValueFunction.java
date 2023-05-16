@@ -42,7 +42,7 @@ public class SetValueFunction implements JsFunction, IsPageModuleMember {
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(value)=>{");
 
-        js.info("console.log('SetValueFunction','%s',value);", widget.getId());
+        js.debug("console.log('SetValueFunction','%s',value);", widget.getId());
 
         if (widget != null && !(widget instanceof DataSourceSupplier
                 || widget instanceof HasText)) {
@@ -87,7 +87,10 @@ public class SetValueFunction implements JsFunction, IsPageModuleMember {
                         JsPagesModule.getId(widget, GetElementFunction.class));
             }
         } else if (widget instanceof DataSourceSupplier) {
-            if (widget instanceof HasCalculatedValue || widget instanceof StaticData) {
+            if (widget instanceof HasCalculatedValue) {
+                js.append("%s=JSON.stringify(value);",
+                        JsPagesModule.getQualifiedId(widget, DataVariable.class));
+            } else if (widget instanceof StaticData) {
                 js.append("%s=value;",
                         JsPagesModule.getQualifiedId(widget, DataVariable.class));
             } else {

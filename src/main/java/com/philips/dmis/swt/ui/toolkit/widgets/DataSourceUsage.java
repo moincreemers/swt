@@ -8,6 +8,7 @@ public enum DataSourceUsage {
     TABLE_HEADER(1),
     TABLE_FOOTER(1),
     TABLE_BODY(1),
+
     IMPORT(1),
     TRANSFORM(1),
 

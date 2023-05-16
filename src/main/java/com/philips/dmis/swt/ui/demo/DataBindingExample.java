@@ -1,7 +1,7 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.data.ArrayDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
-import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.data.PathDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
@@ -98,8 +98,10 @@ public class DataBindingExample extends Page {
         add(new HtmlParagraph("This page includes a Data Source for the options of the Country ListBox:"));
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "Data countryOptions = new Data(Arrays.asList(\"United States\", " +
                 "\"Netherlands\", \"United Kingdom\", \"Japan\", \"Other\"));"));
-        StaticData countryOptions = add(new StaticData(Arrays.asList("United States", "Netherlands", "United Kingdom", "Japan",
-                "Other")));
+
+        StaticData countryOptions = add(new StaticData(
+                Arrays.asList("United States", "Netherlands", "United Kingdom", "Japan", "Other")));
+
         add(new HtmlParagraph("... and a Data Source for the Address record. Let&#39;s say we implemented the Address " +
                 "class. Presumably, this is already part of the Address Service we would like to use. So we could add " +
                 "a Java dependency or define it again in our Web application project here:"));
@@ -117,8 +119,10 @@ public class DataBindingExample extends Page {
                 "Address address = new Address(\"704 Hauser St.\",\"10001\",\"New York\",\"New York\"," +
                         "\"United States\",\"\");\n" +
                         "Data data = new Data(address);"));
+
         StaticData staticData = add(new StaticData(new Address("704 Hauser St.", "10001", "New York",
                 "New York", "United States", "")));
+
         add(new HtmlParagraph("The Data Sources in this example are static but these would each be replaced by a " +
                 "QueryService (see below) to retrieve the data from a service."));
 
@@ -135,6 +139,7 @@ public class DataBindingExample extends Page {
                         "each widget that is bound to it will receive an update notification and its " +
                         "value will be automatically updated.")));
         Grid addressGrid = add(new Grid("address", 3));
+        addressGrid.setAppearance(WidgetAppearance.BORDERED);
         HtmlPreformatted streetAddressCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox streetAddress = new TextBox()\n" +
                 "  .addDataSource(data, new PathDataAdapter(\"streetAddress\"));");
         HtmlTextInput streetAddress = new HtmlTextInput("streetAddress")
@@ -159,9 +164,11 @@ public class DataBindingExample extends Page {
                 "ListBox country = new ListBox()\n" +
                         "  .addDataSource(DataSourceUsage.VALUE, data, new PathDataAdapter(\"country\"))\n" +
                         "  .addDataSource(DataSourceUsage.OPTIONS, countryOptions, new KeyValueListDataAdapter());");
+
         HtmlSelect country = new HtmlSelect("country")
                 .addDataSource(DataSourceUsage.VALUE, staticData, new PathDataAdapter("country"))
-                .addDataSource(DataSourceUsage.OPTIONS, countryOptions, new KeyValueListDataAdapter());
+                .addDataSource(DataSourceUsage.OPTIONS, countryOptions, new ArrayDataAdapter());
+
         addressGrid.addAll(new HtmlLabel(country, "Country"), countryCode);
         HtmlPreformatted otherCountryCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox otherCountry = new TextBox()\n" +
                 "  .addDataSource(data, new PathDataAdapter(\"otherCountry\"));\n" +
@@ -200,24 +207,22 @@ public class DataBindingExample extends Page {
                 "We can ask any widget to return whatever data it contains. In this case we ask the Page to " +
                 "return it&#39;s data."));
         add(new Panel(PanelType.INFO, new HtmlLabel(icons, "info",
-                "It is important to note that Container widgets (e.g., Page, Grid, Panel, Table, List) will " +
+                "It is important to note that Container widgets (e.g., Page, Grid, Panel, Table, List, Form) will " +
                         "translate their hierarchy to the JSON document when requesting its value." +
                         "For this reason, containers also have a Name property and everything with a Name is considered " +
                         "data.")));
-        add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "getFormData.onClick(new ClickEventHandler(\n" +
+        add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "button.onClick(new ClickEventHandler(\n" +
                 "  M.SetText(formData, V.GetValue(this))\n" +
                 "));"));
         add(new HtmlParagraph("You can also use an event handler to retrieve the data:"));
-        add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "grid.onChange(new ChangeEventHandler(\n" +
-                "  M.SetText(formData, V.GetValue(grid))\n" +
+        add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "anyContainerWidget.onChange(new ChangeEventHandler(\n" +
+                "  M.SetText(formData, V.GetValue(someForm))\n" +
                 "));"));
         HtmlPreformatted formData2 = add(new HtmlPreformatted(TextFormatType.JSON, ""));
         addressGrid.onChange(new ChangeEventHandler(
                 M.SetText(formData2, V.GetValue(addressGrid))
         ));
-        add(new HtmlParagraph("The reason this works is because the onChange event is propagated to the parent, " +
-                "which in this case is the Grid."));
-
+        add(new HtmlParagraph("The reason this works is because the onChange event is propagated to the parent."));
 
         //
         //
@@ -225,21 +230,18 @@ public class DataBindingExample extends Page {
 
         add(new HtmlHeading("Sending Data to a Service", 2));
         add(new HtmlParagraph("Obviously, in most cases it is the intention to send this data to a service. " +
-                "This is done using the UpdateService widget."));
+                "This can be done using the QueryService or UpdateService widget. The QueryService widget is used when " +
+                "you care about the response. The UpdateWidget only provides the Response event but does not " +
+                "automatically parse the response for you."));
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "UpdateService addressUpdateService = new UpdateService(\"/address\", " +
                 "Address.class);"));
         add(new HtmlParagraph("The UpdateService requires the endpoint of the API that will handle the " +
-                "update and a DTO. The DTO is an object that is representative of the data, in this case " +
-                "our Address class which we defined earlier.\n\n" +
-                "Simply use M.Set to tell the UpdateService to send the data:"));
+                "update. Simply use M.SetValue(updateService) to tell the UpdateService to send the data:"));
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "grid.onChange(new ChangeEventHandler(\n" +
-                "  M.Set(addressUpdateService, V.Get(grid))\n" +
+                "  M.SetValue(addressUpdateService, V.Get(grid))\n" +
                 "));"));
         add(new HtmlParagraph("Alternatively, you could add a \"Save\" button if you prefer."));
 
-        //
-        //
-        //
 
         add(new HtmlHeading("Querying Data from a Service", 2));
         add(new HtmlParagraph("To query our address service we need a Data Source. This is the QueryService:"));
@@ -252,7 +254,10 @@ public class DataBindingExample extends Page {
                         "{\"streetAddress\":\"221B Baker St.\",\"postalCode\":\"\",\"city\":\"London\",\"state\":\"\",\"country\":\"United Kingdom\",\"otherCountry\":\"\"}" +
                         "]}"));
         add(new Panel(PanelType.INFO, new HtmlLabel(icons, "info",
-                "It is important to note that the JSON document can be very different from this. The only assumption is that the JSON document contains an array with these records somewhere and that it is preceded by a property name. The path to this property needs to be specified in Data Adapters. Note that \".items\" is the default path.")));
+                "It is important to note that the JSON document can be very different from this. The only " +
+                        "assumption is that the JSON document contains an array with these records somewhere and that " +
+                        "it is preceded by a property name. The path to this property needs to be specified in " +
+                        "Data Adapters. Note that \".data.items\" is the default path.")));
 
         StaticData addressService = add(new StaticData(Arrays.asList(
                 new Address("704 Hauser St.", "10001", "New York", "New York", "United States", ""),

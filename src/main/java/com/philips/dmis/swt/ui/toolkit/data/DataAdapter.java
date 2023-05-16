@@ -60,7 +60,7 @@ public abstract class DataAdapter {
      * @return
      */
     public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return true;
+        return dataSourceUsage!=DataSourceUsage.IMPORT;
     }
 
     public String getPath() {

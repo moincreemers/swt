@@ -155,8 +155,12 @@ public class RefreshFunction implements JsFunction, IsPageModuleMember {
                 js.append("};"); // end if
             }
 
-            // clear data
-            js.append("%s=null;", JsPagesModule.getQualifiedId(widget, DataVariable.class));
+            // clear data.
+            // For Data and StaticData widgets, DataVariable is used in a different
+            // way because the widget IS the actual data source. So the only way to change that is to use SetValue again.
+            if (!(widgetType == WidgetType.DATA || widgetType == WidgetType.STATICDATA)) {
+                js.append("%s=null;", JsPagesModule.getQualifiedId(widget, DataVariable.class));
+            }
 
             js.append("%s('%s','%s','%s',%s,%s,%s,%s);",
                     JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),

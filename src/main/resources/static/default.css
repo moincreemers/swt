@@ -115,7 +115,7 @@ td.tk-url{text-align:left;}
 label{padding-top:2px;line-height:1.55rem;}
 select{padding-top:1.6px;padding-bottom:1.6px;}
 div.page{display:none;height:100%;padding:1rem;height:100%;box-sizing:border-box;}
-div.tk-page-inner{display:block;box-sizing:border-box;height:100%;}
+div.tk-page-inner{display:block;box-sizing:border-box;}
 div.tk-page-has-header{}
 div.tk-page-has-footer{}
 div.tk-page-has-nav-left{}

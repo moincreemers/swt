@@ -53,11 +53,9 @@ public class OpenPageStatement extends MethodStatement {
         Hash hash = new Hash(targetPage.getId(), widget.getPageId(), null);
         js.append("const hash=%s;", DtoUtil.valueOf(hash));
         js.append("const data={value:%s};", ValueStatement.valueOf(toolkit, valueStatement, widget));
-        //js.append("if(data.value!=null){"); // if
         js.append("data.type=typeof data.value;");
         js.append("const key=(new Date().getTime()).toString(16);");
         js.append("%s(key,JSON.stringify(data));", JsGlobalModule.getQualifiedId(SetSessionValueFunction.class));
-        //js.append("};");
         js.append("hash.d.push(key);");
         js.append("%s(hash,%s);",
                 JsGlobalModule.getQualifiedId(SetDocumentHashFunction.class),

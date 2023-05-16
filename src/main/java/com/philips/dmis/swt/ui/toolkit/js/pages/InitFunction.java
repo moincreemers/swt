@@ -93,8 +93,7 @@ public class InitFunction implements JsFunction, IsPageModuleMember {
                 Constants.MAIN_MODULE_NAME, HasConstantStorage.JS_INIT_FUNCTION, widget.getId());
 
         // init child widgets
-        if (widget instanceof ContainerWidget<?>) {
-            ContainerWidget<?> containerWidget = (ContainerWidget<?>) widget;
+        if (widget instanceof ContainerWidget<?> containerWidget) {
             for (Widget childWidget : containerWidget) {
                 js.append("%s();",
                         JsPagesModule.getQualifiedId(childWidget, InitFunction.class));
@@ -129,8 +128,7 @@ public class InitFunction implements JsFunction, IsPageModuleMember {
             js.append("c.push(handler);");
         }
 
-        if (widget instanceof Page) {
-            Page page = (Page) widget;
+        if (widget instanceof Page page) {
             if (page.getViewType() == ViewType.DIALOG || page.getViewType() == ViewType.SIDEBAR_DIALOG) {
                 js.append("%s().onmousedown=(event)=>{", JsPagesModule.getId(widget, GetElementFunction.class));
                 js.append("if(event.srcElement!=null&&event.srcElement.id=='%s'){", page.getId());
@@ -161,8 +159,7 @@ public class InitFunction implements JsFunction, IsPageModuleMember {
             js.append("};");
         }
 
-        if (widget instanceof HtmlPreformatted) {
-            HtmlPreformatted htmlPreformatted = (HtmlPreformatted) widget;
+        if (widget instanceof HtmlPreformatted htmlPreformatted) {
             js.append("tf='%s';", htmlPreformatted.getTextFormat().name());
         }
 

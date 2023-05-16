@@ -33,7 +33,7 @@ public class SetDocumentHashFunction implements JsFunction {
         // isDlgOption=true when obj.p is a dialog page
         // in that case we want to push the id of the current page onto hash.o
         js.append("var h=%s();", JsGlobalModule.getQualifiedId(GetDocumentHashFunction.class));
-        js.append("if(h.p!=obj.p){"); // if
+        //js.append("if(h.p!=obj.p){"); // if
         js.append("if(isDlgOption!==undefined&&isDlgOption){"); // if
         js.append("h.o=h.o.concat(obj.o);");
         js.append("h.p=obj.p;");
@@ -42,7 +42,7 @@ public class SetDocumentHashFunction implements JsFunction {
         js.info("console.log('sdh',obj);");
         js.append("};"); // end if
         js.append("document.location.hash='#'+%s(obj);", JsGlobalModule.getQualifiedId(ObjectToSearchFunction.class));
-        js.append("};"); // end if
+        //js.append("};"); // end if
         js.append("}");
     }
 

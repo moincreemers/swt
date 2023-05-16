@@ -18,6 +18,7 @@ public class Data extends DataSourceWidget implements HasValue<Data> {
         super(WidgetType.DATA, true, false);
         setName(name);
         setValue(value);
+        setCacheType(CacheType.DISABLED);
     }
 
     // HASVALUE + HASNAME

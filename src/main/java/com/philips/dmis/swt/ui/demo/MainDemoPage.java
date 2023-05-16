@@ -4,8 +4,8 @@ import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ExamplesPage extends Page {
-    public ExamplesPage() throws Exception {
+public class MainDemoPage extends Page {
+    public MainDemoPage() throws Exception {
         super(true);
     }
 
@@ -17,7 +17,7 @@ public class ExamplesPage extends Page {
         listContainer.add(HtmlLink.openPage("Hello world", HelloWorldExample.class));
         listContainer.add(HtmlLink.openPage("The View Controller", ViewControlExample.class));
         listContainer.add(HtmlLink.openPage("Data Binding", DataBindingExample.class));
-        listContainer.add(HtmlLink.openPage("Data Adapters", DataAdaptersExample.class));
+        //listContainer.add(HtmlLink.openPage("Data Adapters", DataAdaptersExample.class));
         listContainer.add(HtmlLink.openPage("Tables", TableExample.class));
         listContainer.add(HtmlLink.openPage("Text-Rich Pages", TextExample.class));
         listContainer.add(HtmlLink.openPage("Headings", HeadingsExample.class));
@@ -33,7 +33,9 @@ public class ExamplesPage extends Page {
         listContainer.add(HtmlLink.openPage("Timers", TimerExample.class));
         listContainer.add(HtmlLink.openPage("Using Statements", StatementsExample.class));
         listContainer.add(HtmlLink.openPage("Global Events", GlobalEventsExample.class));
-        listContainer.add(HtmlLink.openPage("Events", EventsExample.class));
+        //listContainer.add(HtmlLink.openPage("Events", EventsExample.class));
         listContainer.add(HtmlLink.openPage("Timesheet Dashboard", TimesheetDashboardExample.class));
+        listContainer.add(HtmlLink.openPage("OS color theme", OsLightAndDarkThemeExample.class));
+
     }
 }

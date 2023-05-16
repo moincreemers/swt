@@ -14,15 +14,15 @@ public class AppearanceExample extends Page {
         add(new HtmlHeading("Appearance"));
 
         Grid grid = add(new Grid(2));
-        grid.setAppearance(WidgetAppearance.ROUNDED_CORNERS);
+        grid.setAppearance(WidgetAppearance.BORDERED, WidgetAppearance.ROUNDED_CORNERS);
 
-        grid.addAll(new Panel(PanelType.INFO).setAppearance(WidgetAppearance.ROUNDED_CORNERS),
+        grid.addAll(new Panel(PanelType.INFO, new HtmlLabel("Hello")).setAppearance(WidgetAppearance.ROUNDED_CORNERS),
                 new HtmlPreformatted("panel.setAppearance(WidgetAppearance.ROUNDED_CORNERS)"));
 
-        grid.addAll(new Panel(PanelType.BANNER).setAppearance(WidgetAppearance.BORDERED),
+        grid.addAll(new Panel(PanelType.BANNER, new HtmlLabel("Hello")).setAppearance(WidgetAppearance.BORDERED),
                 new HtmlPreformatted("panel.setAppearance(WidgetAppearance.BORDERED)"));
 
-        grid.addAll(new Panel(PanelType.WARNING).setAppearance(WidgetAppearance.ROUNDED_CORNERS, WidgetAppearance.BORDERED),
+        grid.addAll(new Panel(PanelType.WARNING, new HtmlLabel("Hello")).setAppearance(WidgetAppearance.ROUNDED_CORNERS, WidgetAppearance.BORDERED),
                 new HtmlPreformatted("panel.setAppearance(WidgetAppearance.ROUNDED_CORNERS, WidgetAppearance.BORDERED)"));
 
         grid.addAll(new HtmlButton("Click Me").setAppearance(WidgetAppearance.HARD_CORNERS, WidgetAppearance.LARGE_FONT),

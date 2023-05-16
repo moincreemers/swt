@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.*;
 
 @Component
@@ -204,7 +203,7 @@ public class TimesheetDashboardExample extends Page {
 
         HtmlSelect viewType = new HtmlSelect();
         filterPanel.add(viewType);
-        viewType.addDataSource(DataSourceUsage.OPTIONS, viewOptions, new KeyValueListDataAdapter());
+        viewType.addDataSource(DataSourceUsage.OPTIONS, viewOptions, new ArrayDataAdapter());
 
         // create the default view, this is generated from the DTO
         DtoViewDataAdapter dtoViewDataAdapter = new DtoViewDataAdapter(TimeDeclaration.class);

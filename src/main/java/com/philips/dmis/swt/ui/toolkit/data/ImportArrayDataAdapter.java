@@ -137,31 +137,6 @@ public class ImportArrayDataAdapter extends DataAdapter {
         // a secondary import on the same data source)
         js.append("const serviceResponse=(object!==undefined&&object!==null)?object:%s;", DtoUtil.getDefault(ServiceResponse.class, false));
 
-//        ViewBuilder viewBuilder = new ViewBuilder(getClass().getSimpleName());
-//        for (FieldMapping fieldMapping : fieldMappings) {
-//            viewBuilder.addField(fieldMapping.getName(), fieldMapping.getTo(), fieldMapping.getDataType());
-//            viewBuilder.setFormat(fieldMapping.getName(), fieldMapping.getFormat());
-//            viewBuilder.setOrderSource(fieldMapping.getName(), fieldMapping.getOrderSource());
-//            viewBuilder.setAppearance(fieldMapping.getName(), fieldMapping.getAppearance());
-//        }
-//        String rootViewId = viewBuilder.getId();
-
-        String rootViewId = View.getRootViewId(getId());
-        js.append("const viewTop=%s(serviceResponse,'%s','%s',false);",
-                JsGlobalModule.getQualifiedId(CreateViewFunction.class),
-                rootViewId,
-                getClass().getSimpleName());
-        for (FieldMapping fieldMapping : fieldMappings) {
-            js.append("%s(serviceResponse,viewTop,'%s','%s','%s',%s,'%s','%s',false);",
-                    JsGlobalModule.getQualifiedId(AddViewFieldFunction.class),
-                    fieldMapping.getName(),
-                    fieldMapping.getTo(),
-                    fieldMapping.getFormatType(),
-                    Format.valueOf(fieldMapping.getFormat()),
-                    fieldMapping.getDataType(),
-                    ViewAppearance.DEFAULT.name());
-        }
-
         // note: we always import from the unmodified response provided by the data source
         js.append("let array=unmodifiedResponse%s;", getPath());
 
@@ -205,6 +180,34 @@ public class ImportArrayDataAdapter extends DataAdapter {
 
 
         js.append("serviceResponse%s=outputArray;", outputPath);
+
+
+
+//        ViewBuilder viewBuilder = new ViewBuilder(getClass().getSimpleName());
+//        for (FieldMapping fieldMapping : fieldMappings) {
+//            viewBuilder.addField(fieldMapping.getName(), fieldMapping.getTo(), fieldMapping.getDataType());
+//            viewBuilder.setFormat(fieldMapping.getName(), fieldMapping.getFormat());
+//            viewBuilder.setOrderSource(fieldMapping.getName(), fieldMapping.getOrderSource());
+//            viewBuilder.setAppearance(fieldMapping.getName(), fieldMapping.getAppearance());
+//        }
+//        String rootViewId = viewBuilder.getId();
+
+        String rootViewId = View.getRootViewId(getId());
+        js.append("const viewTop=%s(serviceResponse,'%s','%s',false);",
+                JsGlobalModule.getQualifiedId(CreateViewFunction.class),
+                rootViewId,
+                getClass().getSimpleName());
+        for (FieldMapping fieldMapping : fieldMappings) {
+            js.append("%s(serviceResponse,viewTop,'%s','%s','%s',%s,'%s','%s',false);",
+                    JsGlobalModule.getQualifiedId(AddViewFieldFunction.class),
+                    fieldMapping.getName(),
+                    fieldMapping.getTo(),
+                    fieldMapping.getFormatType(),
+                    Format.valueOf(fieldMapping.getFormat()),
+                    fieldMapping.getDataType(),
+                    ViewAppearance.DEFAULT.name());
+        }
+
 
         js.append("serviceResponse.meta['%s']='%s';",
                 ServiceResponse.META_SELECTED_VIEW_ID, rootViewId);

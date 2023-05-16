@@ -39,7 +39,7 @@ public class AddViewFieldFunction implements JsFunction, IsPageModuleMember {
         // create view id
         js.append("var id=null;");
         js.append("if(overwrite===true){");
-        js.info("console.log('AddViewFieldFunction,overwrite',viewTop.items,serviceResponse.views);");
+        js.debug("console.log('AddViewFieldFunction,overwrite',viewTop.items,serviceResponse.views);");
         js.append("for(const f in viewTop.items){"); // for
         js.append("if(serviceResponse.views[viewTop.items[f]].source==source){"); // if
         js.append("id=serviceResponse.views[viewTop.items[f]].id;");

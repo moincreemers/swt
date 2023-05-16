@@ -231,7 +231,7 @@ public abstract class EventHandlerFunction implements JsFunction, IsPageModuleMe
         js.debug("console.log('event handler','%s',%s);", name, GlobalEvents.EVENT_PARAMETER_NAME);
         js.append("var c=%s['%s'];", EventHandlersVariable.ID, name.toLowerCase());
         js.append("if(c!=undefined&&c!=null&&c.length!=0){");
-        js.info("console.log('event handlers',c);");
+        js.debug("console.log('event handlers',c);");
         js.append("for(const i in c){");
         js.append("c[i](%s);", GlobalEvents.EVENT_PARAMETER_NAME);
         js.append("};");//end for

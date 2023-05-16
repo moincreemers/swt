@@ -25,7 +25,7 @@ public class DependencyFinderTest {
         List<Page> expected = new ArrayList<>(pages);
 
         // unrelated page
-        pages.add(new ExamplesPage());
+        pages.add(new MainDemoPage());
 
         DependencyFinder dependencyFinder = new DependencyFinder(LoginPage.class, pages);
         List<Page> actual = dependencyFinder.find();

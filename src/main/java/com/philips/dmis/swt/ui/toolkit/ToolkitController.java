@@ -44,7 +44,7 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         this.defaultPage = findRootPage(pages);
         DependencyFinder dependencyFinder = new DependencyFinder(defaultPage.getClass(), pages);
         List<Page> logicalPages = dependencyFinder.find();
-        for(Page page: logicalPages){
+        for (Page page : logicalPages) {
             LOG.info("PAGE FOUND: " + page.getId() + ", " + page.getClass().getName());
             this.pages.put(page.getClass(), page);
         }
@@ -57,9 +57,12 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
     private Page findRootPage(List<Page> pages) throws WebControllerException {
         Page defaultPage = null;
         for (Page page : pages) {
-            if (page.isDefault()) {
+            if (defaultPage == null && page.isDefault()) {
                 defaultPage = page;
-                break;
+                continue;
+            }
+            if (defaultPage != null && page.isDefault()) {
+                throw new WebControllerException("more than one page was marked default: " + defaultPage.getClass() + " and " + page.getClass());
             }
         }
         if (defaultPage == null) {

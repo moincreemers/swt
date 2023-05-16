@@ -95,7 +95,7 @@ public class WidgetGalleryExample extends Page {
         add(new HtmlHeading("Input Widgets", 3));
         Grid inputWidgetsGrid = add(new Grid(3));
         inputWidgetsGrid.setAppearance(WidgetAppearance.BORDERED);
-        inputWidgetsGrid.addAll(new Panel(PanelType.BANNER, new HtmlLabel(new HtmlTextInput(), "Label")), new HtmlParagraph("LABEL"), new HtmlParagraph("Label elements should be used in combination with an input field. Labels also support icons."));
+        inputWidgetsGrid.addAll(new Panel(PanelType.BANNER, new HtmlLabel(new HtmlTextInput(), "Label")), new HtmlParagraph("LABEL"), new HtmlParagraph("Label elements are typically used in combination with an input field. But they can also be used without. Labels also support icons."));
         inputWidgetsGrid.addAll(new HtmlLink("Link"), new HtmlParagraph("A"), new HtmlParagraph("Links are functionally equivalent to buttons. Links support icons."));
         inputWidgetsGrid.addAll(new HtmlButton("Button"), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.DEFAULT."));
         inputWidgetsGrid.addAll(new HtmlButton(ButtonType.PRIMARY, "Button"), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.PRIMARY."));
@@ -188,7 +188,7 @@ public class WidgetGalleryExample extends Page {
 
         HtmlFrame htmlFrame = new HtmlFrame();
         htmlFrame.onInit(new InitEventHandler(M.SetValue(htmlFrame, V.Const("example.html"))));
-        specialWidgetsGrid.addAll(htmlFrame, new HtmlParagraph("IFRAME"), new HtmlParagraph("A standard IFRAME element. Iframes have an explicit border to server as a visual clue that this is in fact an iframe."));
+        specialWidgetsGrid.addAll(htmlFrame, new HtmlParagraph("IFRAME"), new HtmlParagraph("A standard IFRAME element. Iframes have an explicit border to serve as a visual clue that this is in fact an iframe."));
 
         StaticData dataForStaticDataList = add(new StaticData(Arrays.asList(LARGE_FRUITS)));
         HtmlDataList htmlDataList = add(new HtmlDataList().addDataSource(dataForStaticDataList));

@@ -24,28 +24,24 @@ public class GoogleBooksExample extends Page {
 
         // note: set to manual refresh because this is an external service
         QueryService googleBooks = add(new QueryService(
-                "https://www.googleapis.com/books/v1/volumes",
-                false,
-                false));
-
-        DataProxy dataProxy = add(new DataProxy());
-        dataProxy.addDataSource(googleBooks,
-                new ImportArrayDataAdapter(".items")
-                        .add(FieldMapping.map(".volumeInfo.imageLinks.smallThumbnail", "cover", "Cover",
-                                DataType.URL, new URLFormat().setAppearance(URLAppearanceType.IMAGE).setImageWidth("200px").setImageBorderRadius("0.5em")))
-                        .add(FieldMapping.map(".volumeInfo.title", "title", "Title",
-                                DataType.STRING))
-                        .add(FieldMapping.map(".volumeInfo.description", "description", "Description",
-                                DataType.STRING))
-                        .add(FieldMapping.map(".volumeInfo.authors", "authors", "Authors",
-                                DataType.STRING))
-                        .add(FieldMapping.map(".volumeInfo.publisher", "publisher", "Publisher",
-                                DataType.STRING))
-                        .add(FieldMapping.map(".volumeInfo.publishedDate", "publishedDate", "Date published",
-                                DataType.STRING))
-                        .add(FieldMapping.map(".accessInfo.webReaderLink", "webReaderLink", "Web reader",
-                                DataType.URL, new URLFormat().setAppearance(URLAppearanceType.ANCHOR).setText("Open")))
-        );
+                "https://www.googleapis.com/books/v1/volumes", false, false));
+        googleBooks.addDataAdapter(new ImportArrayDataAdapter(".items")
+                .add(FieldMapping.map(".volumeInfo.imageLinks.smallThumbnail", "cover", "Cover",
+                        DataType.URL,
+                        new URLFormat().setAppearance(URLAppearanceType.IMAGE).setImageWidth("200px").setImageBorderRadius("0.5em")))
+                .add(FieldMapping.map(".volumeInfo.title", "title", "Title",
+                        DataType.STRING))
+                .add(FieldMapping.map(".volumeInfo.description", "description", "Description",
+                        DataType.STRING))
+                .add(FieldMapping.map(".volumeInfo.authors", "authors", "Authors",
+                        DataType.STRING))
+                .add(FieldMapping.map(".volumeInfo.publisher", "publisher", "Publisher",
+                        DataType.STRING))
+                .add(FieldMapping.map(".volumeInfo.publishedDate", "publishedDate", "Date published",
+                        DataType.STRING))
+                .add(FieldMapping.map(".accessInfo.webReaderLink", "webReaderLink", "Web reader",
+                        DataType.URL,
+                        new URLFormat().setAppearance(URLAppearanceType.ANCHOR).setText("Open"))));
 
         add(new HtmlParagraph("This page contains a QueryService which interacts with the " +
                 "<a href=\"https://developers.google.com/books\">Google Books API</a>. "));
@@ -57,19 +53,13 @@ public class GoogleBooksExample extends Page {
                         "QueryService. Then, the M.Refresh statement is used to tell the QueryService to send a request " +
                         "to the Google Books API."));
 
-        add(new HtmlParagraph("A DataProxy is added that adds the QueryService as its data source. The DataProxy allows " +
-                "us to bind the response of the service to the second tab panel so we can inspect it. Then we use the " +
-                "DataProxy as the data source for both the table-head and the table-body."));
-
         TabWidget tabWidget = add(new TabWidget(
-                "Search Google Books", "QueryService response", "DataProxy transformation"));
+                "Search Google Books", "QueryService response"));
 
         HtmlTable htmlTable = tabWidget.panel(0).add(new HtmlTable());
-
         HtmlTableCaption htmlTableCaption = htmlTable.add(new HtmlTableCaption(false));
 
-        HtmlSearchInput queryParameter = new HtmlSearchInput();
-        htmlTableCaption.add(queryParameter);
+        HtmlSearchInput queryParameter = htmlTableCaption.add(new HtmlSearchInput());
         queryParameter.setPlaceholder("Search Google Books");
         queryParameter.onKeyPress(new KeyPressEventHandler(
                 M.Iif(V.Is(V.GetEvent(KeyPressEvent.KEY_CODE), V.Const(KeyPressEvent.VK_ENTER))).True(
@@ -79,15 +69,12 @@ public class GoogleBooksExample extends Page {
         ));
 
         HtmlTableHeader htmlTableHeader = htmlTable.add(new HtmlTableHeader());
-        htmlTableHeader.addDataSource(dataProxy);
+        htmlTableHeader.addDataSource(googleBooks);
 
         HtmlTableBody htmlTableBody = htmlTable.add(new HtmlTableBody());
-        htmlTableBody.addDataSource(dataProxy);
+        htmlTableBody.addDataSource(googleBooks);
 
         HtmlPreformatted apiResponse = tabWidget.panel(1).add(new HtmlPreformatted(TextFormatType.JSON));
         apiResponse.addDataSource(googleBooks);
-
-        HtmlPreformatted proxyResult = tabWidget.panel(2).add(new HtmlPreformatted(TextFormatType.JSON));
-        proxyResult.addDataSource(dataProxy);
     }
 }

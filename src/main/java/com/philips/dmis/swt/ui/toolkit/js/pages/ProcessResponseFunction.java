@@ -83,7 +83,7 @@ public class ProcessResponseFunction implements JsFunction, IsPageModuleMember {
                 //  one or more 'IMPORT' data adapters can be used to transform the data into one.
 
                 // note: we set serviceResponse to null because the import data adapter(s) create it
-                js.append("serviceResponse=null;");
+                js.append("var serviceResponse2=null;");
                 js.append("var importAdapters=Object.assign([],%s['%s']);",
                         JsPagesModule.getId(widget, DataAdaptersVariable.class),
                         DataSourceUsage.IMPORT.name());
@@ -94,7 +94,10 @@ public class ProcessResponseFunction implements JsFunction, IsPageModuleMember {
                 js.debug("console.log('data import adapter disabled',importAdapters[j].id);");
                 js.append("continue;");
                 js.append("};");
-                js.append("serviceResponse=importAdapters[j].fn(serviceResponse,unmodifiedResponse);");
+                js.append("serviceResponse2=importAdapters[j].fn(serviceResponse2,unmodifiedResponse);");
+                js.append("};");
+                js.append("if(serviceResponse2!=null){");
+                js.append("serviceResponse=serviceResponse2;");
                 js.append("};");
             }
 
@@ -113,7 +116,11 @@ public class ProcessResponseFunction implements JsFunction, IsPageModuleMember {
             //js.debug("console.log('ProcessResponseFunction after adapter: ' + adapters[i].id + ', items:' + serviceResponse.data.items.length);");
             js.append("};");
 
-            js.append("%s=JSON.stringify(serviceResponse);", JsPagesModule.getQualifiedId(widget, DataVariable.class));
+            // For Data and StaticData widgets, DataVariable is used in a different
+            // way because the widget IS the actual data source. We do not want to change the original data.
+            if (!(widgetType == WidgetType.DATA || widgetType == WidgetType.STATICDATA)) {
+                js.append("%s=JSON.stringify(serviceResponse);", JsPagesModule.getQualifiedId(widget, DataVariable.class));
+            }
 
             js.info("console.log('ProcessResponseFunction after','widget: %s',serviceResponse);", widget.getId());
 
