@@ -24,6 +24,7 @@ public class QueryService extends DataSourceWidget implements HasURL {
     private HttpMethod httpMethod = HttpMethod.GET;
     private ContentType contentType = ContentType.NONE;
     private final Map<String, java.util.List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
+    private final java.util.List<Parameter> parameters = new ArrayList<>();
 
     public QueryService(String url) {
         this(url, isRelativeURL(url));
@@ -53,6 +54,17 @@ public class QueryService extends DataSourceWidget implements HasURL {
         eventHandlers.add(eventHandler);
         return this;
     }
+
+    @Override
+    public void addParameter(String name, String defaultValue) {
+        parameters.add(new Parameter(name, defaultValue));
+    }
+
+    @Override
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
 
     @Override
     public String getURL() {

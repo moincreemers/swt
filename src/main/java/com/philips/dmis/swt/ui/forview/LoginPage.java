@@ -19,8 +19,7 @@ public class LoginPage extends AbstractViewerPage {
         // set to repeat every 2.5 minutes (we do not know why but that is what ForView does)
         Timer refreshSessionTokenTimer = add(new Timer("refreshSessionTokenTimer", TimerType.REPEAT, 150000));
 
-        QueryService loginService = add(new QueryService("http://localhost:8080/viewer/services/user/login.json",
-                false, false));
+        UpdateService loginService = add(new UpdateService("http://localhost:8080/viewer/services/user/login.json"));
         loginService.setHttpMethod(HttpMethod.POST);
         loginService.setContentType(ContentType.FORM_URLENCODED);
 
@@ -28,13 +27,8 @@ public class LoginPage extends AbstractViewerPage {
         //?lastUpdateTime=1683471605126&request.preventCache=1683480286176
         // ... apparently we do not
 
-        QueryService refreshSessionService = add(new QueryService("http://localhost:8080/viewer/services/user/session/refresh.json",
-                false, true));
+        UpdateService refreshSessionService = add(new UpdateService("http://localhost:8080/viewer/services/user/session/refresh.json"));
         TokenUtil.setAuthorizationHeader(refreshSessionService);
-
-        // this is one way of doing it (see onResponse)
-//        loginService.addDataAdapter(new ExtractDataAdapter(".response")
-//                .map("jwt", M.SetAccessToken(V.GetValue("jwt"))));
 
         titleLabel.setIcon("login");
         titleLabel.setText("Sign In");
@@ -70,9 +64,12 @@ public class LoginPage extends AbstractViewerPage {
         ));
 
         loginHtmlButton.onClick(new ClickEventHandler(
-                M.SetQueryParameter(loginService, "j_username", V.GetValue(userName)),
-                M.SetQueryParameter(loginService, "j_password", V.GetValue(password)),
-                M.Refresh(loginService)
+                // note: query parameters were used when loginService was a QueryService
+//                M.SetQueryParameter(loginService, "j_username", V.GetValue(userName)),
+//                M.SetQueryParameter(loginService, "j_password", V.GetValue(password)),
+
+                // we can just set the value of the container that the two input fields are in
+                M.SetValue(loginService, V.GetValue(loginFormList))
         ));
 
         refreshSessionTokenTimer.onElapsed(new ElapsedEventHandler(
@@ -93,7 +90,7 @@ public class LoginPage extends AbstractViewerPage {
                 )
         ));
 
-        loginService.onRefresh(new RefreshEventHandler(
+        loginService.onChange(new ChangeEventHandler(
                 M.SetDisabled(loginHtmlButton)
         ));
         loginService.onResponse(new ResponseEventHandler(

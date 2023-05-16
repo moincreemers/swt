@@ -2,7 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.js.pages;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceSupplier;
+import com.philips.dmis.swt.ui.toolkit.widgets.HasURL;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -20,7 +20,7 @@ public class SetParameterFunction implements JsFunction, IsPageModuleMember {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof DataSourceSupplier;
+        return widget instanceof HasURL;
     }
 
     @Override

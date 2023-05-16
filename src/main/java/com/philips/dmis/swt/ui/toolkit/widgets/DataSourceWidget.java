@@ -10,7 +10,6 @@ import java.util.*;
 public abstract class DataSourceWidget extends Widget implements DataSourceSupplier {
     private final Map<HasDataSource<?>, DataSourceUsage> subscribers = new HashMap<>();
     private final java.util.List<DataAdapter> dataAdapters = new ArrayList<>();
-    private final java.util.List<Parameter> parameters = new ArrayList<>();
     private final boolean expectServiceResponse;
     private final boolean autoRefresh;
     private final boolean notifySubscribers;
@@ -88,16 +87,7 @@ public abstract class DataSourceWidget extends Widget implements DataSourceSuppl
         return dataAdapters;
     }
 
-    @Override
-    public DataSourceWidget addParameter(String name, String defaultValue) {
-        parameters.add(new Parameter(name, defaultValue));
-        return this;
-    }
 
-    @Override
-    public List<Parameter> getParameters() {
-        return parameters;
-    }
 
     @Override
     public void setDataAdapterDisabled(DataAdapter dataAdapter, boolean disabled) {
@@ -139,7 +129,7 @@ public abstract class DataSourceWidget extends Widget implements DataSourceSuppl
             }
         }
         if (!expectServiceResponse && !hasImportDataAdapter) {
-            throw new WidgetConfigurationException("missing data adapter in data source for import");
+            throw new WidgetConfigurationException("missing data adapter with DataSourceUsage.IMPORT in data source " + getId());
         }
     }
 }

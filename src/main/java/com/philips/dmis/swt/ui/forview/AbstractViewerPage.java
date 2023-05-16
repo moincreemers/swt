@@ -3,7 +3,9 @@ package com.philips.dmis.swt.ui.forview;
 import com.philips.dmis.swt.ui.toolkit.data.FieldMapping;
 import com.philips.dmis.swt.ui.toolkit.data.ImportObjectDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
-import com.philips.dmis.swt.ui.toolkit.events.*;
+import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.ResponseEvent;
+import com.philips.dmis.swt.ui.toolkit.events.ResponseEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -21,7 +23,7 @@ public abstract class AbstractViewerPage extends Page {
     HtmlLink medicalDocumentsHtmlLink;
     HtmlLink patientDetailsHtmlLink;
     QueryService userService;
-    QueryService logoutService;
+    UpdateService logoutService;
     Panel errorPanel;
     HtmlLabel errorMessage;
     HtmlList warningMessagesList;
@@ -73,6 +75,7 @@ public abstract class AbstractViewerPage extends Page {
         userService = add(new QueryService(
                 "http://localhost:8080/viewer/services/user/details/retrieve.json",
                 false, false));
+        TokenUtil.setAuthorizationHeader(userService);
         userService.addDataAdapter(new ImportObjectDataAdapter(".user")
                 .add(FieldMapping.map(".id", "id", DataType.STRING))
                 .add(FieldMapping.map(".displayName", "displayName", DataType.STRING))
@@ -90,18 +93,15 @@ public abstract class AbstractViewerPage extends Page {
                                 V.ObjectMember(V.ParseJSON(V.GetValue(userService)), ".data.items.displayName")))
         ));
 
-        logoutService = add(new QueryService(
-                "http://localhost:8080/viewer/services/user/logout",
-                false, false));
+        logoutService = add(new UpdateService(
+                "http://localhost:8080/viewer/services/user/logout"));
         logoutService.setHttpMethod(HttpMethod.POST);
         signOutLink.onClick(new ClickEventHandler(
-                M.Refresh(logoutService)
-        ));
-        logoutService.onRefresh(new RefreshEventHandler(
-                M.RemoveAccessToken()
+                M.SetValue(logoutService, V.Const(""))
         ));
         logoutService.onResponse(new ResponseEventHandler(
                 M.Log(V.Const("Logout"), V.GetEvent(ResponseEvent.HTTP_STATUS)),
+                M.RemoveAccessToken(),
                 M.SetText(signOutLink, V.Const("Sign out")),
                 M.OpenPage(LoginPage.class)
         ));

@@ -1,12 +1,13 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MainDemoPage extends Page {
     public MainDemoPage() throws Exception {
-        super(true);
+        super(Constants.isDemo(MainDemoPage.class));
     }
 
     @Override

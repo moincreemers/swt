@@ -100,8 +100,8 @@ public class InitFunction implements JsFunction, IsPageModuleMember {
             }
         }
 
-        if (widget instanceof DataSourceSupplier dataSourceSupplier) {
-            for (Parameter parameter : dataSourceSupplier.getParameters()) {
+        if (widget instanceof HasURL hasURL) {
+            for (Parameter parameter : hasURL.getParameters()) {
                 String a = (parameter.getDefaultValue() == null || parameter.getDefaultValue().isEmpty())
                         ? "null" : "'" + parameter.getDefaultValue() + "'";
                 js.append("%s['%s']='%s';", ParametersVariable.ID, parameter.getName(), a);

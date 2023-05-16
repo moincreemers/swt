@@ -56,8 +56,9 @@ public class PatientDetails extends AbstractViewerPage {
                 M.SetText(patientGenderHtmlLabel, V.ObjectMember(V.GetPageArgument(), "gender")),
                 M.SetText(patientAddressHtmlLabel, V.ObjectMember(V.GetPageArgument(), "address")),
 
-                M.SetQueryParameter(patientRecord, "patientID", V.ObjectMember(V.GetPageArgument(), "patientId")),
-                M.SetQueryParameter(patientRecord, "patientIDAuth", V.ObjectMember(V.GetPageArgument(), "patientIdAuth")),
+// note: this was used when patientRecord was a QueryService
+//                M.SetQueryParameter(patientRecord, "patientID", V.ObjectMember(V.GetPageArgument(), "patientId")),
+//                M.SetQueryParameter(patientRecord, "patientIDAuth", V.ObjectMember(V.GetPageArgument(), "patientIdAuth")),
                 M.Refresh(patientRecord, JsPagesModule.REASON_LOCAL),
 
                 M.Refresh(userService)

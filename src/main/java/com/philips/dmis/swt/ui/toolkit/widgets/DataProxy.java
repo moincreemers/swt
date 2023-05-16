@@ -92,16 +92,6 @@ public class DataProxy extends DataBoundWidget<DataProxy> implements DataSourceS
     }
 
     @Override
-    public DataProxy addParameter(String name, String defaultValue) {
-        return this;
-    }
-
-    @Override
-    public List<Parameter> getParameters() {
-        return new ArrayList<>();
-    }
-
-    @Override
     public void setDataAdapterDisabled(DataAdapter dataAdapter, boolean disabled) {
         if (disabled) {
             disabledDataAdapters.add(dataAdapter.getId());

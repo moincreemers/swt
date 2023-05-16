@@ -201,7 +201,7 @@ public abstract class Widget implements Validatable, HasClassNames {
         if (validated) {
             return;
         }
-        LOG.info("validate " + widgetType.name() + ": " + id + ", " + getClass().getName());
+        logPreValidateStatement(toolkit);
         if (widgetType != WidgetType.PAGE && parent == null) {
             LOG.severe("Widget not added to view: " + id + " (" + widgetType.name() + ")");
             throw new WidgetConfigurationException("widget not added to view: " + id + " (" + widgetType.name() + ")");
@@ -213,6 +213,21 @@ public abstract class Widget implements Validatable, HasClassNames {
             hasStaticHTML.validate(toolkit);
         }
         validated = true;
+    }
+
+    void logPreValidateStatement(Toolkit toolkit) {
+        if (widgetType == WidgetType.PAGE) {
+            LOG.info("validate " + widgetType.name() + ": " + id);
+        } else {
+            String pageClassName = "";
+            Optional<Page> page = toolkit.getPages().stream().filter(p -> p.getId().equals(getPageId())).findAny();
+            if (page.isPresent()) {
+                pageClassName = page.get().getClass().getName();
+            }
+            // note: it is important that this log statement contains enough information to identify the exact location
+            // of a widget or statement when a validation error is raised
+            LOG.info("validate " + widgetType.name() + ": " + id + " on page: " + pageClassName);
+        }
     }
 
     public Widget onInit(InitEventHandler eventHandler) {

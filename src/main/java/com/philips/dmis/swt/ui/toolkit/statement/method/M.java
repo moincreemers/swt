@@ -153,12 +153,12 @@ public final class M {
         return new SetDataAdapterEnabledStatement(widget, dataAdapter, enabled);
     }
 
-    public static MethodStatement SetQueryParameter(DataSourceSupplier dataSourceSupplier, ValueStatement nameStatement, ValueStatement valueStatement) {
-        return new SetQueryParameterStatement(dataSourceSupplier, nameStatement, valueStatement);
+    public static MethodStatement SetQueryParameter(HasURL hasURL, ValueStatement nameStatement, ValueStatement valueStatement) {
+        return new SetQueryParameterStatement(hasURL, nameStatement, valueStatement);
     }
 
-    public static MethodStatement SetQueryParameter(DataSourceSupplier dataSourceSupplier, String name, ValueStatement valueStatement) {
-        return new SetQueryParameterStatement(dataSourceSupplier, V.Const(name), valueStatement);
+    public static MethodStatement SetQueryParameter(HasURL hasURL, String name, ValueStatement valueStatement) {
+        return new SetQueryParameterStatement(hasURL, V.Const(name), valueStatement);
     }
 
     public static MethodStatement RemoveQueryParameter(DataSourceSupplier dataSourceSupplier, ValueStatement nameStatement) {

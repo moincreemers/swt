@@ -24,10 +24,6 @@ public interface DataSourceSupplier extends Validatable {
 
     List<DataAdapter> getDataAdapters();
 
-    DataSourceSupplier addParameter(String name, String defaultValue);
-
-    List<Parameter> getParameters();
-
     void setDataAdapterDisabled(DataAdapter dataAdapter, boolean disabled);
 
     boolean isDataAdapterDisabled(DataAdapter dataAdapter);

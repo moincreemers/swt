@@ -8,19 +8,19 @@ import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
 import com.philips.dmis.swt.ui.toolkit.js.pages.SetParameterFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
-import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceSupplier;
+import com.philips.dmis.swt.ui.toolkit.widgets.HasURL;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
 public class SetQueryParameterStatement extends MethodStatement {
-    private final DataSourceSupplier dataSourceSupplier;
+    private final HasURL hasURL;
     private final ValueStatement nameStatement;
     private final ValueStatement valueStatement;
 
-    public SetQueryParameterStatement(DataSourceSupplier dataSourceSupplier, ValueStatement nameStatement, ValueStatement valueStatement) {
-        this.dataSourceSupplier = dataSourceSupplier;
+    public SetQueryParameterStatement(HasURL hasURL, ValueStatement nameStatement, ValueStatement valueStatement) {
+        this.hasURL = hasURL;
         this.nameStatement = nameStatement;
         this.valueStatement = valueStatement;
     }
@@ -38,7 +38,7 @@ public class SetQueryParameterStatement extends MethodStatement {
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("%s(%s,%s);",
-                JsPagesModule.getQualifiedId(dataSourceSupplier.asWidget(),
+                JsPagesModule.getQualifiedId(hasURL.asWidget(),
                         SetParameterFunction.class),
                 ValueStatement.valueOf(toolkit, nameStatement, widget),
                 ValueStatement.valueOf(toolkit, valueStatement, widget));
@@ -50,7 +50,7 @@ public class SetQueryParameterStatement extends MethodStatement {
             return;
         }
         validated = true;
-        dataSourceSupplier.validate(toolkit);
+        hasURL.asWidget().validate(toolkit);
         nameStatement.validate(toolkit);
         valueStatement.validate(toolkit);
     }

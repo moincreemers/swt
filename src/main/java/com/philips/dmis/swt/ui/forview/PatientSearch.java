@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.forview;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.*;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
@@ -33,7 +34,7 @@ public class PatientSearch extends AbstractViewerPage {
     }
 
     public PatientSearch() throws Exception {
-        super(false);
+        super(Constants.isDemo(PatientSearch.class));
     }
 
     @Override
@@ -51,7 +52,6 @@ public class PatientSearch extends AbstractViewerPage {
 
         QueryService patientDomains = add(new QueryService(
                 "http://localhost:8080/viewer/services/domain/list.json", false, false));
-        // note: this endpoint seems to be cookie-only. Sending a Bearer token always results in 401.
         TokenUtil.setAuthorizationHeader(patientDomains);
         patientDomains.addDataAdapter(
                 new ImportArrayDataAdapter(".items")
@@ -70,7 +70,6 @@ public class PatientSearch extends AbstractViewerPage {
 
         QueryService patients = add(new QueryService("http://localhost:8080/viewer/services/patient/list.json",
                 false, false));
-        // note: endpoint does not use access token but a cookie
         TokenUtil.setAuthorizationHeader(patients);
         patients.addDataAdapter(
                 new ImportArrayDataAdapter(".result.patients")

@@ -14,6 +14,8 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     private HttpMethod httpMethod = HttpMethod.POST;
     private ContentType contentType = ContentType.JSON;
     private final Map<String, List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
+    private final java.util.List<Parameter> parameters = new ArrayList<>();
+
 
     public UpdateService(String url) {
         super(WidgetType.UPDATE_SERVICE);
@@ -81,5 +83,15 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     @Override
     public void setHttpHeader(String name, ValueStatement value) {
         httpHeaders.put(name, Arrays.asList(value));
+    }
+
+    @Override
+    public void addParameter(String name, String defaultValue) {
+        parameters.add(new Parameter(name, defaultValue));
+    }
+
+    @Override
+    public List<Parameter> getParameters() {
+        return parameters;
     }
 }

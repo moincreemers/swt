@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface HasURL {
+    Widget asWidget();
+
     String getURL();
 
     void setURL(String url);
@@ -26,4 +28,8 @@ public interface HasURL {
     void setHttpHeader(String name, ValueStatement value);
 
     void addHttpHeader(String name, ValueStatement value);
+
+    void addParameter(String name, String defaultValue);
+
+    List<Parameter> getParameters();
 }
