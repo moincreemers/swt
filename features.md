@@ -9,6 +9,10 @@
 - For Viewer pages:
     - CORS is not enabled from server. Needs correct HTTP Headers to allow cross-domain requests to the API.
     - Cookie only APIs? Not sure if all APIs will work properly without cookies and just a JWT.
+        - Confirmed that viewer/services/document/list.json fails after a while with a 500 (Session is missing). The
+          problem is that the JWT is valid and patient search still works.
+    - The hash parameter in document retrieve endpoint is problematic. Messes with caching and should be removed from
+      FV.
     - Some APIs return HL7 data structures that need to be parsed to be useful. This is a bit of extra work (
       HL7Lib.java).
     - I may need to create a WADO client
@@ -21,6 +25,8 @@
         - Forms
         - Patient consent
         - Image Upload
+- Select boxes that have a value selected other than the first item, are reset to the first item when a page is
+  activated. This is presumably caused by data source refresh.
 
 ## Started
 

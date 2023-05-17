@@ -28,6 +28,7 @@ public class LoginPage extends AbstractViewerPage {
         // ... apparently we do not
 
         UpdateService refreshSessionService = add(new UpdateService("http://localhost:8080/viewer/services/user/session/refresh.json"));
+        refreshSessionService.setHttpMethod(HttpMethod.GET);
         TokenUtil.setAuthorizationHeader(refreshSessionService);
 
         titleLabel.setIcon("login");
@@ -74,7 +75,8 @@ public class LoginPage extends AbstractViewerPage {
 
         refreshSessionTokenTimer.onElapsed(new ElapsedEventHandler(
                 M.Log("Refresh session"),
-                M.Refresh(refreshSessionService)
+                M.SetValue(refreshSessionService, V.Const(""))
+
         ));
 
         refreshSessionService.onResponse(new ResponseEventHandler(

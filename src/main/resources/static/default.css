@@ -100,9 +100,21 @@ ul.tk-sc-tabs>li.tk-sc-item>label{padding:0.25rem 1rem;}
 ul.tk-sc-tabs>li.tk-sc-item:hover{background-color:#fff;color:#000;}
 ul.tk-sc-tabs>li.tk-selected{z-index:1;background-color:#003146!important;color:#fff!important;}
 
-thead.table-header>tr>th,tbody.table-body>tr>td,tfoot.table-footer>tr>td{font-size:1rem;padding:0.5em 0.5rem;}
+table.table{background-color:transparent;border-collapse:collapse;border-spacing:0;width:100%;}
+table.table>thead>tr>th,table.table>tbody>tr>td,table.table>tfoot>tr>td{padding:0.5rem 1rem;}
+table.table>tbody>tr>td{border-bottom:1px solid #ddd;}
+table.table>tbody>tr:first-child>td{border-top:1px solid #ddd;}
+table.table>thead>tr>th{border-top:1px solid #ddd;text-align:left;}
+table.table>tfoot.table-footer{border-top:5px double #ddd;}
+table.table>tfoot.table-footer{}
+
 caption.table-caption{}
-tfoot.table-footer{border-top:5px double;}
+caption{border-bottom:1px solid black;}
+caption.table-caption-bottom{caption-side:bottom;border-top:1px solid black;border-bottom:none;}
+tr.tk-row-header{}
+td.tk-row-header-cell{font-weight:bold;}
+table.table>tbody.tk-row-headers{}
+
 a.tk-ordering-control{text-decoration:none;}
 a.tk-ordering-control-ascending::after{content:'\25b2';color:#000;margin:0 0.5rem;font-size:0.5rem;}
 a.tk-ordering-control-descending::after{content:'\25bc';color:#000;margin:0 0.5rem;font-size:0.5rem;}
@@ -134,20 +146,13 @@ div.grid-cell-7 {width:14.285714285714286%;}
 div.grid-cell-8 {width:12.5%;}
 div.grid-cell-9 {width:11,111111111111111%;}
 div.grid-cell-10 {width:10%;}
-div.grid.tk-bordered>div.grid-row>div.grid-cell{border-right:1px solid #000;border-bottom:1px solid #000;}
+div.grid.tk-bordered{border-color:#ddd;}
+div.grid.tk-bordered>div.grid-row>div.grid-cell{border-right:1px solid #ddd;border-bottom:1px solid #ddd;}
 div.grid.tk-bordered>div.grid-row>div.grid-cell:last-child{border-right:0;}
 div.grid.tk-bordered>div.grid-row:last-child>div.grid-cell{border-bottom:0;}
-table.table{background-color:transparent;border-collapse:collapse;border-spacing:0;border-color:inherit;width:100%;}
-th,td{border:1px solid;}
-caption{border-bottom:1px solid black;}
-caption.table-caption-bottom{caption-side:bottom;border-top:1px solid black;border-bottom:none;}
-tr.tk-row-header{}
-td.tk-row-header-cell{font-weight:bold;}
-tbody.tk-row-headers{}
+
 
 div.panel{display:block;box-sizing:border-box;margin-top:1rem;margin-bottom:1rem;}
-div.panel:first-child{padding-top:0;}
-div.panel:last-child{padding-bottom:0;}
 div.single-row{display:table;width:auto;box-sizing:border-box;margin-top:1rem;margin-bottom:1rem;white-space:nowrap;}
 div.single-row-cell{display:table-cell;width:auto;white-space:normal;}
 div.tk-panel-toolbar>*{border:1px solid #fff;}
@@ -219,19 +224,20 @@ div.tk-panel-tabpage>table.table>thead>tr>th:first-child,div.tk-panel-tabpage>ta
 div.tk-panel-tabpage>table.table>thead>tr>th:last-child,div.tk-panel-tabpage>table.table>tbody>tr>td:last-child{border-right:0;}
 div.tk-panel-tabpage>table.table>tbody:last-child>tr:last-child>td{border-bottom:0;}
 
-.tk-inline{display:inline !important;}
-.tk-inline-block{display:inline-block !important;}
-.tk-fit-content{width:auto !important;}
-.tk-rounded{border-radius:0.5rem !important;}
-.tk-hard{border-radius:0 !important;}
-.tk-bordered{border:1px solid #000 !important;}
-.tk-fill-bg{background-color:#fff !important;}
-.tk-block{position:relative;display:block!important;}
-.tk-trans-bg{background-color:unset !important;}
-.tk-font-sm{font-size:0.75rem !important;}
-.tk-font-lg{font-size:1.25rem !important;}
+
+div.tk-inline-block{display:inline-block;}
+div.tk-fit-content,table.tk-fit-content{width:auto;}
+.tk-rounded{border-radius:0.5rem;}
+button.tk-hard,input.tk-hard,select.tk-hard{border:1px solid #000;border-radius:0;}
+.tk-bordered{border:1px solid #000;}
+.tk-fill-bg{background-color:#fff;color:initial;}
+.tk-block{position:relative;display:block;}
+.tk-trans-bg{background-color:unset;}
 .tk-float-right{display:inline-block;float:right;}
 .tk-center{text-align:center;}
+.tk-font-lg,label.tk-font-lg,input.tk-font-lg,select.tk-font-lg,button.tk-font-lg,a.tk-font-lg{font-size:1.25rem;line-height:2rem;}
+.tk-font-sm,label.tk-font-sm,input.tk-font-sm,select.tk-font-sm,button.tk-font-sm,a.tk-font-sm{font-size:0.75rem;line-height:1rem;}
+
 
 .tk-align-left{text-align:left !important;}
 .tk-align-center{text-align:center !important;}
