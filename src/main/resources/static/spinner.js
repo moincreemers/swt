@@ -19,8 +19,8 @@ var Spinner=(function(){
         if(spinners.hasOwnProperty(id)){
             stop(id);
         }
-        spinners[id]={timer:null,frame:-1,parentElement:null,container:null,sprite:null};
-        spinners[id].parentElement=document.getElementById(id);
+        spinners[id]={timer:null,frame:-1,container:null,sprite:null};
+
         var container=document.createElement('div');
         container.setAttribute('style',CONTAINER_STYLE);
         var sprite=document.createElement('div');
@@ -28,7 +28,8 @@ var Spinner=(function(){
         container.append(sprite);
         spinners[id].sprite=sprite;
         spinners[id].container=container;
-        spinners[id].parentElement.append(container);
+
+        document.getElementById(id).append(container);
         reset(id);
     }
     function stop(id){

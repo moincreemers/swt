@@ -55,6 +55,9 @@ public class BeforeUpdateOptionsFunction implements JsFunction, IsPageModuleMemb
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(reason,cacheType,dataSourceId)=>{");
         js.append("if(cacheType=='%s'){", CacheType.ENABLED.name());
+        js.append("%s().setAttribute('tk-value',%s());",
+                JsPagesModule.getId(widget, GetElementFunction.class),
+                JsPagesModule.getId(widget, GetFunction.class));
         js.append("%s(dataSourceId);", JsPagesModule.getId(widget, RemoveOptionsFunction.class));
         js.append("};");
         js.append("}"); // end function

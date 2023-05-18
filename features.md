@@ -10,9 +10,11 @@
     - CORS is not enabled from server. Needs correct HTTP Headers to allow cross-domain requests to the API.
     - Cookie only APIs? Not sure if all APIs will work properly without cookies and just a JWT.
         - Confirmed that viewer/services/document/list.json fails after a while with a 500 (Session is missing). The
-          problem is that the JWT is valid and patient search still works.
-    - The hash parameter in document retrieve endpoint is problematic. Messes with caching and should be removed from
-      FV.
+          problem is that the JWT is valid and patient search still works but an 'URL hashing' security feature seems to
+          rely on HttpSession to exist. Suggest to remove the URL hashing as it certainly is a proprietary security
+          mechanism.
+        - The fact that a JWT authenticates the user but the HttpSession is not re-created seems to be a defect.
+        - The URL hashing in document retrieve endpoint is very problematic. This makes caching impossible.
     - Some APIs return HL7 data structures that need to be parsed to be useful. This is a bit of extra work (
       HL7Lib.java).
     - I may need to create a WADO client

@@ -191,7 +191,7 @@ public class WidgetGalleryExample extends Page {
         specialWidgetsGrid.addAll(htmlFrame, new HtmlParagraph("IFRAME"), new HtmlParagraph("A standard IFRAME element. Iframes have an explicit border to serve as a visual clue that this is in fact an iframe."));
 
         StaticData dataForStaticDataList = add(new StaticData(Arrays.asList(LARGE_FRUITS)));
-        HtmlDataList htmlDataList = add(new HtmlDataList().addDataSource(dataForStaticDataList));
+        HtmlDataList htmlDataList = add(new HtmlDataList().addDataSource(dataForStaticDataList, new ArrayDataAdapter()));
         HtmlTextInput htmlTextInputForDataList = new HtmlTextInput();
         htmlTextInputForDataList.setList(htmlDataList);
 

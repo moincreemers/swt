@@ -132,6 +132,12 @@ public class UpdateOptionsFunction implements JsFunction, IsPageModuleMember {
             js.append("};");
         }
 
+        js.append("const previouslySelectedValue=%s().getAttribute('tk-value');",
+                JsPagesModule.getId(widget, GetElementFunction.class));
+        js.append("if(previouslySelectedValue!=null){");
+        js.append("%s(previouslySelectedValue);", JsPagesModule.getId(widget, SetValueFunction.class));
+        js.append("};");
+
         js.append("}"); // end function
     }
 }
