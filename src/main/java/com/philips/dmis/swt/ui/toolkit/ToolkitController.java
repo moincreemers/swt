@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit;
 
+import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeCustomEvent;
 import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
@@ -10,7 +11,10 @@ import com.philips.dmis.swt.ui.toolkit.js.pages.InitFunction;
 import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
-import com.philips.dmis.swt.ui.toolkit.widgets.*;
+import com.philips.dmis.swt.ui.toolkit.widgets.HasCode;
+import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
+import com.philips.dmis.swt.ui.toolkit.widgets.Page;
+import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -32,6 +36,7 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
     private final Page defaultPage;
     private final HasConstantStorage constantStorageImpl = new StaticValueStorage();
     private final Map<String, HasCode> codeModules = new LinkedHashMap<>();
+    private final Map<String, String> externalModules = new LinkedHashMap<>();
 
     public ToolkitController(List<? extends JsModule> jsModules, List<Page> pages) throws WebControllerException, WidgetConfigurationException {
         if (jsModules == null || jsModules.isEmpty()) {
@@ -52,6 +57,8 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         for (Page page : logicalPages) {
             page.validate(this);
         }
+        externalModules.put("PageHeaders", "pageheaders.js");
+        externalModules.put("Spinner", "spinner.js");
     }
 
     private Page findRootPage(List<Page> pages) throws WebControllerException {
@@ -159,7 +166,9 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         html.append("<link rel=\"shortcut icon\" href=\"favicon.ico\"/>");
         html.append("<link rel='stylesheet' type='text/css' href='default.css'></link>");
         html.append("<link rel='stylesheet' type='text/css' href='dark.css'></link>");
-        html.append("<script language='javascript' src='pageheaders.js'></script>");
+        for (String externalModuleURL : externalModules.values()) {
+            html.append(String.format("<script language='javascript' src='%s'></script>", externalModuleURL));
+        }
         html.append("</head><body>");
 
         // RENDER ALL HTML
@@ -247,9 +256,20 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         for (JsModule jsModule : jsModules) {
             js.append("%s();", jsModule.getInitFunctionId());
         }
-        js.append("try{PageHeaders.resize();}catch(e){}");
+
+        ExtModuleInvoke.renderCall(ExtModuleEvent.READY, null, null, js);
+
         js.append("console.log('hello world');");
         js.append("};"); // END MAIN
+
+        js.append("const %s=(event)=>{", Constants.EXTERNAL_MODULE_EVENT);
+        for (String externalModuleName : externalModules.keySet()) {
+            js.append("if(%s.hasOwnProperty('%s')){", externalModuleName, Constants.EXTERNAL_MODULE_EVENTHANDLER);
+            js.append("try{%s.%s(event);", externalModuleName, Constants.EXTERNAL_MODULE_EVENTHANDLER);
+            js.append("}catch(e){console.log('exception in %s.%s',e);}", externalModuleName, Constants.EXTERNAL_MODULE_EVENTHANDLER);
+            js.append("};");
+        }
+        js.append("};");
 
         constantStorageImpl.renderConstantJs(js);
 
@@ -257,7 +277,8 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         js.append("return {");
         js.append("%s:%s,", Constants.ENTRY_POINT, Constants.ENTRY_POINT);
         js.append("%s:%s,", HasConstantStorage.JS_GET_FUNCTION, HasConstantStorage.JS_GET_FUNCTION);
-        js.append("%s:%s", HasConstantStorage.JS_INIT_FUNCTION, HasConstantStorage.JS_INIT_FUNCTION);
+        js.append("%s:%s,", HasConstantStorage.JS_INIT_FUNCTION, HasConstantStorage.JS_INIT_FUNCTION);
+        js.append("%s:%s", Constants.EXTERNAL_MODULE_EVENT, Constants.EXTERNAL_MODULE_EVENT);
         js.append("};");
 
         js.append("})();"); // end module

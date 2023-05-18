@@ -6,6 +6,8 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 public class Constants {
     public static final String MAIN_MODULE_NAME = "Singular";
     public static final String ENTRY_POINT = "main";
+    public static final String EXTERNAL_MODULE_EVENT = "onExtModuleEvent";
+    public static final String EXTERNAL_MODULE_EVENTHANDLER = "handleEvent";
 
     public static final String CSS_DEFAULT = "default.css";
     public static final String CSS_DARK = "dark.css";

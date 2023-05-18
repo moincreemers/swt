@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.js.controller;
 
+import com.philips.dmis.swt.ui.toolkit.ExtModuleInvoke;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.*;
 import com.philips.dmis.swt.ui.toolkit.js.pages.*;
@@ -142,8 +144,7 @@ public class DisplayFunction implements JsFunction {
         js.append("window[selectedPageId].%s().focus();", GetInnerElementFunction.ID);
         js.append("};");
 
-        // ensure page top/bottom padding is adjusted to accommodate page-header/page-footer
-        js.append("try{PageHeaders.resize();}catch(e){}");
+        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.DISPLAY, "selectedPageId", null, js);
 
         // ensure the splash screen is hidden
         js.append("var splash=document.getElementById('splash');");

@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.js.pages;
 
+import com.philips.dmis.swt.ui.toolkit.ExtModuleInvoke;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.ConvertHyperlinksFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
@@ -63,12 +65,15 @@ public class BeforeUpdateTableBodyFunction implements JsFunction, IsPageModuleMe
         js.append("element.textContent='';");
         js.append("const tr=document.createElement('tr');");
         js.append("const td=document.createElement('td');");
-        js.append("td.setAttribute('class','spinner-container');");
-        js.append("const spinner=document.createElement('div');");
-        js.append("spinner.setAttribute('class','spinner');");
-        js.append("td.append(spinner);");
+        String id = widget.getId() + "-nodata";
+        js.append("td.setAttribute('id','%s');", id);
+//        js.append("td.setAttribute('class','spinner-container');");
+//        js.append("const spinner=document.createElement('div');");
+//        js.append("spinner.setAttribute('class','spinner');");
+//        js.append("td.append(spinner);");
         js.append("tr.append(td);");
         js.append("element.append(tr);");
+        ExtModuleInvoke.renderCall(ExtModuleEvent.BEGIN_PROGRESS, null, id, js);
         js.append("};");
         js.append("}"); // end function
     }

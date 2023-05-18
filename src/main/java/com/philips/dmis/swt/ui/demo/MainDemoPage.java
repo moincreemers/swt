@@ -37,6 +37,7 @@ public class MainDemoPage extends Page {
         //listContainer.add(HtmlLink.openPage("Events", EventsExample.class));
         listContainer.add(HtmlLink.openPage("Timesheet Dashboard", TimesheetDashboardExample.class));
         listContainer.add(HtmlLink.openPage("OS color theme", OsLightAndDarkThemeExample.class));
+        listContainer.add(HtmlLink.openPage("Spinner", SpinnerExample.class));
 
     }
 }

@@ -1,4 +1,10 @@
 var PageHeaders=(function(){
+    function handleEvent(event){
+        //console.log('PageHeaders',event);
+        if(event.name=='ready'||event.name=='display'){
+            doResize();
+        }
+    }
     function debounce(func){
       var timer;
       return function(event){
@@ -64,6 +70,6 @@ var PageHeaders=(function(){
     }
     window.addEventListener("resize",debounce(doResize));
     return {
-        resize:doResize
+        handleEvent:handleEvent
     };
 })();

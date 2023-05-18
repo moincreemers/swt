@@ -285,8 +285,16 @@ public final class M {
         return new OpenURLStatement(url);
     }
 
-    public static MethodStatement PreventDefault(){
+    public static MethodStatement PreventDefault() {
         return new PreventDefaultStatement();
+    }
+
+    public static MethodStatement ShowProgress(Widget targetWidget) {
+        return new ShowProgressStatement(targetWidget);
+    }
+
+    public static MethodStatement HideProgress(Widget targetWidget) {
+        return new HideProgressStatement(targetWidget);
     }
 
 }

@@ -1,7 +1,9 @@
 package com.philips.dmis.swt.ui.toolkit.js.pages;
 
+import com.philips.dmis.swt.ui.toolkit.ExtModuleInvoke;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
+import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewType;
 import com.philips.dmis.swt.ui.toolkit.events.OpenEvent;
@@ -63,6 +65,8 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(reason,cacheType,serviceResponse,dataSourceId)=>{");
+
+        ExtModuleInvoke.renderCall(ExtModuleEvent.END_PROGRESS, null, widget.getId() + "-nodata", js);
 
         js.append("%s().textContent='';", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("const selectedView=%s(serviceResponse);", JsGlobalModule.getQualifiedId(GetSelectedViewFunction.class));

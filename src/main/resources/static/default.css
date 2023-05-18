@@ -231,7 +231,7 @@ div.tk-fit-content,table.tk-fit-content{width:auto;}
 button.tk-hard,input.tk-hard,select.tk-hard{border:1px solid #000;border-radius:0;}
 .tk-bordered{border:1px solid #000;}
 .tk-fill-bg{background-color:#fff;color:initial;}
-.tk-block{position:relative;display:block;}
+.tk-block,div.tk-block,ul.tk-block{position:relative;display:block;}
 .tk-trans-bg{background-color:unset;}
 .tk-float-right{display:inline-block;float:right;}
 .tk-center{text-align:center;}
