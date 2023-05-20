@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ViewBuilder {
     private static int id;
@@ -165,7 +166,7 @@ public class ViewBuilder {
                     return view.getName();
                 }
             }
-            throw new IllegalArgumentException("not found '" + nameOrSource + "' in " + views.keySet());
+            throw new IllegalArgumentException("not found '" + nameOrSource + "' in " + views.values().stream().map(View::getSource).collect(Collectors.joining(", ")));
         }
         return nameOrSource;
     }

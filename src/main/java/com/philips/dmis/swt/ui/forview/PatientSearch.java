@@ -251,7 +251,8 @@ public class PatientSearch extends AbstractViewerPage {
         htmlTableBody.addDataSource(patients);
         htmlTableBody.onOpen(new OpenEventHandler(
                 M.Log(V.Const("Open"), V.GetEvent(OpenEvent.RECORD)),
-                M.OpenPage(PatientDocuments.class, V.GetEvent(OpenEvent.RECORD))
+                M.SetGlobalValue("selectedPatient", V.GetEvent(OpenEvent.RECORD)),
+                M.OpenPage(PatientDocuments.class)
         ));
 
         onActivate(new ActivateEventHandler(

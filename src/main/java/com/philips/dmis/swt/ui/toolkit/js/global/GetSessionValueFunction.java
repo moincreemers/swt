@@ -34,8 +34,8 @@ public class GetSessionValueFunction implements JsFunction {
         js.append("return null;");
         js.append("};");
         js.append("var value=sessionStorage[key];");
-        js.append("if(value==null){value=defaultValue;}");
-        js.append("return value;");
+        js.append("if(value==null){return defaultValue;}");
+        js.append("return JSON.parse(value).value;");
         js.append("}");
     }
 

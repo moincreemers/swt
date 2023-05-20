@@ -42,16 +42,22 @@ public final class V {
         return new ConstantValue(200);
     }
 
-    public static ValueStatement HTTP_SERVER_ERROR() {
-        return new ConstantValue(500);
-    }
-
     public static ValueStatement HTTP_BAD_REQUEST() {
         return new ConstantValue(400);
     }
 
     public static ValueStatement HTTP_UNAUTHORIZED() {
         return new ConstantValue(401);
+    }
+
+    public static ValueStatement HTTP_SERVER_ERROR() {
+        return new ConstantValue(500);
+    }
+
+    // REF
+
+    public static ValueStatement Reference(String name) {
+        return new ReferenceValue(name);
     }
 
     // Constant
@@ -240,6 +246,10 @@ public final class V {
 
     public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter, ValueStatement limit) throws WidgetConfigurationException {
         return new StringSplit(string, splitter, limit);
+    }
+
+    public static ValueStatement Format(ValueStatement format, ValueStatement object) {
+        return new FormatValue(format, object);
     }
 
     // NUMBER
@@ -1068,6 +1078,10 @@ public final class V {
 
     public static ValueStatement Random(ValueStatement max) {
         return new RandomValue(max);
+    }
+
+    public static ValueStatement GetQueryStringAsObject(ValueStatement url) {
+        return new GetQueryStringAsObjectValue(url);
     }
 
 

@@ -9,6 +9,8 @@ public class ForViewLib extends Code {
     public static final String PARSE_WARNING = "parseWarning";
     public static final String PARSE_LOGIN = "parseLogin";
     public static final String CALCULATE_AGE = "calcAge";
+    public static final String CREATE_WADO_THUMB_URL = "createWadoThumbnailUrl";
+    public static final String CREATE_WADO_IMAGE_URL = "createWadoImageUrl";
 
     public ForViewLib() {
         super("FV");
@@ -96,6 +98,84 @@ public class ForViewLib extends Code {
                         + ""
                         + "};",
                 JsParameter.getInstance("xhrResponse", JsType.STRING))
+        );
+
+        add(createFunction(CREATE_WADO_THUMB_URL, JsType.STRING,
+
+                // thumbnail image url: /viewer/services/connect/proxy/wado/PACS
+                //  ?requestType=WADO
+                //  &studyUID=1.3.6.1.4.1.33437.11.2.5604041.12963165250.145.2
+                //  &seriesUID=1.3.6.1.4.1.33437.11.3.5604041.12963165452.145.3.0
+                //  &objectUID=1.3.6.1.4.1.33437.11.4.5604041.12963165452.145.4.0.0.0
+                //  &contentType=image%2Fjpeg
+                //  &globalLocationUid=3.2.3
+                //  &homeCommunityUid=1.2.3
+                //  &patientID=7832654321
+                //  &patientIDAuth=1.3.6.1.4.1.21367.2005.3.7
+                //  &columns=128
+                //  &rows=128
+
+                "(studyUID, seriesUID, objectUID, contentType, globalLocationUid, homeCommunityUid, patientID, patientIDAuth)=>{"
+                        + "var url='http://localhost:8080/viewer/services/connect/proxy/wado/PACS';"
+                        + "url+='?requestType=WADO';"
+                        + "url+='&studyUID='+studyUID;"
+                        + "url+='&seriesUID='+seriesUID;"
+                        + "url+='&objectUID='+objectUID;"
+                        + "url+='&contentType='+contentType;"
+                        + "url+='&globalLocationUid='+globalLocationUid;"
+                        + "url+='&homeCommunityUid='+homeCommunityUid;"
+                        + "url+='&patientID='+patientID;"
+                        + "url+='&patientIDAuth='+patientIDAuth;"
+                        + "url+='&columns=128';"
+                        + "url+='&rows=128';"
+                        + "return url;"
+                        + "};",
+                JsParameter.getInstance("studyUID", JsType.STRING),
+                JsParameter.getInstance("seriesUID", JsType.STRING),
+                JsParameter.getInstance("objectUID", JsType.STRING),
+                JsParameter.getInstance("contentType", JsType.STRING),
+                JsParameter.getInstance("globalLocationUid", JsType.STRING),
+                JsParameter.getInstance("homeCommunityUid", JsType.STRING),
+                JsParameter.getInstance("patientID", JsType.STRING),
+                JsParameter.getInstance("patientIDAuth", JsType.STRING))
+        );
+
+        add(createFunction(CREATE_WADO_IMAGE_URL, JsType.STRING,
+
+                // thumbnail image url: /viewer/services/connect/proxy/wado/PACS
+                //  ?requestType=WADO
+                //  &studyUID=1.3.6.1.4.1.33437.11.2.5604041.12963165250.145.2
+                //  &seriesUID=1.3.6.1.4.1.33437.11.3.5604041.12963165452.145.3.0
+                //  &objectUID=1.3.6.1.4.1.33437.11.4.5604041.12963165452.145.4.0.0.0
+                //  &contentType=image%2Fjpeg
+                //  &globalLocationUid=3.2.3
+                //  &homeCommunityUid=1.2.3
+                //  &patientID=7832654321
+                //  &patientIDAuth=1.3.6.1.4.1.21367.2005.3.7
+                //  &columns=128
+                //  &rows=128
+
+                "(studyUID, seriesUID, objectUID, contentType, globalLocationUid, homeCommunityUid, patientID, patientIDAuth)=>{"
+                        + "var url='http://localhost:8080/viewer/services/connect/proxy/wado/PACS';"
+                        + "url+='?requestType=WADO';"
+                        + "url+='&studyUID='+studyUID;"
+                        + "url+='&seriesUID='+seriesUID;"
+                        + "url+='&objectUID='+objectUID;"
+                        + "url+='&contentType='+contentType;"
+                        + "url+='&globalLocationUid='+globalLocationUid;"
+                        + "url+='&homeCommunityUid='+homeCommunityUid;"
+                        + "url+='&patientID='+patientID;"
+                        + "url+='&patientIDAuth='+patientIDAuth;"
+                        + "return url;"
+                        + "};",
+                JsParameter.getInstance("studyUID", JsType.STRING),
+                JsParameter.getInstance("seriesUID", JsType.STRING),
+                JsParameter.getInstance("objectUID", JsType.STRING),
+                JsParameter.getInstance("contentType", JsType.STRING),
+                JsParameter.getInstance("globalLocationUid", JsType.STRING),
+                JsParameter.getInstance("homeCommunityUid", JsType.STRING),
+                JsParameter.getInstance("patientID", JsType.STRING),
+                JsParameter.getInstance("patientIDAuth", JsType.STRING))
         );
     }
 }

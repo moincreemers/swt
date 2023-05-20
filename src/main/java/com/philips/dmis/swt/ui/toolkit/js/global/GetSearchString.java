@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-public class SetSessionValueFunction implements JsFunction {
+public class GetSearchString implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return true;
@@ -24,26 +24,24 @@ public class SetSessionValueFunction implements JsFunction {
 
     @Override
     public JsType getType() {
-        return JsType.VOID;
+        return JsType.STRING;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
-        js.append("(key,value)=>{");
-        js.append("if(key==undefined||key==null||key==''){");
-        js.throwError("invalid key", "key");
-        js.append("};");
-        js.append("const v={};");
-        js.append("v.type=(typeof value);");
-        js.append("v.value=value;");
-        js.append("sessionStorage[key]=JSON.stringify(v);");
+        js.append("(url)=>{");
+
+        js.append("if(url==undefined||url==null){return '';};");
+        js.append("const qi=url.indexOf('?');");
+        js.append("if(qi==-1){return '';};");
+        js.append("return url.substring(qi);");
+
         js.append("}");
     }
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-        parameters.add(JsParameter.getInstance("key", JsType.STRING));
-        parameters.add(JsParameter.getInstance("value", JsType.STRING));
+        parameters.add(JsParameter.getInstance("url", JsType.STRING));
     }
 
     @Override

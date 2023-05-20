@@ -23,7 +23,7 @@ public class Lookup extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(key)=>{");
+        js.append("(obj,key)=>{");
         js.append("const table=%s;", DtoUtil.valueOf(table));
         js.append("const defaultValue=table.hasOwnProperty('*')?table['*']:null;");
         js.append("if(!table.hasOwnProperty(key)){return defaultValue!=null?defaultValue:key;};");

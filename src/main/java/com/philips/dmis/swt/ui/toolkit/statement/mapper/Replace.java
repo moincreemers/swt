@@ -24,7 +24,7 @@ public class Replace extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(value)=>{");
+        js.append("(obj,value)=>{");
         js.append("if(value==undefined){return value;};");
         js.append("return (%s==value)?%s:value;",
                 ValueStatement.valueOf(toolkit, search, widget),

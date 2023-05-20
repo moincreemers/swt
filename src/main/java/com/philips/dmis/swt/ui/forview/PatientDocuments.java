@@ -86,6 +86,7 @@ public class PatientDocuments extends AbstractViewerPage {
                         .add(FieldMapping.map(".formatCode", "formatCode", DataType.OBJECT))
                         .add(FieldMapping.map(".patientId", "patientId", DataType.STRING))
                         .add(FieldMapping.map(".hash", "hash", DataType.STRING))
+                        .add(FieldMapping.map(".home", "homeCommunityId", DataType.STRING))
                         .add(FieldMapping.map(".uniqueId", "uniqueId", DataType.STRING))
                         .add(FieldMapping.map(".repositoryUniqueId", "repositoryUniqueId", DataType.STRING))
                         .add(FieldMapping.map(".creationTime", "creationTime", DataType.STRING))
@@ -147,23 +148,27 @@ public class PatientDocuments extends AbstractViewerPage {
         htmlTableBody.addDataSource(documents);
 
         htmlTableBody.onOpen(new OpenEventHandler(
-                M.OpenURL(
-                        V.StringConcat(
-                                V.Const("http://localhost:8080"),
-                                V.ObjectMember(V.GetEvent(OpenEvent.RECORD), "retrieveUrl"))
-                )
+                M.Log(V.Const("Open"), V.GetEvent(OpenEvent.RECORD)),
+                M.Iif(V.Is(V.ObjectMember(V.GetEvent(OpenEvent.RECORD), "formatCode"), V.Const("DICOM Manifest"))).True(
+                        M.OpenPage(WadoClient.class, V.GetEvent(OpenEvent.RECORD))
+                ).Else(
+                        M.OpenURL(
+                                V.StringConcat(
+                                        V.Const("http://localhost:8080"),
+                                        V.ObjectMember(V.GetEvent(OpenEvent.RECORD), "retrieveUrl"))
+                        ))
         ));
 
         onActivate(new ActivateEventHandler(
-                M.SetText(titleLabel, V.ObjectMember(V.GetPageArgument(), "name")),
-                M.SetText(patientIdHtmlLabel, V.StringConcat(V.Const("ID: "), V.ObjectMember(V.GetPageArgument(), "patientId"))),
-                M.SetText(patientDateOfBirthHtmlLabel, V.StringConcat(V.ObjectMember(V.GetPageArgument(), "dateOfBirth"), V.Const(" ("), V.ObjectMember(V.GetPageArgument(), "age"), V.Const("yr)"))),
-                M.SetText(patientGenderHtmlLabel, V.ObjectMember(V.GetPageArgument(), "gender")),
-                M.SetText(patientAddressHtmlLabel, V.ObjectMember(V.GetPageArgument(), "address")),
+                M.SetText(titleLabel, V.ObjectMember(V.GetGlobalValue("selectedPatient"), "name")),
+                M.SetText(patientIdHtmlLabel, V.StringConcat(V.Const("ID: "), V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientId"))),
+                M.SetText(patientDateOfBirthHtmlLabel, V.StringConcat(V.ObjectMember(V.GetGlobalValue("selectedPatient"), "dateOfBirth"), V.Const(" ("), V.ObjectMember(V.GetGlobalValue("selectedPatient"), "age"), V.Const("yr)"))),
+                M.SetText(patientGenderHtmlLabel, V.ObjectMember(V.GetGlobalValue("selectedPatient"), "gender")),
+                M.SetText(patientAddressHtmlLabel, V.ObjectMember(V.GetGlobalValue("selectedPatient"), "address")),
 
                 // note: PatientSearch passes the entire patient record to this page
-                M.SetQueryParameter(documents, "patientID", V.ObjectMember(V.GetPageArgument(), "patientId")),
-                M.SetQueryParameter(documents, "patientIDAuth", V.ObjectMember(V.GetPageArgument(), "patientIdAuth")),
+                M.SetQueryParameter(documents, "patientID", V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientId")),
+                M.SetQueryParameter(documents, "patientIDAuth", V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientIdAuth")),
                 M.Refresh(documents, JsPagesModule.REASON_LOCAL),
 
                 M.Refresh(userService)

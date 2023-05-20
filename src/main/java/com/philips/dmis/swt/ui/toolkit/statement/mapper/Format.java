@@ -1,8 +1,10 @@
 package com.philips.dmis.swt.ui.toolkit.statement.mapper;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -10,20 +12,24 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
-public class ValueOf extends MapStatement {
-    final ValueStatement value;
+public class Format extends MapStatement {
+    final ValueStatement format;
 
-    public ValueOf(ValueStatement value) {
-        super(value.getType());
-        this.value = value;
+    public Format(ValueStatement format) {
+        super(JsType.STRING);
+        this.format = format;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(obj)=>{");
+        js.append("(_obj)=>{");
+
+        js.append("if(_obj==undefined||_obj==null){return '';};");
+
         js.append("return ");
-        value.renderJs(toolkit, widget, js);
+        V.Format(format, V.Reference("_obj")).renderJs(toolkit, widget, js);
         js.append(";");
+
         js.append("}");
     }
 
@@ -34,6 +40,6 @@ public class ValueOf extends MapStatement {
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(value);
+        statements.add(format);
     }
 }

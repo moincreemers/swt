@@ -17,7 +17,7 @@ public class ParseInt extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(value)=>{");
+        js.append("(obj,value)=>{");
         js.append("if(value==undefined||value==null||value==''||value==NaN){return null;};");
         js.append("const i=Number.parseInt(value);");
         js.append("return i==NaN?0:i;");

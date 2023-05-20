@@ -152,6 +152,7 @@ public class JsPagesModule implements JsModule {
         members.add(new Pair<>(SetNumberFunction.ID, new SetNumberFunction(widget)));
         members.add(new Pair<>(SetOrderFunction.ID, new SetOrderFunction(widget)));
         members.add(new Pair<>(SetParameterFunction.ID, new SetParameterFunction(widget)));
+        members.add(new Pair<>(SetParametersFunction.ID, new SetParametersFunction(widget)));
         members.add(new Pair<>(SetPatternFunction.ID, new SetPatternFunction(widget)));
         members.add(new Pair<>(SetPlaceholderFunction.ID, new SetPlaceholderFunction(widget)));
         members.add(new Pair<>(SetRangeFunction.ID, new SetRangeFunction(widget)));

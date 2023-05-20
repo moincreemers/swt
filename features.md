@@ -13,13 +13,13 @@
           problem is that the JWT is valid and patient search still works but an 'URL hashing' security feature seems to
           rely on HttpSession to exist. Suggest to remove the URL hashing as it certainly is a proprietary security
           mechanism.
-        - The fact that a JWT authenticates the user but the HttpSession is not re-created seems to be a defect.
+        - The fact that a JWT authenticates the user but the HttpSession is not re-created seems to be a defect, this
+          only affects some APIs. If it does, the request does not return a HTTP 401 but 500 which is strange. 
         - The URL hashing in document retrieve endpoint is very problematic. This makes caching impossible.
     - Some APIs return HL7 data structures that need to be parsed to be useful. This is a bit of extra work (
       HL7Lib.java).
-    - I may need to create a WADO client
+    - WADO client
     - CDA's render, but not great. CSS/layout is a bit 'off'.
-    - WADO client is missing of course.
     - Features missing:
         - Document actions
         - PIX
@@ -27,8 +27,6 @@
         - Forms
         - Patient consent
         - Image Upload
-- Select boxes that have a value selected other than the first item, are reset to the first item when a page is
-  activated. This is presumably caused by data source refresh.
 
 ## Started
 
@@ -184,6 +182,8 @@
 - added PageHeaders module to handle window resize to set the correct padding on page_inner when page header and/or
   footer are present.
 - navigation panels (left/right) similar to page header/footer
+- Select boxes that have a value selected other than the first item, are reset to the first item when a page is
+  activated. This is presumably caused by data source refresh.
 
 ## Rejected
 

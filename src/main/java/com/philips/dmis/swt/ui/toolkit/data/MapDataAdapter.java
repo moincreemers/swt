@@ -81,13 +81,19 @@ public class MapDataAdapter extends DataAdapter {
             js.append("var fn=%s;", MapStatement.valueOf(toolkit, mappedField.mapStatement, widget));
             js.append("try{");
             js.append("item['%s']=fn(", mappedField.targetField);
+            js.append("{");
             int i = 0;
             for (String sourceField : mappedField.sourceFields) {
                 if (i > 0) {
                     js.append(",");
                 }
-                js.append("item['%s']", sourceField);
+                js.append("'%s':item['%s']", sourceField, sourceField);
                 i++;
+            }
+            js.append("}");
+            for (String sourceField : mappedField.sourceFields) {
+                js.append(",");
+                js.append("item['%s']", sourceField);
             }
             js.append(");");
             js.append("}catch(e){");

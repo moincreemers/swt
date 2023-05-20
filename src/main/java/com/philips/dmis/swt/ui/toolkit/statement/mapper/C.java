@@ -42,4 +42,16 @@ public final class C {
     public static MapStatement Call(Code code, String name, ValueStatement... parameterValues) {
         return new Call(M.Call(code, name, parameterValues));
     }
+
+    public static MapStatement ReplaceIfEmpty(ValueStatement replace) {
+        return new ReplaceIfEmpty(replace);
+    }
+
+    public static MapStatement ReplaceWithFieldIfEmpty() {
+        return new ReplaceWithFieldIfEmpty();
+    }
+
+    public static MapStatement Format(ValueStatement format) {
+        return new Format(format);
+    }
 }

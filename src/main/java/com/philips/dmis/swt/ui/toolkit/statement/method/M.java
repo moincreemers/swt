@@ -161,6 +161,10 @@ public final class M {
         return new SetQueryParameterStatement(hasURL, V.Const(name), valueStatement);
     }
 
+    public static MethodStatement SetQueryParameters(HasURL hasURL, ValueStatement object) {
+        return new SetQueryParametersStatement(hasURL, object);
+    }
+
     public static MethodStatement RemoveQueryParameter(DataSourceSupplier dataSourceSupplier, ValueStatement nameStatement) {
         return new RemoveQueryParameterStatement(dataSourceSupplier, nameStatement);
     }
