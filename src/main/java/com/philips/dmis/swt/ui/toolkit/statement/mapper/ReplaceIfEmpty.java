@@ -21,7 +21,7 @@ public class ReplaceIfEmpty extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(obj,value)=>{");
+        js.append("(%s,%s,obj,value)=>{", ARGUMENT_SERVICE_RESPONSE, ARGUMENT_TARGET);
 
         js.append("if(value==undefined||value==null||value==''){");
         js.append("return");

@@ -43,8 +43,6 @@ public class SendResponseStatement extends MethodStatement {
                 "data://" + widget.getId(),
                 new ContentType("application/json"),
                 null)));
-        js.append("xhrResponse.responseText=null;");
-
         js.append("%s(xhrResponse);",
                 JsPagesModule.getQualifiedId(dataSourceSupplier.asWidget(), ProcessResponseFunction.class));
     }

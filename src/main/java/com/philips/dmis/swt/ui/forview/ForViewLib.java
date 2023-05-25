@@ -34,9 +34,9 @@ public class ForViewLib extends Code {
                  */
                 "(xhrResponse)=>{"
                         + "if(xhrResponse.contentType.value=='application/json'){" // if
-                        + "const obj=JSON.parse(xhrResponse.responseText);return obj.message;"
+                        + "const obj=JSON.parse(xhrResponse.data);return obj.message;"
                         + "} else if(xhrResponse.contentType.value=='text/plain'){" // else if
-                        + "const code=xhrResponse.responseText;"
+                        + "const code=xhrResponse.data;"
                         + "switch(code){"
                         + "case 'page.login.action.badCredentials':"
                         + "return 'Incorrect user name or password entered';"
@@ -82,7 +82,7 @@ public class ForViewLib extends Code {
                  */
                 "(xhrResponse)=>{"
                         + "if(xhrResponse.contentType.value=='application/json'){" // if
-                        + "const obj=JSON.parse(xhrResponse.responseText);"
+                        + "const obj=JSON.parse(xhrResponse.data);"
                         + "if(obj.response.status!='ok'){"
                         + "throw new Error('login failed');"
                         + "};"

@@ -82,7 +82,7 @@ public class FlattenArrayDataAdapter extends DataAdapter {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("(serviceResponse)=>{");
 
-        js.info("console.log('FlattenDataAdapter before',serviceResponse);");
+        js.debug("console.log('FlattenDataAdapter before',serviceResponse);");
 
         // re-create data structure
         js.append("const copy=structuredClone(serviceResponse);");
@@ -96,7 +96,7 @@ public class FlattenArrayDataAdapter extends DataAdapter {
         js.append("var dataItem=dataItems[i];");
         js.append("var parent={};");
         js.append("for(const p in dataItem){"); // for
-        js.append("if(p=='%s'){"); // if
+        js.append("if(p=='%s'){", memberName); // if
         js.append("continue;");
         js.append("};"); // end if
         js.append("parent[p]=dataItem[p];");
@@ -115,7 +115,7 @@ public class FlattenArrayDataAdapter extends DataAdapter {
                 ServiceResponse.META_TRANSFORMATIONS,
                 DtoUtil.valueOf(new TransformationMetadata(getId(), getClass().getSimpleName())));
 
-        js.info("console.log('FlattenDataAdapter after',serviceResponse);");
+        js.debug("console.log('FlattenDataAdapter after',serviceResponse);");
 
         js.append("return serviceResponse;");
         js.append("}");

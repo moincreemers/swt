@@ -202,7 +202,7 @@ public class ImportObjectDataAdapter extends DataAdapter {
                 DtoUtil.getDefault(ServiceResponse.class, false));
 
         // note: we always import from the unmodified response provided by the data source
-        js.append("let object=unmodifiedResponse%s;", getPath());
+        js.append("var object=unmodifiedResponse%s;", getPath());
 
         js.append("if(typeof object!='object'){");
         js.append("const path='%s';", getPath());
@@ -249,7 +249,7 @@ public class ImportObjectDataAdapter extends DataAdapter {
                 ServiceResponse.META_TRANSFORMATIONS,
                 DtoUtil.valueOf(new TransformationMetadata(getId(), getClass().getSimpleName())));
 
-        js.info("console.log('ImportObjectDataAdapter',unmodifiedResponse,outputObject);");
+        js.debug("console.log('ImportObjectDataAdapter',unmodifiedResponse,outputObject);");
 
 
         js.append("return serviceResponse;");

@@ -13,6 +13,7 @@ public enum WidgetAppearance {
     INLINE("tk-inline"),
     INLINE_BLOCK("tk-inline-block"),
     FIT_CONTENT("tk-fit-content"),
+    FIT_PARENT_WIDTH("tk-fit-parent-width"),
     ALIGN_RIGHT("tk-align-right"),
     FLOAT_RIGHT("tk-float-right"),
     CENTER("tk-center"),

@@ -2,6 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.data;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 /**
@@ -29,6 +30,10 @@ public class ArrayDataAdapter extends DataAdapter {
     public ArrayDataAdapter(String path, OrderBy sort) {
         super(path, false);
         this.sort = sort;
+    }
+
+    public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
+        return dataSourceUsage!=DataSourceUsage.IMPORT;
     }
 
     @Override

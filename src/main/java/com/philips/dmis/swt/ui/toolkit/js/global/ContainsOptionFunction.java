@@ -8,7 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-public class FormatStringFunction implements JsFunction, IsPageModuleMember {
+public class ContainsOptionFunction implements JsFunction, IsPageModuleMember {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return true;
@@ -26,21 +26,16 @@ public class FormatStringFunction implements JsFunction, IsPageModuleMember {
 
     @Override
     public JsType getType() {
-        return JsType.STRING;
+        return JsType.VOID;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("(format,obj)=>{");
-        //js.info("console.log('FormatStringFunction',format,obj);");
-        js.append("const fn=(i,g)=>{");
-        js.debug("console.log('format',i,g,obj[g]);");
-        js.append("return obj[g];");
-        js.append("};");
-        js.append("const inject=(str,obj)=>{");
-        js.append("return str.replace(/\\${(.*?)}/g,fn);");
-        js.append("};");
-        js.append("return inject(format,obj);");
+        js.append("(element,value)=>{");
+        js.append("if(element.tagName!='SELECT'){return false;}");
+        js.append("var c=0;");
+        js.append("Array.from(element.children).forEach((v)=>{if(v.value==value){c++;};});");
+        js.append("return c!=0;");
         js.append("}");
     }
 

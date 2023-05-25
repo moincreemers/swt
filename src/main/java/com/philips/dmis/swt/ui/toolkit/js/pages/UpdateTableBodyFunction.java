@@ -90,14 +90,14 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
 
         js.append("if(textWhenEmpty!=''&&dataItems.length==0){");
         js.append("var tr=document.createElement('tr');");
+        js.append("%s().append(tr);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("var td=document.createElement('td');");
+        js.append("tr.append(td);");
         js.append("td.setAttribute('class','message-container');");
         js.append("const message=document.createElement('div');");
         js.append("message.setAttribute('class','message');");
         js.append("message.textContent=textWhenEmpty;");
         js.append("td.append(message);");
-        js.append("tr.append(td);");
-        js.append("%s().append(tr);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("};");
 
         switch (((HtmlTableBody) widget).getTableOrientationType()) {
@@ -122,6 +122,7 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
 
         // render row:
         js.append("var tr=document.createElement('tr');");
+        js.append("%s().append(tr);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("tr.setAttribute('id','%s_row_'+rowIndex);", widget.getId());
         js.append("tr.setAttribute('tk-even',evenRow);");
 
@@ -134,6 +135,7 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
         // render cell:
         js.append("var evenCol=(colIndex%2)!=0;");
         js.append("var td=document.createElement('td');");
+        js.append("tr.append(td);");
         js.append("tr.setAttribute('id','%s_row_'+rowIndex+'_column_'+colIndex);", widget.getId());
         js.append("td.setAttribute('tk-even',evenCol);");
         js.append("const cellValue=dataItem[view.source];");
@@ -159,12 +161,11 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
         renderCell(toolkit, js);
         renderActions(toolkit, js);
 
-        js.append("tr.append(td);");
+
         js.append("colIndex++;");
         js.append("};"); // end if
         js.append("};"); // end for
 
-        js.append("%s().append(tr);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("};"); // end for
     }
 
@@ -181,6 +182,7 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
                 ViewAppearance.HIDDEN.name()); // if
         // render row:
         js.append("var tr=document.createElement('tr');");
+        js.append("%s().append(tr);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("tr.setAttribute('id','%s_row_'+r);", widget.getId());
         js.append("var evenRow=(r%2)!=0;");
         js.append("tr.setAttribute('tk-even',evenRow);");
@@ -189,13 +191,12 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
         // render header cell
         js.append("var evenCol=(colIndex%2)!=0;");
         js.append("var td=document.createElement('td');");
+        js.append("tr.append(td);");
         js.append("tr.setAttribute('id','%s_row_'+r+'_column_'+colIndex);", widget.getId());
         js.append("td.setAttribute('tk-even',evenCol);");
         js.append("td.setAttribute('class','tk-row-header-cell');");
         js.append("td.textContent=view.name;");
-        js.append("tr.append(td);");
         //
-        js.append("%s().append(tr);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("r++;");
         js.append("};"); // end if
         js.append("};"); // end for
@@ -210,6 +211,7 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
         // render cell:
         js.append("var evenCol=(colIndex%2)!=0;");
         js.append("var td=document.createElement('td');");
+        js.append("tr.append(td);");
         js.append("tr.setAttribute('id','%s_row_'+rowIndex+'_column_'+colIndex);", widget.getId());
         js.append("td.setAttribute('tk-even',evenCol);");
         js.append("const cellValue=dataItem[view.source];");
@@ -234,7 +236,6 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
 
         renderCell(toolkit, js);
 
-        js.append("tr.append(td);");
         js.append("};"); // end for
         js.append("};"); // end for
         js.append("colIndex++;");

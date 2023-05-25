@@ -54,4 +54,8 @@ public final class C {
     public static MapStatement Format(ValueStatement format) {
         return new Format(format);
     }
+
+    public static Download Download() {
+        return new Download();
+    }
 }

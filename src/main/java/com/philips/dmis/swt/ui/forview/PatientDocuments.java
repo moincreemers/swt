@@ -80,7 +80,7 @@ public class PatientDocuments extends AbstractViewerPage {
         */
         QueryService documents = add(new QueryService("http://localhost:8080/viewer/services/document/list.json",
                 false, false));
-        TokenUtil.setAuthorizationHeader(documents);
+        HttpHeaderUtil.setAuthorizationHeader(documents);
         documents.addDataAdapter(
                 new ImportArrayDataAdapter(".result.documents")
                         .add(FieldMapping.map(".formatCode", "formatCode", DataType.OBJECT))
@@ -187,7 +187,7 @@ public class PatientDocuments extends AbstractViewerPage {
                 ),
 
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_BAD_REQUEST())).True(
-                        M.SetText(errorMessage, V.GetEvent(ResponseEvent.HTTP_RESPONSE_TEXT)),
+                        M.SetText(errorMessage, V.GetEvent(ResponseEvent.HTTP_RESPONSE_DATA)),
                         M.SetDisplay(errorPanel, V.True)
                 ),
 

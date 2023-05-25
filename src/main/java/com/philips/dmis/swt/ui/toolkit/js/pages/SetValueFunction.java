@@ -20,7 +20,8 @@ public class SetValueFunction implements JsFunction, IsPageModuleMember {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof HasValue || widget instanceof DataSourceSupplier;
+        return widget instanceof HasValue
+                || widget instanceof DataSourceSupplier;
     }
 
     @Override

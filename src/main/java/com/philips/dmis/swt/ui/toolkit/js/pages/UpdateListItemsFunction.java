@@ -2,6 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.js.pages;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
+import com.philips.dmis.swt.ui.toolkit.dto.URLAppearanceType;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewType;
 import com.philips.dmis.swt.ui.toolkit.events.OpenEvent;
@@ -89,6 +90,7 @@ public class UpdateListItemsFunction implements JsFunction, IsPageModuleMember {
 
         // render list item:
         js.append("var li=document.createElement('li');");
+        js.append("%s().append(li);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("li.setAttribute('id','%s_item_'+itemIndex);", widget.getId());
 
         js.append("for(const i in selectedView){"); // for V
@@ -152,6 +154,30 @@ public class UpdateListItemsFunction implements JsFunction, IsPageModuleMember {
         js.append("element.classList.add('%s');", HtmlTableBody.CSS_CELL_URL);
         js.append("%s(element,cellValue,view.format);",
                 JsGlobalModule.getQualifiedId(FormatURLFunction.class));
+
+        // todo: move to function and call from other places as well
+        js.append("if(view.format.appearance=='%s'&&%s[cellValue]){",
+                URLAppearanceType.XHR_IMAGE,
+                JsPagesModule.getId(widget, SyncVariable.class));
+        js.append("%s[cellValue].then((xhrResponse)=>{",
+                JsPagesModule.getId(widget, SyncVariable.class)); // function
+        js.debug("console.log('image callback',xhrResponse);");
+        js.append("const dataURL=window.URL.createObjectURL(xhrResponse.data);");
+        //js.info("console.log('referencing img',cellValue);");
+        js.append("const elem=document.getElementById(cellValue);");
+        js.append("elem.setAttribute('src',dataURL);");
+        js.append("elem.style.visibility='';");
+        js.append("delete %s[cellValue];",
+                JsPagesModule.getId(widget, SyncVariable.class));
+        js.append("});"); // end function
+        js.append("%s[cellValue].fail((e)=>{",
+                JsPagesModule.getId(widget, SyncVariable.class)); // function
+        js.info("console.log('failed',e);");
+        js.append("delete %s[cellValue];",
+                JsPagesModule.getId(widget, SyncVariable.class));
+        js.append("});"); // end function
+        js.append("};");
+
         js.append("break;");
 
         js.append("case '%s':", DataType.ARRAY.name());
@@ -169,7 +195,6 @@ public class UpdateListItemsFunction implements JsFunction, IsPageModuleMember {
 
         js.append("};"); // end for V
 
-        js.append("%s().append(li);", JsPagesModule.getId(widget, GetElementFunction.class));
         js.append("};"); // end for R
 
         js.append("}"); // end function

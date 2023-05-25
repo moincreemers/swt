@@ -6,9 +6,11 @@ import com.philips.dmis.swt.ui.toolkit.dto.URLAppearanceType;
 import com.philips.dmis.swt.ui.toolkit.dto.URLFormat;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.events.ActivateEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
 import com.philips.dmis.swt.ui.toolkit.statement.mapper.C;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
+import com.philips.dmis.swt.ui.toolkit.statement.predicate.P;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
@@ -133,7 +135,7 @@ public class WadoClient extends AbstractViewerPage {
                 .map("homeCommunityUid", C.ValueOf(V.ObjectMember(V.GetPageArgument(), "homeCommunityId")))
                 .map("patientID", C.ValueOf(V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientId")))
                 .map("patientIDAuth", C.ValueOf(V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientIdAuth")))
-                .map("seriesDescription", C.ReplaceIfEmpty(V.Const("Series")))
+                .map("seriesDescription", C.ReplaceIfEmpty(V.Const("(no description available)")))
 
                 .map("seriesTitle", C.Format(V.Const("${seriesNumber}. ${seriesDescription}")), "seriesDescription", "seriesNumber")
                 .map("thumbnailUrl", C.Call(forViewLib, ForViewLib.CREATE_WADO_THUMB_URL),
@@ -146,19 +148,36 @@ public class WadoClient extends AbstractViewerPage {
         // create a view for the table
         DtoViewDataAdapter dtoViewDataAdapter = new DtoViewDataAdapter(Series.class);
         dtoViewDataAdapter.applyToAllFields(ViewAppearance.HIDDEN);
-        dtoViewDataAdapter.setAppearance("seriesTitle", ViewAppearance.DEFAULT);
+        //dtoViewDataAdapter.setAppearance("seriesTitle", ViewAppearance.DEFAULT);
         dtoViewDataAdapter.setAppearance("thumbnailUrl", ViewAppearance.DEFAULT);
-        dtoViewDataAdapter.setFormat("thumbnailUrl", new URLFormat().setAppearance(URLAppearanceType.IMAGE));
+        dtoViewDataAdapter.setFormat("thumbnailUrl",
+                new URLFormat().setAppearance(URLAppearanceType.IMAGE).setImageWidth("128px"));
         studyService.addDataAdapter(dtoViewDataAdapter);
 
-        //Panel navLeft = add(new Panel(PanelType.NAV_LEFT));
+        Panel toolbarRight = add(new Panel(PanelType.TOOLBAR));
+        HtmlLabel seriesSelectLabel = toolbarRight.add(new HtmlLabel("Series:"));
+        HtmlSelect seriesSelect = toolbarRight.add(new HtmlSelect());
+        seriesSelectLabel.setFor(seriesSelect);
+        seriesSelect.addDataSource(studyService, new KeyValueListDataAdapter("seriesUID", "seriesTitle"));
+        HtmlButton layoutOneButton = toolbarRight.add(new HtmlButton(icons, "crop_square", "One"));
+        HtmlButton layoutGridButton = toolbarRight.add(new HtmlButton(icons, "grid_view", "Grid"));
 
-        HtmlTable table = add(new HtmlTable());
-        table.setAppearance(WidgetAppearance.FIT_CONTENT);
-        HtmlTableHeader tableHeader = table.add(new HtmlTableHeader());
-        tableHeader.addDataSource(studyService);
-        HtmlTableBody tableBody = table.add(new HtmlTableBody());
-        tableBody.addDataSource(studyService);
+        DataProxy dataProxy = add(new DataProxy());
+        dataProxy.addDataSource(studyService);
+        seriesSelect.onChange(new ChangeEventHandler(
+                M.Refresh(dataProxy)
+        ));
+
+        Panel navLeft = add(new Panel(PanelType.NAV_LEFT));
+        navLeft.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("150px", Size.AUTO));
+        Panel toolbarLeft = navLeft.add(new Panel(PanelType.TOOLBAR));
+        toolbarLeft.add(new HtmlLabel(icons, "photo_library"));
+        HtmlList instancesList = navLeft.add(new HtmlList(ListType.VERTICAL));
+        instancesList.addDataSource(dataProxy,
+                new FilterDataAdapter().addPredicate("seriesUID", P.IsEqual(V.GetValue(seriesSelect))),
+                new MapDataAdapter().map("thumbnailUrl",
+                        HttpHeaderUtil.setNoCache(HttpHeaderUtil.setAuthorizationHeader(C.Download())))
+        );
 
         onActivate(new ActivateEventHandler(
                 M.SetText(titleLabel, V.ObjectMember(V.GetGlobalValue("selectedPatient"), "name")),
@@ -179,9 +198,5 @@ public class WadoClient extends AbstractViewerPage {
 
                 M.Refresh(userService)
         ));
-
-//        onKeyDown(new KeyDownEventHandler(
-//
-//        ));
     }
 }

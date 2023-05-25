@@ -7,7 +7,7 @@ public class ResponseEvent extends CustomEvent {
     public static final ValueStatement HTTP_STATUS = V.Const("status");
     public static final ValueStatement HTTP_RESPONSE_URL = V.Const("url");
     public static final ValueStatement HTTP_CONTENT_TYPE = V.Const("contentType");
-    public static final ValueStatement HTTP_RESPONSE_TEXT = V.Const("responseText");
+    public static final ValueStatement HTTP_RESPONSE_DATA = V.Const("data");
 
     public ResponseEvent() {
         super(ResponseEventHandler.EVENT_NAME);

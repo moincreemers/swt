@@ -5,24 +5,22 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsVariable;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
-import com.philips.dmis.swt.ui.toolkit.widgets.DataBoundWidget;
-import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceSupplier;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
-public class DataAdaptersVariable implements JsVariable, IsPageModuleMember {
-    public static final String ID = "dataAdapters";
+public class SyncVariable implements JsVariable, IsPageModuleMember {
+    public static final String ID = "synchronizers";
     private final Widget widget;
     private final WidgetType widgetType;
 
-    public DataAdaptersVariable(Widget widget) {
+    public SyncVariable(Widget widget) {
         this.widget = widget;
         this.widgetType = widget.getWidgetType();
     }
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof DataSourceSupplier || widget instanceof DataBoundWidget<?>;
+        return true;
     }
 
     @Override

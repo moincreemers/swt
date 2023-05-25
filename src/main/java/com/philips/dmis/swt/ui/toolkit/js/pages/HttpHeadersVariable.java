@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsVariable;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
-import com.philips.dmis.swt.ui.toolkit.widgets.HasURL;
+import com.philips.dmis.swt.ui.toolkit.widgets.HasAbstractURL;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -24,7 +24,7 @@ public class HttpHeadersVariable implements JsVariable, IsPageModuleMember {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof HasURL;
+        return widget instanceof HasAbstractURL;
     }
 
     @Override
@@ -44,16 +44,21 @@ public class HttpHeadersVariable implements JsVariable, IsPageModuleMember {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        HasURL hasURL = (HasURL) widget;
+        writeHttpHeaders(toolkit, widget, (HasAbstractURL) widget, js);
+    }
+
+    public static void writeHttpHeaders(Toolkit toolkit, Widget widget, HasAbstractURL hasAbstractURL, JsWriter js) {
         js.append("{");
         int i = 0;
-        for (String name : hasURL.getHttpHeaders().keySet()) {
+        for (String name : hasAbstractURL.getHttpHeaders().keySet()) {
             if (i > 0) {
                 js.append(",");
             }
+            js.append("'");
             js.append(name);
+            js.append("'");
             js.append(":[");
-            List<ValueStatement> values = hasURL.getHttpHeaders().get(name);
+            List<ValueStatement> values = hasAbstractURL.getHttpHeaders().get(name);
             int j = 0;
             for (ValueStatement value : values) {
                 if (j > 0) {

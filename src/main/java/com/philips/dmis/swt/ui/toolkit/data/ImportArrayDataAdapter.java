@@ -218,7 +218,7 @@ public class ImportArrayDataAdapter extends DataAdapter {
                 ServiceResponse.META_TRANSFORMATIONS,
                 DtoUtil.valueOf(new TransformationMetadata(getId(), getClass().getSimpleName())));
 
-        js.info("console.log('ImportArrayDataAdapter',unmodifiedResponse,outputArray);");
+        js.debug("console.log('ImportArrayDataAdapter',unmodifiedResponse,outputArray);");
 
 
         js.append("return serviceResponse;");

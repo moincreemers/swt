@@ -2,10 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.js.pages;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.widgets.CacheType;
-import com.philips.dmis.swt.ui.toolkit.widgets.HasOptions;
-import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
-import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
+import com.philips.dmis.swt.ui.toolkit.widgets.*;
 
 import java.util.List;
 
@@ -54,12 +51,23 @@ public class BeforeUpdateOptionsFunction implements JsFunction, IsPageModuleMemb
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(reason,cacheType,dataSourceId)=>{");
-        js.append("if(cacheType=='%s'){", CacheType.ENABLED.name());
-        js.append("%s().setAttribute('tk-value',%s());",
-                JsPagesModule.getId(widget, GetElementFunction.class),
-                JsPagesModule.getId(widget, GetFunction.class));
-        js.append("%s(dataSourceId);", JsPagesModule.getId(widget, RemoveOptionsFunction.class));
-        js.append("};");
+
+        if (widget instanceof HasValue) {
+            js.append("if(cacheType=='%s'){", CacheType.ENABLED.name());
+            js.append("const elem=%s();", JsPagesModule.getId(widget, GetElementFunction.class));
+            js.append("const selectedValue=%s();", JsPagesModule.getId(widget, GetFunction.class));
+            js.append("elem.removeAttribute('tk-value');");
+            if (widgetType == WidgetType.SELECT) {
+                js.append("if(elem.selectedIndex>-1){");
+                js.append("elem.setAttribute('tk-value',selectedValue);");
+                js.append("};");
+            } else {
+                js.append("elem.setAttribute('tk-value',selectedValue);");
+            }
+            js.append("%s(dataSourceId);", JsPagesModule.getId(widget, RemoveOptionsFunction.class));
+            js.append("};");
+        }
+
         js.append("}"); // end function
     }
 }

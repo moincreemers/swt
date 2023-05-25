@@ -12,6 +12,10 @@ public class HtmlLabel extends DataBoundWidget<HtmlLabel> implements HasFor, Has
         this(null, text);
     }
 
+    public HtmlLabel(IconsWidget iconsWidget, String icon) {
+        this(null, iconsWidget, icon, "");
+    }
+
     public HtmlLabel(IconsWidget iconsWidget, String icon, String text) {
         this(null, iconsWidget, icon, text);
     }

@@ -1,6 +1,5 @@
 package com.philips.dmis.swt.ui.forview;
 
-import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.*;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
@@ -34,7 +33,6 @@ public class PatientSearch extends AbstractViewerPage {
     }
 
     public PatientSearch() throws Exception {
-        super(Constants.isDemo(PatientSearch.class));
     }
 
     @Override
@@ -52,7 +50,7 @@ public class PatientSearch extends AbstractViewerPage {
 
         QueryService patientDomains = add(new QueryService(
                 "http://localhost:8080/viewer/services/domain/list.json", false, false));
-        TokenUtil.setAuthorizationHeader(patientDomains);
+        HttpHeaderUtil.setAuthorizationHeader(patientDomains);
         patientDomains.addDataAdapter(
                 new ImportArrayDataAdapter(".items")
                         .add(FieldMapping.map(".id", KeyValueListDataAdapter.DEFAULT_KEY_FIELD, DataType.STRING))
@@ -70,7 +68,7 @@ public class PatientSearch extends AbstractViewerPage {
 
         QueryService patients = add(new QueryService("http://localhost:8080/viewer/services/patient/list.json",
                 false, false));
-        TokenUtil.setAuthorizationHeader(patients);
+        HttpHeaderUtil.setAuthorizationHeader(patients);
         patients.addDataAdapter(
                 new ImportArrayDataAdapter(".result.patients")
                         .add(FieldMapping.map(".id.extension", "patientId", DataType.STRING))

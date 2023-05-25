@@ -59,7 +59,7 @@ public class ProcessResponseFunction implements JsFunction, IsPageModuleMember {
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(xhrResponse)=>{");
 
-        js.info("console.log('ProcessResponseFunction before',xhrResponse);");
+        js.debug("console.log('ProcessResponseFunction before',xhrResponse);");
 
         js.append("if(xhrResponse.status===200){");
 
@@ -67,8 +67,8 @@ public class ProcessResponseFunction implements JsFunction, IsPageModuleMember {
         js.append("var serviceResponse={};");
 
         js.append("if(xhrResponse.contentType.value=='application/json'){");
-        js.append("unmodifiedResponse=JSON.parse(xhrResponse.responseText);");
-        js.append("serviceResponse=JSON.parse(xhrResponse.responseText);");
+        js.append("unmodifiedResponse=JSON.parse(xhrResponse.data);");
+        js.append("serviceResponse=JSON.parse(xhrResponse.data);");
         js.append("};");
 
         if (widget instanceof DataSourceSupplier dataSourceSupplier) {
@@ -88,7 +88,7 @@ public class ProcessResponseFunction implements JsFunction, IsPageModuleMember {
                         JsPagesModule.getId(widget, DataAdaptersVariable.class),
                         DataSourceUsage.IMPORT.name());
                 js.append("for(const j in importAdapters){");
-                js.info("console.log('Importing, adapter:',importAdapters[j]);");
+                js.debug("console.log('Importing, adapter:',importAdapters[j]);");
                 js.append("if(%s.includes(importAdapters[j].id)){",
                         JsPagesModule.getId(widget, DisabledDataAdaptersVariable.class));
                 js.debug("console.log('data import adapter disabled',importAdapters[j].id);");
@@ -116,13 +116,13 @@ public class ProcessResponseFunction implements JsFunction, IsPageModuleMember {
             //js.debug("console.log('ProcessResponseFunction after adapter: ' + adapters[i].id + ', items:' + serviceResponse.data.items.length);");
             js.append("};");
 
-            // For Data and StaticData widgets, DataVariable is used in a different
-            // way because the widget IS the actual data source. We do not want to change the original data.
-            if (!(widgetType == WidgetType.DATA || widgetType == WidgetType.STATICDATA)) {
+            // For Data, StaticData and DataProxy, DataVariable is used in a different
+            // way because the widget IS the actual data source. We do not want to change the data variable.
+            if (!(widgetType == WidgetType.DATA || widgetType == WidgetType.STATICDATA || widgetType == WidgetType.DATA_PROXY)) {
                 js.append("%s=JSON.stringify(serviceResponse);", JsPagesModule.getQualifiedId(widget, DataVariable.class));
             }
 
-            js.info("console.log('ProcessResponseFunction after','widget: %s',serviceResponse);", widget.getId());
+            js.debug("console.log('ProcessResponseFunction after','widget: %s',serviceResponse);", widget.getId());
 
             // notify subscribers
             if (dataSourceSupplier.isNotifySubscribers()) {

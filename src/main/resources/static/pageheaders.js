@@ -59,12 +59,20 @@ var PageHeaders=(function(){
             pages[p].style.paddingLeft=paddingLeft+'px';
             pages[p].style.paddingRight=paddingRight+'px';
             if(navLefts.length!=0){
-                navLefts[0].style.paddingTop=paddingTop+'px';
-                navLefts[0].style.paddingBottom=paddingBottom+'px';
+                // note: we set margin instead of padding,
+                //  otherwise scrollbars on the nav panel
+                //  would still be partially hidden behind
+                //  the page header.
+                navLefts[0].style.marginTop=paddingTop+'px';
+                navLefts[0].style.marginBottom=paddingBottom+'px';
             }
             if(navRights.length!=0){
-                navRights[0].style.paddingTop=paddingTop+'px';
-                navRights[0].style.paddingBottom=paddingBottom+'px';
+                // note: we set margin instead of padding,
+                //  otherwise scrollbars on the nav panel
+                //  would still be partially hidden behind
+                //  the page header.
+                navRights[0].style.marginTop=paddingTop+'px';
+                navRights[0].style.marginBottom=paddingBottom+'px';
             }
         }
     }

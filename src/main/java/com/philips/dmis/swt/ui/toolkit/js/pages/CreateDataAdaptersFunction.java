@@ -51,6 +51,8 @@ public class CreateDataAdaptersFunction implements JsFunction, IsPageModuleMembe
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("()=>{");
 
+        js.debug("console.log('CreateDataAdaptersFunction','%s');", widget.getId());
+
         if (widget instanceof HasDataSource<?> hasDataSource) {
             // this is the case for widgets that USE a data source
             for (DataSourceUsage dataSourceUsage : DataSourceUsage.values()) {
@@ -85,6 +87,7 @@ public class CreateDataAdaptersFunction implements JsFunction, IsPageModuleMembe
                 dataSourceUsage.name());
         for (DataAdapter dataAdapter : dataAdapters) {
             if (dataAdapter.isDataSourceUsage(dataSourceUsage)) {
+                js.debug("console.log('adding data adapter: %s, %s');", dataAdapter.getId(), dataAdapter.getClass().getSimpleName());
                 js.append("adapters.push({");
                 js.append("id:'%s',", dataAdapter.getId());
                 js.append("type:'%s',", dataAdapter.getClass().getSimpleName());

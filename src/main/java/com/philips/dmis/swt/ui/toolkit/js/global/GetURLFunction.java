@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-public class GetXhrResponseFunction implements JsFunction {
+public class GetURLFunction implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return true;
@@ -29,26 +29,19 @@ public class GetXhrResponseFunction implements JsFunction {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
-        js.append("(requestURL,xhr,args)=>{");
+        js.append("(url)=>{");
 
-        js.append("const response={};");
-        js.append("response.status=xhr.status;");
-        js.append("response.requestURL=requestURL;");
-        js.append("response.responseUrl=xhr.responseURL;");
-        js.append("response.arguments=args;");
-        js.append("response.contentType=%s(xhr.getResponseHeader('content-type'));",
-                JsGlobalModule.getQualifiedId(ParseHttpHeaderFunction.class));
-        js.append("response.data=xhr.response;");
-        js.append("return response;");
+        js.append("if(url==undefined||url==null){return '';};");
+        js.append("const qi=url.indexOf('?');");
+        js.append("if(qi==-1){return url;};");
+        js.append("return url.substring(0,qi);");
 
         js.append("}");
     }
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-        parameters.add(JsParameter.getInstance("requestURL", JsType.STRING));
-        parameters.add(JsParameter.getInstance("xhr", JsType.OBJECT));
-        parameters.add(JsParameter.getInstance("args", JsType.OBJECT));
+        parameters.add(JsParameter.getInstance("url", JsType.STRING));
     }
 
     @Override

@@ -87,8 +87,6 @@ public class HL7Lib extends Code {
                         + "var s='';"
                         + "for(var i=0;i<c.length;i++){" // for
 
-                        + "console.log('author:',c[i]);"
-
                         + "if(i>0){s+=', ';};"
                         + "const xcn=parseXCN(c[i].person);"
                         + "s+=xcn[2].value[1].value;"

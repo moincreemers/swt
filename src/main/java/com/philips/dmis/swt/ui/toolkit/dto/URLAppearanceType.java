@@ -4,5 +4,6 @@ public enum URLAppearanceType {
     TEXT,
     ANCHOR,
     BUTTON,
-    IMAGE
+    IMAGE,
+    XHR_IMAGE
 }

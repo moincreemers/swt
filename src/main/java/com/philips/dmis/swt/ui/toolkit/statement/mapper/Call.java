@@ -25,7 +25,7 @@ public class Call extends MapStatement {
         if (parameters.isEmpty()) {
             throw new JsRenderException("missing parameter");
         }
-        js.append("(obj,");
+        js.append("(%s,%s,%s,", ARGUMENT_SERVICE_RESPONSE, ARGUMENT_TARGET, ARGUMENT_OBJECT);
         int i = 0;
         for (JsParameter parameter : parameters) {
             if (i > 0) {

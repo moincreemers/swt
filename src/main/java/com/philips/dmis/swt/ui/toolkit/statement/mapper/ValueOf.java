@@ -20,7 +20,7 @@ public class ValueOf extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(obj)=>{");
+        js.append("(%s,%s,obj)=>{", ARGUMENT_SERVICE_RESPONSE, ARGUMENT_TARGET);
         js.append("return ");
         value.renderJs(toolkit, widget, js);
         js.append(";");

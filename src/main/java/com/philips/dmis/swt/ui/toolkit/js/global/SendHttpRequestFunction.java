@@ -30,14 +30,15 @@ public class SendHttpRequestFunction implements JsFunction {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
-        js.append("(method,contentType,url,headers,obj,success,failure)=>{"); // function
+        js.append("(method,contentType,responseType,url,headers,obj,success,failure,args)=>{"); // function
 
         js.append("var xhr=new XMLHttpRequest();");
         js.append("xhr.withCredentials=false;");
         js.append("var requestUrl=url;");
+        js.append("xhr.responseType=responseType;");
         js.append("xhr.onreadystatechange=function(){"); // function
         js.append("if(xhr.readyState===XMLHttpRequest.DONE){"); // if
-        js.append("success(%s(requestUrl,xhr));",
+        js.append("success(%s(requestUrl,xhr,args));",
                 // note: this is a common class we use to transfer the response
                 //  we want to prevent xhr to be shared and we need a response that can be serialized
                 JsGlobalModule.getQualifiedId(GetXhrResponseFunction.class));
@@ -123,10 +124,12 @@ public class SendHttpRequestFunction implements JsFunction {
     public void getParameters(List<JsParameter> parameters) {
         parameters.add(JsParameter.getInstance("method", JsType.STRING));
         parameters.add(JsParameter.getInstance("contentType", JsType.STRING));
+        parameters.add(JsParameter.getInstance("responseType", JsType.STRING));
         parameters.add(JsParameter.getInstance("url", JsType.STRING));
         parameters.add(JsParameter.getInstance("obj", JsType.OBJECT));
         parameters.add(JsParameter.getInstance("success", JsType.FUNCTION));
         parameters.add(JsParameter.getInstance("failure", JsType.FUNCTION));
+        parameters.add(JsParameter.getInstance("args", JsType.OBJECT));
     }
 
     @Override

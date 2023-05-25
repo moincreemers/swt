@@ -13,6 +13,7 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     private String url;
     private HttpMethod httpMethod = HttpMethod.POST;
     private ContentType contentType = ContentType.JSON;
+    private ResponseType responseType = ResponseType.DEFAULT;
     private final Map<String, List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
     private final java.util.List<Parameter> parameters = new ArrayList<>();
 
@@ -56,6 +57,16 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     @Override
     public void setContentType(ContentType contentType) {
         this.contentType = contentType;
+    }
+
+    @Override
+    public ResponseType getResponseType() {
+        return responseType;
+    }
+
+    @Override
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
     }
 
     @Override

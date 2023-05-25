@@ -129,6 +129,7 @@ public class JsPagesModule implements JsModule {
         members.add(new Pair<>(ParametersVariable.ID, new ParametersVariable(widget)));
         members.add(new Pair<>(ParentWidgetIdVariable.ID, new ParentWidgetIdVariable(widget)));
         members.add(new Pair<>(PostFunction.ID, new PostFunction(widget)));
+        members.add(new Pair<>(ProcessResourceResponseFunction.ID, new ProcessResourceResponseFunction(widget)));
         members.add(new Pair<>(ProcessResponseFunction.ID, new ProcessResponseFunction(widget)));
         members.add(new Pair<>(PutCacheFunction.ID, new PutCacheFunction(widget)));
         members.add(new Pair<>(RefreshFunction.ID, new RefreshFunction(widget)));
@@ -163,6 +164,7 @@ public class JsPagesModule implements JsModule {
         members.add(new Pair<>(SetValueFunction.ID, new SetValueFunction(widget)));
         members.add(new Pair<>(StartFunction.ID, new StartFunction(widget)));
         members.add(new Pair<>(StopFunction.ID, new StopFunction(widget)));
+        members.add(new Pair<>(SyncVariable.ID, new SyncVariable(widget)));
         members.add(new Pair<>(TextFormatVariable.ID, new TextFormatVariable(widget)));
         members.add(new Pair<>(TimerHandleVariable.ID, new TimerHandleVariable(widget)));
         members.add(new Pair<>(UpdateFunction.ID, new UpdateFunction(widget)));

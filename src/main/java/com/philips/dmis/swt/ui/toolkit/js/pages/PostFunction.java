@@ -57,10 +57,11 @@ public class PostFunction implements JsFunction, IsPageModuleMember {
         js.append("(object)=>{");
 
         UpdateService updateService = (UpdateService) widget;
-        js.append("%s('%s','%s','%s',%s,object,%s,%s);",
+        js.append("%s('%s','%s','%s','%s',%s,object,%s,%s,{});",
                 JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),
                 updateService.getHttpMethod().name(),
                 updateService.getContentType().getEncoding(),
+                updateService.getResponseType().getValue(),
                 updateService.getURL(),
                 JsPagesModule.getId(widget, HttpHeadersVariable.class),
                 JsPagesModule.getId(widget, ProcessResponseFunction.class),

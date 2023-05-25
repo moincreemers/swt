@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.GetSessionValueFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
-import com.philips.dmis.swt.ui.toolkit.widgets.TokenUtil;
+import com.philips.dmis.swt.ui.toolkit.widgets.HttpHeaderUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -26,9 +26,9 @@ public class GetAuthorizationHeaderBearerValue extends ValueStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("('Bearer ' + %s('%s'))",
+        js.append("('Bearer ' + %s('%s',''))",
                 JsGlobalModule.getQualifiedId(GetSessionValueFunction.class),
-                TokenUtil.GLOBAL_ACCESS_TOKEN_KEY);
+                HttpHeaderUtil.GLOBAL_ACCESS_TOKEN_KEY);
     }
 
     @Override

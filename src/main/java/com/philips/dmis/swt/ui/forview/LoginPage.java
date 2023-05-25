@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.forview;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.events.*;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginPage extends AbstractViewerPage {
     public LoginPage() throws Exception {
+        super(Constants.isDemo(LoginPage.class));
     }
 
     @Override
@@ -29,7 +31,7 @@ public class LoginPage extends AbstractViewerPage {
 
         UpdateService refreshSessionService = add(new UpdateService("http://localhost:8080/viewer/services/user/session/refresh.json"));
         refreshSessionService.setHttpMethod(HttpMethod.GET);
-        TokenUtil.setAuthorizationHeader(refreshSessionService);
+        HttpHeaderUtil.setAuthorizationHeader(refreshSessionService);
 
         titleLabel.setIcon("login");
         titleLabel.setText("Sign In");
@@ -41,7 +43,8 @@ public class LoginPage extends AbstractViewerPage {
         userName.setPlaceholder("User name");
         HtmlPasswordInput password = loginFormList.add(new HtmlPasswordInput("j_password"));
         password.setPlaceholder("Password");
-        HtmlButton loginHtmlButton = loginFormList.add(new HtmlButton(ButtonType.PRIMARY, "Login"));
+        HtmlButton loginHtmlButton = loginFormList.add(new HtmlButton(ButtonType.PRIMARY, "Sign In"));
+        loginHtmlButton.setAppearance(WidgetAppearance.FIT_PARENT_WIDTH);
 
         onActivate(new ActivateEventHandler(
                 // note: suspend the session refresh because user is signed out
@@ -83,9 +86,9 @@ public class LoginPage extends AbstractViewerPage {
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
                         M.Log("refresh session ok"),
                         M.SetAccessToken(
-                                V.ObjectMember(V.ParseJSON(V.GetEvent(ResponseEvent.HTTP_RESPONSE_TEXT)), "jwt")),
+                                V.ObjectMember(V.ParseJSON(V.GetEvent(ResponseEvent.HTTP_RESPONSE_DATA)), "jwt")),
                         M.SetGlobalValue("sessionTimeout",
-                                V.ObjectMember(V.ParseJSON(V.GetEvent(ResponseEvent.HTTP_RESPONSE_TEXT)), "sessionTimeout"))
+                                V.ObjectMember(V.ParseJSON(V.GetEvent(ResponseEvent.HTTP_RESPONSE_DATA)), "sessionTimeout"))
                 ).Else(
                         M.Log(V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
                         M.OpenPage(LoginPage.class)

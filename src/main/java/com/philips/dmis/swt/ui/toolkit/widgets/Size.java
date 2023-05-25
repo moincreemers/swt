@@ -3,6 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 public class Size {
     public static final String DEFAULT_WIDTH = "300px";
     public static final String DEFAULT_HEIGHT = "150px";
+    public static final String AUTO = "auto";
 
     public static final String DEFAULT_TABPAGE_WIDTH = "";
     public static final String DEFAULT_TABPAGE_HEIGHT = "300px";

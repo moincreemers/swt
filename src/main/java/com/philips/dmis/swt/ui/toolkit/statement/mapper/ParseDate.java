@@ -17,7 +17,7 @@ public class ParseDate extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(obj,value)=>{");
+        js.append("(%s,%s,obj,value)=>{", ARGUMENT_SERVICE_RESPONSE, ARGUMENT_TARGET);
         js.append("if(value==undefined||value==null||value==''){return null;};");
         js.append("const t=Date.parse(value);");
         js.append("return t==NaN?null:new Date(t);");

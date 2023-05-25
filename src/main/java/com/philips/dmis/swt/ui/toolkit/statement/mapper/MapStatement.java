@@ -15,11 +15,18 @@ import java.util.List;
  * and returns a value of another type.
  */
 public abstract class MapStatement extends Statement {
+    public static final String ARGUMENT_SERVICE_RESPONSE = "serviceResponse";
+    public static final String ARGUMENT_TARGET = "target";
+    public static final String ARGUMENT_OBJECT = "obj";
     public static final String ARGUMENT_VALUE = "value";
 
     public static String valueOf(Toolkit toolkit, MapStatement mapStatement, Widget widget) {
         if (mapStatement == null) {
-            return String.format("(%s)=>{return null;}", ARGUMENT_VALUE);
+            return String.format("(%s,%s,%s,%s)=>{return null;}",
+                    ARGUMENT_SERVICE_RESPONSE,
+                    ARGUMENT_TARGET,
+                    ARGUMENT_OBJECT,
+                    ARGUMENT_VALUE);
         }
         JsWriter js = new JsWriter();
         mapStatement.renderJs(toolkit, widget, js);
@@ -38,6 +45,11 @@ public abstract class MapStatement extends Statement {
     }
 
     public final List<JsParameter> getParameters() {
-        return Arrays.asList(JsParameter.getInstance(ARGUMENT_VALUE, JsType.OBJECT));
+        return Arrays.asList(
+                JsParameter.getInstance(ARGUMENT_SERVICE_RESPONSE, JsType.OBJECT),
+                JsParameter.getInstance(ARGUMENT_TARGET, JsType.STRING),
+                JsParameter.getInstance(ARGUMENT_OBJECT, JsType.OBJECT),
+                JsParameter.getInstance(ARGUMENT_VALUE, JsType.OBJECT)
+        );
     }
 }

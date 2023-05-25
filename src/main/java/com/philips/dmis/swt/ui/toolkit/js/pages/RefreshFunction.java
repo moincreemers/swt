@@ -99,35 +99,24 @@ public class RefreshFunction implements JsFunction, IsPageModuleMember {
             }
         }
 
-        if (widgetType == WidgetType.DATA || widgetType == WidgetType.STATICDATA) {
-            //xhrResponse
+        if (widgetType == WidgetType.DATA
+                || widgetType == WidgetType.STATICDATA
+                || widgetType == WidgetType.CALCULATED
+                || widgetType == WidgetType.DATA_PROXY) {
+            //re-create xhrResponse
+            js.append("var data=%s;", JsPagesModule.getQualifiedId(widget, DataVariable.class));
+            js.append("if(data!=null){");
             js.append("var xhrResponse=%s;", DtoUtil.valueOf(new XhrResponse(
                     200,
-                    "data://" + widget.getId(),
+                    widgetType.getShortName() + "://" + widget.getId(),
                     new ContentType("application/json"),
                     null)));
-            js.append("xhrResponse.responseText=%s;",
-                    JsPagesModule.getQualifiedId(widget, DataVariable.class));
+            js.append("xhrResponse.data=data;");
             js.append("%s(xhrResponse);",
                     JsPagesModule.getId(widget, ProcessResponseFunction.class));
+            js.append("};");
         }
 
-        if (widgetType == WidgetType.DATA_PROXY) {
-            // todo: refresh upstream data source
-        }
-
-        if (widgetType == WidgetType.CALCULATED) {
-            //xhrResponse
-            js.append("var xhrResponse=%s;", DtoUtil.valueOf(new XhrResponse(
-                    200,
-                    "calculated://" + widget.getId(),
-                    new ContentType("application/json"),
-                    null)));
-            js.append("xhrResponse.responseText=%s;",
-                    JsPagesModule.getQualifiedId(widget, DataVariable.class));
-            js.append("%s(xhrResponse);",
-                    JsPagesModule.getId(widget, ProcessResponseFunction.class));
-        }
         if (widget instanceof QueryService queryService) {
             if (queryService.getCacheType() != CacheType.DISABLED
                     && queryService.getHttpMethod() == HttpMethod.GET) {
@@ -162,10 +151,11 @@ public class RefreshFunction implements JsFunction, IsPageModuleMember {
                 js.append("%s=null;", JsPagesModule.getQualifiedId(widget, DataVariable.class));
             }
 
-            js.append("%s('%s','%s','%s',%s,%s,%s,%s);",
+            js.append("%s('%s','%s','%s','%s',%s,%s,%s,%s,{});",
                     JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),
                     queryService.getHttpMethod().name(),
                     queryService.getContentType().getEncoding(),
+                    queryService.getResponseType().getValue(),
                     queryService.getURL(),
                     JsPagesModule.getId(widget, HttpHeadersVariable.class),
                     JsPagesModule.getId(widget, ParametersVariable.class),

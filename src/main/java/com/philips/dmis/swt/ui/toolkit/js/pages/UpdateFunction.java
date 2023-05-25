@@ -110,24 +110,19 @@ public class UpdateFunction implements JsFunction, IsPageModuleMember {
                 case TABLE_FOOTER:
                     js.append("%s(reason,cacheType,object,dataSourceId);", JsPagesModule.getId(widget, UpdateTableFooterFunction.class));
                     break;
-                case TRANSFORM:
-                    // not applicable for most data bound widgets (only for data source widgets)
-                    // exception is DataProxy which is both
-
-                    if (widgetType == WidgetType.DATA_PROXY) {
-                        DataProxy dataProxy = (DataProxy) widget;
-
-                        // notify subscribers
-                        if (dataProxy.isNotifySubscribers()) {
-                            js.append("%s(reason,object);",
-                                    JsPagesModule.getId(widget, UpdateSubscribersFunction.class));
-                        }
-                    }
-                    break;
             }
             js.append("break;");
         }
         js.append("}");
+
+        if (widgetType == WidgetType.DATA_PROXY) {
+            // DataProxy stores what it receives from the data source
+            js.append("%s=JSON.stringify(object);", JsPagesModule.getQualifiedId(widget, DataVariable.class));
+
+            // call refresh on the DataProxy
+            js.debug("console.log('refresh data proxy',object);");
+            js.append("%s(reason);", JsPagesModule.getQualifiedId(widget, RefreshFunction.class));
+        }
 
         EventHandlerRenderer.renderHandlers(widget.getEventHandlers(), toolkit, widget, js, UpdateEventHandler.NAME, new UpdateEvent());
 

@@ -3,6 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.js.pages;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.AppendOptionFunction;
+import com.philips.dmis.swt.ui.toolkit.js.global.ContainsOptionFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasOptions;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
@@ -58,15 +59,16 @@ public class UpdateOptionsFunction implements JsFunction, IsPageModuleMember {
         js.append("(reason,cacheType,object,dataSourceId)=>{");
 
         js.debug("console.log('UpdateOptionsFunction',reason,cacheType,object,dataSourceId);");
+        js.append("const elem=%s();", JsPagesModule.getId(widget, GetElementFunction.class));
 
         if (widgetType == WidgetType.MULTIPLE_CHOICE) {
-            js.append("const elem=%s();", JsPagesModule.getId(widget, GetElementFunction.class));
             js.append("var val=elem.getAttribute('value');");
             js.append("if(val==null||val==undefined){val='';};");
             js.append("const selectedValues=val.split(',');");
             js.append("%s(dataSourceId);", JsPagesModule.getId(widget, RemoveOptionsFunction.class));
             js.append("for(const i in object){");
             js.append("var item=document.createElement('li');");
+            js.append("elem.append(item);");
             js.append("var cb=document.createElement('input');");
             js.append("var lbl=document.createElement('label');");
             js.append("item.setAttribute('tk-source',dataSourceId);");
@@ -89,15 +91,14 @@ public class UpdateOptionsFunction implements JsFunction, IsPageModuleMember {
             js.append("lbl.textContent=object[i].value;");
             js.append("item.append(cb);");
             js.append("item.append(lbl);");
-            js.append("%s().append(item);", JsPagesModule.getId(widget, GetElementFunction.class));
             js.append("};");
         } else if (widgetType == WidgetType.SINGLE_CHOICE) {
-            js.append("const elem=%s();", JsPagesModule.getId(widget, GetElementFunction.class));
             js.append("var selectedValue=elem.getAttribute('value');");
             js.append("if(selectedValue==null||selectedValue==undefined){selectedValue='';};");
             js.append("%s(dataSourceId);", JsPagesModule.getId(widget, RemoveOptionsFunction.class));
             js.append("for(const i in object){");
             js.append("var item=document.createElement('li');");
+            js.append("elem.append(item);");
             js.append("var rb=document.createElement('input');");
             js.append("var lbl=document.createElement('label');");
             js.append("item.setAttribute('tk-source',dataSourceId);");
@@ -121,21 +122,26 @@ public class UpdateOptionsFunction implements JsFunction, IsPageModuleMember {
             js.append("lbl.textContent=object[i].value;");
             js.append("item.append(rb);");
             js.append("item.append(lbl);");
-            js.append("%s().append(item);", JsPagesModule.getId(widget, GetElementFunction.class));
             js.append("};");
         } else {
             js.append("%s(dataSourceId);", JsPagesModule.getId(widget, RemoveOptionsFunction.class));
             js.append("for(const i in object){");
-            js.append("%s(%s(),object[i].key,object[i].value,dataSourceId);",
-                    JsGlobalModule.getQualifiedId(AppendOptionFunction.class),
-                    JsPagesModule.getId(widget, GetElementFunction.class));
+            js.append("%s(elem,object[i].key,object[i].value,dataSourceId);",
+                    JsGlobalModule.getQualifiedId(AppendOptionFunction.class));
             js.append("};");
         }
 
-        js.append("const previouslySelectedValue=%s().getAttribute('tk-value');",
-                JsPagesModule.getId(widget, GetElementFunction.class));
+        js.append("const previouslySelectedValue=elem.getAttribute('tk-value');");
         js.append("if(previouslySelectedValue!=null){");
-        js.append("%s(previouslySelectedValue);", JsPagesModule.getId(widget, SetValueFunction.class));
+        if (widgetType == WidgetType.SELECT) {
+            js.append("if(elem.hasAttribute('tk-value')){");
+            js.append("if(%s(elem,previouslySelectedValue)){", JsGlobalModule.getQualifiedId(ContainsOptionFunction.class));
+            js.append("%s(previouslySelectedValue);", JsPagesModule.getId(widget, SetValueFunction.class));
+            js.append("};");
+            js.append("};");
+        } else {
+            js.append("%s(previouslySelectedValue);", JsPagesModule.getId(widget, SetValueFunction.class));
+        }
         js.append("};");
 
         js.append("}"); // end function

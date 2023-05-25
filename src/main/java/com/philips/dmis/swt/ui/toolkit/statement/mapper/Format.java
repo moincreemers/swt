@@ -22,7 +22,7 @@ public class Format extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(_obj)=>{");
+        js.append("(%s,%s,_obj)=>{", ARGUMENT_SERVICE_RESPONSE, ARGUMENT_TARGET);
 
         js.append("if(_obj==undefined||_obj==null){return '';};");
 

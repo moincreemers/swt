@@ -1,22 +1,25 @@
 package com.philips.dmis.swt.ui.toolkit.dto;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class XhrResponse implements Serializable {
     private int status;
     private String url;
     private ContentType contentType = new ContentType();
-    private String responseText;
+    private Object data;
+    private Map<String, String> arguments = new LinkedHashMap<>();
 
-    public XhrResponse(){
+    public XhrResponse() {
         // for serializable
     }
 
-    public XhrResponse(int status, String url, ContentType contentType, String responseText) {
+    public XhrResponse(int status, String url, ContentType contentType, String data) {
         this.status = status;
         this.url = url;
         this.contentType = contentType;
-        this.responseText = responseText;
+        this.data = data;
     }
 
     public int getStatus() {
@@ -43,11 +46,19 @@ public class XhrResponse implements Serializable {
         this.contentType = contentType;
     }
 
-    public String getResponseText() {
-        return responseText;
+    public Object getData() {
+        return data;
     }
 
-    public void setResponseText(String responseText) {
-        this.responseText = responseText;
+    public void setData(Object data) {
+        this.data = data;
+    }
+
+    public Map<String, String> getArguments() {
+        return arguments;
+    }
+
+    public void setArgument(String name, String value) {
+        arguments.put(name, value);
     }
 }

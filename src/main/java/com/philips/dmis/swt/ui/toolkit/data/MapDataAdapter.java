@@ -81,6 +81,8 @@ public class MapDataAdapter extends DataAdapter {
             js.append("var fn=%s;", MapStatement.valueOf(toolkit, mappedField.mapStatement, widget));
             js.append("try{");
             js.append("item['%s']=fn(", mappedField.targetField);
+            js.append("serviceResponse,");
+            js.append("'%s',", mappedField.targetField);
             js.append("{");
             int i = 0;
             for (String sourceField : mappedField.sourceFields) {
@@ -92,8 +94,7 @@ public class MapDataAdapter extends DataAdapter {
             }
             js.append("}");
             for (String sourceField : mappedField.sourceFields) {
-                js.append(",");
-                js.append("item['%s']", sourceField);
+                js.append(",item['%s']", sourceField);
             }
             js.append(");");
             js.append("}catch(e){");

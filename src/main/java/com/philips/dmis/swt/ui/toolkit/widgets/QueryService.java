@@ -23,6 +23,7 @@ public class QueryService extends DataSourceWidget implements HasURL {
     private String url;
     private HttpMethod httpMethod = HttpMethod.GET;
     private ContentType contentType = ContentType.NONE;
+    private ResponseType responseType = ResponseType.DEFAULT;
     private final Map<String, java.util.List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
     private final java.util.List<Parameter> parameters = new ArrayList<>();
 
@@ -76,7 +77,7 @@ public class QueryService extends DataSourceWidget implements HasURL {
         if (url == null || url.isEmpty()) {
             throw new IllegalArgumentException("invalid URL");
         }
-        if(url.contains("?")||url.contains("#")){
+        if (url.contains("?") || url.contains("#")) {
             throw new IllegalArgumentException("URL contains query or hash");
         }
         this.url = url;
@@ -100,6 +101,16 @@ public class QueryService extends DataSourceWidget implements HasURL {
     @Override
     public void setContentType(ContentType contentType) {
         this.contentType = contentType;
+    }
+
+    @Override
+    public ResponseType getResponseType() {
+        return responseType;
+    }
+
+    @Override
+    public void setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
     }
 
     @Override

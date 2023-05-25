@@ -46,20 +46,55 @@ public class FormatURLFunction implements JsFunction, IsPageModuleMember {
 
         js.append("switch(urlFormat.appearance){");
         js.append("case '%s':", URLAppearanceType.ANCHOR);
-        js.append("element.innerHTML='<a href=\\''+value+'\\' target=\\''+target+'\\'>'+text+'</a>';");
+        js.append("element.textContent='';");
+        js.append("var a=document.createElement('a');");
+        js.append("a.setAttribute('href',value);");
+        js.append("a.setAttribute('target',target);");
+        js.append("a.textContent=text;");
+        js.append("element.append(a);");
         js.append("break;");
+
         js.append("case '%s':", URLAppearanceType.BUTTON);
-        js.append("element.innerHTML='<a href=\\''+value+'\\' target=\\''+target+'\\'><button class=\\'button\\' tabindex=\\'-1\\'>'+text+'</button></a>';");
+        js.append("element.textContent='';");
+        js.append("var a=document.createElement('a');");
+        js.append("a.setAttribute('href',value);");
+        js.append("a.setAttribute('target',target);");
+        js.append("element.append(a);");
+        js.append("var b=document.createElement('button');");
+        js.append("b.classList.add('button');");
+        js.append("b.setAttribute('tabindex',-1);");
+        js.append("b.textContent=text;");
+        js.append("a.append(b);");
         js.append("break;");
+
         js.append("case '%s':", URLAppearanceType.IMAGE);
-        js.append("var style=[];");
-        js.append("if(urlFormat.imageWidth!=null){style.push('width:'+urlFormat.imageWidth);};");
-        js.append("if(urlFormat.imageHeight!=null){style.push('height:'+urlFormat.imageHeight);};");
-        js.append("if(urlFormat.imageMaxWidth!=null){style.push('max-width:'+urlFormat.imageMaxWidth);};");
-        js.append("if(urlFormat.imageMaxHeight!=null){style.push('max-height:'+urlFormat.imageMaxHeight);};");
-        js.append("if(urlFormat.imageBorderRadius!=null){style.push('border-radius:'+urlFormat.imageBorderRadius);};");
-        js.append("element.innerHTML='<img src=\\''+value+'\\' alt=\\''+value+'\\' style=\\''+style.join(';')+'\\'>';");
+        js.append("element.textContent='';");
+        js.append("var img=new Image();");
+        js.append("img.src=value;");
+        js.append("img.alt=value;");
+        js.append("if(urlFormat.imageWidth!=null){img.style.width=urlFormat.imageWidth};");
+        js.append("if(urlFormat.imageHeight!=null){img.style.height=urlFormat.imageHeight};");
+        js.append("if(urlFormat.imageMaxWidth!=null){img.style.maxWidth=urlFormat.imageMaxWidth};");
+        js.append("if(urlFormat.imageMaxHeight!=null){img.style.maxHeight=urlFormat.imageMaxHeight};");
+        js.append("if(urlFormat.imageBorderRadius!=null){img.style.borderRadius=urlFormat.imageBorderRadius};");
+        js.append("element.append(img);");
         js.append("break;");
+
+        js.append("case '%s':", URLAppearanceType.XHR_IMAGE);
+        js.append("element.textContent='';");
+        js.append("var img=new Image();");
+        js.append("img.id=value;");
+        js.append("img.alt=value;");
+        js.append("if(urlFormat.imageWidth!=null){img.style.width=urlFormat.imageWidth};");
+        js.append("if(urlFormat.imageHeight!=null){img.style.height=urlFormat.imageHeight};");
+        js.append("if(urlFormat.imageMaxWidth!=null){img.style.maxWidth=urlFormat.imageMaxWidth};");
+        js.append("if(urlFormat.imageMaxHeight!=null){img.style.maxHeight=urlFormat.imageMaxHeight};");
+        js.append("if(urlFormat.imageBorderRadius!=null){img.style.borderRadius=urlFormat.imageBorderRadius};");
+        js.append("img.style.visibility='hidden';");
+        js.append("element.append(img);");
+        //js.info("console.log('created img',value);");
+        js.append("break;");
+
         js.append("default:");
         js.append("element.textContent=value;");
         js.append("break;");

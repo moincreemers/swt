@@ -55,22 +55,22 @@ public class GetFunction implements JsFunction, IsPageModuleMember {
         js.append("()=>{");
 
         js.debug("console.log('GetFunction');");
+        js.append("const elem=%s();", JsPagesModule.getId(widget, GetElementFunction.class));
 
         if (widget instanceof HasValue) {
             if (widgetType == WidgetType.CHECK) {
-                js.append("return %s().checked.toString();", JsPagesModule.getId(widget, GetElementFunction.class));
+                js.append("return elem.checked.toString();");
             } else if (widgetType.isOneOf(WidgetType.MULTIPLE_CHOICE,
                     WidgetType.SINGLE_CHOICE)) {
-                js.append("return %s().getAttribute('value');", JsPagesModule.getQualifiedId(widget, GetElementFunction.class));
+                js.append("return elem.getAttribute('value');");
             } else if (widgetType == WidgetType.FILE) {
-                js.append("return %s().files;", JsPagesModule.getQualifiedId(widget, GetElementFunction.class));
+                js.append("return elem.files;");
             } else if (widgetType == WidgetType.FRAME || widgetType == WidgetType.IMAGE_BUTTON) {
-                js.append("return %s().getAttribute('src');", JsPagesModule.getId(widget, GetElementFunction.class));
+                js.append("return elem.getAttribute('src');");
             } else if (widgetType == WidgetType.DATA) {
-                js.append("return %s;",
-                        JsPagesModule.getQualifiedId(widget, DataVariable.class));
+                js.append("return %s;", JsPagesModule.getQualifiedId(widget, DataVariable.class));
             } else {
-                js.append("return %s().value;", JsPagesModule.getId(widget, GetElementFunction.class));
+                js.append("return elem.value;");
             }
         } else if (widget instanceof DataSourceSupplier) {
             js.append("return %s;",

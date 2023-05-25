@@ -60,6 +60,7 @@ public abstract class AbstractViewerPage extends Page {
         errorPanel.setVisible(false);
         errorMessage = errorPanel.add(new HtmlLabel(icons, "error", ""));
         warningMessagesList = add(new HtmlList(ListType.PILLS_WARNING));
+        warningMessagesList.setVisible(false);
 
         titleLabel.setIconsWidget(icons);
         patientSearchHtmlLink.onClick(new ClickEventHandler(
@@ -75,7 +76,7 @@ public abstract class AbstractViewerPage extends Page {
         userService = add(new QueryService(
                 "http://localhost:8080/viewer/services/user/details/retrieve.json",
                 false, false));
-        TokenUtil.setAuthorizationHeader(userService);
+        HttpHeaderUtil.setAuthorizationHeader(userService);
         userService.addDataAdapter(new ImportObjectDataAdapter(".user")
                 .add(FieldMapping.map(".id", "id", DataType.STRING))
                 .add(FieldMapping.map(".displayName", "displayName", DataType.STRING))

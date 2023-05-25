@@ -17,7 +17,7 @@ public class ReplaceWithFieldIfEmpty extends MapStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(obj,value,alternateValue)=>{");
+        js.append("(%s,%s,obj,value,alternateValue)=>{", ARGUMENT_SERVICE_RESPONSE, ARGUMENT_TARGET);
 
         js.append("if(value==undefined||value==null||value==''){");
         js.append("return alternateValue;");
