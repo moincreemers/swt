@@ -119,7 +119,7 @@ public class SetOrderFunction implements JsFunction, IsPageModuleMember {
 
         js.append("if(orderingChanged){"); //if
         js.append("%s=newOrdering;", JsPagesModule.getId(widget, OrderingVariable.class));
-        js.info("console.log('SetOrderFunction',%s);", JsPagesModule.getId(widget, OrderingVariable.class));
+        js.debug("console.log('SetOrderFunction',%s);", JsPagesModule.getId(widget, OrderingVariable.class));
         // todo: add event data
         js.append("%s();",
                 EventHandlerFunction.OnOrderChangeEventHandlerFunction.ID);

@@ -60,8 +60,10 @@ public class GetFunction implements JsFunction, IsPageModuleMember {
         if (widget instanceof HasValue) {
             if (widgetType == WidgetType.CHECK) {
                 js.append("return elem.checked.toString();");
-            } else if (widgetType.isOneOf(WidgetType.MULTIPLE_CHOICE,
-                    WidgetType.SINGLE_CHOICE)) {
+            } else if (widgetType==WidgetType.MULTIPLE_CHOICE) {
+                js.append("var selectedValues=elem.getAttribute('value');");
+                js.append("return selectedValues==null||selectedValues==''?[]:selectedValues.split(',');");
+            } else if(widgetType == WidgetType.SINGLE_CHOICE) {
                 js.append("return elem.getAttribute('value');");
             } else if (widgetType == WidgetType.FILE) {
                 js.append("return elem.files;");

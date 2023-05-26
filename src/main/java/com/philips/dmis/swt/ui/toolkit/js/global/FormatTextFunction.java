@@ -37,14 +37,16 @@ public class FormatTextFunction implements JsFunction, IsPageModuleMember {
         js.debug("console.log('FormatTextFunction',value);");
 
         js.append("if(value==undefined||value==null||value==''){");
-        js.append("return;");
+        js.append("return element;");
         js.append("};");
 
         js.append("element.textContent=value;");
 
         js.append("if(textFormat==undefined||textFormat==null){");
-        js.append("return;");
+        js.append("return element;");
         js.append("};");
+
+        js.append("var newElement=element;");
 
         js.append("if(textFormat.cellMaxWidth!=null){");
         js.append("element.style.maxWidth=textFormat.cellMaxWidth;");
@@ -97,6 +99,8 @@ public class FormatTextFunction implements JsFunction, IsPageModuleMember {
         js.append("element.classList.add('tk-align-right');");
         js.append("break;");
         js.append("};");
+
+        js.append("return newElement;");
 
         js.append("}");
     }

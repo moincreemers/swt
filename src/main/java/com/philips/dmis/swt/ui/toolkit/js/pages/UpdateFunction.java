@@ -5,7 +5,10 @@ import com.philips.dmis.swt.ui.toolkit.events.EventHandlerRenderer;
 import com.philips.dmis.swt.ui.toolkit.events.UpdateEvent;
 import com.philips.dmis.swt.ui.toolkit.events.UpdateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.widgets.*;
+import com.philips.dmis.swt.ui.toolkit.widgets.DataBoundWidget;
+import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
+import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
+import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
@@ -65,12 +68,28 @@ public class UpdateFunction implements JsFunction, IsPageModuleMember {
 
         js.debug("console.log('update %s',reason,cacheType,dataSourceUsage,object,dataSourceId);", widget.getId());
 
+        if (widgetType == WidgetType.DATA_PROXY) {
+            // DataProxy stores what it receives from the data source
+            js.append("%s=JSON.stringify(object);",
+                    JsPagesModule.getQualifiedId(widget, DataVariable.class));
+
+            // call refresh on the DataProxy
+            //  note: its important the reason is set to "datasource" otherwise the update will not run any data
+            //  adapters on the data bound widget
+            js.debug("console.log('updated data proxy',object);");
+            js.append("%s('%s');",
+                    JsPagesModule.getQualifiedId(widget, RefreshFunction.class),
+                    JsPagesModule.REASON_DATA_SOURCE);
+            js.append("return;");
+        }
+
         // in case the reason for the update is that the data source was refreshed
         // then we need to call the data adapters to transform that data first.
         // in the case it is a 'user' initiated update, we need to update the widget directly.
-        js.append("if(reason=='%s'){", JsPagesModule.REASON_DATA_SOURCE);
+        js.append("if(reason=='%s'){", JsPagesModule.REASON_DATA_SOURCE); // if
         // execute only the adapters for the given data source usage
-        js.append("var adapters=Object.assign([],%s[dataSourceUsage]);", JsPagesModule.getId(widget, DataAdaptersVariable.class));
+        js.append("var adapters=Object.assign([],%s[dataSourceUsage]);",
+                JsPagesModule.getId(widget, DataAdaptersVariable.class));
         js.debug("console.log('%s','adapters',adapters);", widget.getId());
 
         // NOTE: This is where the adapters on WIDGETS are called in sequence
@@ -115,16 +134,8 @@ public class UpdateFunction implements JsFunction, IsPageModuleMember {
         }
         js.append("}");
 
-        if (widgetType == WidgetType.DATA_PROXY) {
-            // DataProxy stores what it receives from the data source
-            js.append("%s=JSON.stringify(object);", JsPagesModule.getQualifiedId(widget, DataVariable.class));
-
-            // call refresh on the DataProxy
-            js.debug("console.log('refresh data proxy',object);");
-            js.append("%s(reason);", JsPagesModule.getQualifiedId(widget, RefreshFunction.class));
-        }
-
-        EventHandlerRenderer.renderHandlers(widget.getEventHandlers(), toolkit, widget, js, UpdateEventHandler.NAME, new UpdateEvent());
+        EventHandlerRenderer.renderHandlers(widget.getEventHandlers(), toolkit, widget, js,
+                UpdateEventHandler.NAME, new UpdateEvent());
 
         js.append("}"); // end function
     }

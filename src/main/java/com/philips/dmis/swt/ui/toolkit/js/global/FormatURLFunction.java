@@ -36,13 +36,15 @@ public class FormatURLFunction implements JsFunction, IsPageModuleMember {
 
         js.append("if(value==undefined||urlFormat==undefined||value==null||value==''){");
         js.append("element.textContent=value;");
-        js.append("return;");
+        js.append("return element;");
         js.append("};");
 
         js.append("var text=urlFormat.text;");
         js.append("if(text==undefined||text==null||text.length==0){text=value;};");
         js.append("var target=urlFormat.target;");
         js.append("if(target==undefined||target==null||target.length==0){target='_blank';};");
+
+        js.append("var newElement=element;");
 
         js.append("switch(urlFormat.appearance){");
         js.append("case '%s':", URLAppearanceType.ANCHOR);
@@ -52,6 +54,7 @@ public class FormatURLFunction implements JsFunction, IsPageModuleMember {
         js.append("a.setAttribute('target',target);");
         js.append("a.textContent=text;");
         js.append("element.append(a);");
+        js.append("newElement=a;");
         js.append("break;");
 
         js.append("case '%s':", URLAppearanceType.BUTTON);
@@ -65,6 +68,7 @@ public class FormatURLFunction implements JsFunction, IsPageModuleMember {
         js.append("b.setAttribute('tabindex',-1);");
         js.append("b.textContent=text;");
         js.append("a.append(b);");
+        js.append("newElement=a");
         js.append("break;");
 
         js.append("case '%s':", URLAppearanceType.IMAGE);
@@ -78,6 +82,7 @@ public class FormatURLFunction implements JsFunction, IsPageModuleMember {
         js.append("if(urlFormat.imageMaxHeight!=null){img.style.maxHeight=urlFormat.imageMaxHeight};");
         js.append("if(urlFormat.imageBorderRadius!=null){img.style.borderRadius=urlFormat.imageBorderRadius};");
         js.append("element.append(img);");
+        js.append("newElement=img;");
         js.append("break;");
 
         js.append("case '%s':", URLAppearanceType.XHR_IMAGE);
@@ -92,13 +97,15 @@ public class FormatURLFunction implements JsFunction, IsPageModuleMember {
         js.append("if(urlFormat.imageBorderRadius!=null){img.style.borderRadius=urlFormat.imageBorderRadius};");
         js.append("img.style.visibility='hidden';");
         js.append("element.append(img);");
-        //js.info("console.log('created img',value);");
+        js.append("newElement=img;");
         js.append("break;");
 
         js.append("default:");
         js.append("element.textContent=value;");
         js.append("break;");
         js.append("};");
+
+        js.append("return newElement;");
 
         js.append("}");
     }

@@ -78,6 +78,10 @@ public final class P {
         return new InPredicate(valueStatements);
     }
 
+    public static PredicateStatement InArray(ValueStatement valueStatement) {
+        return new InArrayPredicate(valueStatement);
+    }
+
     public static PredicateStatement IsType(String type) {
         return new IsTypePredicate(type);
     }

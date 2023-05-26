@@ -1,17 +1,25 @@
 package com.philips.dmis.swt.ui.toolkit.data;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
+import com.philips.dmis.swt.ui.toolkit.dto.TransformationMetadata;
+import com.philips.dmis.swt.ui.toolkit.dto.View;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.js.global.CopyViewFieldFunction;
+import com.philips.dmis.swt.ui.toolkit.js.global.CreateViewFunction;
+import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
+import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 /**
- * A data adapter that takes an array containing objects and transforms
- * it into a list of key-value pairs.
+ * A data adapter that transforms the data set into a list of key-value pairs.
  */
 public class KeyValueListDataAdapter extends DataAdapter {
     public static final String DEFAULT_KEY_FIELD = "key";
+    public static final String DEFAULT_KEY_FIELD_NAME = "Key";
     public static final String DEFAULT_VALUE_FIELD = "value";
+    public static final String DEFAULT_VALUE_FIELD_NAME = "Value";
 
     private final String keyField;
     private final String valueField;
@@ -66,15 +74,27 @@ public class KeyValueListDataAdapter extends DataAdapter {
     }
 
     public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage == DataSourceUsage.OPTIONS;
+        return dataSourceUsage == DataSourceUsage.OPTIONS
+                || dataSourceUsage == DataSourceUsage.LIST_ITEMS;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("(serviceResponse)=>{");
 
-        js.append("let data=serviceResponse%s;", getPath());
-        js.append("const o=[];");
+        // re-create data structure
+        js.append("const output=structuredClone(serviceResponse);");
+        js.append("var m=output%s;", getPath());
+        js.append("m.length=0;");
+
+        js.append("const data=serviceResponse%s;", getPath());
+
+        String rootViewId = View.getRootViewId(getId());
+        js.append("const viewTop=%s(output,'%s','%s',false,false);",
+                JsGlobalModule.getQualifiedId(CreateViewFunction.class),
+                rootViewId,
+                getClass().getSimpleName());
+
         js.append("const keys=[];");
         if (keyField.isEmpty() && valueField.isEmpty()) {
             js.append("for(const i in data){");
@@ -82,21 +102,33 @@ public class KeyValueListDataAdapter extends DataAdapter {
                 js.append("if(keys.includes(data[i])){continue;};");
             }
             js.append("keys.push(data[i]);");
-            js.append("o[i]={key:data[i],value:data[i]};");
+            js.append("m.push({key:data[i],value:data[i]});");
             js.append("};");
         } else {
+            js.append("%s(output,viewTop,'%s','%s','%s');",
+                    JsGlobalModule.getQualifiedId(CopyViewFieldFunction.class),
+                    keyField,
+                    DEFAULT_KEY_FIELD_NAME,
+                    DEFAULT_KEY_FIELD
+            );
+            js.append("%s(output,viewTop,'%s','%s','%s');",
+                    JsGlobalModule.getQualifiedId(CopyViewFieldFunction.class),
+                    valueField,
+                    DEFAULT_VALUE_FIELD_NAME,
+                    DEFAULT_VALUE_FIELD
+            );
             js.append("for(const i in data){");
             if (distinct) {
                 js.append("if(keys.includes(data[i]['%s'])){continue;};", keyField);
             }
             js.append("keys.push(data[i]['%s']);", keyField);
-            js.append("o[i]={key:data[i]['%s'],value:data[i]['%s']};", keyField, valueField);
+            js.append("m.push({key:data[i]['%s'],value:data[i]['%s']});", keyField, valueField);
             js.append("};");
 
         }
         switch (sort) {
             case BY_KEY:
-                js.append("o.sort((a, b)=>{");
+                js.append("m.sort((a, b)=>{");
                 js.append("const a0=Number.isNaN(a)?a.key.toString().toUpperCase():a;");
                 js.append("const b0=Number.isNaN(b)?b.key.toString().toUpperCase():b;");
                 js.append("if(a0<b0){");
@@ -108,7 +140,7 @@ public class KeyValueListDataAdapter extends DataAdapter {
                 js.append(");");
                 break;
             case BY_VALUE:
-                js.append("o.sort((a, b)=>{");
+                js.append("m.sort((a, b)=>{");
                 js.append("const a0=Number.isNaN(a)?a.key.toString().toUpperCase():a;");
                 js.append("const b0=Number.isNaN(b)?b.key.toString().toUpperCase():b;");
                 js.append("if(a0<b0){return -1;}");
@@ -118,7 +150,19 @@ public class KeyValueListDataAdapter extends DataAdapter {
                 js.append(");");
                 break;
         }
-        js.append("return o;");
+
+        js.append("output.meta['%s']='%s';",
+                ServiceResponse.META_SELECTED_VIEW_ID, rootViewId);
+
+        js.append("output.meta['%s']=Object.assign([],output.meta['%s']);",
+                ServiceResponse.META_TRANSFORMATIONS, ServiceResponse.META_TRANSFORMATIONS);
+        js.append("output.meta['%s'].push(%s);",
+                ServiceResponse.META_TRANSFORMATIONS,
+                DtoUtil.valueOf(new TransformationMetadata(getId(), getClass().getSimpleName())));
+
+        js.debug("console.log('KeyValueListDataAdapter,after',output);");
+
+        js.append("return output;");
 
         js.append("}"); // end function
     }

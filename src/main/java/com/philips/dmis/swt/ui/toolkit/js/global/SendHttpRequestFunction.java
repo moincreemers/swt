@@ -75,7 +75,7 @@ public class SendHttpRequestFunction implements JsFunction {
 
         js.append("case '%s':", ContentType.FORM_URLENCODED.getEncoding());
         js.append("var params=%s(obj);", JsGlobalModule.getQualifiedId(ToQueryStringFunction.class));
-        js.info("console.log('params',params);");
+        js.debug("console.log('params',params);");
         js.append("xhr.send(params);");
         js.append("break;");
 

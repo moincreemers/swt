@@ -35,10 +35,11 @@ public class FormatNumberFunction implements JsFunction, IsPageModuleMember {
 
         js.append("if(value==undefined||numberFormat==undefined||value==null||value==''){");
         js.append("element.textContent=value;");
-        js.append("return;");
+        js.append("return element;");
         js.append("};");
 
         js.append("element.textContent=new Intl.NumberFormat([],numberFormat).format(value);");
+        js.append("return element;");
 
         js.append("}");
     }

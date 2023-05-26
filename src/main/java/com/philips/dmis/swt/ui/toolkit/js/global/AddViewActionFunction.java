@@ -37,7 +37,7 @@ public class AddViewActionFunction implements JsFunction, IsPageModuleMember {
         js.append("(viewTop,viewField,name)=>{");
 
         // create view id
-        js.info("console.log('AddViewActionFunction',viewTop,viewField,name);");
+        js.debug("console.log('AddViewActionFunction',viewTop,viewField,name);");
         js.append("var id=null;");
         js.append("var i=viewTop.items.length;");
         js.append("id='v'+i+'.'+viewTop.id;");

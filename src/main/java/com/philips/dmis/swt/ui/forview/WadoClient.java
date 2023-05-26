@@ -148,35 +148,63 @@ public class WadoClient extends AbstractViewerPage {
         // create a view for the table
         DtoViewDataAdapter dtoViewDataAdapter = new DtoViewDataAdapter(Series.class);
         dtoViewDataAdapter.applyToAllFields(ViewAppearance.HIDDEN);
-        //dtoViewDataAdapter.setAppearance("seriesTitle", ViewAppearance.DEFAULT);
+
         dtoViewDataAdapter.setAppearance("thumbnailUrl", ViewAppearance.DEFAULT);
         dtoViewDataAdapter.setFormat("thumbnailUrl",
-                new URLFormat().setAppearance(URLAppearanceType.IMAGE).setImageWidth("128px"));
+                new URLFormat().setAppearance(URLAppearanceType.IMAGE).setImageWidth("128px").setImageHeight("128px"));
+
+        dtoViewDataAdapter.setAppearance("imageUrl", ViewAppearance.DEFAULT);
+        dtoViewDataAdapter.setFormat("imageUrl",
+                new URLFormat().setAppearance(URLAppearanceType.IMAGE));
+
         studyService.addDataAdapter(dtoViewDataAdapter);
 
         Panel toolbarRight = add(new Panel(PanelType.TOOLBAR));
         HtmlLabel seriesSelectLabel = toolbarRight.add(new HtmlLabel("Series:"));
         HtmlSelect seriesSelect = toolbarRight.add(new HtmlSelect());
         seriesSelectLabel.setFor(seriesSelect);
-        seriesSelect.addDataSource(studyService, new KeyValueListDataAdapter("seriesUID", "seriesTitle"));
+        seriesSelect.addDataSource(studyService,
+                new KeyValueListDataAdapter("seriesUID", "seriesTitle"));
         HtmlButton layoutOneButton = toolbarRight.add(new HtmlButton(icons, "crop_square", "One"));
         HtmlButton layoutGridButton = toolbarRight.add(new HtmlButton(icons, "grid_view", "Grid"));
 
-        DataProxy dataProxy = add(new DataProxy());
-        dataProxy.addDataSource(studyService);
+        DataProxy instanceThumbnailDataProxy = add(new DataProxy());
+        instanceThumbnailDataProxy.addDataSource(studyService,
+                new FilterDataAdapter().addPredicate("seriesUID", P.IsEqual(V.GetValue(seriesSelect)))
+        );
         seriesSelect.onChange(new ChangeEventHandler(
-                M.Refresh(dataProxy)
+                M.Refresh(instanceThumbnailDataProxy)
         ));
 
+
         Panel navLeft = add(new Panel(PanelType.NAV_LEFT));
-        navLeft.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("150px", Size.AUTO));
+        navLeft.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("160px", Size.AUTO));
         Panel toolbarLeft = navLeft.add(new Panel(PanelType.TOOLBAR));
-        toolbarLeft.add(new HtmlLabel(icons, "photo_library"));
-        HtmlList instancesList = navLeft.add(new HtmlList(ListType.VERTICAL));
-        instancesList.addDataSource(dataProxy,
-                new FilterDataAdapter().addPredicate("seriesUID", P.IsEqual(V.GetValue(seriesSelect))),
+        HtmlLabel instancesLabel = toolbarLeft.add(new HtmlLabel(icons, "photo_library"));
+//        instancesLabel.addDataSource(instancesDataProxy,
+//                new PathDataAdapter());
+        MultipleChoice instanceThumbnailList = navLeft.add(new MultipleChoice());
+        instanceThumbnailList.addDataSource(instanceThumbnailDataProxy,
                 new MapDataAdapter().map("thumbnailUrl",
-                        HttpHeaderUtil.setNoCache(HttpHeaderUtil.setAuthorizationHeader(C.Download())))
+                        HttpHeaderUtil.setNoCache(HttpHeaderUtil.setAuthorizationHeader(C.Download()))),
+                new KeyValueListDataAdapter("objectUID", "thumbnailUrl")
+        );
+
+        DataProxy instancesDataProxy = add(new DataProxy());
+        instancesDataProxy.addDataSource(studyService,
+                new FilterDataAdapter().addPredicate("objectUID", P.InArray(V.GetValue(instanceThumbnailList)))
+        );
+
+        instanceThumbnailList.onChange(new ChangeEventHandler(
+                M.Log(V.GetValue(instanceThumbnailList)),
+                M.Refresh(instancesDataProxy)
+        ));
+
+        HtmlList instanceList = add(new HtmlList(ListType.HORIZONTAL));
+        instanceList.addDataSource(instancesDataProxy,
+                new MapDataAdapter().map("imageUrl",
+                        HttpHeaderUtil.setNoCache(HttpHeaderUtil.setAuthorizationHeader(C.Download()))),
+                new KeyValueListDataAdapter("objectUID", "imageUrl")
         );
 
         onActivate(new ActivateEventHandler(

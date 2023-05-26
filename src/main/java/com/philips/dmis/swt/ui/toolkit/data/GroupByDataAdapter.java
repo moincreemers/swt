@@ -209,7 +209,7 @@ public class GroupByDataAdapter extends DataAdapter {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("(serviceResponse)=>{");
 
-        js.info("console.log('GroupByDataAdapter before',serviceResponse);");
+        js.debug("console.log('GroupByDataAdapter before',serviceResponse);");
 
         // re-create data structure
         js.append("const output=structuredClone(serviceResponse);");
@@ -249,7 +249,7 @@ public class GroupByDataAdapter extends DataAdapter {
             break;
         }
 
-        js.info("console.log('groupByFields',groupByFields);");
+        js.debug("console.log('groupByFields',groupByFields);");
 
         // render aggregate fields
         for (AggregateField aggregateField : aggregateFields) {
@@ -283,7 +283,7 @@ public class GroupByDataAdapter extends DataAdapter {
             js.append("aggregateArrays[af.field]=[];");
         }
 
-        js.info("console.log('aggregateFields',aggregateFields);");
+        js.debug("console.log('aggregateFields',aggregateFields);");
 
 
         // get data array from path
@@ -365,7 +365,7 @@ public class GroupByDataAdapter extends DataAdapter {
                 ServiceResponse.META_TRANSFORMATIONS,
                 DtoUtil.valueOf(new TransformationMetadata(getId(), getClass().getSimpleName())));
 
-        js.info("console.log('GroupByDataAdapter after',output);");
+        js.debug("console.log('GroupByDataAdapter after',output);");
         js.append("return output;");
 
         js.append("}"); // end function

@@ -36,8 +36,10 @@ public class FormatArrayFunction implements JsFunction, IsPageModuleMember {
 
         js.append("if(value==undefined||arrayFormat==undefined||value==null||value==''||!Array.isArray(value)){");
         js.append("element.textContent=value;");
-        js.append("return;");
+        js.append("return element;");
         js.append("};");
+
+        js.append("var newElement=element;");
 
         js.append("switch(arrayFormat.appearance){");
         js.append("case '%s':", ArrayAppearanceType.TEXT);
@@ -56,6 +58,8 @@ public class FormatArrayFunction implements JsFunction, IsPageModuleMember {
         js.append("element.textContent=value;");
         js.append("break;");
         js.append("};");
+
+        js.append("return newElement;");
 
         js.append("}");
     }

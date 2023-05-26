@@ -35,10 +35,11 @@ public class FormatDateFunction implements JsFunction, IsPageModuleMember {
 
         js.append("if(value==undefined||dateTimeFormat==undefined||value==null||value==''||value==NaN){");
         js.append("element.textContent=value;");
-        js.append("return;");
+        js.append("return element;");
         js.append("};");
 
         js.append("element.textContent=new Intl.DateTimeFormat([],dateTimeFormat).format(value);");
+        js.append("return element;");
 
         js.append("}");
     }

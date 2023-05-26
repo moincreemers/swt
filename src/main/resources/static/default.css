@@ -86,6 +86,11 @@ ul.tk-mc-inline>li.tk-mc-item{display:inline-block;}
 li.tk-mc-item{display:block;}
 input.tk-mc-checkbox{margin-right:0.5rem;}
 label.tk-mc-label{margin-right:1rem;}
+ul.multiple-choice>li>label>img{border:2px solid transparent;}
+ul.multiple-choice>li.tk-selected>label>img{border:2px solid #ff00ff;}
+ul.single-choice>li>label>img{border:2px solid transparent;}
+ul.single-choice>li.tk-selected>label>img{border:2px solid #ff00ff;}
+ul.multiple-choice>li.tk-hide-input>input.tk-mc-checkbox,ul.single-choice>li.tk-hide-input>input.tk-sc-radio{display:none;}
 
 ul.single-choice{padding:0;margin:0;}
 ul.single-choice>li.tk-sc-item{display:block;}

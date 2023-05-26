@@ -2,7 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.pages;
 
 import com.philips.dmis.swt.ui.toolkit.ExtModuleInvoke;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewType;
@@ -158,9 +157,9 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
         js.append("element=openLink;");
         js.append("};"); // end if
 
-        renderCell(toolkit, js);
+        js.append("%s(element,cellValue,view);",
+                JsGlobalModule.getQualifiedId(CreateFormattedValue.class));
         renderActions(toolkit, js);
-
 
         js.append("colIndex++;");
         js.append("};"); // end if
@@ -234,7 +233,11 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
         js.append("element=openLink;");
         js.append("};"); // end if
 
-        renderCell(toolkit, js);
+        js.append("%s(element,cellValue,view);",
+                JsGlobalModule.getQualifiedId(CreateFormattedValue.class));
+
+        js.append("%s(formattedElement,cellValue,view);",
+                JsPagesModule.getId(widget, BlobToElementFunction.class));
 
         js.append("};"); // end for
         js.append("};"); // end for
@@ -257,55 +260,5 @@ public class UpdateTableBodyFunction implements JsFunction, IsPageModuleMember {
 
         js.append("};"); // end if
         js.append("};"); // end for
-    }
-
-    void renderCell(Toolkit toolkit, JsWriter js) {
-        js.debug("console.log('UpdateTableBodyFunction',cellValue,view.formatType);");
-
-        // note: all the other formatters subclass TextFormat
-        js.append("if(view.formatType!='%s'){", DataType.STRING.name());
-        js.append("%s(element,cellValue,view.format);",
-                JsGlobalModule.getQualifiedId(FormatTextFunction.class));
-        js.append("};");
-
-        js.append("switch(view.formatType){"); // switch
-
-        js.append("case '%s':", DataType.BOOLEAN.name());
-        js.append("td.classList.add('%s');", HtmlTableBody.CSS_CELL_BOOLEAN);
-        js.append("%s(element,cellValue,view.format);",
-                JsGlobalModule.getQualifiedId(FormatBooleanFunction.class));
-        js.append("break;");
-
-        js.append("case '%s':", DataType.NUMBER.name());
-        js.append("td.classList.add('%s');", HtmlTableBody.CSS_CELL_NUMBER);
-        js.append("%s(element,cellValue,view.format);",
-                JsGlobalModule.getQualifiedId(FormatNumberFunction.class));
-        js.append("break;");
-
-        js.append("case '%s':", DataType.DATE.name());
-        js.append("td.classList.add('%s');", HtmlTableBody.CSS_CELL_DATE);
-        js.append("%s(element,cellValue,view.format);",
-                JsGlobalModule.getQualifiedId(FormatDateFunction.class));
-        js.append("break;");
-
-        js.append("case '%s':", DataType.STRING.name());
-        js.append("td.classList.add('%s');", HtmlTableBody.CSS_CELL_STRING);
-        js.append("%s(element,cellValue,view.format);",
-                JsGlobalModule.getQualifiedId(FormatTextFunction.class));
-        js.append("break;");
-
-        js.append("case '%s':", DataType.URL.name());
-        js.append("td.classList.add('%s');", HtmlTableBody.CSS_CELL_URL);
-        js.append("%s(element,cellValue,view.format);",
-                JsGlobalModule.getQualifiedId(FormatURLFunction.class));
-        js.append("break;");
-
-        js.append("case '%s':", DataType.ARRAY.name());
-        js.append("td.classList.add('%s');", HtmlTableBody.CSS_CELL_ARRAY);
-        js.append("%s(element,cellValue,view.format);",
-                JsGlobalModule.getQualifiedId(FormatArrayFunction.class));
-        js.append("break;");
-
-        js.append("};"); // end switch
     }
 }

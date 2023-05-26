@@ -39,6 +39,8 @@ public class JsGlobalModule implements JsModule {
             new ContainsFunction(),
             new ContainsOptionFunction(),
             new ConvertHyperlinksFunction(),
+            new CopyViewFieldFunction(),
+            new CreateFormattedValue(),
             new CreateSynchronizerFunction(),
             new CreateViewFunction(),
             new EqualsFunction(),

@@ -71,6 +71,7 @@ public class JsPagesModule implements JsModule {
         members.add(new Pair<>(BeforeUpdateTableHeaderFunction.ID, new BeforeUpdateTableHeaderFunction(widget)));
         members.add(new Pair<>(BeforeUpdateTextFunction.ID, new BeforeUpdateTextFunction(widget)));
         members.add(new Pair<>(BeforeUpdateValueFunction.ID, new BeforeUpdateValueFunction(widget)));
+        members.add(new Pair<>(BlobToElementFunction.ID, new BlobToElementFunction(widget)));
         members.add(new Pair<>(ButtonTypeVariable.ID, new ButtonTypeVariable(widget)));
         members.add(new Pair<>(ColumnsVariable.ID, new ColumnsVariable(widget)));
         members.add(new Pair<>(ContentTypeVariable.ID, new ContentTypeVariable(widget)));

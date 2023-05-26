@@ -36,22 +36,30 @@ public class FormatBooleanFunction implements JsFunction, IsPageModuleMember {
 
         js.append("if(value==undefined||booleanFormat==undefined||value==null){");
         js.append("element.textContent=value;");
-        js.append("return;");
+        js.append("return element;");
         js.append("};");
+
+        js.append("var newElement=element;");
 
         js.append("switch(booleanFormat.appearance){");
         js.append("case '%s':", BooleanAppearanceType.CIRCLE.name());
-        js.append("element.innerHTML=value?'<span class=\\'tk-circle-true\\'/>'" +
-                ":'<span class=\\'tk-circle-false\\'/>';");
+        js.append("var span = document.createElement('span');");
+        js.append("span.classList.add(value?'tk-circle-true':'tk-circle-false');");
+        js.append("element.append(span);");
+        js.append("newElement=span;");
         js.append("break;");
         js.append("case '%s':", BooleanAppearanceType.SQUARE.name());
-        js.append("element.innerHTML=value?'<span class=\\'tk-square-true\\'/>'" +
-                ":'<span class=\\'tk-square-false\\'/>';");
+        js.append("var span = document.createElement('span');");
+        js.append("span.classList.add(value?'tk-square-true':'tk-square-false');");
+        js.append("element.append(span);");
+        js.append("newElement=span;");
         js.append("break;");
         js.append("default:");
         js.append("element.textContent=value;");
         js.append("break;");
         js.append("};");
+
+        js.append("return newElement;");
 
         js.append("}");
     }
