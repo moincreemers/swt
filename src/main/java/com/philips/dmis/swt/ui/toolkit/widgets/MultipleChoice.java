@@ -1,6 +1,10 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
+import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+
+import java.util.Set;
 
 public class MultipleChoice extends ValueWidget<MultipleChoice> implements
         HasOptions, HasValue<MultipleChoice> {
@@ -41,5 +45,10 @@ public class MultipleChoice extends ValueWidget<MultipleChoice> implements
     @Override
     protected DataSourceUsage getDefaultDataSourceUsage() {
         return DataSourceUsage.OPTIONS;
+    }
+
+    @Override
+    public void getRequiredDataAdapters(Set<Class<? extends DataAdapter>> requiredDataAdapters) {
+        requiredDataAdapters.add(KeyValueListDataAdapter.class);
     }
 }

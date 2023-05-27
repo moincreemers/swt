@@ -7,6 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.dto.URLFormat;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.events.ActivateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
 import com.philips.dmis.swt.ui.toolkit.statement.mapper.C;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
@@ -180,15 +181,17 @@ public class WadoClient extends AbstractViewerPage {
         Panel navLeft = add(new Panel(PanelType.NAV_LEFT));
         navLeft.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("160px", Size.AUTO));
         Panel toolbarLeft = navLeft.add(new Panel(PanelType.TOOLBAR));
-        HtmlLabel instancesLabel = toolbarLeft.add(new HtmlLabel(icons, "photo_library"));
-//        instancesLabel.addDataSource(instancesDataProxy,
-//                new PathDataAdapter());
+        HtmlButton instancesButton = toolbarLeft.add(new HtmlButton(icons, "photo_library", "Refresh"));
         MultipleChoice instanceThumbnailList = navLeft.add(new MultipleChoice());
         instanceThumbnailList.addDataSource(instanceThumbnailDataProxy,
                 new MapDataAdapter().map("thumbnailUrl",
                         HttpHeaderUtil.setNoCache(HttpHeaderUtil.setAuthorizationHeader(C.Download()))),
                 new KeyValueListDataAdapter("objectUID", "thumbnailUrl")
         );
+
+        instancesButton.onClick(new ClickEventHandler(
+                M.Refresh(instanceThumbnailDataProxy)
+        ));
 
         DataProxy instancesDataProxy = add(new DataProxy());
         instancesDataProxy.addDataSource(studyService,

@@ -14,7 +14,8 @@
           rely on HttpSession to exist. Suggest to remove the URL hashing as it certainly is a proprietary security
           mechanism.
         - The fact that a JWT authenticates the user but the HttpSession is not re-created seems to be a defect, this
-          only affects some APIs. If it does, the request does not return a HTTP 401 but 500 which is strange. 
+          only affects some APIs. If it does, the request does not return a HTTP 401 but 500 which is strange. The WADO
+          API's suffer this problem.
         - The URL hashing in document retrieve endpoint is very problematic. This makes caching impossible.
     - Some APIs return HL7 data structures that need to be parsed to be useful. This is a bit of extra work (
       HL7Lib.java).

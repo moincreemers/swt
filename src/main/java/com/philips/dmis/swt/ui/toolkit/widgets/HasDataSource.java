@@ -2,6 +2,8 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 
+import java.util.Set;
+
 public interface HasDataSource<T extends Widget> {
     Widget asWidget();
 
@@ -12,4 +14,6 @@ public interface HasDataSource<T extends Widget> {
     T addDataSource(DataSource dataSource) throws WidgetConfigurationException;
 
     T addDataSource(DataSourceUsage dataSourceUsage, DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException;
+
+    void getRequiredDataAdapters(Set<Class<? extends DataAdapter>> requiredDataAdapters);
 }

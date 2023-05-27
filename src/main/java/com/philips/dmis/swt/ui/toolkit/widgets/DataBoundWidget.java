@@ -6,9 +6,8 @@ import com.philips.dmis.swt.ui.toolkit.events.BeforeUpdateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.UpdateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DataBoundWidget<T extends Widget> extends Widget implements HasDataSource<T> {
     private final Map<DataSourceUsage, java.util.List<DataSource>> dataSources = new HashMap<>();
@@ -140,10 +139,29 @@ public class DataBoundWidget<T extends Widget> extends Widget implements HasData
     @Override
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
         super.validate(toolkit);
+        Set<Class<? extends DataAdapter>> requiredDataAdapters = new HashSet<>();
+        getRequiredDataAdapters(requiredDataAdapters);
         for (java.util.List<DataSource> dataSources : dataSources.values()) {
             for (DataSource dataSource : dataSources) {
                 dataSource.validate(toolkit);
+                for (DataAdapter dataAdapter : dataSource.getDataAdapters()) {
+                    requiredDataAdapters.remove(dataAdapter.getClass());
+                }
             }
         }
+        if (!dataSources.isEmpty() && !requiredDataAdapters.isEmpty()) {
+            throw new WidgetConfigurationException("missing required data adapters: "
+                    + requiredDataAdapters.stream().map(Class::getSimpleName).collect(Collectors.joining(", "))
+                    + " on data bound widget: "
+                    + getId()
+                    + " ("
+                    + getWidgetType().name()
+                    + ")"
+            );
+        }
+    }
+
+    @Override
+    public void getRequiredDataAdapters(Set<Class<? extends DataAdapter>> requiredDataAdapters) {
     }
 }

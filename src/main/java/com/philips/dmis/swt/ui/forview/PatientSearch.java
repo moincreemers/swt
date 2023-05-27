@@ -91,7 +91,8 @@ public class PatientSearch extends AbstractViewerPage {
         warningMessagesList.addDataSource(patients,
                 new OutputSelectorDataAdapter(importWarningsDataAdapter),
                 new MapDataAdapter()
-                        .map("warningCode", C.Call(forViewLib, ForViewLib.PARSE_WARNING), "warningCode", "warningContext", "message")
+                        .map("warningCode", C.Call(forViewLib, ForViewLib.PARSE_WARNING), "warningCode", "warningContext", "message"),
+                new KeyValueListDataAdapter("warningCode", "warningCode")
         );
 
         patientDomains.onResponse(new ResponseEventHandler(
