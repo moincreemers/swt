@@ -17,7 +17,7 @@ public class MainDemoPage extends Page {
         ListContainer listContainer = add(new ListContainer());
         listContainer.add(HtmlLink.openPage("Hello world", HelloWorldExample.class));
         listContainer.add(HtmlLink.openPage("The View Controller", ViewControlExample.class));
-        listContainer.add(HtmlLink.openPage("Data Binding", DataBindingExample.class));
+        //listContainer.add(HtmlLink.openPage("Data Binding", DataBindingExample.class));
         //listContainer.add(HtmlLink.openPage("Data Adapters", DataAdaptersExample.class));
         listContainer.add(HtmlLink.openPage("Tables", TableExample.class));
         listContainer.add(HtmlLink.openPage("Text-Rich Pages", TextExample.class));

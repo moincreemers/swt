@@ -39,7 +39,10 @@ public class UpdateFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
         js.append("()=>{");
+        js.trace(this);
+
         js.append("%s();", JsPageControllerModule.getId(DisplayFunction.class));
+
         js.append("}"); // end function
     }
 }

@@ -11,7 +11,6 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
  * The view Name is the simple class name of the DTO.
  */
 public class DtoViewDataAdapter extends DataAdapter {
-    private final Class<?> dto;
     private final ViewBuilder viewBuilder;
 
     public DtoViewDataAdapter(Class<?> dto) {
@@ -20,7 +19,6 @@ public class DtoViewDataAdapter extends DataAdapter {
 
     public DtoViewDataAdapter(String path, Class<?> dto) {
         super(path);
-        this.dto = dto;
         viewBuilder = new ViewBuilder(dto);
     }
 
@@ -56,9 +54,8 @@ public class DtoViewDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("(serviceResponse)=>{");
-
-        js.debug("console.log('DtoViewDataAdapter, before',serviceResponse);");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         for (View view : viewBuilder.getViews()) {
             js.append("var view=");

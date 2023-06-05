@@ -113,6 +113,11 @@ public class HtmlHeading extends DataBoundWidget<HtmlHeading> implements HasIcon
     }
 
     @Override
+    public boolean isText() {
+        return numberedTextImpl.isText();
+    }
+
+    @Override
     public int getLevel() {
         return numberedTextImpl.getLevel();
     }

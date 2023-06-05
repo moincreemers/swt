@@ -26,13 +26,13 @@ public class DataBoundWidget<T extends Widget> extends Widget implements HasData
     }
 
     @Override
-    public java.util.List<DataSource> getDataSource(DataSourceUsage dataSourceUsage) {
+    public java.util.List<DataSource> getDataSources(DataSourceUsage dataSourceUsage) {
         return dataSources.get(dataSourceUsage);
     }
 
     @Override
     public boolean hasDataSource(DataSourceUsage dataSourceUsage) {
-        return getDataSource(dataSourceUsage) != null;
+        return getDataSources(dataSourceUsage) != null;
     }
 
     @Override

@@ -4,8 +4,8 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
-import com.philips.dmis.swt.ui.toolkit.js.pages.GetFunction;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.GetFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -31,8 +31,9 @@ public class GetValueValue extends ValueStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s()",
-                JsPagesModule.getQualifiedId(targetWidget, GetFunction.class));
+        js.append("%s('%s')",
+                JsWidgetModule.getQualifiedId(GetFunction.class),
+                targetWidget.getId());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
@@ -10,11 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimerExample extends Page {
     public TimerExample() throws Exception {
+        super(Constants.isDemo(TimerExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if(!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Timers"));
 
         add(new HtmlParagraph("Timers can be used to let your application execute an action " +

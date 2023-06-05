@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.events.EventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.InitEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 
 import java.util.List;
 import java.util.*;
@@ -22,7 +22,7 @@ public abstract class Widget implements Validatable, HasClassNames {
         return "page-" + pageId;
     }
 
-    private final JsPagesModule jsPagesModule;
+    private final JsStateModule jsStateModule;
 
     private static int idCounter = 0;
     final String id;
@@ -41,7 +41,7 @@ public abstract class Widget implements Validatable, HasClassNames {
         id = "w" + idCounter++;
         this.widgetType = widgetType;
         // IMPORTANT: this line must be here in the constructor
-        this.jsPagesModule = new JsPagesModule(this);
+        this.jsStateModule = new JsStateModule(this);
     }
 
     public Widget asWidget() {
@@ -182,7 +182,7 @@ public abstract class Widget implements Validatable, HasClassNames {
     }
 
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        jsPagesModule.renderJs(toolkit, js);
+        jsStateModule.renderJs(toolkit, js);
     }
 
     public void pack() throws Exception {

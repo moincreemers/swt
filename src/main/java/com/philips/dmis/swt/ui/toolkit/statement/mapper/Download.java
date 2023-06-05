@@ -6,10 +6,12 @@ import com.philips.dmis.swt.ui.toolkit.dto.URLFormat;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.*;
-import com.philips.dmis.swt.ui.toolkit.js.pages.HttpHeadersVariable;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
-import com.philips.dmis.swt.ui.toolkit.js.pages.ProcessResourceResponseFunction;
-import com.philips.dmis.swt.ui.toolkit.js.pages.SyncVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.HttpHeadersVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.SyncVariable;
+import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.ProcessResourceResponseFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SendHttpRequestFunction;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
@@ -119,7 +121,7 @@ public class Download extends MapStatement implements HasAbstractURL {
 
         js.append("const uid=String(Date.now().toString(32)+Math.random().toString(16)).replace(/\\./g,'');");
         js.append("%s[uid]=%s();",
-                JsPagesModule.getQualifiedId(widget, SyncVariable.class),
+                JsStateModule.getQualifiedId(widget, SyncVariable.class),
                 JsGlobalModule.getQualifiedId(CreateSynchronizerFunction.class));
 
         // method,contentType,url,headers,obj,success,failure,arguments
@@ -135,12 +137,13 @@ public class Download extends MapStatement implements HasAbstractURL {
         js.debug("console.log('download resource',uid,obj);");
 
         // todo: failure function is undefined
-        js.append("%s('%s','%s','%s',url,headers,obj,%s,()=>{console.log('resource request failed');},arguments);",
+        js.append("%s('%s','%s','%s','%s',url,headers,obj,%s,()=>{console.log('resource request failed');},arguments);",
                 JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),
+                widget.getId(),
                 httpMethod.name(),
                 contentType.getEncoding(),
                 responseType.getValue(),
-                JsPagesModule.getQualifiedId(widget, ProcessResourceResponseFunction.class)
+                JsWidgetModule.getQualifiedId(ProcessResourceResponseFunction.class)
         );
 
         js.append("return uid;");

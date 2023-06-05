@@ -1,16 +1,16 @@
 package com.philips.dmis.swt.ui.demo;
 
-import com.philips.dmis.swt.ui.toolkit.data.ArrayDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.Constants;
+import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.InitEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 @Component
 public class WidgetGalleryExample extends Page {
@@ -61,14 +61,20 @@ public class WidgetGalleryExample extends Page {
 
 
     public WidgetGalleryExample() throws Exception {
+        super(Constants.isDemo(WidgetGalleryExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
+
+        onColorSchemeChange(ColorSchemeChangeEventHandler.getDefaultHandler());
+
         add(new HtmlHeading("Widgets"));
 
-        StaticData options = add(new StaticData(Arrays.asList("Apple", "Banana", "Orange")));
+        StaticData options = add(new StaticData(DataBuilder.values("Apple", "Banana", "Orange").getData()));
         IconsWidget icons = add(new IconsWidget("MaterialSymbolsSharp.woff2"));
 
         add(new HtmlHeading("Text Widgets", 3));
@@ -135,14 +141,14 @@ public class WidgetGalleryExample extends Page {
         inputWidgetsGrid.addAll(new HtmlRangeInput(), new HtmlParagraph("INPUT, type=range"), new HtmlParagraph(""));
         inputWidgetsGrid.addAll(new HtmlMeter(), new HtmlParagraph("METER"), new HtmlParagraph(""));
         inputWidgetsGrid.addAll(new HtmlProgress(), new HtmlParagraph("PROGRESS"), new HtmlParagraph(""));
-        inputWidgetsGrid.addAll(new HtmlSelect().addDataSource(options, new ArrayDataAdapter()), new HtmlParagraph("SELECT"), new HtmlParagraph("Standard drop down list"));
-        inputWidgetsGrid.addAll(new HtmlSelect(3).addDataSource(options, new ArrayDataAdapter()), new HtmlParagraph("SELECT, size=3"), new HtmlParagraph("ListBox with size 3. Note that the SingleChoice widget probably provides a better User Experience."));
-        inputWidgetsGrid.addAll(new HtmlSelect(3, true).addDataSource(options, new ArrayDataAdapter()), new HtmlParagraph("SELECT, size=3, muliple"), new HtmlParagraph("ListBox with size 3 that allows multiple values to be selected. Note that the MultipleChoice widget probably provides a better User Experience."));
-        inputWidgetsGrid.addAll(new SingleChoice().addDataSource(options, new ArrayDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A single choice widget using Radio buttons and Labels."));
-        inputWidgetsGrid.addAll(new SingleChoice(SingleChoiceAppearance.INLINE).addDataSource(options, new ArrayDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.INLINE."));
-        inputWidgetsGrid.addAll(new Panel(new SingleChoice(SingleChoiceAppearance.TABS).addDataSource(options, new ArrayDataAdapter()).setValue("Apple")), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.TABS."));
-        inputWidgetsGrid.addAll(new MultipleChoice().addDataSource(options, new ArrayDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A multiple choice widget using CheckBoxes and Labels."));
-        inputWidgetsGrid.addAll(new MultipleChoice(MultipleChoiceAppearance.INLINE).addDataSource(options, new ArrayDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("MultipleChoiceAppearance.INLINE."));
+        inputWidgetsGrid.addAll(new HtmlSelect().addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT"), new HtmlParagraph("Standard drop down list"));
+        inputWidgetsGrid.addAll(new HtmlSelect(3).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT, size=3"), new HtmlParagraph("ListBox with size 3. Note that the SingleChoice widget probably provides a better User Experience."));
+        inputWidgetsGrid.addAll(new HtmlSelect(3, true).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT, size=3, muliple"), new HtmlParagraph("ListBox with size 3 that allows multiple values to be selected. Note that the MultipleChoice widget probably provides a better User Experience."));
+        inputWidgetsGrid.addAll(new SingleChoice().addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A single choice widget using Radio buttons and Labels."));
+        inputWidgetsGrid.addAll(new SingleChoice(SingleChoiceAppearance.INLINE).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.INLINE."));
+        inputWidgetsGrid.addAll(new Panel(new SingleChoice(SingleChoiceAppearance.TABS).addDataSource(options, new KeyValueListDataAdapter()).setValue("Apple")), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.TABS."));
+        inputWidgetsGrid.addAll(new MultipleChoice().addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A multiple choice widget using CheckBoxes and Labels."));
+        inputWidgetsGrid.addAll(new MultipleChoice(MultipleChoiceAppearance.INLINE).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("MultipleChoiceAppearance.INLINE."));
 
         add(new HtmlHeading("Grid and Table Widgets", 3));
         Grid tableWidgetsGrid = add(new Grid(3));
@@ -190,8 +196,8 @@ public class WidgetGalleryExample extends Page {
         htmlFrame.onInit(new InitEventHandler(M.SetValue(htmlFrame, V.Const("example.html"))));
         specialWidgetsGrid.addAll(htmlFrame, new HtmlParagraph("IFRAME"), new HtmlParagraph("A standard IFRAME element. Iframes have an explicit border to serve as a visual clue that this is in fact an iframe."));
 
-        StaticData dataForStaticDataList = add(new StaticData(Arrays.asList(LARGE_FRUITS)));
-        HtmlDataList htmlDataList = add(new HtmlDataList().addDataSource(dataForStaticDataList, new ArrayDataAdapter()));
+        StaticData dataForStaticDataList = add(new StaticData(DataBuilder.array(LARGE_FRUITS).getData()));
+        HtmlDataList htmlDataList = add(new HtmlDataList().addDataSource(dataForStaticDataList, new KeyValueListDataAdapter()));
         HtmlTextInput htmlTextInputForDataList = new HtmlTextInput();
         htmlTextInputForDataList.setList(htmlDataList);
 

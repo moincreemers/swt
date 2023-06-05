@@ -7,7 +7,7 @@ import java.util.Set;
 public interface HasDataSource<T extends Widget> {
     Widget asWidget();
 
-    java.util.List<DataSource> getDataSource(DataSourceUsage dataSourceUsage);
+    java.util.List<DataSource> getDataSources(DataSourceUsage dataSourceUsage);
 
     boolean hasDataSource(DataSourceUsage dataSourceUsage);
 

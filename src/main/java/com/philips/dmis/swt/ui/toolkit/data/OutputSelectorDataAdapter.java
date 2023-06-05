@@ -31,9 +31,8 @@ public class OutputSelectorDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(serviceResponse)=>{");
-
-        js.debug("console.log('OutputSelectorDataAdapter before',serviceResponse);");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         // get data array from path
         js.append("const output=structuredClone(serviceResponse);");

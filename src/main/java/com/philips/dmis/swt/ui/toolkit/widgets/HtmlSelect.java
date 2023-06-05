@@ -1,7 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
-import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
@@ -96,6 +95,7 @@ public class HtmlSelect extends ValueWidget<HtmlSelect> implements
 
     @Override
     public void getRequiredDataAdapters(Set<Class<? extends DataAdapter>> requiredDataAdapters) {
-        requiredDataAdapters.add(KeyValueListDataAdapter.class);
+        // todo: this needs to be smarter
+        //requiredDataAdapters.add(KeyValueListDataAdapter.class);
     }
 }

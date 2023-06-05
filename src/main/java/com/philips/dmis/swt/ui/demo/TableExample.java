@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.*;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -11,11 +12,14 @@ import java.util.Date;
 @Component
 public class TableExample extends Page {
     public TableExample() throws Exception {
+        super(Constants.isDemo(TableExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Tables"));
 
         add(new HtmlParagraph("Tables are used to display data. Data does not only consist of text and depending on use " +

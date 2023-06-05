@@ -52,9 +52,20 @@ public interface JsModule {
         return pair.getKey();
     }
 
+    static String getPublicId(Class<? extends JsMember> memberClass,
+                        Map<Class<? extends JsMember>, Pair<String, JsMember>> index) throws JsRenderException {
+        Pair<String, JsMember> pair = index.get(memberClass);
+        if (pair == null) {
+            throw new JsRenderException("member id not found: " + memberClass.getName()
+                    + " in: " + String.join(", ", index.keySet().stream().map(cls -> cls.getSimpleName()).toList())
+            );
+        }
+        return pair.getValue().getPublicName(pair.getKey());
+    }
+
     static String getQualifiedId(String moduleId, Class<? extends JsMember> memberClass,
                                  Map<Class<? extends JsMember>, Pair<String, JsMember>> index) {
-        return moduleId + "." + getId(memberClass, index);
+        return moduleId + "." + getPublicId(memberClass, index);
     }
 
 

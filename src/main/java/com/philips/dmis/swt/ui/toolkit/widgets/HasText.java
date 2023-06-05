@@ -16,4 +16,6 @@ public interface HasText extends HasStaticHTML {
     String getText();
 
     void setText(String text);
+
+    boolean isText();
 }

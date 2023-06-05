@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.events.ActivateEventHandler;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ViewControlExample extends Page {
     public ViewControlExample() throws Exception {
+        super(Constants.isDemo(ViewControlExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("The View Controller"));
 
         add(new HtmlParagraph("The view controller component allows switching between pages."));
@@ -67,14 +71,14 @@ public class ViewControlExample extends Page {
                 "can be done using the onActivate event (see below) of the page and the GetPageArgument statement:"));
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS,
                 "onActivate(\n" +
-                    "  new ActivateEventHandler(\n" +
-                    "    M.Set(selectedFoodTypeLabel,\n" +
-                    "      V.Concat(\n" +
-                    "        V.Const(\"The selected food type is: \"),\n" +
-                    "        V.GetPageArgument()\n" +
-                    "    )\n" +
-                    "  )\n" +
-                    ")"));
+                        "  new ActivateEventHandler(\n" +
+                        "    M.Set(selectedFoodTypeLabel,\n" +
+                        "      V.Concat(\n" +
+                        "        V.Const(\"The selected food type is: \"),\n" +
+                        "        V.GetPageArgument()\n" +
+                        "    )\n" +
+                        "  )\n" +
+                        ")"));
 
         HtmlLabel selectedFoodTypeHtmlLabel = add(new HtmlLabel("The selected food type is: (not selected yet)"));
         onActivate(new ActivateEventHandler(

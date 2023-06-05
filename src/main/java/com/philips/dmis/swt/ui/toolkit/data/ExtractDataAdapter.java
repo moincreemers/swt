@@ -44,7 +44,8 @@ public class ExtractDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("(serviceResponse)=>{"); // begin function
+        js.append("(serviceResponse,unmodifiedResponse)=>{"); // begin function
+        js.trace(this);
 
         js.append("const obj=serviceResponse%s;", getPath());
         js.append("if(obj==null||obj==undefined){");

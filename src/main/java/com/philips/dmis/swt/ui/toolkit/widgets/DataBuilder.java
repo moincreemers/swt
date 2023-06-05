@@ -3,11 +3,29 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.js.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public abstract class DataBuilder {
     public static DataBuilderValues values() {
         return new DataBuilderValues();
+    }
+
+    public static DataBuilderValues values(Object... values) {
+        DataBuilderValues dataBuilderValues = new DataBuilderValues();
+        dataBuilderValues.addAll(values);
+        return dataBuilderValues;
+    }
+
+    public static DataBuilderValues array(Object[] values) {
+        DataBuilderValues dataBuilderValues = new DataBuilderValues();
+        dataBuilderValues.addAll(values);
+        return dataBuilderValues;
+    }
+
+    public static DataBuilderValues list(List<?> values) {
+        DataBuilderValues dataBuilderValues = new DataBuilderValues();
+        dataBuilderValues.addAll(values);
+        return dataBuilderValues;
     }
 
     public static DataBuilderKeyValue keyValue() {
@@ -18,20 +36,24 @@ public abstract class DataBuilder {
     }
 
     public static class DataBuilderValues extends DataBuilder {
-        private final java.util.List<Object> values = new ArrayList<>();
+        private final java.util.List<Pair<Object, Object>> values = new ArrayList<>();
 
         public DataBuilderValues add(Object value) {
-            values.add(value);
+            values.add(new Pair<>(value, value));
             return this;
         }
 
         public DataBuilderValues addAll(Object... values) {
-            this.values.addAll(Arrays.asList(values));
+            for (Object value : values) {
+                add(value);
+            }
             return this;
         }
 
-        public DataBuilderValues add(java.util.List<?> values) {
-            this.values.addAll(values);
+        public DataBuilderValues addAll(java.util.List<?> values) {
+            for (Object value : values) {
+                add(value);
+            }
             return this;
         }
 

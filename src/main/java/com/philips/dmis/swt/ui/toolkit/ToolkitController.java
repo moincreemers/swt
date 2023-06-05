@@ -1,16 +1,12 @@
 package com.philips.dmis.swt.ui.toolkit;
 
 import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
-import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeCustomEvent;
-import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
 import com.philips.dmis.swt.ui.toolkit.html.StaticValueStorage;
 import com.philips.dmis.swt.ui.toolkit.js.JsModule;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
-import com.philips.dmis.swt.ui.toolkit.js.pages.InitFunction;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
-import com.philips.dmis.swt.ui.toolkit.statement.method.M;
-import com.philips.dmis.swt.ui.toolkit.statement.value.V;
+import com.philips.dmis.swt.ui.toolkit.js.widget.InitWidgetFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasCode;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
@@ -237,13 +233,6 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         // main module
         js.append("var %s=(function(){", Constants.MAIN_MODULE_NAME);
 
-        GlobalEvents.onColorSchemeChange(new ColorSchemeChangeEventHandler(
-                M.SetStylesheetDisabled(V.Const(Constants.CSS_DARK),
-                        V.Is(
-                                V.GetEvent(ColorSchemeChangeCustomEvent.COLOR_SCHEME),
-                                V.Const(ColorSchemeChangeCustomEvent.SCHEME_LIGHT)))
-        ));
-
         GlobalEvents globalEvents = new GlobalEvents();
         globalEvents.renderJs(this, js);
 
@@ -251,10 +240,14 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         js.append("initGlobalEvents();");
 
         for (Page page : pages.values()) {
-            js.append("%s();", JsPagesModule.getQualifiedId(page, InitFunction.class));
+            js.append("%s('%s');", JsWidgetModule.getQualifiedId(InitWidgetFunction.class), page.getId());
         }
         for (JsModule jsModule : jsModules) {
-            js.append("%s();", jsModule.getInitFunctionId());
+            String initFunctionId = jsModule.getInitFunctionId();
+            if (initFunctionId == null) {
+                continue;
+            }
+            js.append("%s();", initFunctionId);
         }
 
         ExtModuleInvoke.renderCall(ExtModuleEvent.READY, null, null, js);

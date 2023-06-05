@@ -211,6 +211,11 @@ public class HtmlButton extends DataBoundWidget<HtmlButton> implements
         textImpl.setText(text);
     }
 
+    @Override
+    public boolean isText() {
+        return textImpl.isText();
+    }
+
     // CLICKABLE
 
     private final ClickableImpl<HtmlButton> clickableImpl = new ClickableImpl<>(this);

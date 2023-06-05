@@ -3,13 +3,12 @@ package com.philips.dmis.swt.ui.toolkit.js.global;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.URLAppearanceType;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.pages.IsPageModuleMember;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-public class FormatURLFunction implements JsFunction, IsPageModuleMember {
+public class FormatURLFunction implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return true;
@@ -68,7 +67,7 @@ public class FormatURLFunction implements JsFunction, IsPageModuleMember {
         js.append("b.setAttribute('tabindex',-1);");
         js.append("b.textContent=text;");
         js.append("a.append(b);");
-        js.append("newElement=a");
+        js.append("newElement=a;");
         js.append("break;");
 
         js.append("case '%s':", URLAppearanceType.IMAGE);

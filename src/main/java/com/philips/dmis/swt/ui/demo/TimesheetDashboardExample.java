@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.demo;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.*;
 import com.philips.dmis.swt.ui.toolkit.dto.*;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
@@ -171,17 +172,21 @@ public class TimesheetDashboardExample extends Page {
     }
 
     public TimesheetDashboardExample() throws Exception {
-        super();
+        super(Constants.isDemo(TimesheetDashboardExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        StaticData viewOptions = add(new StaticData(Arrays.asList("All Records", "Group by Date")));
+        StaticData viewOptions = add(new StaticData(
+                DataBuilder.keyValue().add("all", "All Records").add("by-date", "Group by Date").getData()
+        ));
         StaticData employeeStaticData = add(new StaticData(EMPLOYEES));
         CalculatedValueWidget currentWeekNumber = add(new CalculatedValueWidget("currentWeekNumber", V.WeekOfYearString(V.DateNow())));
         StaticData timeDeclarationsStaticData = add(new StaticData(TIME_DECLARATIONS));
 
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Timesheet Dashboard"));
 
         Panel filterPanel = add(new Panel(PanelType.TOOLBAR));
@@ -203,7 +208,7 @@ public class TimesheetDashboardExample extends Page {
 
         HtmlSelect viewType = new HtmlSelect();
         filterPanel.add(viewType);
-        viewType.addDataSource(DataSourceUsage.OPTIONS, viewOptions, new ArrayDataAdapter());
+        viewType.addDataSource(DataSourceUsage.OPTIONS, viewOptions, new KeyValueListDataAdapter());
 
         // create the default view, this is generated from the DTO
         DtoViewDataAdapter dtoViewDataAdapter = new DtoViewDataAdapter(TimeDeclaration.class);
@@ -245,7 +250,7 @@ public class TimesheetDashboardExample extends Page {
 
         viewType.onChange(new ChangeEventHandler(
                 M.SetDataAdapterEnabled(timeDeclarationsStaticData, groupByDataAdapter,
-                        V.Is(V.GetValue(viewType), V.Const("Group by Date"))),
+                        V.Is(V.GetValue(viewType), V.Const("by-date"))),
                 M.Refresh(timeDeclarationsStaticData)
         ));
         employeeList.onChange(new ChangeEventHandler(

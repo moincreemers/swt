@@ -1,16 +1,20 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class NumberedHeadingsExample extends Page {
     public NumberedHeadingsExample() throws Exception {
+        super(Constants.isDemo(NumberedHeadingsExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if(!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Numbered Headings"));
 
         add(new HtmlParagraph("A feature that is missing from HTML is numbered headings. When the text needs to break to the next line, it will left-align correctly. Use the constructor to enable numbering. " +

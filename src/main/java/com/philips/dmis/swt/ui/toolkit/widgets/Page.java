@@ -4,7 +4,7 @@ import com.philips.dmis.swt.ui.toolkit.GlobalEvents;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.events.*;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
-import com.philips.dmis.swt.ui.toolkit.js.pages.PageRefreshType;
+import com.philips.dmis.swt.ui.toolkit.js.state.PageRefreshType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,103 +168,120 @@ public abstract class Page extends Panel {
 
     public Page onBeforePrint(BeforePrintEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onBeforePrint(eventHandler);
+        GlobalEvents.onBeforePrint();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onAfterPrint(AfterPrintEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onAfterPrint(eventHandler);
+        GlobalEvents.onAfterPrint();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onBeforeUnload(BeforeUnloadEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onBeforeUnload(eventHandler);
+        GlobalEvents.onBeforeUnload();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onUnload(UnloadEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onUnload(eventHandler);
+        GlobalEvents.onUnload();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onKeyPress(KeyPressEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onKeyPress(eventHandler);
+        GlobalEvents.onKeyPress();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onKeyDown(KeyDownEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onKeyDown(eventHandler);
+        GlobalEvents.onKeyDown();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onKeyUp(KeyUpEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onKeyUp(eventHandler);
+        GlobalEvents.onKeyUp();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onColorSchemeChange(ColorSchemeChangeEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onColorSchemeChange(eventHandler);
+        GlobalEvents.onColorSchemeChange();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onBlur(BlurEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onBlur(eventHandler);
+        GlobalEvents.onBlur();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onFocus(FocusEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onFocus(eventHandler);
+        GlobalEvents.onFocus();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onError(ErrorEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onError(eventHandler);
+        GlobalEvents.onError();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onLanguageChange(LanguageChangeEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onLanguageChange(eventHandler);
+        GlobalEvents.onLanguageChange();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onMessage(MessageEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onMessage(eventHandler);
+        GlobalEvents.onMessage();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onOffline(OfflineEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onOffline(eventHandler);
+        GlobalEvents.onOffline();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onOnline(OnlineEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onOnline(eventHandler);
+        GlobalEvents.onOnline();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onUndo(UndoEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onUndo(eventHandler);
+        GlobalEvents.onUndo();
+        eventHandlers.add(eventHandler);
         return this;
     }
 
     public Page onRedo(RedoEventHandler eventHandler) {
         eventHandler.setPageId(getId());
-        GlobalEvents.onRedo(eventHandler);
+        GlobalEvents.onRedo();
+        eventHandlers.add(eventHandler);
         return this;
     }
 }

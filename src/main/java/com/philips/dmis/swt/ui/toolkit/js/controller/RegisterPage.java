@@ -33,13 +33,16 @@ public class RegisterPage implements JsFunction {
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
+        parameters.add(JsParameter.getInstance("id", JsType.STRING));
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
         js.append("(id)=>{");
-        js.debug("console.log('register page', id);");
+        js.trace(this);
+
         js.append("%s.push(id);", JsPageControllerModule.getId(PagesConst.class));
+
         js.append("}"); // end function
     }
 }

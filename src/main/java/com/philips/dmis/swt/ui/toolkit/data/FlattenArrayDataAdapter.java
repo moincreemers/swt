@@ -80,9 +80,8 @@ public class FlattenArrayDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("(serviceResponse)=>{");
-
-        js.debug("console.log('FlattenDataAdapter before',serviceResponse);");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         // re-create data structure
         js.append("const copy=structuredClone(serviceResponse);");

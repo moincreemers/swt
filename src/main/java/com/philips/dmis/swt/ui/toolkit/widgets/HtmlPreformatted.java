@@ -60,4 +60,9 @@ public class HtmlPreformatted extends DataBoundWidget<HtmlPreformatted> implemen
     public void setText(String text) {
         textImpl.setText(text);
     }
+
+    @Override
+    public boolean isText() {
+        return textImpl.isText();
+    }
 }

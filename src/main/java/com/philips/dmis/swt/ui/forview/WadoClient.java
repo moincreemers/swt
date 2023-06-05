@@ -8,7 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.events.ActivateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.statement.mapper.C;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.predicate.P;
@@ -225,7 +225,7 @@ public class WadoClient extends AbstractViewerPage {
                 M.SetQueryParameters(studyService,
                         V.GetQueryStringAsObject(V.ObjectMember(V.GetPageArgument(), "retrieveUrl"))),
 
-                M.Refresh(studyService, JsPagesModule.REASON_LOCAL),
+                M.Refresh(studyService, JsStateModule.REASON_LOCAL),
 
                 M.Refresh(userService)
         ));

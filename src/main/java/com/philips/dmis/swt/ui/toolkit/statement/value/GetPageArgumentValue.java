@@ -16,6 +16,8 @@ import java.util.List;
 public class GetPageArgumentValue extends ValueStatement {
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
+
+        // todo: this does not always work, because d is an array
         js.append("JSON.parse(%s(%s().d,null)).value",
                 JsGlobalModule.getQualifiedId(GetSessionValueFunction.class),
                 JsGlobalModule.getQualifiedId(GetDocumentHashFunction.class));

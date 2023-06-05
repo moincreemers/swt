@@ -42,6 +42,8 @@ public class GetCurrentPageFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
         js.append("()=>{");
+        js.trace(this);
+
         js.append("const defaultPageId=%s;", JsPageControllerModule.getId(DefaultPageIdConst.class));
         js.append("const hash=%s();", JsGlobalModule.getQualifiedId(GetDocumentHashFunction.class));
         js.append("var selectedPageId=defaultPageId;");
@@ -49,6 +51,7 @@ public class GetCurrentPageFunction implements JsFunction {
         js.append("selectedPageId=(hash.p.length==0)?defaultPageId:hash.p[0];");
         js.append("};");
         js.append("return selectedPageId;");
+
         js.append("}"); // end function
     }
 }

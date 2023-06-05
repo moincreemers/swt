@@ -40,9 +40,11 @@ public class InitFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
         js.append("()=>{");
-        js.debug("console.log('%s:init');", JsPageControllerModule.class.getName());
+        js.trace(this);
+
         js.append("window.addEventListener('hashchange',%s);", JsPageControllerModule.getId(UpdateFunction.class));
         js.append("%s();", JsPageControllerModule.getId(DisplayFunction.class));
+
         js.append("}");
     }
 }

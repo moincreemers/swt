@@ -4,7 +4,6 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.ProperCaseFunction;
-import com.philips.dmis.swt.ui.toolkit.widgets.HtmlTableHeader;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 /**
@@ -64,8 +63,8 @@ public class PropertyNameDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        HtmlTableHeader htmlTableHeader = (HtmlTableHeader) widget;
-        js.append("(serviceResponse)=>{");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         js.append("let data=serviceResponse%s;", getPath());
         js.append("let names=[];");

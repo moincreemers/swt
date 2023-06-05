@@ -5,7 +5,9 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.*;
-import com.philips.dmis.swt.ui.toolkit.js.pages.*;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.ViewTypeVariable;
+import com.philips.dmis.swt.ui.toolkit.js.widget.*;
 import com.philips.dmis.swt.ui.toolkit.widgets.ViewType;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -53,6 +55,7 @@ public class DisplayFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
         js.append("()=>{");
+        js.trace(this);
 
         js.append("var defaultPageId=%s;", JsPageControllerModule.getId(DefaultPageIdConst.class));
         js.append("var selectedPageId=null;");
@@ -96,7 +99,7 @@ public class DisplayFunction implements JsFunction {
         js.append("var pageId=%s[k];", JsPageControllerModule.getId(PagesConst.class));
         // js.debug("console.log(pageId);");
 
-        js.append("var pageElement=window[pageId].%s();", GetElementFunction.ID);
+        js.append("var pageElement=%s(pageId);", JsWidgetModule.getQualifiedId(GetElementFunction.class));
         js.append("var displayPage=pagesToDisplay.includes(pageId);");
         js.append("var activePage=(selectedPageId==pageId);");
         js.append("var currentValue=pageElement.style.display;");
@@ -105,15 +108,15 @@ public class DisplayFunction implements JsFunction {
         //js.info("console.log(pageId,'position',position);");
         js.append("pageElement.style.zIndex=(zIndex+position);");
         js.append("if(currentValue!='block'){");
-        js.append("window[pageId].%s('%s');", RefreshPageFunction.ID, JsPagesModule.REASON_SHOW);
+        js.append("%s(pageId,'%s');", JsWidgetModule.getQualifiedId(RefreshPageFunction.class), JsStateModule.REASON_SHOW);
         js.append("pageElement.style.display='block';");
-        js.append("window[pageId].%s();", EventHandlerFunction.OnShowEventHandlerFunction.ID);
+        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnShowEventHandlerFunction.class));
         js.append("};");
         js.append("}else{"); // else
         js.append("pageElement.style.zIndex='';");
         js.append("if(currentValue=='block'){");
         js.append("pageElement.style.display='none';");
-        js.append("window[pageId].%s();", EventHandlerFunction.OnHideEventHandlerFunction.ID);
+        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnHideEventHandlerFunction.class));
         js.append("};");
         js.append("};"); // end if
         js.append("var isActive=pageElement.classList.contains('tk-page-active');");
@@ -121,12 +124,12 @@ public class DisplayFunction implements JsFunction {
         js.append("pageElement.classList.add('tk-page-active');");
         //js.append("window[pageId].%s().scrollIntoViewIfNeeded();", GetElementFunction.ID);
         js.append("if(!isActive){"); // if
-        js.append("window[pageId].%s();", EventHandlerFunction.OnActivateEventHandlerFunction.ID);
+        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnActivateEventHandlerFunction.class));
         js.append("};"); // end if
         js.append("}else{"); // else
         js.append("pageElement.classList.remove('tk-page-active');");
         js.append("if(isActive){"); // if
-        js.append("window[pageId].%s();", EventHandlerFunction.OnDeactivateEventHandlerFunction.ID);
+        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnDeactivateEventHandlerFunction.class));
         js.append("};"); // end if
         js.append("};"); // end if
         js.append("};"); // end for
@@ -139,9 +142,9 @@ public class DisplayFunction implements JsFunction {
         //js.debug("console.log('scrollPos',scrollPos);");
         js.append("document.body.style.overflow=hideScroll?'hidden':'';");
         js.append("if(isDialog){");
-        js.append("window[selectedPageId].%s().style.top=scrollPos.y+'px';", GetElementFunction.ID);
-        // note: if active page is a dialog, then set focus to it (dialog pages have a tabindex for this purpose).
-        js.append("window[selectedPageId].%s().focus();", GetInnerElementFunction.ID);
+        js.append("%s(selectedPageId).style.top=scrollPos.y+'px';", JsWidgetModule.getQualifiedId(GetElementFunction.class));
+        // note: if active page is a dialog, then set focus to it (dialog pages have a tab index for this purpose).
+        js.append("%s(selectedPageId).focus();", JsWidgetModule.getQualifiedId(GetInnerElementFunction.class));
         js.append("};");
 
         ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.DISPLAY, "selectedPageId", null, js);

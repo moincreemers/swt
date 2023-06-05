@@ -30,21 +30,24 @@ public class KeyInputImpl<T extends Widget> implements HasKeyInput {
     @Override
     public T onKeyDown(KeyDownEventHandler eventHandler) {
         eventHandler.setWidgetId(widget.getId());
-        GlobalEvents.onKeyDown(eventHandler);
+        GlobalEvents.onKeyDown();
+        widget.getEventHandlers().add(eventHandler);
         return widget;
     }
 
     @Override
     public T onKeyPress(KeyPressEventHandler eventHandler) {
         eventHandler.setWidgetId(widget.getId());
-        GlobalEvents.onKeyPress(eventHandler);
+        GlobalEvents.onKeyPress();
+        widget.getEventHandlers().add(eventHandler);
         return widget;
     }
 
     @Override
     public T onKeyUp(KeyUpEventHandler eventHandler) {
         eventHandler.setWidgetId(widget.getId());
-        GlobalEvents.onKeyUp(eventHandler);
+        GlobalEvents.onKeyUp();
+        widget.getEventHandlers().add(eventHandler);
         return widget;
     }
 

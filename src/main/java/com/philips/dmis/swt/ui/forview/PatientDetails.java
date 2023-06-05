@@ -2,7 +2,7 @@ package com.philips.dmis.swt.ui.forview;
 
 import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ActivateEventHandler;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -59,7 +59,7 @@ public class PatientDetails extends AbstractViewerPage {
 // note: this was used when patientRecord was a QueryService
 //                M.SetQueryParameter(patientRecord, "patientID", V.ObjectMember(V.GetPageArgument(), "patientId")),
 //                M.SetQueryParameter(patientRecord, "patientIDAuth", V.ObjectMember(V.GetPageArgument(), "patientIdAuth")),
-                M.Refresh(patientRecord, JsPagesModule.REASON_LOCAL),
+                M.Refresh(patientRecord, JsStateModule.REASON_LOCAL),
 
                 M.Refresh(userService)
         ));

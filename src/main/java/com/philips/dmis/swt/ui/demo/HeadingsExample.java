@@ -1,16 +1,20 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HeadingsExample extends Page {
     public HeadingsExample() throws Exception {
+        super(Constants.isDemo(HeadingsExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Headings"));
 
         add(new HtmlPreformatted("Heading(String text, int level)"));

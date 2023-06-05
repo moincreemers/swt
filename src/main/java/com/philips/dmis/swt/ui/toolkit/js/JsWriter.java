@@ -2,13 +2,18 @@ package com.philips.dmis.swt.ui.toolkit.js;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.JsLogLevel;
+import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class JsWriter {
     private static final Logger LOG = Logger.getLogger(JsWriter.class.getName());
     private static final String USE_STRICT = "\"use strict\";";
+    private static int counter;
     private final StringBuffer js = new StringBuffer();
     private final HasConstantStorage constantStorage;
     private final boolean strict;
@@ -52,6 +57,34 @@ public class JsWriter {
             append(format, args);
             cr();
         }
+    }
+
+    public void trace(JsFunction function) {
+        if (!Constants.isLogLevel(JsLogLevel.TRACE)) {
+            return;
+        }
+        List<JsParameter> parameters = new ArrayList<>();
+        function.getParameters(parameters);
+        String paramNames = parameters.stream().map(JsParameter::getName).collect(Collectors.joining(","));
+        String name = String.format("%s %s", function.getType().name(), getClassName(function.getClass()));
+        trace(name, paramNames);
+    }
+
+    public void trace(DataAdapter dataAdapter) {
+        if (!Constants.isLogLevel(JsLogLevel.TRACE)) {
+            return;
+        }
+        String name = getClassName(dataAdapter.getClass());
+        trace(name, "serviceResponse,unmodifiedResponse");
+    }
+
+    private void trace(String name, String paramNames) {
+        String paramValues = paramNames;
+        if (!paramValues.isEmpty()) {
+            paramValues = "," + paramValues;
+        }
+        append("console.log('['+window.performance.now()+']','%s(%s)'%s);", name, paramNames, paramValues);
+        cr();
     }
 
     /**
@@ -100,6 +133,37 @@ public class JsWriter {
         return s;
     }
 
+    public void asArray(Object... values) {
+        append("[");
+        int i = 0;
+        for (Object value : values) {
+            if (i > 0) {
+                append(",");
+            }
+            if (value == null) {
+                append("null");
+            } else if (value instanceof String) {
+                append("'%s'", value);
+            } else {
+                append("%s", value);
+            }
+            i++;
+        }
+        append("]");
+    }
+
+    public void ifInArray(String var, Object... values) {
+        append("if(");
+        asArray(values);
+        append(".includes(%s)){", var);
+    }
+
+    public void ifNotInArray(String var, Object... values) {
+        append("if(!");
+        asArray(values);
+        append(".includes(%s)){", var);
+    }
+
     @Override
     public String toString() {
         return (strict ? USE_STRICT : "") + js.toString();
@@ -119,5 +183,16 @@ public class JsWriter {
         if (Constants.DEBUG) {
             append("\n\n// %s\n\n", text);
         }
+    }
+
+    private static String getClassName(Class<?> cls) {
+        String name = cls.getName();
+        String[] path = name.split("\\.");
+        if (path.length == 0) {
+            name = cls.getSimpleName();
+        } else {
+            name = path.length > 1 ? path[path.length - 2] + "." + path[path.length - 1] : path[path.length - 1];
+        }
+        return name;
     }
 }

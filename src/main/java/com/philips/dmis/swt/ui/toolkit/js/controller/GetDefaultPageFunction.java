@@ -39,7 +39,10 @@ public class GetDefaultPageFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
         js.append("()=>{");
+        js.trace(this);
+
         js.append("return %s;", JsPageControllerModule.getId(DefaultPageIdConst.class));
+
         js.append("}"); // end function
     }
 }

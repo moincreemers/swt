@@ -4,8 +4,9 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
-import com.philips.dmis.swt.ui.toolkit.js.pages.RefreshFunction;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.RefreshFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
@@ -44,9 +45,12 @@ public class RefreshStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s(%s);",
-                JsPagesModule.getQualifiedId(targetWidget, RefreshFunction.class),
-                ValueStatement.valueOf(toolkit, reason != null ? reason : V.Const(JsPagesModule.REASON_USER), widget));
+        js.append("%s('%s',%s);",
+                JsWidgetModule.getQualifiedId(RefreshFunction.class),
+                targetWidget.getId(),
+                ValueStatement.valueOf(toolkit, reason != null
+                        ? reason
+                        : V.Const(JsStateModule.REASON_USER), widget));
     }
 
     @Override

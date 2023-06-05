@@ -3,13 +3,12 @@ package com.philips.dmis.swt.ui.toolkit.js.global;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.BooleanAppearanceType;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.pages.IsPageModuleMember;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-public class FormatBooleanFunction implements JsFunction, IsPageModuleMember {
+public class FormatBooleanFunction implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return true;
@@ -43,14 +42,16 @@ public class FormatBooleanFunction implements JsFunction, IsPageModuleMember {
 
         js.append("switch(booleanFormat.appearance){");
         js.append("case '%s':", BooleanAppearanceType.CIRCLE.name());
-        js.append("var span = document.createElement('span');");
+        js.append("var span=document.createElement('span');");
         js.append("span.classList.add(value?'tk-circle-true':'tk-circle-false');");
+        js.append("element.textContent='';");
         js.append("element.append(span);");
         js.append("newElement=span;");
         js.append("break;");
         js.append("case '%s':", BooleanAppearanceType.SQUARE.name());
-        js.append("var span = document.createElement('span');");
+        js.append("var span=document.createElement('span');");
         js.append("span.classList.add(value?'tk-square-true':'tk-square-false');");
+        js.append("element.textContent='';");
         js.append("element.append(span);");
         js.append("newElement=span;");
         js.append("break;");

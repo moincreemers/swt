@@ -145,6 +145,11 @@ public class HtmlLink extends DataBoundWidget<HtmlLink> implements
         textImpl.setText(text);
     }
 
+    @Override
+    public boolean isText() {
+        return textImpl.isText();
+    }
+
     // REL
 
     private final RelImpl relImpl = new RelImpl(this, false, true, false);

@@ -40,12 +40,14 @@ public class PathDataAdapter extends DataAdapter {
 
     @Override
     public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage == DataSourceUsage.VALUE;
+        return dataSourceUsage == DataSourceUsage.VALUE || dataSourceUsage == DataSourceUsage.TEXT;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("(serviceResponse)=>{");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
+
         js.append("const items=serviceResponse%s;", getPath());
         js.append("if(items==null||items==undefined){");
         js.throwError("path not found", "serviceResponse");
@@ -60,6 +62,7 @@ public class PathDataAdapter extends DataAdapter {
         js.throwError("property not found", "items", "fieldName");
         js.append("};");
         js.append("return record[fieldName];");
+
         js.append("}");
     }
 }

@@ -62,9 +62,8 @@ public class MapDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(serviceResponse)=>{");
-
-        js.debug("console.log('ValueParserDataAdapter before',serviceResponse);");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         // get data array from path
         js.append("const data=Object.assign([],serviceResponse%s);", getPath());

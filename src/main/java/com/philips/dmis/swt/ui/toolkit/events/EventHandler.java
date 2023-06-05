@@ -5,6 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class EventHandler {
@@ -21,9 +22,7 @@ public abstract class EventHandler {
         this.pageId = pageId;
         this.widgetId = widgetId;
         this.name = name;
-        for (Statement statement : statements) {
-            this.statements.add(statement);
-        }
+        this.statements.addAll(Arrays.asList(statements));
     }
 
     public String getPageId() {

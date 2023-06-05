@@ -1,7 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
-import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Set;
@@ -50,6 +49,6 @@ public class SingleChoice extends ValueWidget<SingleChoice> implements
 
     @Override
     public void getRequiredDataAdapters(Set<Class<? extends DataAdapter>> requiredDataAdapters) {
-        requiredDataAdapters.add(KeyValueListDataAdapter.class);
+        // requiredDataAdapters.add(KeyValueListDataAdapter.class);
     }
 }

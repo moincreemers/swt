@@ -1,16 +1,20 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class HelloWorldExample extends Page {
     public HelloWorldExample() throws Exception {
+        super(Constants.isDemo(HelloWorldExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("The Singular Web Toolkit"));
 
         add(new HtmlParagraph("The Singular Web Toolkit (SWT) is a Web UI library created for Java " +

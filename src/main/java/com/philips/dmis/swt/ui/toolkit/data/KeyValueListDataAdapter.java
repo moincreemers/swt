@@ -80,7 +80,8 @@ public class KeyValueListDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("(serviceResponse)=>{");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         // re-create data structure
         js.append("const output=structuredClone(serviceResponse);");

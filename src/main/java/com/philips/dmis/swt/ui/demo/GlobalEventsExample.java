@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEvent;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
@@ -10,11 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class GlobalEventsExample extends Page {
     public GlobalEventsExample() throws Exception {
+        super(Constants.isDemo(GlobalEventsExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        IconsWidget icons = add(new IconsWidget("MaterialSymbolsSharp.woff2"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Global Events"));
 
         add(new HtmlParagraph("The toolkit supports a number of events that can be subscribed to. " +
@@ -35,6 +40,11 @@ public class GlobalEventsExample extends Page {
 
         add(new HtmlParagraph("Note that onKeyPress adds the event handler to the page and in this case, " +
                 "only this page will receive the event when it is the active page."));
+
+        add(new Panel(PanelType.WARNING, new HtmlLabel(icons, "warning",
+                "The toolkit allows overriding standard key bindings, such as CTRL-F on Windows or " +
+                        "Command-F on macOS, which typically corresponds to page search. Users typically expect these " +
+                        "key bindings to work as expected.")));
 
         add(new HtmlParagraph("To add an event handler that is always received, use:"));
 

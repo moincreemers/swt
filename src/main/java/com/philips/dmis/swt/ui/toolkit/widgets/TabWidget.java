@@ -109,9 +109,10 @@ public class TabWidget extends Composite {
         add(tabWidget);
         ChangeEventHandler changeEventHandler = new ChangeEventHandler();
         tabWidget.onChange(changeEventHandler);
-        StaticData staticData = add(new StaticData(values.stream().map(pair -> pair.value).toList()));
-        tabWidget.addDataSource(staticData,
-                new KeyValueListDataAdapter("", ""));
+        StaticData staticData = add(new StaticData(
+                DataBuilder.list(values.stream().map(pair -> pair.value).toList()).getData()
+        ));
+        tabWidget.addDataSource(staticData, new KeyValueListDataAdapter());
 
         int initialIndex = getInitialIndex();
         for (int p = 0; p < values.size(); p++) {

@@ -33,12 +33,16 @@ public class PageExistsFunction implements JsFunction {
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
+        parameters.add(JsParameter.getInstance("id", JsType.STRING));
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
         js.append("(id)=>{");
+        js.trace(this);
+
         js.append("return %s.includes(id);", JsPageControllerModule.getId(PagesConst.class));
+
         js.append("}"); // end function
     }
 }

@@ -88,4 +88,9 @@ public class Caption extends DataBoundWidget<Caption> implements HasIcon, HasTex
     public void setText(String text) {
         textImpl.setText(text);
     }
+
+    @Override
+    public boolean isText() {
+        return textImpl.isText();
+    }
 }

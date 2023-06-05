@@ -131,11 +131,12 @@ public class ImportArrayDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("(object,unmodifiedResponse)=>{");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         // create new ServiceResponse or use existing service response (this is only true if this data adapter is doing
         // a secondary import on the same data source)
-        js.append("const serviceResponse=(object!==undefined&&object!==null)?object:%s;", DtoUtil.getDefault(ServiceResponse.class, false));
+        js.append("const newServiceResponse=(serviceResponse!==undefined&&serviceResponse!==null)?serviceResponse:%s;", DtoUtil.getDefault(ServiceResponse.class, false));
 
         // note: we always import from the unmodified response provided by the data source
         js.append("let array=unmodifiedResponse%s;", getPath());
@@ -179,7 +180,7 @@ public class ImportArrayDataAdapter extends DataAdapter {
         js.append("};");// end for row
 
 
-        js.append("serviceResponse%s=outputArray;", outputPath);
+        js.append("newServiceResponse%s=outputArray;", outputPath);
 
 
 
@@ -193,12 +194,12 @@ public class ImportArrayDataAdapter extends DataAdapter {
 //        String rootViewId = viewBuilder.getId();
 
         String rootViewId = View.getRootViewId(getId());
-        js.append("const viewTop=%s(serviceResponse,'%s','%s',false);",
+        js.append("const viewTop=%s(newServiceResponse,'%s','%s',false);",
                 JsGlobalModule.getQualifiedId(CreateViewFunction.class),
                 rootViewId,
                 getClass().getSimpleName());
         for (FieldMapping fieldMapping : fieldMappings) {
-            js.append("%s(serviceResponse,viewTop,'%s','%s','%s',%s,'%s','%s',false);",
+            js.append("%s(newServiceResponse,viewTop,'%s','%s','%s',%s,'%s','%s',false);",
                     JsGlobalModule.getQualifiedId(AddViewFieldFunction.class),
                     fieldMapping.getName(),
                     fieldMapping.getTo(),
@@ -209,19 +210,19 @@ public class ImportArrayDataAdapter extends DataAdapter {
         }
 
 
-        js.append("serviceResponse.meta['%s']='%s';",
+        js.append("newServiceResponse.meta['%s']='%s';",
                 ServiceResponse.META_SELECTED_VIEW_ID, rootViewId);
 
-        js.append("serviceResponse.meta['%s']=Object.assign([],serviceResponse.meta['%s']);",
+        js.append("newServiceResponse.meta['%s']=Object.assign([],newServiceResponse.meta['%s']);",
                 ServiceResponse.META_TRANSFORMATIONS, ServiceResponse.META_TRANSFORMATIONS);
-        js.append("serviceResponse.meta['%s'].push(%s);",
+        js.append("newServiceResponse.meta['%s'].push(%s);",
                 ServiceResponse.META_TRANSFORMATIONS,
                 DtoUtil.valueOf(new TransformationMetadata(getId(), getClass().getSimpleName())));
 
         js.debug("console.log('ImportArrayDataAdapter',unmodifiedResponse,outputArray);");
 
 
-        js.append("return serviceResponse;");
+        js.append("return newServiceResponse;");
         js.append("}");
     }
 }

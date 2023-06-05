@@ -3,13 +3,12 @@ package com.philips.dmis.swt.ui.toolkit.js.global;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewType;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.pages.IsPageModuleMember;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-public class GetViewFieldFunction implements JsFunction, IsPageModuleMember {
+public class GetViewFieldFunction implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return true;

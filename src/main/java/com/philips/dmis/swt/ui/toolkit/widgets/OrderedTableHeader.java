@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.SortingDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
 import com.philips.dmis.swt.ui.toolkit.events.OrderChangeEventHandler;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 
 import java.util.Map;
@@ -45,7 +45,7 @@ public class OrderedTableHeader extends Composite {
         SortingDataAdapter sortingDataAdapter = new SortingDataAdapter(htmlTableHeader);
         dataSourceSupplier.addDataAdapter(sortingDataAdapter);
         htmlTableHeader.onOrderChange(new OrderChangeEventHandler(
-                M.Refresh(dataSourceSupplier.asWidget(), JsPagesModule.REASON_LOCAL)
+                M.Refresh(dataSourceSupplier.asWidget(), JsStateModule.REASON_LOCAL)
         ));
     }
 }

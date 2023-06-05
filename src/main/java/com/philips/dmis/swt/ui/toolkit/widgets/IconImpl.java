@@ -51,6 +51,7 @@ public class IconImpl implements HasIcon {
 
     @Override
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
+        htmlAttributes.put("tk-has-icon", isIcon() ? "true" : "false");
     }
 
     @Override

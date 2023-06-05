@@ -1,7 +1,8 @@
 package com.philips.dmis.swt.ui.demo;
 
-import com.philips.dmis.swt.ui.toolkit.data.ArrayDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.data.PathDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
@@ -85,22 +86,40 @@ public class DataBindingExample extends Page {
     }
 
     public DataBindingExample() throws Exception {
+        super(Constants.isDemo(DataBindingExample.class));
     }
 
     @Override
     protected void build() throws Exception {
         IconsWidget icons = add(new IconsWidget("MaterialSymbolsSharp.woff2"));
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Data Binding"));
 
 
         add(new HtmlHeading("Creating Data Sources", 2));
         add(new HtmlParagraph("This page includes a Data Source for the options of the Country ListBox:"));
-        add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "Data countryOptions = new Data(Arrays.asList(\"United States\", " +
-                "\"Netherlands\", \"United Kingdom\", \"Japan\", \"Other\"));"));
+        add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "StaticData countryOptions = add(new StaticData(" +
+                "DataBuilder.keyValue()\n" +
+                "   .add(\"US\", \"United States\")\n" +
+                "   .add(\"NL\", \"Netherlands\")\n" +
+                "   .add(\"UK\", \"United Kingdom\")\n" +
+                "   .add(\"JA\", \"Japan\")\n" +
+                "   .add(\"Other\", \"Other\")\n" +
+                "   .getData()\n" +
+                "));"
+                ));
 
         StaticData countryOptions = add(new StaticData(
-                Arrays.asList("United States", "Netherlands", "United Kingdom", "Japan", "Other")));
+                DataBuilder.keyValue()
+                        .add("US", "United States")
+                        .add("NL", "Netherlands")
+                        .add("UK", "United Kingdom")
+                        .add("JA", "Japan")
+                        .add("Other", "Other")
+                        .getData()
+        ));
 
         add(new HtmlParagraph("... and a Data Source for the Address record. Let&#39;s say we implemented the Address " +
                 "class. Presumably, this is already part of the Address Service we would like to use. So we could add " +
@@ -118,7 +137,7 @@ public class DataBindingExample extends Page {
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS,
                 "Address address = new Address(\"704 Hauser St.\",\"10001\",\"New York\",\"New York\"," +
                         "\"United States\",\"\");\n" +
-                        "Data data = new Data(address);"));
+                        "StaticData data = add(new StaticData(address));"));
 
         StaticData staticData = add(new StaticData(new Address("704 Hauser St.", "10001", "New York",
                 "New York", "United States", "")));
@@ -167,7 +186,7 @@ public class DataBindingExample extends Page {
 
         HtmlSelect country = new HtmlSelect("country")
                 .addDataSource(DataSourceUsage.VALUE, staticData, new PathDataAdapter("country"))
-                .addDataSource(DataSourceUsage.OPTIONS, countryOptions, new ArrayDataAdapter());
+                .addDataSource(DataSourceUsage.OPTIONS, countryOptions, new KeyValueListDataAdapter());
 
         addressGrid.addAll(new HtmlLabel(country, "Country"), countryCode);
         HtmlPreformatted otherCountryCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox otherCountry = new TextBox()\n" +

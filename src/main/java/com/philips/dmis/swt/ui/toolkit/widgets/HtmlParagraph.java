@@ -51,4 +51,9 @@ public class HtmlParagraph extends DataBoundWidget<HtmlParagraph> implements Has
     public void setText(String text) {
         textImpl.setText(text);
     }
+
+    @Override
+    public boolean isText() {
+        return textImpl.isText();
+    }
 }

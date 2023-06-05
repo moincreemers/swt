@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.FieldMapping;
 import com.philips.dmis.swt.ui.toolkit.data.ImportArrayDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
@@ -7,6 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.dto.URLAppearanceType;
 import com.philips.dmis.swt.ui.toolkit.dto.URLFormat;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEvent;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.ResponseEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -15,11 +17,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class GoogleBooksExample extends Page {
     public GoogleBooksExample() throws Exception {
+        super(Constants.isDemo(GoogleBooksExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Integrating a Third-Party API"));
 
         // note: set to manual refresh because this is an external service
@@ -64,7 +69,8 @@ public class GoogleBooksExample extends Page {
         queryParameter.onKeyPress(new KeyPressEventHandler(
                 M.Iif(V.Is(V.GetEvent(KeyPressEvent.KEY_CODE), V.Const(KeyPressEvent.VK_ENTER))).True(
                         M.SetQueryParameter(googleBooks, V.Const("q"), V.GetValue(queryParameter)),
-                        M.Refresh(googleBooks)
+                        M.Refresh(googleBooks),
+                        M.SetDisabled(queryParameter)
                 )
         ));
 
@@ -76,5 +82,9 @@ public class GoogleBooksExample extends Page {
 
         HtmlPreformatted apiResponse = tabWidget.panel(1).add(new HtmlPreformatted(TextFormatType.JSON));
         apiResponse.addDataSource(googleBooks);
+
+        googleBooks.onResponse(new ResponseEventHandler(
+                M.SetEnabled(queryParameter)
+        ));
     }
 }

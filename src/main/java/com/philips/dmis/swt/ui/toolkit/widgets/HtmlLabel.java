@@ -9,7 +9,7 @@ public class HtmlLabel extends DataBoundWidget<HtmlLabel> implements HasFor, Has
     }
 
     public HtmlLabel(String text) {
-        this(null, text);
+        this(null, null, text);
     }
 
     public HtmlLabel(IconsWidget iconsWidget, String icon) {
@@ -132,5 +132,8 @@ public class HtmlLabel extends DataBoundWidget<HtmlLabel> implements HasFor, Has
         textImpl.setText(text);
     }
 
-
+    @Override
+    public boolean isText() {
+        return textImpl.isText();
+    }
 }

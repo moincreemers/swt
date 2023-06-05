@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.events.*;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.statement.mapper.C;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
@@ -170,7 +170,7 @@ public class PatientDocuments extends AbstractViewerPage {
                 // note: PatientSearch passes the entire patient record to this page
                 M.SetQueryParameter(documents, "patientID", V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientId")),
                 M.SetQueryParameter(documents, "patientIDAuth", V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientIdAuth")),
-                M.Refresh(documents, JsPagesModule.REASON_LOCAL),
+                M.Refresh(documents, JsStateModule.REASON_LOCAL),
 
                 M.Refresh(userService)
         ));

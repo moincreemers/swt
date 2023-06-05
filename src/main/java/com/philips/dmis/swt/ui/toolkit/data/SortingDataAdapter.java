@@ -5,8 +5,8 @@ import com.philips.dmis.swt.ui.toolkit.dto.Order;
 import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
 import com.philips.dmis.swt.ui.toolkit.dto.TransformationMetadata;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
-import com.philips.dmis.swt.ui.toolkit.js.pages.GetOrderingFunction;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.GetOrderingFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasOrderingControls;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -24,11 +24,12 @@ public class SortingDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("(serviceResponse)=>{");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
-        js.debug("console.log('SortingDataAdapter before',serviceResponse);");
-
-        js.append("const ordering=%s();", JsPagesModule.getQualifiedId(this.widget.asWidget(), GetOrderingFunction.class));
+        js.append("const ordering=%s('%s');",
+                JsWidgetModule.getQualifiedId(GetOrderingFunction.class),
+                this.widget.asWidget().getId());
         js.append("const items=serviceResponse%s;", getPath());
 
         js.append("const collator=new Intl.Collator();");

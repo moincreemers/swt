@@ -1,5 +1,6 @@
 package com.philips.dmis.swt.ui.demo;
 
+import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.predicate.P;
@@ -10,11 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class StatementsExample extends Page {
     public StatementsExample() throws Exception {
+        super(Constants.isDemo(StatementsExample.class));
     }
 
     @Override
     protected void build() throws Exception {
-        add(HtmlLink.closePage("Back to Examples"));
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
         add(new HtmlHeading("Using Statements"));
 
         add(new HtmlParagraph("Statements serve as the logic part of Singular applications. " +
@@ -51,8 +55,6 @@ public class StatementsExample extends Page {
         add(new HtmlParagraph("You can instantiate statements directly but its more convenient to use the 'shorthand' " +
                 "classes. Use \"M\" for Methods, \"V\" for Values, \"P\" for Predicates, \"A\" for Aggregates and \"R\" " +
                 "for reducers. "));
-
-
 
 
         // ARRAY

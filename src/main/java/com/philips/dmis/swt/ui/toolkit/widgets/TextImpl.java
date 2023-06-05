@@ -48,7 +48,13 @@ public class TextImpl implements HasText {
     }
 
     @Override
+    public boolean isText() {
+        return this.text != null && !this.text.isEmpty();
+    }
+
+    @Override
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
+        htmlAttributes.put("tk-has-text", isText() ? "true" : "false");
     }
 
     @Override
@@ -57,7 +63,7 @@ public class TextImpl implements HasText {
         classNames.add(widget.getId());
         classNames.add(HasText.CSS_CLASS_TEXT);
         String token = "";
-        if (!(text == null || text.isEmpty())) {
+        if (isText()) {
             classNames.add(HasConstantStorage.CSS_CLASS_GLOBAL);
             // NOTE: careful
             token = toolkit.registerConstant(SanitizeHTML.secureHTML(text));

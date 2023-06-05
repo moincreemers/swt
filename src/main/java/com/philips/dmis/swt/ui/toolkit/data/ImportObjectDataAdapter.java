@@ -195,6 +195,7 @@ public class ImportObjectDataAdapter extends DataAdapter {
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         // create new ServiceResponse or use existing service response (this is only true if this data adapter is doing
         // a secondary import on the same data source)

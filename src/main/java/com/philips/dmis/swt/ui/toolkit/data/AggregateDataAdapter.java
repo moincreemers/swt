@@ -112,9 +112,8 @@ public class AggregateDataAdapter extends DataAdapter {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(serviceResponse)=>{");
-
-        js.debug("console.log('AggregateDataAdapter before',serviceResponse);");
+        js.append("(serviceResponse,unmodifiedResponse)=>{");
+        js.trace(this);
 
         // re-create data structure
         js.append("const output=structuredClone(serviceResponse);");

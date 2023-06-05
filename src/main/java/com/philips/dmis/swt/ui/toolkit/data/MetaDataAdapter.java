@@ -53,8 +53,7 @@ public class MetaDataAdapter extends DataAdapter {
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("(serviceResponse,unmodifiedResponse)=>{"); // begin function
-
-        js.debug("console.log('MetaDataAdapter, before',serviceResponse);");
+        js.trace(this);
 
         js.append("const obj=unmodifiedResponse%s;", getPath());
         js.append("if(obj==null||obj==undefined){");

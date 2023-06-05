@@ -29,6 +29,6 @@ public class HtmlDataList extends DataBoundWidget<HtmlDataList> implements HasOp
 
     @Override
     public void getRequiredDataAdapters(Set<Class<? extends DataAdapter>> requiredDataAdapters) {
-        requiredDataAdapters.add(KeyValueListDataAdapter.class);
+        //requiredDataAdapters.add(KeyValueListDataAdapter.class);
     }
 }

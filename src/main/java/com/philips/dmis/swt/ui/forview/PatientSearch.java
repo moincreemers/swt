@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.events.*;
-import com.philips.dmis.swt.ui.toolkit.js.pages.JsPagesModule;
+import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.statement.mapper.C;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
@@ -103,7 +103,7 @@ public class PatientSearch extends AbstractViewerPage {
                 ),
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
                         // the default is USER, so we change to LOCAL which enables cache
-                        M.Refresh(patients, JsPagesModule.REASON_LOCAL)
+                        M.Refresh(patients, JsStateModule.REASON_LOCAL)
                 )
         ));
 

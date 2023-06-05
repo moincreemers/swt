@@ -5,6 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsMember;
 import com.philips.dmis.swt.ui.toolkit.js.JsModule;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.Pair;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SendHttpRequestFunction;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 
 @Component
 public class JsGlobalModule implements JsModule {
-    public static final String ID = "Util";
+    public static final String ID = "G";
 
     public static final boolean TRUE = true;
     public static final boolean FALSE = false;
@@ -34,7 +35,6 @@ public class JsGlobalModule implements JsModule {
             new AddClassNameFunction(),
             new AddViewActionFunction(),
             new AddViewFieldFunction(),
-            new AppendOptionFunction(),
             new ClearDocumentHashFunction(),
             new ContainsFunction(),
             new ContainsOptionFunction(),
@@ -52,6 +52,7 @@ public class JsGlobalModule implements JsModule {
             new FormatStringFunction(),
             new FormatTextFunction(),
             new FormatURLFunction(),
+            new GetCacheFunction(),
             new GetConstantFunction(),
             new GetXhrResponseFunction(),
             new GetDocumentHashFunction(),
@@ -79,6 +80,7 @@ public class JsGlobalModule implements JsModule {
             new ObjectToSearchFunction(),
             new ParseHttpHeaderFunction(),
             new ProperCaseFunction(),
+            new PutCacheFunction(),
             new ResolveObjectMemberOrPath(),
             new RemoveClassNameFunction(),
             new RemoveSessionValueFunction(),
@@ -96,7 +98,6 @@ public class JsGlobalModule implements JsModule {
             new WeekOfYearFunction(),
             new WeekOfYearStringFunction(),
             new WeekOfYearToDateFunction()
-
     );
 
     private static final Map<Class<? extends JsMember>, Pair<String, JsMember>> INDEX =

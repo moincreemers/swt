@@ -17,14 +17,6 @@ public final class M {
         return new AddClassNameStatement(widget, className);
     }
 
-    public static MethodStatement AddData(DataBoundWidget<?> dataBoundWidget) {
-        return new AddDataStatement(dataBoundWidget);
-    }
-
-    public static MethodStatement AddData(DataBoundWidget<?> dataBoundWidget, ValueStatement data) {
-        return new AddDataStatement(dataBoundWidget, data);
-    }
-
     public static MethodStatement Alert(String message) {
         return new AlertStatement(message);
     }
@@ -51,14 +43,6 @@ public final class M {
 
     public static MethodStatement Code(String js, JsType jsType) {
         return new CodeStatement(js, jsType);
-    }
-
-    public static MethodStatement DeleteData(DataBoundWidget<?> dataBoundWidget, ValueStatement selection) {
-        return new DeleteDataStatement(dataBoundWidget, selection);
-    }
-
-    public static MethodStatement DuplicateData(DataBoundWidget<?> dataBoundWidget, ValueStatement selection) {
-        return new DuplicateDataStatement(dataBoundWidget, selection);
     }
 
     public static MethodStatement Focus(Widget widget) {
@@ -299,6 +283,10 @@ public final class M {
 
     public static MethodStatement HideProgress(Widget targetWidget) {
         return new HideProgressStatement(targetWidget);
+    }
+
+    public static MethodStatement Generate(Widget widget, ContainerWidget<?> target) {
+        return new GenerateStatement(widget, target);
     }
 
 }
