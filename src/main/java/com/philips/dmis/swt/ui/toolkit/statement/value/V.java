@@ -1084,5 +1084,12 @@ public final class V {
         return new GetQueryStringAsObjectValue(url);
     }
 
+    public static ValueStatement GetDataKey() {
+        return new GetDataKeyValue();
+    }
+
+    public static ValueStatement GetDataKey(ValueStatement defaultValue) {
+        return new GetDataKeyValue(defaultValue);
+    }
 
 }

@@ -15,17 +15,13 @@ Assuming you are using a Java Spring-Boot tech-stack, SWT will be able to genera
 **To run the main demo:**
 
 1. Clone this project (which you've already done)
-2. Open MainDemoPage.java and make it the default page, like so:
+2. Open Constants.java and make MainDemoPage the default page, like so:
 
 ```java
-public MainDemoPage() throws Exception {
-    super(true);
-}
+DEMO = MainDemoPage.class;
 ```
 
-3. Open PatientSearch.java and make sure it is NOT the default page.
-
-4. Run the project using the plugin in your IDE or terminal:
+3. Run the project using the plugin in your IDE or terminal:
 
 ```
 $ mvn spring-boot:run
@@ -48,22 +44,19 @@ _WARNING: This opens a new instance of Chrome that you should only use for this 
 use a Browser with web security disabled to browse the Internet. You can have another normal instance running at the
 same time._
 
-4. Open PatientSearch.java and make it the default page, like so:
+4. Open Constants.java and make PatientSearch the default page, like so:
 
 ```java
-public PatientSearch() throws Exception {
-    super(true);
-}
+DEMO = PatientSearch.class;
 ```
 
-5. Open MainDemoPage.java and make sure it is NOT the default page.
-6. Run the project using the plugin in your IDE or terminal:
+5. Run the project using the plugin in your IDE or terminal:
 
 ```
 $ mvn spring-boot:run
 ```
 
-7. Navigate to http://localhost:8000
+6. Navigate to http://localhost:8000
 
 ## Getting started
 
@@ -118,4 +111,4 @@ $ mvn spring-boot:run
   project files automatically because spring-boot-devtools has been configured. However, this may occasionally result in
   an error. The error is always a missing page reference. In some cases the plugin automatically re-compiles again
   without errors. In most cases however, manually re-compiling is needed. The reason this happens is that the
-  ToolkitController component does not receive all pages from Spring-Boot. Why this happens is not known. 
+  ToolkitController component does not receive all pages from Spring-Boot. Why this happens is not known.

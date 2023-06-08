@@ -7,6 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.RefreshFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
@@ -45,8 +46,9 @@ public class RefreshStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s('%s',%s);",
+        js.append("%s(%s('%s',eventContext),%s);",
                 JsWidgetModule.getQualifiedId(RefreshFunction.class),
+                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.getId(),
                 ValueStatement.valueOf(toolkit, reason != null
                         ? reason

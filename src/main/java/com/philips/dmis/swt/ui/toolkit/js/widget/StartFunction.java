@@ -1,9 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
-import com.philips.dmis.swt.ui.toolkit.events.ElapsedEvent;
-import com.philips.dmis.swt.ui.toolkit.events.StartEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.TimerHandleVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.TimerIntervalVariable;
@@ -65,26 +62,26 @@ public class StartFunction implements JsFunction {
 
         js.append("const callback=()=>{");
         js.append("%s(id,%s);",
-                JsWidgetModule.getId(EventHandlerFunction.OnElapsedEventHandlerFunction.class),
-                CustomEvent.valueOf(new ElapsedEvent()));
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getId(EventHandlerFunction.OnElapsedEventHandlerFunction.class));
         js.append("};");
 
         js.append("const timerType=widget.%s;", TimerTypeVariable.ID);
         js.append("if(timerType=='%s'){", TimerType.ALARM.name()); // if
-            js.append("widget.%s=window.setTimeout(callback,widget.%s);", TimerHandleVariable.ID,
-                    TimerIntervalVariable.ID);
-            js.debug("console.log('alarm set');");
+        js.append("widget.%s=window.setTimeout(callback,widget.%s);", TimerHandleVariable.ID,
+                TimerIntervalVariable.ID);
+        js.debug("console.log('alarm set');");
         js.append("};"); // end if
 
         js.append("if(timerType=='%s'){", TimerType.REPEAT.name()); // if
-            js.append("widget.%s=window.setInterval(callback,widget.%s);", TimerHandleVariable.ID,
-                    TimerIntervalVariable.ID);
-            js.debug("console.log('repeater set');");
+        js.append("widget.%s=window.setInterval(callback,widget.%s);", TimerHandleVariable.ID,
+                TimerIntervalVariable.ID);
+        js.debug("console.log('repeater set');");
         js.append("};"); // end if
 
         js.append("%s(id,%s);",
-                JsWidgetModule.getId(EventHandlerFunction.OnStartEventHandlerFunction.class),
-                CustomEvent.valueOf(new StartEvent()));
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getId(EventHandlerFunction.OnStartEventHandlerFunction.class));
 
         js.append("}"); // end function
     }

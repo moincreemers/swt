@@ -6,6 +6,8 @@ import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -31,7 +33,10 @@ public class ShowProgressStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        ExtModuleInvoke.renderCall(ExtModuleEvent.BEGIN_PROGRESS, "", targetWidget.getId(), js);
+        String idVar = String.format("%s('%s',eventContext)",
+                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
+                targetWidget.getId());
+        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.BEGIN_PROGRESS, "", idVar, js);
     }
 
     @Override

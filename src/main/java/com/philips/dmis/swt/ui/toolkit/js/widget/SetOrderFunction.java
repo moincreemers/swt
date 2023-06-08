@@ -2,8 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
-import com.philips.dmis.swt.ui.toolkit.events.OrderChangeEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.IsMultiLevelVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.OrderingVariable;
@@ -125,8 +123,8 @@ public class SetOrderFunction implements JsFunction {
         js.append("widget.%s=newOrdering;", OrderingVariable.ID);
 
         js.append("%s(id,%s);",
-                JsWidgetModule.getId(EventHandlerFunction.OnOrderChangeEventHandlerFunction.class),
-                CustomEvent.valueOf(new OrderChangeEvent()));
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getId(EventHandlerFunction.OnOrderChangeEventHandlerFunction.class));
 
         js.append("};"); // end if
 

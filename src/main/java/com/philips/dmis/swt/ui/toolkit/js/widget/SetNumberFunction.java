@@ -2,7 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.state.NumberTextIdVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.WidgetTypeVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -52,7 +51,8 @@ public class SetNumberFunction implements JsFunction {
         js.append("const widget=window[id];");
 
         js.append("if(widget.%s=='%s'){", WidgetTypeVariable.ID, WidgetType.HEADING.name());
-        js.append("var numberElement=document.getElementById(widget.%s);", NumberTextIdVariable.ID);
+        js.append("var numberElement=document.getElementById(%s(id));",
+                JsWidgetModule.getId(NumberTextIdFunction.class));
         js.append("if(numberElement==null){return;};");
         js.append("numberElement.textContent=text;");
         js.append("};");

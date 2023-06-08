@@ -1,8 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
-import com.philips.dmis.swt.ui.toolkit.events.StopEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.TimerHandleVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
@@ -59,8 +57,8 @@ public class StopFunction implements JsFunction {
         js.append("window.clearTimeout(widget.%s);", TimerHandleVariable.ID);
         js.append("widget.%s=null;", TimerHandleVariable.ID);
         js.append("%s(id,%s);",
-                JsWidgetModule.getId(EventHandlerFunction.OnStopEventHandlerFunction.class),
-                CustomEvent.valueOf(new StopEvent()));
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getId(EventHandlerFunction.OnStopEventHandlerFunction.class));
         js.append("};");
 
         js.append("}"); // end function

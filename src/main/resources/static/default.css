@@ -241,7 +241,7 @@ div.tk-rounded{border-radius:0.5rem;}
 button.tk-hard,input.tk-hard,select.tk-hard{border:1px solid #000;border-radius:0;}
 .tk-bordered{border:1px solid #000;}
 .tk-fill-bg{background-color:#fff;color:initial;}
-.tk-block,div.tk-block,ul.tk-block{position:relative;display:block;}
+.tk-block{position:relative;display:block!important;}
 .tk-trans-bg{background-color:unset;}
 .tk-float-right{display:inline-block;float:right;margin-right:0 !important;}
 .tk-center{text-align:center;}

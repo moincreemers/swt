@@ -6,6 +6,8 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.AddClassNameFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -34,8 +36,9 @@ public class AddClassNameStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s('%s',%s);",
+        js.append("%s(%s('%s',eventContext),%s);",
                 JsGlobalModule.getQualifiedId(AddClassNameFunction.class),
+                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.getId(),
                 ValueStatement.valueOf(toolkit, className, widget));
     }

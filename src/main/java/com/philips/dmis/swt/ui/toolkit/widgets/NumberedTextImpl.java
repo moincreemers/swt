@@ -47,12 +47,12 @@ public class NumberedTextImpl extends TextImpl implements HasNumberedText {
         if (numbered) {
             html.append(String.format("<table class=\"%s\"><tr>",
                     HasNumberedText.CSS_CLASS_NUMBER_OUTER));
-            html.append(String.format("<td id=\"%s\" class=\"%s\">",
-                    HasNumberedText.getNumberTextId(widget.getId()), HasNumberedText.CSS_CLASS_NUMBER_TEXT));
+            html.append(String.format("<td id=\"${id}%s\" class=\"%s\">",
+                    HasNumberedText.getNumberTextId(""), HasNumberedText.CSS_CLASS_NUMBER_TEXT));
 
             html.append("</td>");
-            html.append(String.format("<td id=\"%s\" class=\"%s\">",
-                    HasText.getTextId(widget.getId()), HasText.CSS_CLASS_TEXT));
+            html.append(String.format("<td id=\"${id}%s\" class=\"%s\">",
+                    HasText.getTextId(""), HasText.CSS_CLASS_TEXT));
             if (!(text == null || text.isEmpty())) {
                 html.append(SanitizeHTML.secureHTML(text));
             }

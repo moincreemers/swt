@@ -2,8 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
-import com.philips.dmis.swt.ui.toolkit.events.InitEvent;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.controller.JsPageControllerModule;
@@ -74,6 +72,15 @@ public class InitWidgetFunction implements JsFunction {
         // replace constants
         js.append("%s.%s(id);", Constants.MAIN_MODULE_NAME, HasConstantStorage.JS_INIT_FUNCTION);
 
+        // ensure widget is registered with parent
+        js.append("if(widgetType!='%s'){", WidgetType.PAGE.name()); // if
+        js.append("const parentId=widget.%s;", ParentWidgetIdVariable.ID);
+        js.append("const containerWidget=window[parentId];");
+        js.append("if(!containerWidget.%s.includes(id)){", ChildWidgetsVariable.ID); // if
+        js.append("containerWidget.%s.push(id);", ChildWidgetsVariable.ID);
+        js.append("};"); // end if
+        js.append("};"); // end if
+
         // init child widgets (recursive)
         js.append("if(implements.includes('%s')){", ContainerWidget.class.getSimpleName()); // if
         js.append("for(const i in widget.%s){", ChildWidgetsVariable.ID); // for
@@ -87,8 +94,11 @@ public class InitWidgetFunction implements JsFunction {
         js.ifInArray("viewType", ViewType.DIALOG.name(), ViewType.SIDEBAR_DIALOG.name()); // if
         js.append("element.onmousedown=(event)=>{"); // function
         js.append("if(event.srcElement!=null&&event.srcElement.id==id){"); // if
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnClickOutsideDialogEventHandlerFunction.class));
+        js.append("%s(id,event);",
+                JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
+        js.append("%s(id,%s,event);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnClickOutsideDialogEventHandlerFunction.class));
         js.append("};"); // end if
         js.append("};"); // end function
         js.append("};"); // end if
@@ -96,23 +106,32 @@ public class InitWidgetFunction implements JsFunction {
 
         js.append("if(implements.includes('%s')){", HasKeyInput.class.getSimpleName()); // if
         js.append("element.oninput=(event)=>{"); // function
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnInputEventHandlerFunction.class));
+        js.append("%s(id,event);",
+                JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
+        js.append("%s(id,%s,event);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnInputEventHandlerFunction.class));
         js.append("};"); // end function
         js.append("};"); // end if
 
         js.append("if(implements.includes('%s')){", HasValue.class.getSimpleName()); // if
         js.append("element.onchange=(event)=>{"); // function
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnChangeEventHandlerFunction.class));
+        js.append("%s(id,event);",
+                JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
+        js.append("%s(id,%s,event);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnChangeEventHandlerFunction.class));
         js.append("};"); // end function
         js.append("};"); // end if
 
         js.append("if(implements.includes('%s')){", IsClickable.class.getSimpleName()); // if
         js.append("element.onclick=(event)=>{"); // function
         js.append("if(element.hasAttribute('disabled')){return;};");
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
-        js.append("%s(id,event);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnClickEventHandlerFunction.class));
+        js.append("%s(id,event);",
+                JsWidgetModule.getQualifiedId(BeforeEventFunction.class));
+        js.append("%s(id,%s,event);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnClickEventHandlerFunction.class));
         js.append("};"); // end function
         js.append("};"); // end if
 
@@ -130,8 +149,8 @@ public class InitWidgetFunction implements JsFunction {
         js.append("};"); // end if
 
         js.append("%s(id,%s);",
-                JsWidgetModule.getId(EventHandlerFunction.OnInitEventHandlerFunction.class),
-                CustomEvent.valueOf(new InitEvent()));
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getId(EventHandlerFunction.OnInitEventHandlerFunction.class));
 
         // if this is a page call refresh (recursive)
         // note: keep as last line in method

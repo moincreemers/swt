@@ -1,7 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.*;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.*;
 import com.philips.dmis.swt.ui.toolkit.widgets.DataBoundWidget;
@@ -94,39 +93,45 @@ public class UpdateFunction implements JsFunction {
         js.append("};"); // end for
         js.append("};");// end if
 
+        js.append("const widgetIds=[id].concat(widget.%s);", SlavesVariable.ID);
+        js.append("for(const i in widgetIds){"); // for
+        js.append("var widgetId=widgetIds[i];");
+
         js.append("switch(dataSourceUsage){"); // switch
         for (DataSourceUsage dataSourceUsage : DataSourceUsage.values()) {
             js.append("case '%s':", dataSourceUsage.name());
             switch (dataSourceUsage) {
                 case TEXT:
-                    js.append("%s(id,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTextFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTextFunction.class));
                     break;
                 case VALUE:
-                    js.append("%s(id,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateValueFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateValueFunction.class));
                     break;
                 case OPTIONS:
-                    js.append("%s(id,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateOptionsFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateOptionsFunction.class));
                     break;
                 case LIST_ITEMS:
-                    js.append("%s(id,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateListItemsFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateListItemsFunction.class));
                     break;
                 case TABLE_HEADER:
-                    js.append("%s(id,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTableHeaderFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTableHeaderFunction.class));
                     break;
                 case TABLE_BODY:
-                    js.append("%s(id,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTableBodyFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTableBodyFunction.class));
                     break;
                 case TABLE_FOOTER:
-                    js.append("%s(id,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTableFooterFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,object,dataSourceId);", JsWidgetModule.getId(UpdateTableFooterFunction.class));
                     break;
             }
             js.append("break;");
         }
         js.append("};"); // end switch
 
-        js.append("%s(id,%s);",
-                JsWidgetModule.getId(EventHandlerFunction.OnUpdateEventHandlerFunction.class),
-                CustomEvent.valueOf(new UpdateEvent()));
+        js.append("%s(widgetId,%s);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getId(EventHandlerFunction.OnUpdateEventHandlerFunction.class));
+
+        js.append("};"); // end for
 
         js.append("}"); // end function
     }

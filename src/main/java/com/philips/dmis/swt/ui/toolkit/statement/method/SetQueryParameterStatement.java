@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetParameterFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasURL;
@@ -37,8 +38,9 @@ public class SetQueryParameterStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s('%s',%s,%s);",
+        js.append("%s(%s('%s',eventContext),%s,%s);",
                 JsWidgetModule.getQualifiedId(SetParameterFunction.class),
+                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 hasURL.asWidget().getId(),
                 ValueStatement.valueOf(toolkit, nameStatement, widget),
                 ValueStatement.valueOf(toolkit, valueStatement, widget));

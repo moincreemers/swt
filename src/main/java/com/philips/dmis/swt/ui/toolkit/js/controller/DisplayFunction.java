@@ -110,13 +110,17 @@ public class DisplayFunction implements JsFunction {
         js.append("if(currentValue!='block'){");
         js.append("%s(pageId,'%s');", JsWidgetModule.getQualifiedId(RefreshPageFunction.class), JsStateModule.REASON_SHOW);
         js.append("pageElement.style.display='block';");
-        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnShowEventHandlerFunction.class));
+        js.append("%s(pageId,%s);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnShowEventHandlerFunction.class));
         js.append("};");
         js.append("}else{"); // else
         js.append("pageElement.style.zIndex='';");
         js.append("if(currentValue=='block'){");
         js.append("pageElement.style.display='none';");
-        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnHideEventHandlerFunction.class));
+        js.append("%s(pageId,%s);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnHideEventHandlerFunction.class));
         js.append("};");
         js.append("};"); // end if
         js.append("var isActive=pageElement.classList.contains('tk-page-active');");
@@ -124,12 +128,16 @@ public class DisplayFunction implements JsFunction {
         js.append("pageElement.classList.add('tk-page-active');");
         //js.append("window[pageId].%s().scrollIntoViewIfNeeded();", GetElementFunction.ID);
         js.append("if(!isActive){"); // if
-        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnActivateEventHandlerFunction.class));
+        js.append("%s(pageId,%s);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnActivateEventHandlerFunction.class));
         js.append("};"); // end if
         js.append("}else{"); // else
         js.append("pageElement.classList.remove('tk-page-active');");
         js.append("if(isActive){"); // if
-        js.append("%s(pageId);", JsWidgetModule.getQualifiedId(EventHandlerFunction.OnDeactivateEventHandlerFunction.class));
+        js.append("%s(pageId,%s);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnDeactivateEventHandlerFunction.class));
         js.append("};"); // end if
         js.append("};"); // end if
         js.append("};"); // end for

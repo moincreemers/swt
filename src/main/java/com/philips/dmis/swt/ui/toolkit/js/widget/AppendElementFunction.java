@@ -1,9 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.AppendEvent;
-import com.philips.dmis.swt.ui.toolkit.events.AppendEventHandler;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.*;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -72,15 +69,13 @@ public class AppendElementFunction implements JsFunction {
 
         js.append("if(containerWidgetType=='%s'){", WidgetType.PAGE.name()); // if
 
-        js.append("const innerDivId=containerWidget.%s;", InnerElementIdVariable.ID);
+        js.append("const innerDivId=%s(containerWidgetId);", JsWidgetModule.getId(InnerElementIdFunction.class));
         js.append("var inner=document.getElementById(innerDivId);");
         js.append("if(inner==null){");
         js.throwError("inner element not found", "innerDivId");
         js.append("};");
 
         js.append("inner.append(element);");
-
-
 
         // if page-header/footer or nav-left/right then we need to add a class to the inner element
         js.append("const childWidgetPanelType=childWidgetType=='%s'?childWidget.%s:null;",
@@ -157,10 +152,9 @@ public class AppendElementFunction implements JsFunction {
 
         js.append("};"); // end if
 
-        js.append("%s(id,'%s',%s);",
+        js.append("%s(id,%s);",
                 JsWidgetModule.getId(RaiseEventFunction.class),
-                AppendEventHandler.NAME,
-                CustomEvent.valueOf(new AppendEvent()));
+                JsWidgetModule.getId(EventHandlerFunction.OnAppendEventHandlerFunction.class));
 
         js.append("if(containerWidgetType=='%s'&&isNumbered){",
                 WidgetType.PAGE.name()); // if

@@ -1,11 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
-import com.philips.dmis.swt.ui.toolkit.events.RemoveEvent;
-import com.philips.dmis.swt.ui.toolkit.events.RemoveEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.state.InnerElementIdVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.ChildWidgetsVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.IsNumberedVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.ParentWidgetIdVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.WidgetTypeVariable;
@@ -47,20 +44,21 @@ public class RemoveElementFunction implements JsFunction {
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-        parameters.add(JsParameter.getInstance("element", JsType.OBJECT));
+        parameters.add(JsParameter.getInstance("id", JsType.STRING));
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("(id,element)=>{");
+        js.append("(id)=>{");
         js.trace(this);
 
         js.append("const childWidget=window[id];");
         js.append("const childWidgetType=childWidget.%s;", WidgetTypeVariable.ID);
         js.append("const isNumbered=childWidget.%s;", IsNumberedVariable.ID);
+        js.append("const element=document.getElementById(id);");
 
         js.append("if(childWidgetType=='%s'){", WidgetType.PAGE.name());
-        js.append("document.body.remove(element);");
+        js.append("document.body.removeChild(element);");
         js.append("return;");
         js.append("};");
 
@@ -76,12 +74,13 @@ public class RemoveElementFunction implements JsFunction {
         // remove a child element
         js.append("if(containerWidgetType=='%s'){", WidgetType.PAGE.name()); // if
 
-        js.append("const innerDivId=containerWidget.%s;", InnerElementIdVariable.ID);
+        js.append("const innerDivId=%s(containerWidgetId);",
+                JsWidgetModule.getId(InnerElementIdFunction.class));
         js.append("var inner=document.getElementById(innerDivId);");
         js.append("if(inner==null){");
         js.throwError("inner element not found", "innerDivId");
         js.append("};");
-        js.append("inner.remove(element);");
+        js.append("inner.removeChild(element);");
 
         // if page-header/footer or nav-left/right then we need to remove a class from the inner element
         js.append("if(containerWidgetType=='%s'&&containerPanelType=='%s'){",
@@ -106,25 +105,27 @@ public class RemoveElementFunction implements JsFunction {
 
         js.append("}else if(containerWidgetType=='%s'){", WidgetType.GRID.name());  // else
         // todo:
-        //js.append("containerElement.remove(element);");
+        //js.append("containerElement.removeChild(element);");
 
         js.append("}else if(containerWidgetType=='%s'){", WidgetType.SINGLE_ROW.name());  // else
         // todo:
-        js.append("containerElement.remove(element);");
+        js.append("containerElement.removeChild(element);");
 
         js.append("}else if(containerWidgetType=='%s'){", WidgetType.LIST_CONTAINER.name()); // if
         // todo:
-        js.append("containerElement.remove(element);");
+        js.append("containerElement.removeChild(element);");
 
         js.append("}else{"); // else
-        js.append("containerElement.remove(element);");
+        js.append("containerElement.removeChild(element);");
 
         js.append("};"); // end if
 
-        js.append("%s(id,'%s',%s);",
+        js.append("var i=containerWidget.%s.indexOf(id);", ChildWidgetsVariable.ID);
+        js.append("if(i!=-1){containerWidget.%s.splice(i,1);}", ChildWidgetsVariable.ID);
+
+        js.append("%s(id,%s);",
                 JsWidgetModule.getId(RaiseEventFunction.class),
-                RemoveEventHandler.NAME,
-                CustomEvent.valueOf(new RemoveEvent()));
+                JsWidgetModule.getId(EventHandlerFunction.OnRemoveEventHandlerFunction.class));
 
         js.append("if(containerWidgetType=='%s'&&isNumbered){",
                 WidgetType.PAGE.name()); // if

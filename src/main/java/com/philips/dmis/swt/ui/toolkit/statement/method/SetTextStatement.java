@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetTextFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasText;
@@ -35,8 +36,9 @@ public class SetTextStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s('%s',%s);",
+        js.append("%s(%s('%s',eventContext),%s);",
                 JsWidgetModule.getQualifiedId(SetTextFunction.class),
+                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.asWidget().getId(),
                 ValueStatement.valueOf(toolkit, valueStatement, widget));
     }

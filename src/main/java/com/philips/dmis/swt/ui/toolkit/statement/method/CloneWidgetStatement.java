@@ -5,23 +5,24 @@ import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.CloneFunction;
-import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
-import com.philips.dmis.swt.ui.toolkit.js.widget.InitWidgetFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.ContainerWidget;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
-public class GenerateStatement extends MethodStatement {
+public class CloneWidgetStatement extends MethodStatement {
     private final Widget template;
     private final ContainerWidget<?> target;
+    private final ValueStatement dataKey;
 
-    public GenerateStatement(Widget template, ContainerWidget<?> target) {
+    public CloneWidgetStatement(Widget template, ContainerWidget<?> target, ValueStatement dataKey) {
         this.template = template;
         this.target = target;
+        this.dataKey = dataKey;
     }
 
     @Override
@@ -36,22 +37,11 @@ public class GenerateStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        // generate a new widget, later we can expand to hierarchy
-
-        // requirements:
-        // 1. Generate widget-id function is needed
-        js.append("window.IdGen=undefined===window.IdGen?0:window.IdGen;");
-        js.append("const widgetId='g'+window.IdGen++;");
-
-        // 2. Generate a new module for the widget by calling Clone method on widget
-        js.append("const newModule=%s('%s',widgetId,'%s');",
+        js.append("%s('%s','%s',%s);",
                 JsWidgetModule.getQualifiedId(CloneFunction.class),
                 template.getId(),
-                target.getId()
-        );
-
-        // 3. Call InitFunction
-        js.append("newModule.%s();", JsStateModule.getId(template, InitWidgetFunction.class));
+                target.getId(),
+                ValueStatement.valueOf(toolkit, dataKey, widget));
     }
 
     @Override
@@ -62,9 +52,11 @@ public class GenerateStatement extends MethodStatement {
         validated = true;
         template.validate(toolkit);
         target.validate(toolkit);
+        dataKey.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
+        statements.add(dataKey);
     }
 }

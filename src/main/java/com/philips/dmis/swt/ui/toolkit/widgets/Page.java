@@ -127,7 +127,7 @@ public abstract class Page extends Panel {
     @Override
     public void renderStaticInnerHtml(Toolkit toolkit, StringBuffer html) {
         super.renderStaticInnerHtml(toolkit, html);
-        List<String> classNames = new ArrayList();
+        List<String> classNames = new ArrayList<>();
         classNames.add("tk-page-inner");
         if (!getViewType().getClassNameInner().isEmpty()) {
             classNames.add(getViewType().getClassNameInner());
@@ -137,8 +137,8 @@ public abstract class Page extends Panel {
         }
 
         String tabIndex = (viewType == ViewType.DIALOG || viewType == ViewType.SIDEBAR_DIALOG) ? "tabindex=\"0\"" : "";
-        html.append(String.format("<div id=\"%s\" class=\"%s\"%s></div>",
-                getInnerDivId(getId()), String.join(" ", classNames), tabIndex));
+        html.append(String.format("<div id=\"${id}%s\" class=\"%s\"%s></div>",
+                getInnerDivId(""), String.join(" ", classNames), tabIndex));
     }
 
     public Page onShow(ShowEventHandler eventHandler) {

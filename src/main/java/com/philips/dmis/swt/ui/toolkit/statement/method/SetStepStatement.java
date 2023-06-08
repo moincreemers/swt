@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetStepFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasStep;
@@ -35,8 +36,9 @@ public class SetStepStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s('%s',%s);",
+        js.append("%s(%s('%s',eventContext),%s);",
                 JsWidgetModule.getQualifiedId(SetStepFunction.class),
+                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.asWidget().getId(),
                 ValueStatement.valueOf(toolkit, step, widget));
     }

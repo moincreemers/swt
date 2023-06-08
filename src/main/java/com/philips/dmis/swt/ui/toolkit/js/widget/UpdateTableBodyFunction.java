@@ -147,7 +147,8 @@ public class UpdateTableBodyFunction implements JsFunction {
         js.append("const event=%s;", DtoUtil.getDefault(OpenEvent.class, false));
         js.append("event.value=cellValue;");
         js.append("event.record=dataItem;");
-        js.append("%s(id,event);",
+        js.append("%s(id,%s,event);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
                 JsWidgetModule.getId(EventHandlerFunction.OnOpenEventHandlerFunction.class));
         js.append("};");
         js.append("nextElement.append(openLink);");

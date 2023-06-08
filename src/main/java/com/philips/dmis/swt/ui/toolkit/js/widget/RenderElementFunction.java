@@ -69,7 +69,7 @@ public class RenderElementFunction implements JsFunction {
         js.append("for(const key in childWidget.%s){", HtmlAttributesVariable.ID);
         js.append("if(key=='id'){continue;};");
         js.append("var value=childWidget.%s[key];", HtmlAttributesVariable.ID);
-        js.append("if(value==null||value==undefined||(typeof value!='string')){continue;};");
+        js.append("if(value==null||value==undefined){continue;};");
         js.append("element.setAttribute(key,value);");
         js.append("};");
 

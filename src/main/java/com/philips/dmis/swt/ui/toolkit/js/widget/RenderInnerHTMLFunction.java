@@ -2,6 +2,8 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
+import com.philips.dmis.swt.ui.toolkit.js.global.FormatStringFunction;
+import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.state.StaticInnerHtmlVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.WidgetTypeVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
@@ -52,13 +54,15 @@ public class RenderInnerHTMLFunction implements JsFunction {
         js.append("const childWidget=window[id];");
         js.append("const childWidgetType=childWidget.%s;", WidgetTypeVariable.ID);
         js.append("const staticInnerHtml=childWidget.%s;", StaticInnerHtmlVariable.ID);
+        js.append("const parsedStaticInnerHtml=%s(staticInnerHtml,childWidget);",
+                JsGlobalModule.getQualifiedId(FormatStringFunction.class));
 
         js.append("if(childWidgetType=='%s'){", WidgetType.STYLE.name());
         js.append("if(document.getElementsByClassName(element.classList.value).length<2){");
-        js.append("element.textContent=staticInnerHtml;");
+        js.append("element.textContent=parsedStaticInnerHtml;");
         js.append("};");
         js.append("}else{");
-        js.append("element.innerHTML=staticInnerHtml;");
+        js.append("element.innerHTML=parsedStaticInnerHtml;");
         js.append("};");
 
         js.append("}");

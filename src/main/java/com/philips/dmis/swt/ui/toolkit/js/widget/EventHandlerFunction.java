@@ -1,6 +1,5 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
-import com.philips.dmis.swt.ui.toolkit.GlobalEvents;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.events.*;
 import com.philips.dmis.swt.ui.toolkit.js.*;
@@ -11,9 +10,148 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-// todo: limit eventhandler rendering. Not all widgets support all eventhandlers
-
 public abstract class EventHandlerFunction implements JsFunction {
+    public static final String EVENTCONTEXT_ARGUMENT = "eventContext";
+
+    // GLOBAL EVENTS
+    public static class OnAfterPrintEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = AfterPrintEventHandler.NAME;
+
+        public OnAfterPrintEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnBeforePrintEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = BeforePrintEventHandler.NAME;
+
+        public OnBeforePrintEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnBeforeUnloadEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = BeforeUnloadEventHandler.NAME;
+
+        public OnBeforeUnloadEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnBlurEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = BlurEventHandler.NAME;
+
+        public OnBlurEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnErrorEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = ErrorEventHandler.NAME;
+
+        public OnErrorEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnFocusEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = FocusEventHandler.NAME;
+
+        public OnFocusEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnLanguageChangeEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = LanguageChangeEventHandler.NAME;
+
+        public OnLanguageChangeEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnMessageEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = MessageEventHandler.NAME;
+
+        public OnMessageEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnOfflineEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = OfflineEventHandler.NAME;
+
+        public OnOfflineEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnOnlineEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = OnlineEventHandler.NAME;
+
+        public OnOnlineEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnRedoEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = RedoEventHandler.NAME;
+
+        public OnRedoEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnUndoEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = UndoEventHandler.NAME;
+
+        public OnUndoEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnUnloadEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = UnloadEventHandler.NAME;
+
+        public OnUnloadEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnKeyPressEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = KeyPressEventHandler.NAME;
+
+        public OnKeyPressEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnKeyDownEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = KeyDownEventHandler.NAME;
+
+        public OnKeyDownEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnKeyUpEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = KeyUpEventHandler.NAME;
+
+        public OnKeyUpEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnColorSchemeChangeEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = ColorSchemeChangeEventHandler.NAME;
+
+        public OnColorSchemeChangeEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    // LOCAL EVENTS
+
     public static class OnActivateEventHandlerFunction extends EventHandlerFunction {
         public static final String ID = ActivateEventHandler.NAME;
 
@@ -58,14 +196,6 @@ public abstract class EventHandlerFunction implements JsFunction {
         public static final String ID = ElapsedEventHandler.NAME;
 
         public OnElapsedEventHandlerFunction() {
-            super(ID, false);
-        }
-    }
-
-    public static class OnErrorEventHandlerFunction extends EventHandlerFunction {
-        public static final String ID = ErrorEventHandler.NAME;
-
-        public OnErrorEventHandlerFunction() {
             super(ID, false);
         }
     }
@@ -150,6 +280,14 @@ public abstract class EventHandlerFunction implements JsFunction {
         }
     }
 
+    public static class OnBeforeUpdateEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = BeforeUpdateEventHandler.NAME;
+
+        public OnBeforeUpdateEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
     public static class OnUpdateEventHandlerFunction extends EventHandlerFunction {
         public static final String ID = UpdateEventHandler.NAME;
 
@@ -224,32 +362,31 @@ public abstract class EventHandlerFunction implements JsFunction {
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-        parameters.add(JsParameter.getInstance("id", JsType.STRING));
-        parameters.add(JsParameter.getInstance(GlobalEvents.EVENT_PARAMETER_NAME, JsType.OBJECT));
+        parameters.add(JsParameter.getInstance("eventContext", JsType.OBJECT));
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("(id,%s)=>{", GlobalEvents.EVENT_PARAMETER_NAME);
+        js.append("(eventContext)=>{");
         js.trace(this);
 
-        js.append("const widget=window[id];");
-        js.append("const c=widget.%s['%s'];", EventHandlersVariable.ID, name.toLowerCase());
+        js.append("const widget=window[eventContext.widgetId];");
+        js.append("const c=widget.%s['%s'];", EventHandlersVariable.ID, name);
         js.append("if(c!=undefined&&c!=null&&c.length!=0){");
         js.info("console.log('event handlers',c);");
         js.append("for(const i in c){");
         js.append("var h=c[i];");
-        js.append("h.fn(%s);", GlobalEvents.EVENT_PARAMETER_NAME);
+        js.append("h.fn(eventContext);");
         js.append("};");//end for
         js.append("};");//end if
         if (propagateToParent) {
             js.append("if(widget.%s!=null&&widget.%s.length!=0){",
                     ParentWidgetIdVariable.ID, ParentWidgetIdVariable.ID);
-            js.append("%s['%s'](widget.%s,%s);",
-                    JsWidgetModule.ID,
-                    name,
+            js.append("%s(widget.%s,%s['%s'],eventContext.domEvent,eventContext.slaveId,eventContext.dataKey);",
+                    JsWidgetModule.getId(RaiseEventFunction.class),
                     ParentWidgetIdVariable.ID,
-                    GlobalEvents.EVENT_PARAMETER_NAME);
+                    JsWidgetModule.ID,
+                    name);
             js.append("};");
         }
         js.append("}");

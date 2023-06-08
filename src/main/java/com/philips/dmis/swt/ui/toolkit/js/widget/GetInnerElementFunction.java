@@ -2,7 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.state.InnerElementIdVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -45,8 +44,7 @@ public class GetInnerElementFunction implements JsFunction {
         js.append("(id)=>{");
         js.trace(this);
 
-        js.append("const widget=window[id];");
-        js.append("return document.getElementById(widget.%s);", InnerElementIdVariable.ID);
+        js.append("return document.getElementById(%s(id));", JsWidgetModule.getId(InnerElementIdFunction.class));
 
         js.append("}");
     }

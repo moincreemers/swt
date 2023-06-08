@@ -56,8 +56,8 @@ public class IconImpl implements HasIcon {
 
     @Override
     public void renderStaticInnerHtml(Toolkit toolkit, StringBuffer html) {
-        html.append(String.format("<span id=\"%s\" class=\"%s\">%s</span>",
-                HasIcon.getIconId(widget.getId()),
+        html.append(String.format("<span id=\"${id}%s\" class=\"%s\">%s</span>",
+                HasIcon.getIconId(""),
                 isIcon() ? iconsWidget.getClassName() : "", isIcon() ? icon : ""));
     }
 

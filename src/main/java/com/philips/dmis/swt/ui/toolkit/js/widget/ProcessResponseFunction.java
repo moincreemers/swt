@@ -1,8 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
-import com.philips.dmis.swt.ui.toolkit.events.ResponseEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.PutCacheFunction;
@@ -128,9 +126,9 @@ public class ProcessResponseFunction implements JsFunction {
 
         // call onResponse event handler
         // todo: event is now the xhrResponse????
-        js.append("%s(id,xhrResponse);",
-                JsWidgetModule.getId(EventHandlerFunction.OnResponseEventHandlerFunction.class),
-                CustomEvent.valueOf(new ResponseEvent()));
+        js.append("%s(id,%s,xhrResponse);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnResponseEventHandlerFunction.class));
 
         js.append("}"); // end function
     }

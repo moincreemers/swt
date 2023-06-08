@@ -1,6 +1,5 @@
 package com.philips.dmis.swt.ui.toolkit.js.state;
 
-import com.philips.dmis.swt.ui.toolkit.GlobalEvents;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.events.EventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
@@ -52,10 +51,10 @@ public class EventHandlersVariable implements JsVariable {
             if (i > 0) {
                 js.append(",");
             }
-            js.append("%s:[", eventHandler.getName().toLowerCase()); // array
+            js.append("%s:[", eventHandler.getName()); // array
             js.append("{pageId:'%s',widgetId:'%s',fn:",
                     eventHandler.getPageId(), eventHandler.getWidgetId()); // object
-            js.append("(%s)=>{", GlobalEvents.EVENT_PARAMETER_NAME); // function
+            js.append("(eventContext)=>{"); // function
             for (Statement statement : eventHandler.getStatements()) {
                 statement.renderJs(toolkit, widget, js);
             }

@@ -5,23 +5,22 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsVariable;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
-import com.philips.dmis.swt.ui.toolkit.widgets.HasNumberedText;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
-public class NumberTextIdVariable implements JsVariable {
-    public static final String ID = "numberTextId";
+public class DataKeyVariable implements JsVariable {
+    public static final String ID = "dataKey";
     private final Widget widget;
     private final WidgetType widgetType;
 
-    public NumberTextIdVariable(Widget widget) {
+    public DataKeyVariable(Widget widget) {
         this.widget = widget;
         this.widgetType = widget.getWidgetType();
     }
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof HasNumberedText;
+        return true;
     }
 
     @Override
@@ -41,10 +40,6 @@ public class NumberTextIdVariable implements JsVariable {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        if (widget instanceof HasNumberedText) {
-            js.append("'%s'", HasNumberedText.getNumberTextId(widget.getId()));
-        } else {
-            js.append("''");
-        }
+        js.append("null");
     }
 }

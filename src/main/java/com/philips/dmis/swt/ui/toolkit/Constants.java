@@ -1,6 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit;
 
-import com.philips.dmis.swt.ui.demo.MainDemoPage;
+import com.philips.dmis.swt.ui.template.TemplateDemoPage;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 
 public class Constants {
@@ -14,7 +14,7 @@ public class Constants {
 
     public static final boolean DEBUG = true;
     public static final JsLogLevel JS_LOG_LEVEL = JsLogLevel.TRACE;
-    public static final Class<? extends Page> DEMO = MainDemoPage.class;
+    public static final Class<? extends Page> DEMO = TemplateDemoPage.class;
 
 
     public static boolean isDemo(Class<? extends Page> page) {

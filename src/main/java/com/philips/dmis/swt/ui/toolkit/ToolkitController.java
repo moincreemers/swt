@@ -237,7 +237,6 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         globalEvents.renderJs(this, js);
 
         js.append("const %s=()=>{", Constants.ENTRY_POINT); // MAIN
-        js.append("initGlobalEvents();");
 
         for (Page page : pages.values()) {
             js.append("%s('%s');", JsWidgetModule.getQualifiedId(InitWidgetFunction.class), page.getId());
@@ -250,6 +249,7 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
             js.append("%s();", initFunctionId);
         }
 
+        js.append("initGlobalEvents();");
         ExtModuleInvoke.renderCall(ExtModuleEvent.READY, null, null, js);
 
         js.append("console.log('hello world');");

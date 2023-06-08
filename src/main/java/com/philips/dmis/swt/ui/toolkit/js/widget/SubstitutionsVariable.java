@@ -1,27 +1,19 @@
-package com.philips.dmis.swt.ui.toolkit.js.state;
+package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsVariable;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
-import com.philips.dmis.swt.ui.toolkit.widgets.HasText;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
-public class TextElementIdVariable implements JsVariable {
-    public static final String ID = "textElementId";
-    private final Widget widget;
-    private final WidgetType widgetType;
-
-    public TextElementIdVariable(Widget widget) {
-        this.widget = widget;
-        this.widgetType = widget.getWidgetType();
-    }
+public class SubstitutionsVariable implements JsVariable {
+    public static final String ID = "substitutions";
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof HasText;
+        return true;
     }
 
     @Override
@@ -36,11 +28,11 @@ public class TextElementIdVariable implements JsVariable {
 
     @Override
     public JsType getType() {
-        return JsType.STRING;
+        return JsType.OBJECT;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("'%s'", HasText.getTextId(widget.getId()));
+        js.append("{}");
     }
 }

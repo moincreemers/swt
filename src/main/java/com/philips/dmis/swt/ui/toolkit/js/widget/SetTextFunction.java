@@ -6,7 +6,6 @@ import com.philips.dmis.swt.ui.toolkit.js.global.FormatCodeFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.state.ImplementsVariable;
-import com.philips.dmis.swt.ui.toolkit.js.state.TextElementIdVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.TextFormatVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasText;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
@@ -49,7 +48,8 @@ public class SetTextFunction implements JsFunction {
         js.append("const element=document.getElementById(id);");
 
         js.append("if(implements.includes('%s')){", HasText.class.getSimpleName()); // if
-        js.append("const textElement=document.getElementById(widget.%s);", TextElementIdVariable.ID);
+        js.append("const textElement=document.getElementById(%s(id));",
+                JsWidgetModule.getId(TextElementIdFunction.class));
         js.append("if(%s(text)||Array.isArray(text)){",
                 JsGlobalModule.getQualifiedId(IsObjectFunction.class));
         js.append("textElement.textContent=JSON.stringify(text,null,4);");

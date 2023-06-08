@@ -31,7 +31,8 @@ public class FormatStringFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(format,obj)=>{");
-        //js.info("console.log('FormatStringFunction',format,obj);");
+        js.trace(this);
+
         js.append("const fn=(i,g)=>{");
         js.debug("console.log('format',i,g,obj[g]);");
         js.append("return obj[g];");
@@ -40,6 +41,7 @@ public class FormatStringFunction implements JsFunction {
         js.append("return str.replace(/\\${(.*?)}/g,fn);");
         js.append("};");
         js.append("return inject(format,obj);");
+
         js.append("}");
     }
 
@@ -50,6 +52,7 @@ public class FormatStringFunction implements JsFunction {
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-
+        parameters.add(JsParameter.getInstance("format", JsType.STRING));
+        parameters.add(JsParameter.getInstance("obj", JsType.OBJECT));
     }
 }

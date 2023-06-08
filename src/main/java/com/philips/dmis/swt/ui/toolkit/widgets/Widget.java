@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.*;
 import java.util.logging.Logger;
 
-public abstract class Widget implements Validatable, HasClassNames {
+public abstract class Widget implements HasId, Validatable, HasClassNames {
     private static final Logger LOG = Logger.getLogger(Widget.class.getName());
 
     public static boolean isPageClassName(String className) {
@@ -52,6 +52,7 @@ public abstract class Widget implements Validatable, HasClassNames {
         return widgetType;
     }
 
+    @Override
     public final String getId() {
         return id;
     }

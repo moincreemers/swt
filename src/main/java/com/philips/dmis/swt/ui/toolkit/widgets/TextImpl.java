@@ -60,7 +60,7 @@ public class TextImpl implements HasText {
     @Override
     public void renderStaticInnerHtml(Toolkit toolkit, StringBuffer html) {
         java.util.List<String> classNames = new ArrayList<>();
-        classNames.add(widget.getId());
+        classNames.add("${id}");
         classNames.add(HasText.CSS_CLASS_TEXT);
         String token = "";
         if (isText()) {
@@ -68,8 +68,8 @@ public class TextImpl implements HasText {
             // NOTE: careful
             token = toolkit.registerConstant(SanitizeHTML.secureHTML(text));
         }
-        html.append(String.format("<span id=\"%s\" class=\"%s\" %s=\"%s\"></span>",
-                HasText.getTextId(widget.getId()),
+        html.append(String.format("<span id=\"${id}%s\" class=\"%s\" %s=\"%s\"></span>",
+                HasText.getTextId(""),
                 String.join(" ", classNames),
                 HasConstantStorage.HTML_ATTR_TOKEN,
                 token));

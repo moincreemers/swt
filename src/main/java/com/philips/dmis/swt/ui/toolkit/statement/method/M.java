@@ -21,6 +21,10 @@ public final class M {
         return new AlertStatement(message);
     }
 
+    public static MethodStatement Alert(ValueStatement message) {
+        return new AlertStatement(message);
+    }
+
     public static CallStatement Call(Code code, String name, ValueStatement... parameterValues) {
         return new CallStatement(code, name, parameterValues);
     }
@@ -285,8 +289,12 @@ public final class M {
         return new HideProgressStatement(targetWidget);
     }
 
-    public static MethodStatement Generate(Widget widget, ContainerWidget<?> target) {
-        return new GenerateStatement(widget, target);
+    public static MethodStatement CloneWidget(Widget template, ContainerWidget<?> target, ValueStatement dataKey) {
+        return new CloneWidgetStatement(template, target, dataKey);
+    }
+
+    public static MethodStatement RemoveClone(Widget template, ValueStatement dataKey) {
+        return new RemoveCloneStatement(template, dataKey);
     }
 
 }

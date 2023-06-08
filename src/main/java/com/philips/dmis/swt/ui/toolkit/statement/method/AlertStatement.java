@@ -5,15 +5,21 @@ import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.value.V;
+import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
 public class AlertStatement extends MethodStatement {
-    final String message;
+    final ValueStatement message;
 
     public AlertStatement(String message) {
+        this(V.Const(message));
+    }
+
+    public AlertStatement(ValueStatement message) {
         this.message = message;
     }
 
@@ -29,7 +35,7 @@ public class AlertStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("alert('%s');", message);
+        js.append("alert(%s);", ValueStatement.valueOf(toolkit, message, widget));
     }
 
     @Override
@@ -38,9 +44,11 @@ public class AlertStatement extends MethodStatement {
             return;
         }
         validated = true;
+        message.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
+        statements.add(message);
     }
 }

@@ -5,6 +5,7 @@
 - When the maven webserver is running, recompiling sometimes results in a validation error on a page reference
   specifically. Unclear why. Re-compiling (after adding a line break) always succeeds. Sometimes Maven already does a
   recompile but its unclear why it does that.
+- GetPageArgument throws when more than one 'd' argument is present on the hash.
 
 - For Viewer pages:
     - CORS is not enabled from server. Needs correct HTTP Headers to allow cross-domain requests to the API.
@@ -40,19 +41,18 @@
 
 ## Backlog
 
+- error handler Method?
 - make open/selection widgets in tables focusable (class/attribute)
 - instrumentation module for UI testing
 - make timer interval gettable and settable in JS.
 - htmlTable: conditional formatting (based on staticData)
 - htmlTable: record selection. should lead to event handler on TableBody that provides an event with the selection
-  staticData and
-  the record being (de-)selected.
+  staticData and the record being (de-)selected.
 - htmlTable: perhaps a CSS style for selected records?
 - MapDataAdapter, add option to combine multiple columns into one or split a column into multiple columns
 - join-staticData-adapter
 - Configuration options through beans (using @Component and injecting into ToolkitController?)
 - more support for page layout
-- limit size of the JS by reducing widget model size. Move code to global module
 - global 'model' store arbitrary values in? Statement.Get/Set should work. Scope to page/application option?
 - disable/enable individual options in checkbox/radiobutton lists
 - breadcrumb Widget
@@ -185,6 +185,7 @@
 - navigation panels (left/right) similar to page header/footer
 - Select boxes that have a value selected other than the first item, are reset to the first item when a page is
   activated. This is presumably caused by data source refresh.
+- limit size of the JS by reducing widget model size. Move code to global module
 
 ## Rejected
 

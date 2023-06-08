@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetDisabledFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -34,8 +35,9 @@ public class SetEnabledStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s('%s',false==%s);",
+        js.append("%s(%s('%s',eventContext),false==%s);",
                 JsWidgetModule.getQualifiedId(SetDisabledFunction.class),
+                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.getId(),
                 ValueStatement.valueOf(toolkit, valueStatement, widget));
     }

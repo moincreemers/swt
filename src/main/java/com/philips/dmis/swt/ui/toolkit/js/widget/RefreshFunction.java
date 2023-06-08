@@ -82,7 +82,8 @@ public class RefreshFunction implements JsFunction {
         // call onRefresh event handler
         js.append("const refreshEvent=%s;", CustomEvent.valueOf(new RefreshEvent()));
         js.append("refreshEvent.reason=reason;");
-        js.append("%s(id2,refreshEvent);",
+        js.append("%s(id2,%s,refreshEvent);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
                 JsWidgetModule.getId(EventHandlerFunction.OnRefreshEventHandlerFunction.class));
 
         // if container, also refresh all child widgets

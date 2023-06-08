@@ -1,11 +1,9 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.events.BeforeUpdateEvent;
-import com.philips.dmis.swt.ui.toolkit.events.BeforeUpdateEventHandler;
-import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.NotifySubscribersVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.SlavesVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.WidgetTypeVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.DataBoundWidget;
 import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
@@ -66,51 +64,58 @@ public class BeforeUpdateFunction implements JsFunction {
         js.append("const widget=window[id];");
         js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
 
+        js.append("const widgetIds=[id].concat(widget.%s);", SlavesVariable.ID);
+        js.append("for(const i in widgetIds){"); // for
+        js.append("var widgetId=widgetIds[i];");
+
         js.append("switch(dataSourceUsage){");
         for (DataSourceUsage dataSourceUsage : DataSourceUsage.values()) {
             js.append("case '%s':", dataSourceUsage.name());
             switch (dataSourceUsage) {
                 case TEXT:
-                    js.append("%s(id,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTextFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTextFunction.class));
                     break;
                 case VALUE:
-                    js.append("%s(id,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateValueFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateValueFunction.class));
                     break;
                 case OPTIONS:
-                    js.append("%s(id,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateOptionsFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateOptionsFunction.class));
                     break;
                 case LIST_ITEMS:
-                    js.append("%s(id,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateListItemsFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateListItemsFunction.class));
                     break;
                 case TABLE_HEADER:
-                    js.append("%s(id,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTableHeaderFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTableHeaderFunction.class));
                     break;
                 case TABLE_BODY:
-                    js.append("%s(id,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTableBodyFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTableBodyFunction.class));
                     break;
                 case TABLE_FOOTER:
-                    js.append("%s(id,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTableFooterFunction.class));
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTableFooterFunction.class));
                     break;
                 case TRANSFORM:
                     // not applicable for most data bound widgets (only for data source widgets)
                     // exception is DataProxy which is both
 
-                    js.append("if(widgetType=='%s'&&widget.%s==true){",
+                    js.append("var thisWidget=window[widgetId];");
+                    js.append("var thisWidgetType=thisWidget.%s;", WidgetTypeVariable.ID);
+                    js.append("if(thisWidgetType=='%s'&&thisWidget.%s==true){",
                             WidgetType.DATA_PROXY.name(),
                             NotifySubscribersVariable.ID); // if
-                    js.append("%s(id,reason,cacheType);",
+                    js.append("%s(widgetId,reason,cacheType);",
                             JsWidgetModule.getId(BeforeUpdateSubscribersFunction.class));
                     js.append("};"); // end if
                     break;
             }
             js.append("break;");
         }
-        js.append("}");
+        js.append("};"); // end switch
 
-        js.append("%s(id,'%s',%s);",
+        js.append("%s(widgetId,%s);",
                 JsWidgetModule.getId(RaiseEventFunction.class),
-                BeforeUpdateEventHandler.NAME,
-                CustomEvent.valueOf(new BeforeUpdateEvent()));
+                JsWidgetModule.getId(EventHandlerFunction.OnBeforeUpdateEventHandlerFunction.class));
+
+        js.append("};"); // end for
 
         js.append("}"); // end function
     }

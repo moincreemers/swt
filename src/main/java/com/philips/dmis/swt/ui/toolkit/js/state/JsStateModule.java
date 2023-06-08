@@ -66,6 +66,8 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(ContentTypeEncodingVariable.ID, new ContentTypeEncodingVariable(widget)));
         members.add(new Pair<>(ContentTypeVariable.ID, new ContentTypeVariable(widget)));
         members.add(new Pair<>(DataAdaptersVariable.ID, new DataAdaptersVariable(widget)));
+        members.add(new Pair<>(DataKeysVariable.ID, new DataKeysVariable(widget)));
+        members.add(new Pair<>(DataKeyVariable.ID, new DataKeyVariable(widget)));
         members.add(new Pair<>(DataVariable.ID, new DataVariable(widget)));
         members.add(new Pair<>(DisabledDataAdaptersVariable.ID, new DisabledDataAdaptersVariable(widget)));
         members.add(new Pair<>(EmptyTextVariable.ID, new EmptyTextVariable(widget)));
@@ -75,14 +77,11 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(HtmlTagVariable.ID, new HtmlTagVariable(widget)));
         members.add(new Pair<>(HttpHeadersVariable.ID, new HttpHeadersVariable(widget)));
         members.add(new Pair<>(HttpMethodVariable.ID, new HttpMethodVariable(widget)));
-        members.add(new Pair<>(IconElementIdVariable.ID, new IconElementIdVariable(widget)));
         members.add(new Pair<>(ImplementsVariable.ID, new ImplementsVariable(widget)));
-        members.add(new Pair<>(InnerElementIdVariable.ID, new InnerElementIdVariable(widget)));
         members.add(new Pair<>(IsMultiLevelVariable.ID, new IsMultiLevelVariable(widget)));
         members.add(new Pair<>(IsNumberedVariable.ID, new IsNumberedVariable(widget)));
         members.add(new Pair<>(NotifySubscribersVariable.ID, new NotifySubscribersVariable(widget)));
         members.add(new Pair<>(NumberingLevelVariable.ID, new NumberingLevelVariable(widget)));
-        members.add(new Pair<>(NumberTextIdVariable.ID, new NumberTextIdVariable(widget)));
         members.add(new Pair<>(OrderingVariable.ID, new OrderingVariable(widget)));
         members.add(new Pair<>(PageClassNameVariable.ID, new PageClassNameVariable(widget)));
         members.add(new Pair<>(PageIdVariable.ID, new PageIdVariable(widget)));
@@ -91,12 +90,13 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(ParametersVariable.ID, new ParametersVariable(widget)));
         members.add(new Pair<>(ParentWidgetIdVariable.ID, new ParentWidgetIdVariable(widget)));
         members.add(new Pair<>(ResponseTypeVariable.ID, new ResponseTypeVariable(widget)));
+        members.add(new Pair<>(SlavesVariable.ID, new SlavesVariable(widget)));
         members.add(new Pair<>(StaticDataVariable.ID, new StaticDataVariable(widget)));
         members.add(new Pair<>(StaticInnerHtmlVariable.ID, new StaticInnerHtmlVariable(widget)));
         members.add(new Pair<>(SubscribersVariable.ID, new SubscribersVariable(widget)));
         members.add(new Pair<>(SyncVariable.ID, new SyncVariable(widget)));
         members.add(new Pair<>(TableOrientationTypeVariable.ID, new TableOrientationTypeVariable(widget)));
-        members.add(new Pair<>(TextElementIdVariable.ID, new TextElementIdVariable(widget)));
+        members.add(new Pair<>(TemplateIdVariable.ID, new TemplateIdVariable(widget)));
         members.add(new Pair<>(TextFormatVariable.ID, new TextFormatVariable(widget)));
         members.add(new Pair<>(TimerHandleVariable.ID, new TimerHandleVariable(widget)));
         members.add(new Pair<>(TimerIntervalVariable.ID, new TimerIntervalVariable(widget)));

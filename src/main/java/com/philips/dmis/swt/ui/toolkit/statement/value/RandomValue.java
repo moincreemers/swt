@@ -11,6 +11,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 import java.util.List;
 
 public class RandomValue extends ValueStatement {
+    private final int DEFAULT_MAX = Integer.MAX_VALUE;
     final ValueStatement max;
 
     public RandomValue() {
@@ -33,9 +34,9 @@ public class RandomValue extends ValueStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("Math.floor(Math.random()*%s);", max != null ?
+        js.append("Math.floor(Math.random()*%s)", max != null ?
                 ValueStatement.valueOf(toolkit, max, widget)
-                : "1");
+                : Integer.valueOf(DEFAULT_MAX).toString());
     }
 
     @Override

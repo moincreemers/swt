@@ -2,7 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.state.IconElementIdVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.ImplementsVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasIcon;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
@@ -55,7 +54,8 @@ public class SetIconFunction implements JsFunction {
         js.append("const element=document.getElementById(id);");
 
         js.append("if(implements.includes('%s')){", HasIcon.class.getSimpleName()); // if
-        js.append("const iconElement=document.getElementById(widget.%s);", IconElementIdVariable.ID);
+        js.append("const iconElement=document.getElementById(%s(id));",
+                JsWidgetModule.getId(IconElementIdFunction.class));
         js.append("iconElement.textContent=icon;");
         js.append("element.setAttribute('tk-has-icon',iconElement.textContent.length!=0?'true':'false');");
         js.append("};"); // end if

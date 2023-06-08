@@ -6,8 +6,8 @@ Singular is a Web UI framework created by and designed for Java Spring-Boot deve
 
 The goal of Singular is to provide software engineers that use a Java Spring-Boot stack with a tool to quickly and
 easily create JS clients for their applications. While there are many Web UI frameworks to choose from. Singular has a
-much smaller impact on aspects such as: competence management, development cost, maintenance, information security and
-others.
+much smaller impact on aspects such as: competence management, dependency management, development cost, maintenance, 
+information security and others.
 
 Many organizations need to build and maintain applications specific to their internal business processes or to provide
 to their customers. The services for those applications are often created using Java. However, creating great UI
@@ -245,17 +245,16 @@ The initial technical requirements for the development of Singular are:
 - Avoid elaborate rules or conventions
 - No template engines or other frameworks needed
 - No other Javascript dependencies
-- Basic, functional but still sophisticated styling (CSS) out of the box
+- Basic and functional but still sophisticated styling (CSS) out of the box
 - No-nonsense widgets
 - Registers itself at the root mapping ("/") automatically
 - Supports multiple views that can be developed in isolation
 - All coding of a 'view' should happen in a single class, no resource files required
-- Forward moving view controller
+- Simple view controller
 - Supports querying from HTTP services
 - Supports updating HTTP services and supports various request encoding methods
-- Supports adding static staticData to the client for use in listContainer boxes etc.
+- Supports adding static data to the client for use in listContainer boxes etc.
 - Views are validated when starting the application so configuration and composition errors are immediately reported
-- Full support for common widgets such as textbox, checkbox, radiobutton, listbox, link, htmlButton, htmlTable etc.
-- Offers a staticData binding strategy that is easy to use but is advanced enough to offer flexibility when needed
+- Full support for common widgets such as text box, checkbox, radiobutton, list box, link, button, table etc.
+- Offers a data binding strategy that is easy to use but is advanced enough to offer flexibility
 - Easy to extend by writing own DataAdapters or widgets
-

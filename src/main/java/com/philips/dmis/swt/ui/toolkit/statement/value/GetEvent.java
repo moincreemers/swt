@@ -1,10 +1,10 @@
 package com.philips.dmis.swt.ui.toolkit.statement.value;
 
-import com.philips.dmis.swt.ui.toolkit.GlobalEvents;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.js.widget.EventHandlerFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -24,7 +24,7 @@ public class GetEvent extends ValueStatement {
 
     @Override
     public JsType getType() {
-        return JsType.STRING;
+        return JsType.OBJECT;
     }
 
     @Override
@@ -36,11 +36,11 @@ public class GetEvent extends ValueStatement {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         if (property != null) {
             String property = ValueStatement.valueOf(toolkit, this.property, widget);
-            js.append("(%s[%s]==undefined)", GlobalEvents.EVENT_PARAMETER_NAME, property);
+            js.append("(%s[%s]==undefined)", EventHandlerFunction.EVENTCONTEXT_ARGUMENT, property);
             js.append("?null");
-            js.append(":%s[%s]", GlobalEvents.EVENT_PARAMETER_NAME, property);
+            js.append(":%s[%s]", EventHandlerFunction.EVENTCONTEXT_ARGUMENT, property);
         } else {
-            js.append(GlobalEvents.EVENT_PARAMETER_NAME);
+            js.append(EventHandlerFunction.EVENTCONTEXT_ARGUMENT);
         }
     }
 
