@@ -36,7 +36,7 @@ public class ShowProgressStatement extends MethodStatement {
         String idVar = String.format("%s('%s',eventContext)",
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.getId());
-        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.BEGIN_PROGRESS, "", idVar, js);
+        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.BEGIN_PROGRESS, null, idVar, js);
     }
 
     @Override

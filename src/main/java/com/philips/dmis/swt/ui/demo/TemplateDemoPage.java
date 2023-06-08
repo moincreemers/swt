@@ -1,4 +1,4 @@
-package com.philips.dmis.swt.ui.template;
+package com.philips.dmis.swt.ui.demo;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
@@ -16,6 +16,10 @@ public class TemplateDemoPage extends Page {
 
     @Override
     protected void build() throws Exception {
+        if (!isDefault()) {
+            add(HtmlLink.closePage("Back to Examples"));
+        }
+
         IconsWidget icons = add(new IconsWidget("MaterialSymbolsSharp.woff2"));
 
 

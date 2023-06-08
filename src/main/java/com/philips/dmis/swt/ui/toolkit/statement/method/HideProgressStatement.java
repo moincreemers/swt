@@ -36,7 +36,7 @@ public class HideProgressStatement extends MethodStatement {
         String idVar = String.format("%s('%s',eventContext)",
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.getId());
-        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.END_PROGRESS, "", idVar, js);
+        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.END_PROGRESS, null, idVar, js);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class MainDemoPage extends Page {
         ListContainer listContainer = add(new ListContainer());
         listContainer.add(HtmlLink.openPage("Hello world", HelloWorldExample.class));
         listContainer.add(HtmlLink.openPage("The View Controller", ViewControlExample.class));
-        //listContainer.add(HtmlLink.openPage("Data Binding", DataBindingExample.class));
+        listContainer.add(HtmlLink.openPage("Data Binding", DataBindingExample.class));
         //listContainer.add(HtmlLink.openPage("Data Adapters", DataAdaptersExample.class));
         listContainer.add(HtmlLink.openPage("Tables", TableExample.class));
         listContainer.add(HtmlLink.openPage("Text-Rich Pages", TextExample.class));
@@ -34,10 +34,10 @@ public class MainDemoPage extends Page {
         listContainer.add(HtmlLink.openPage("Timers", TimerExample.class));
         listContainer.add(HtmlLink.openPage("Using Statements", StatementsExample.class));
         listContainer.add(HtmlLink.openPage("Global Events", GlobalEventsExample.class));
-        //listContainer.add(HtmlLink.openPage("Events", EventsExample.class));
+        listContainer.add(HtmlLink.openPage("Events", EventsExample.class));
         listContainer.add(HtmlLink.openPage("Timesheet Dashboard", TimesheetDashboardExample.class));
         listContainer.add(HtmlLink.openPage("OS color theme", OsLightAndDarkThemeExample.class));
         listContainer.add(HtmlLink.openPage("Spinner", SpinnerExample.class));
-
+        listContainer.add(HtmlLink.openPage("Templates", TemplateDemoPage.class));
     }
 }
