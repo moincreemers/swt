@@ -2,7 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.global.ConvertHyperlinksFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
 import com.philips.dmis.swt.ui.toolkit.js.state.WidgetTypeVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.CacheType;
@@ -39,7 +38,6 @@ public class BeforeUpdateListItemsFunction implements JsFunction {
     public void getDependencies(List<Class<? extends JsMember>> dependencies) {
         dependencies.add(GetElementFunction.class);
         dependencies.add(IsObjectFunction.class);
-        dependencies.add(ConvertHyperlinksFunction.class);
     }
 
     @Override

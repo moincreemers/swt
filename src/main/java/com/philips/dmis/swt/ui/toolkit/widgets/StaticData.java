@@ -36,7 +36,11 @@ public class StaticData extends DataSourceWidget {
     }
 
     public StaticData(Object object) throws IOException {
-        super(WidgetType.STATICDATA, true);
+        this(object, true);
+    }
+
+    public StaticData(Object object, boolean autoRefresh) throws IOException {
+        super(WidgetType.STATICDATA, true, autoRefresh);
         this.object = object;
     }
 

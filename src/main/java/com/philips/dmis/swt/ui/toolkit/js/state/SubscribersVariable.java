@@ -7,6 +7,8 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 
+import java.util.Map;
+
 public class SubscribersVariable implements JsVariable {
     public static final String ID = "subscribers";
     private final Widget widget;
@@ -40,28 +42,27 @@ public class SubscribersVariable implements JsVariable {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         DataSourceSupplier dataSourceSupplier = (DataSourceSupplier) widget;
+        Map<HasDataSource<?, ?>, DataSourceUsage> subscribers = dataSourceSupplier.getSubscribers();
         int i = 0;
         js.append("[");
-        for (HasDataSource<?> subscriber : dataSourceSupplier.getSubscribers().keySet()) {
-            DataSourceUsage dataSourceUsage = dataSourceSupplier.getSubscribers().get(subscriber);
-            if (i > 0) {
-                js.append(",");
+        for (DataSourceUsage dataSourceUsagePriority : DataSourceUsage.valuesByPriority()) {
+            for (HasDataSource<?, ?> subscriber : subscribers.keySet()) {
+                DataSourceUsage dataSourceUsage = subscribers.get(subscriber);
+                if (dataSourceUsagePriority != dataSourceUsage) {
+                    continue;
+                }
+                if (i > 0) {
+                    js.append(",");
+                }
+                js.append("{");
+                js.append("dataSourceId:'%s',", widget.getId());
+                js.append("subscriberId:'%s',", subscriber.asWidget().getId());
+                js.append("dataSourceUsage:'%s',", dataSourceUsage.name());
+                js.append("cacheType:'%s'", dataSourceSupplier.getCacheType().name());
+                js.append("}");
+                i++;
             }
-            js.append("{");
-            js.append("dataSourceId:'%s',", widget.getId());
-            js.append("subscriberId:'%s',", subscriber.asWidget().getId());
-            js.append("dataSourceUsage:'%s',", dataSourceUsage.name());
-            js.append("cacheType:'%s'", dataSourceSupplier.getCacheType().name());
-            js.append("}");
-            i++;
         }
         js.append("]");
-
-//        js.append("%s('%s',reason,'%s','%s','%s');",
-//                JsWidgetModule.getId(BeforeUpdateFunction.class),
-//                subscriber.asWidget().getId(),
-//                dataSourceSupplier.getCacheType().name(),
-//                dataSourceUsage.name(),
-//                widget.getId());
     }
 }

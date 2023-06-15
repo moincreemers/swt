@@ -9,7 +9,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlPasswordInput extends ValueWidget<HtmlPasswordInput> implements
+public class HtmlPasswordInput extends ValueWidget<HtmlPasswordInput, ValueDataSourceUsage> implements
         HasType, HasValue<HtmlPasswordInput>, HasKeyInput<HtmlPasswordInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired {
     public HtmlPasswordInput() {
@@ -22,7 +22,7 @@ public class HtmlPasswordInput extends ValueWidget<HtmlPasswordInput> implements
     }
 
     public HtmlPasswordInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

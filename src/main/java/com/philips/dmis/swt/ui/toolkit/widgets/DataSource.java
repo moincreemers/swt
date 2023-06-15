@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 
 import java.util.ArrayList;
 
-public class DataSource {
+public class DataSource implements HasDataSourceUsage {
     private final DataSourceUsage dataSourceUsage;
     private final DataSourceSupplier dataSourceSupplier;
     private final java.util.List<DataAdapter> dataAdapters = new ArrayList<>();

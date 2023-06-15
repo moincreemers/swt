@@ -17,11 +17,17 @@ import java.util.List;
 public class CloneWidgetStatement extends MethodStatement {
     private final Widget template;
     private final ContainerWidget<?> target;
+    private final ValueStatement dataKeyField;
     private final ValueStatement dataKey;
 
     public CloneWidgetStatement(Widget template, ContainerWidget<?> target, ValueStatement dataKey) {
+        this(template, target, null, dataKey);
+    }
+
+    public CloneWidgetStatement(Widget template, ContainerWidget<?> target, ValueStatement dataKeyField, ValueStatement dataKey) {
         this.template = template;
         this.target = target;
+        this.dataKeyField = dataKeyField;
         this.dataKey = dataKey;
     }
 
@@ -37,11 +43,14 @@ public class CloneWidgetStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s('%s','%s',%s);",
+        String dataKeyFieldValue = dataKeyField != null ? ValueStatement.valueOf(toolkit, dataKeyField, widget) : "null";
+        String dataKeyValue = ValueStatement.valueOf(toolkit, dataKey, widget);
+        js.append("%s('%s','%s',%s,%s);",
                 JsWidgetModule.getQualifiedId(CloneFunction.class),
                 template.getId(),
                 target.getId(),
-                ValueStatement.valueOf(toolkit, dataKey, widget));
+                dataKeyFieldValue,
+                dataKeyValue);
     }
 
     @Override
@@ -52,11 +61,17 @@ public class CloneWidgetStatement extends MethodStatement {
         validated = true;
         template.validate(toolkit);
         target.validate(toolkit);
+        if (dataKeyField != null) {
+            dataKeyField.validate(toolkit);
+        }
         dataKey.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
+        if (dataKeyField != null) {
+            statements.add(dataKeyField);
+        }
         statements.add(dataKey);
     }
 }

@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.events.OpenEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.SelectionChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlTableBody extends DataBoundWidget<HtmlTableBody> {
+public class HtmlTableBody extends DataBoundWidget<HtmlTableBody, TableBodyDataSourceUsage> {
     public static final String CSS_CELL_BOOLEAN = "tk-boolean";
     public static final String CSS_CELL_NUMBER = "tk-number";
     public static final String CSS_CELL_STRING = "tk-string";
@@ -22,7 +22,7 @@ public class HtmlTableBody extends DataBoundWidget<HtmlTableBody> {
     public HtmlTableBody(TableOrientationType tableOrientationType) {
         super(WidgetType.TABLE_BODY);
         this.tableOrientationType = tableOrientationType;
-        if (tableOrientationType==TableOrientationType.ROW_HEADERS) {
+        if (tableOrientationType == TableOrientationType.ROW_HEADERS) {
             addClassName("tk-row-headers");
         }
     }
@@ -32,7 +32,7 @@ public class HtmlTableBody extends DataBoundWidget<HtmlTableBody> {
     }
 
     public HtmlTableBody addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.TABLE_BODY, dataSourceSupplier, dataAdapters);
+        super.addDataSource(TableBodyDataSourceUsage.TABLE_BODY, dataSourceSupplier, dataAdapters);
         return this;
     }
 

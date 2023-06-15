@@ -17,7 +17,7 @@ public class BeforeUpdateFunction implements JsFunction {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof DataBoundWidget<?>;
+        return widget instanceof DataBoundWidget<?,?>;
     }
 
     @Override
@@ -64,7 +64,10 @@ public class BeforeUpdateFunction implements JsFunction {
         js.append("const widget=window[id];");
         js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
 
-        js.append("const widgetIds=[id].concat(widget.%s);", SlavesVariable.ID);
+        // either update self or update slaves
+        js.append("const slaveIds=widget.%s;", SlavesVariable.ID);
+        js.append("const hasSlaves=slaveIds.length!=0;");
+        js.append("const widgetIds=hasSlaves?slaveIds:[id];");
         js.append("for(const i in widgetIds){"); // for
         js.append("var widgetId=widgetIds[i];");
 
@@ -83,6 +86,9 @@ public class BeforeUpdateFunction implements JsFunction {
                     break;
                 case LIST_ITEMS:
                     js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateListItemsFunction.class));
+                    break;
+                case LIST_ITEMS_TEMPLATE:
+                    js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTemplateListItemsFunction.class));
                     break;
                 case TABLE_HEADER:
                     js.append("%s(widgetId,reason,cacheType,dataSourceId);", JsWidgetModule.getId(BeforeUpdateTableHeaderFunction.class));

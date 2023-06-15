@@ -178,7 +178,9 @@ public class TimesheetDashboardExample extends Page {
     @Override
     protected void build() throws Exception {
         StaticData viewOptions = add(new StaticData(
-                DataBuilder.keyValue().add("all", "All Records").add("by-date", "Group by Date").getData()
+                DataBuilder.keyValue()
+                        .add("all", "All Records")
+                        .add("by-date", "Group by Date").getData()
         ));
         StaticData employeeStaticData = add(new StaticData(EMPLOYEES));
         CalculatedValueWidget currentWeekNumber = add(new CalculatedValueWidget("currentWeekNumber", V.WeekOfYearString(V.DateNow())));
@@ -191,11 +193,11 @@ public class TimesheetDashboardExample extends Page {
 
         Panel filterPanel = add(new Panel(PanelType.TOOLBAR));
         HtmlSelect employeeList = new HtmlSelect();
-        employeeList.addDataSource(DataSourceUsage.OPTIONS, employeeStaticData,
+        employeeList.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, employeeStaticData,
                 new KeyValueListDataAdapter(DataAdapter.DEFAULT_PATH, "id", "name", OrderBy.BY_VALUE));
         HtmlWeekInput htmlWeekInput = new HtmlWeekInput();
-        htmlWeekInput.addDataSource(DataSourceUsage.VALUE, currentWeekNumber,
-                new PathDataAdapter("currentWeekNumber"));
+        htmlWeekInput.addDataSource(ValueDataSourceUsage.VALUE, currentWeekNumber,
+                new ValueDataAdapter("currentWeekNumber"));
         htmlWeekInput.setRequired(true);
 
         filterPanel.add(employeeList);
@@ -208,7 +210,7 @@ public class TimesheetDashboardExample extends Page {
 
         HtmlSelect viewType = new HtmlSelect();
         filterPanel.add(viewType);
-        viewType.addDataSource(DataSourceUsage.OPTIONS, viewOptions, new KeyValueListDataAdapter());
+        viewType.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, viewOptions, new KeyValueListDataAdapter());
 
         // create the default view, this is generated from the DTO
         DtoViewDataAdapter dtoViewDataAdapter = new DtoViewDataAdapter(TimeDeclaration.class);

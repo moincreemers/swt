@@ -7,8 +7,8 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.List;
 import java.util.*;
 
-public abstract class DataSourceWidget extends Widget implements DataSourceSupplier {
-    private final Map<HasDataSource<?>, DataSourceUsage> subscribers = new HashMap<>();
+public abstract class DataSourceWidget<E extends HasDataSourceUsage> extends Widget implements DataSourceSupplier {
+    private final Map<HasDataSource<?, ?>, DataSourceUsage> subscribers = new HashMap<>();
     private final java.util.List<DataAdapter> dataAdapters = new ArrayList<>();
     private final boolean expectServiceResponse;
     private final boolean autoRefresh;
@@ -62,22 +62,22 @@ public abstract class DataSourceWidget extends Widget implements DataSourceSuppl
     }
 
     @Override
-    public void subscribe(DataSourceUsage dataSourceUsage, HasDataSource<?> widget) {
-        subscribers.put(widget, dataSourceUsage);
-    }
-
-    @Override
-    public void unsubscribe(HasDataSource<?> widget) {
-        subscribers.remove(widget);
-    }
-
-    @Override
-    public Map<HasDataSource<?>, DataSourceUsage> getSubscribers() {
+    public Map<HasDataSource<?, ?>, DataSourceUsage> getSubscribers() {
         return subscribers;
     }
 
     @Override
-    public DataSourceWidget addDataAdapter(DataAdapter dataAdapter) {
+    public void subscribe(HasDataSourceUsage dataSourceUsage, HasDataSource<?, ?> widget) {
+        subscribers.put(widget, dataSourceUsage.getDataSourceUsage());
+    }
+
+    @Override
+    public void unsubscribe(HasDataSource<?, ?> widget) {
+        subscribers.remove(widget);
+    }
+
+    @Override
+    public DataSourceWidget<E> addDataAdapter(DataAdapter dataAdapter) {
         this.dataAdapters.add(dataAdapter);
         return this;
     }
@@ -86,7 +86,6 @@ public abstract class DataSourceWidget extends Widget implements DataSourceSuppl
     public java.util.List<DataAdapter> getDataAdapters() {
         return dataAdapters;
     }
-
 
 
     @Override
@@ -118,7 +117,7 @@ public abstract class DataSourceWidget extends Widget implements DataSourceSuppl
     @Override
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
         super.validate(toolkit);
-        for (HasDataSource<?> hasDataSource : subscribers.keySet()) {
+        for (HasDataSource<?, ?> hasDataSource : subscribers.keySet()) {
             hasDataSource.asWidget().validate(toolkit);
         }
         boolean hasImportDataAdapter = false;

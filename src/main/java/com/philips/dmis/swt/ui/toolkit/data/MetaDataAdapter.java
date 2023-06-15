@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit.data;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.dto.EventContext;
 import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
 import com.philips.dmis.swt.ui.toolkit.dto.TransformationMetadata;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
@@ -54,6 +55,8 @@ public class MetaDataAdapter extends DataAdapter {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("(serviceResponse,unmodifiedResponse)=>{"); // begin function
         js.trace(this);
+
+        js.append("const eventContext=%s;", DtoUtil.getDefault(EventContext.class, false));
 
         js.append("const obj=unmodifiedResponse%s;", getPath());
         js.append("if(obj==null||obj==undefined){");

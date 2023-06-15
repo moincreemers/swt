@@ -115,6 +115,8 @@ public class AggregateDataAdapter extends DataAdapter {
         js.append("(serviceResponse,unmodifiedResponse)=>{");
         js.trace(this);
 
+        js.append("const eventContext=%s;", DtoUtil.getDefault(EventContext.class, false));
+
         // re-create data structure
         js.append("const output=structuredClone(serviceResponse);");
         js.append("var m=output%s;", getPath());

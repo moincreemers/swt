@@ -7,8 +7,8 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.*;
 import java.util.List;
 
-public class DataProxy extends DataBoundWidget<DataProxy> implements DataSourceSupplier {
-    private final Map<HasDataSource<?>, DataSourceUsage> subscribers = new HashMap<>();
+public class DataProxy extends DataBoundWidget<DataProxy, TransformDataSourceUsage> implements DataSourceSupplier {
+    private final Map<HasDataSource<?, ?>, DataSourceUsage> subscribers = new HashMap<>();
     private final java.util.List<DataAdapter> dataAdapters = new ArrayList<>();
     private final boolean expectServiceResponse;
     private final boolean autoRefresh;
@@ -48,19 +48,21 @@ public class DataProxy extends DataBoundWidget<DataProxy> implements DataSourceS
     }
 
     public DataSourceSupplier addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.TRANSFORM, dataSourceSupplier, dataAdapters);
+        super.addDataSource(TransformDataSourceUsage.TRANSFORM, dataSourceSupplier, dataAdapters);
         return this;
     }
 
-    public void subscribe(DataSourceUsage dataSourceUsage, HasDataSource<?>  widget) {
-        subscribers.put(widget, dataSourceUsage);
+    @Override
+    public void subscribe(HasDataSourceUsage dataSourceUsage, HasDataSource<?, ?> widget) {
+        subscribers.put(widget, dataSourceUsage.getDataSourceUsage());
     }
 
-    public void unsubscribe(HasDataSource<?> widget) {
+    @Override
+    public void unsubscribe(HasDataSource<?, ?> widget) {
         subscribers.remove(widget);
     }
 
-    public Map<HasDataSource<?>, DataSourceUsage> getSubscribers() {
+    public Map<HasDataSource<?, ?>, DataSourceUsage> getSubscribers() {
         return subscribers;
     }
 
@@ -83,7 +85,7 @@ public class DataProxy extends DataBoundWidget<DataProxy> implements DataSourceS
     @Override
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
         super.validate(toolkit);
-        for (HasDataSource<?> hasDataSource : subscribers.keySet()) {
+        for (HasDataSource<?, ?> hasDataSource : subscribers.keySet()) {
             hasDataSource.asWidget().validate(toolkit);
         }
         for (DataAdapter dataAdapter : dataAdapters) {

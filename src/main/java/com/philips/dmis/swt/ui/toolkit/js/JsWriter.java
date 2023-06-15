@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit.js;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
+import com.philips.dmis.swt.ui.toolkit.JsLogTraceFilter;
 import com.philips.dmis.swt.ui.toolkit.JsLogLevel;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
@@ -17,18 +18,20 @@ public class JsWriter {
     private final StringBuffer js = new StringBuffer();
     private final HasConstantStorage constantStorage;
     private final boolean strict;
+    private final JsLogTraceFilter filter;
 
     public JsWriter() {
         this(null);
     }
 
     public JsWriter(HasConstantStorage constantStorage) {
-        this(constantStorage, false);
+        this(constantStorage, false, null);
     }
 
-    public JsWriter(HasConstantStorage constantStorage, boolean strict) {
+    public JsWriter(HasConstantStorage constantStorage, boolean strict, JsLogTraceFilter filter) {
         this.constantStorage = constantStorage;
         this.strict = strict;
+        this.filter = filter;
     }
 
     public void info(String format, Object... args) {
@@ -66,25 +69,48 @@ public class JsWriter {
         List<JsParameter> parameters = new ArrayList<>();
         function.getParameters(parameters);
         String paramNames = parameters.stream().map(JsParameter::getName).collect(Collectors.joining(","));
-        String name = String.format("%s %s", function.getType().name(), getClassName(function.getClass()));
-        trace(name, paramNames);
+        trace(
+                getModuleName(function.getClass()),
+                getClassName(function.getClass()),
+                function.getType().name(),
+                paramNames,
+                false);
     }
 
     public void trace(DataAdapter dataAdapter) {
         if (!Constants.isLogLevel(JsLogLevel.TRACE)) {
             return;
         }
-        String name = getClassName(dataAdapter.getClass());
-        trace(name, "serviceResponse,unmodifiedResponse");
+        trace(
+                getModuleName(dataAdapter.getClass()),
+                getClassName(dataAdapter.getClass()),
+                null,
+                "serviceResponse,unmodifiedResponse",
+                true);
     }
 
-    private void trace(String name, String paramNames) {
+    private void trace(String moduleName, String functionName, String returnType, String paramNames, boolean disableIdFilter) {
         String paramValues = paramNames;
         if (!paramValues.isEmpty()) {
             paramValues = "," + paramValues;
         }
-        append("console.log('['+window.performance.now()+']','%s(%s)'%s);", name, paramNames, paramValues);
-        cr();
+        if (returnType == null) {
+            returnType = "";
+        } else if (!returnType.isEmpty()) {
+            returnType += " ";
+        }
+        if (filter.accept(moduleName, functionName)) {
+            if (!disableIdFilter && filter.hasIdFilter()) {
+                append("if(");
+                filter.renderIdFilter(this);
+                append("){");
+            }
+            append("console.log('['+window.performance.now()+']','%s%s.%s(%s)'%s);", returnType, moduleName, functionName, paramNames, paramValues);
+            cr();
+            if (!disableIdFilter && filter.hasIdFilter()) {
+                append("};");
+            }
+        }
     }
 
     /**
@@ -185,14 +211,16 @@ public class JsWriter {
         }
     }
 
-    private static String getClassName(Class<?> cls) {
+    private static String getModuleName(Class<?> cls) {
         String name = cls.getName();
         String[] path = name.split("\\.");
-        if (path.length == 0) {
-            name = cls.getSimpleName();
-        } else {
-            name = path.length > 1 ? path[path.length - 2] + "." + path[path.length - 1] : path[path.length - 1];
+        if (path.length < 2) {
+            return "?";
         }
-        return name;
+        return path[path.length - 2];
+    }
+
+    private static String getClassName(Class<?> cls) {
+        return cls.getSimpleName();
     }
 }

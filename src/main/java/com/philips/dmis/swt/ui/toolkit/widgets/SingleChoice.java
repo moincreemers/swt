@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Set;
 
-public class SingleChoice extends ValueWidget<SingleChoice> implements
+public class SingleChoice extends ValueWidget<SingleChoice,ValueAndOptionsDataSourceUsage> implements
         HasOptions, HasValue<SingleChoice> {
     private SingleChoiceAppearance singleChoiceAppearance = SingleChoiceAppearance.DEFAULT;
 
@@ -40,11 +40,6 @@ public class SingleChoice extends ValueWidget<SingleChoice> implements
         }
         this.singleChoiceAppearance = singleChoiceAppearance;
         addClassName(singleChoiceAppearance.className);
-    }
-
-    @Override
-    protected DataSourceUsage getDefaultDataSourceUsage() {
-        return DataSourceUsage.OPTIONS;
     }
 
     @Override

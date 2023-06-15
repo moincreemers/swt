@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlTextInput extends ValueWidget<HtmlTextInput> implements
+public class HtmlTextInput extends ValueWidget<HtmlTextInput,ValueDataSourceUsage> implements
         HasType, HasValue<HtmlTextInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList, HasKeyInput<HtmlTextInput> {
 
@@ -26,7 +26,7 @@ public class HtmlTextInput extends ValueWidget<HtmlTextInput> implements
     }
 
     public HtmlTextInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

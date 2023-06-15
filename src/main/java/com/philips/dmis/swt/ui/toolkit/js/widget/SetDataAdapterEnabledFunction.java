@@ -15,7 +15,7 @@ public class SetDataAdapterEnabledFunction implements JsFunction {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof DataSourceSupplier || widget instanceof DataBoundWidget<?>;
+        return widget instanceof DataSourceSupplier || widget instanceof DataBoundWidget<?,?>;
     }
 
     @Override
@@ -41,20 +41,21 @@ public class SetDataAdapterEnabledFunction implements JsFunction {
     @Override
     public void getParameters(List<JsParameter> parameters) {
         parameters.add(JsParameter.getInstance("id", JsType.STRING));
+        parameters.add(JsParameter.getInstance("dataAdapterId", JsType.STRING));
         parameters.add(JsParameter.getInstance("enabled", JsType.BOOLEAN));
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("(id,enabled)=>{");
+        js.append("(id,dataAdapterId,enabled)=>{");
         js.trace(this);
 
         js.append("const widget=window[id];");
-        js.append("const i=widget.%s.indexOf(id);", DisabledDataAdaptersVariable.ID);
+        js.append("const i=widget.%s.indexOf(dataAdapterId);", DisabledDataAdaptersVariable.ID);
         js.append("if(enabled===true&&i>-1){");
         js.append("widget.%s.splice(i,1);", DisabledDataAdaptersVariable.ID);
         js.append("}else if(enabled===false&&i==-1){");
-        js.append("widget.%s.push(id);", DisabledDataAdaptersVariable.ID);
+        js.append("widget.%s.push(dataAdapterId);", DisabledDataAdaptersVariable.ID);
         js.append("};");
 
         js.append("}"); // end function

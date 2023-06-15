@@ -36,11 +36,14 @@ public class GetEvent extends ValueStatement {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         if (property != null) {
             String property = ValueStatement.valueOf(toolkit, this.property, widget);
-            js.append("(%s[%s]==undefined)", EventHandlerFunction.EVENTCONTEXT_ARGUMENT, property);
+            js.append("(%s==null)", EventHandlerFunction.EVENTCONTEXT_ARGUMENT);
             js.append("?null");
-            js.append(":%s[%s]", EventHandlerFunction.EVENTCONTEXT_ARGUMENT, property);
+            js.append(":(%s.domEvent==null)?null:%s.domEvent[%s]",
+                    EventHandlerFunction.EVENTCONTEXT_ARGUMENT,
+                    EventHandlerFunction.EVENTCONTEXT_ARGUMENT,
+                    property);
         } else {
-            js.append(EventHandlerFunction.EVENTCONTEXT_ARGUMENT);
+            js.append("%s.domEvent", EventHandlerFunction.EVENTCONTEXT_ARGUMENT);
         }
     }
 

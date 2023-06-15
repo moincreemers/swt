@@ -3,6 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.ChildWidgetsVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.DataKeyVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.ImplementsVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.TemplateIdVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.ContainerWidget;
@@ -62,8 +63,12 @@ public class RemoveWidgetFunction implements JsFunction {
         // Remove the element
         js.append("%s(id);", JsWidgetModule.getId(RemoveElementFunction.class));
 
-        js.append("if(widget.%s!=null){", TemplateIdVariable.ID);
+        js.append("var templateId=widget.%s;", TemplateIdVariable.ID);
+        js.append("var dataKey=widget.%s;", DataKeyVariable.ID);
+        js.append("if(templateId!=null&&dataKey!=null){");
         js.append("%s(widget.%s,id);", JsWidgetModule.getId(RemoveSlaveFunction.class),
+                TemplateIdVariable.ID);
+        js.append("%s(widget.%s,dataKey.value);", JsWidgetModule.getId(RemoveDataKeyFunction.class),
                 TemplateIdVariable.ID);
         js.append("};");
         js.append("delete window[id];");

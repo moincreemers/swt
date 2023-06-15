@@ -9,11 +9,8 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DataBoundWidget<T extends Widget> extends Widget implements HasDataSource<T> {
+public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> extends Widget implements HasDataSource<T, E> {
     private final Map<DataSourceUsage, java.util.List<DataSource>> dataSources = new HashMap<>();
-    // todo: editable is not used for anything
-    private boolean editable = false;
-    private boolean generateLinks = false;
     private String emptyText = "";
 
     public DataBoundWidget(WidgetType widgetType) {
@@ -25,13 +22,24 @@ public class DataBoundWidget<T extends Widget> extends Widget implements HasData
         return this;
     }
 
+
     @Override
     public java.util.List<DataSource> getDataSources(DataSourceUsage dataSourceUsage) {
         return dataSources.get(dataSourceUsage);
     }
 
     @Override
+    public java.util.List<DataSource> getDataSources(E dataSourceUsage) {
+        return dataSources.get(dataSourceUsage.getDataSourceUsage());
+    }
+
+    @Override
     public boolean hasDataSource(DataSourceUsage dataSourceUsage) {
+        return getDataSources(dataSourceUsage) != null;
+    }
+
+    @Override
+    public boolean hasDataSource(E dataSourceUsage) {
         return getDataSources(dataSourceUsage) != null;
     }
 
@@ -41,7 +49,7 @@ public class DataBoundWidget<T extends Widget> extends Widget implements HasData
             return (T) this;
         }
         unsubscribe(dataSource.getDataSourceUsage(), dataSource.getDataSourceSupplier().asWidget().getId());
-        dataSource.getDataSourceSupplier().subscribe(dataSource.getDataSourceUsage(), this);
+        dataSource.getDataSourceSupplier().subscribe(dataSource, this);
         java.util.List<DataSource> dataSources = this.dataSources.computeIfAbsent(dataSource.getDataSourceUsage(), k -> new ArrayList<>());
         if (dataSource.getDataSourceUsage().getMaxOccurs() > 0
                 && dataSources.size() >= dataSource.getDataSourceUsage().getMaxOccurs()) {
@@ -54,19 +62,19 @@ public class DataBoundWidget<T extends Widget> extends Widget implements HasData
     }
 
     @Override
-    public T addDataSource(DataSourceUsage dataSourceUsage, DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        DataSource dataSource = new DataSource(dataSourceUsage, dataSourceSupplier, dataAdapters);
+    public T addDataSource(E dataSourceUsage, DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
+        DataSource dataSource = new DataSource(dataSourceUsage.getDataSourceUsage(), dataSourceSupplier, dataAdapters);
         addDataSource(dataSource);
         return (T) this;
     }
 
-    private void unsubscribe(DataSourceUsage dataSourceUsage) {
-        java.util.List<DataSource> existingDataSources = dataSources.get(dataSourceUsage);
+    private void unsubscribe(E dataSourceUsage) {
+        java.util.List<DataSource> existingDataSources = dataSources.get(dataSourceUsage.getDataSourceUsage());
         if (existingDataSources != null) {
             for (DataSource existingDataSource : existingDataSources) {
                 existingDataSource.getDataSourceSupplier().unsubscribe(this);
             }
-            dataSources.remove(dataSourceUsage);
+            dataSources.remove(dataSourceUsage.getDataSourceUsage());
         }
     }
 
@@ -81,7 +89,7 @@ public class DataBoundWidget<T extends Widget> extends Widget implements HasData
                 }
             }
             for (DataSource removedDataSource : removed) {
-                dataSources.remove(removedDataSource);
+                dataSources.remove(removedDataSource.getDataSourceUsage());
             }
         }
     }
@@ -96,44 +104,12 @@ public class DataBoundWidget<T extends Widget> extends Widget implements HasData
         return (T) this;
     }
 
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
-    public boolean isGenerateLinks() {
-        return generateLinks;
-    }
-
     public String getEmptyText() {
         return emptyText;
     }
 
     public void setEmptyText(String emptyText) {
         this.emptyText = emptyText;
-    }
-
-    /**
-     * todo: get rid of this
-     * <p>
-     * Replaces hyperlinks in text with html anchors automatically.
-     * <p>
-     * Warning: Use with caution. This feature uses element.innerHTML
-     * which is unsafe if the source of the data is not trusted.
-     * <p>
-     * If the field contains a URL only, setting the DataDisplayType
-     * for the column to LINK is a safer option.
-     * <p>
-     * Note that the toolkit does scan for unsafe elements and prevents
-     * displaying such content but this cannot mitigate all risks.
-     *
-     * @param generateLinks
-     */
-    public void setGenerateLinks(boolean generateLinks) {
-        this.generateLinks = generateLinks;
     }
 
     @Override

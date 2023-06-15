@@ -37,7 +37,7 @@ public class StaticValueStorage implements HasConstantStorage {
         js.append("if(token==null){return (defaultValue|'');};");
         js.append("var constantElement=document.getElementById(token);");
         js.append("if(constantElement==null){return (defaultValue|'');};");
-        js.append("return constantElement.textContent;");
+        js.append("return constantElement.innerHTML;");
         js.append("};"); // end function
 
         js.append("var %s=(widgetId)=>{", HasConstantStorage.JS_INIT_FUNCTION);
@@ -47,7 +47,7 @@ public class StaticValueStorage implements HasConstantStorage {
         js.debug("console.log('constant nodes', cx, constantNodes[cx]);");
         js.append("var token=constantNodes[cx].getAttribute('%s');",
                 HasConstantStorage.HTML_ATTR_TOKEN);
-        js.append("constantNodes[cx].textContent=%s.%s(token,'unexpected error: constant not found');",
+        js.append("constantNodes[cx].setHTML(%s.%s(token,'unexpected error: constant not found'),{sanitizer:new Sanitizer()});",
                 Constants.MAIN_MODULE_NAME, HasConstantStorage.JS_GET_FUNCTION);
         js.append("};"); // end for
         js.append("};"); // end function

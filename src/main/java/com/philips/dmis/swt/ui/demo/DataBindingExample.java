@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.demo;
 import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
-import com.philips.dmis.swt.ui.toolkit.data.PathDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.ValueDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
@@ -162,22 +162,22 @@ public class DataBindingExample extends Page {
         HtmlPreformatted streetAddressCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox streetAddress = new TextBox()\n" +
                 "  .addDataSource(data, new PathDataAdapter(\"streetAddress\"));");
         HtmlTextInput streetAddress = new HtmlTextInput("streetAddress")
-                .addDataSource(staticData, new PathDataAdapter("streetAddress"));
+                .addDataSource(staticData, new ValueDataAdapter("streetAddress"));
         addressGrid.addAll(new HtmlLabel(streetAddress, "Street Address"), streetAddressCode);
         HtmlPreformatted postalCodeCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox postalCode = new TextBox()\n" +
                 "  .addDataSource(data, new PathDataAdapter(\"postalCode\"));");
         HtmlTextInput postalCode = new HtmlTextInput("postalCode")
-                .addDataSource(staticData, new PathDataAdapter("postalCode"));
+                .addDataSource(staticData, new ValueDataAdapter("postalCode"));
         addressGrid.addAll(new HtmlLabel(postalCode, "Postal Code"), postalCodeCode);
         HtmlPreformatted cityCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox city = new TextBox()\n" +
                 "  .addDataSource(data, new PathDataAdapter(\"city\"));");
         HtmlTextInput city = new HtmlTextInput("city")
-                .addDataSource(staticData, new PathDataAdapter("city"));
+                .addDataSource(staticData, new ValueDataAdapter("city"));
         addressGrid.addAll(new HtmlLabel(city, "City"), cityCode);
         HtmlPreformatted stateCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox state = new TextBox()\n" +
                 "  .addDataSource(data, new PathDataAdapter(\"state\"));");
         HtmlTextInput state = new HtmlTextInput("state")
-                .addDataSource(staticData, new PathDataAdapter("state"));
+                .addDataSource(staticData, new ValueDataAdapter("state"));
         addressGrid.addAll(new HtmlLabel(state, "State"), stateCode);
         HtmlPreformatted countryCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS,
                 "ListBox country = new ListBox()\n" +
@@ -185,8 +185,8 @@ public class DataBindingExample extends Page {
                         "  .addDataSource(DataSourceUsage.OPTIONS, countryOptions, new KeyValueListDataAdapter());");
 
         HtmlSelect country = new HtmlSelect("country")
-                .addDataSource(DataSourceUsage.VALUE, staticData, new PathDataAdapter("country"))
-                .addDataSource(DataSourceUsage.OPTIONS, countryOptions, new KeyValueListDataAdapter());
+                .addDataSource(ValueAndOptionsDataSourceUsage.VALUE, staticData, new ValueDataAdapter("country"))
+                .addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, countryOptions, new KeyValueListDataAdapter());
 
         addressGrid.addAll(new HtmlLabel(country, "Country"), countryCode);
         HtmlPreformatted otherCountryCode = new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "TextBox otherCountry = new TextBox()\n" +
@@ -200,7 +200,7 @@ public class DataBindingExample extends Page {
                 "    .Else(M.Disable(otherCountry))\n" +
                 "  ));");
         HtmlTextInput otherCountry = new HtmlTextInput("otherCountry")
-                .addDataSource(staticData, new PathDataAdapter("otherCountry"));
+                .addDataSource(staticData, new ValueDataAdapter("otherCountry"));
         otherCountry.setDisabled(true);
         country.onChange(new ChangeEventHandler(
                 M.If(country)

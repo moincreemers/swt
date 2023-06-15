@@ -52,10 +52,10 @@ public class SendHttpRequestFunction implements JsFunction {
         js.append("case 'GET':");
         js.append("case 'HEAD':");
         js.append("requestUrl=url+'?'+%s(obj);",
-                JsGlobalModule.getId(ToQueryStringFunction.class));
+                JsGlobalModule.getQualifiedId(ToQueryStringFunction.class));
         js.append("xhr.open(method,requestUrl,true);");
         js.append("%s(xhr,headers);",
-                JsGlobalModule.getId(SetXhrRequestHeadersFunction.class));
+                JsGlobalModule.getQualifiedId(SetXhrRequestHeadersFunction.class));
         js.append("try{");
         js.append("xhr.send();");
         js.append("}catch(ex){");
@@ -66,7 +66,7 @@ public class SendHttpRequestFunction implements JsFunction {
         js.append("case 'POST':");
         js.append("xhr.open('POST',url,true);");
         js.append("%s(xhr,headers);",
-                JsGlobalModule.getId(SetXhrRequestHeadersFunction.class));
+                JsGlobalModule.getQualifiedId(SetXhrRequestHeadersFunction.class));
         js.append("xhr.setRequestHeader('Content-Type',contentTypeEncoding);");
 
         js.append("switch(contentTypeEncoding){"); // switch CONTENT-TYPE

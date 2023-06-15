@@ -149,7 +149,7 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         response.setContentType("text/html");
 
         // RENDER JS
-        JsWriter js = new JsWriter(this, false);
+        JsWriter js = new JsWriter(this, false, Constants.JS_LOG_FILTER);
         renderJs(js);
 
         // RENDER HTML

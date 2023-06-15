@@ -8,7 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 
 import java.util.Map;
 
-public class HtmlImageButton extends ValueWidget<HtmlImageButton> implements
+public class HtmlImageButton extends ValueWidget<HtmlImageButton, ValueDataSourceUsage> implements
         HasType, IsClickable<HtmlImageButton>, HasAction, HasEncType, HasMethod,
         HasNoValidate, HasTarget, HasForm {
 
@@ -85,7 +85,7 @@ public class HtmlImageButton extends ValueWidget<HtmlImageButton> implements
     }
 
     public HtmlImageButton addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

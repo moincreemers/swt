@@ -4,7 +4,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlFile extends ValueWidget<HtmlFile> implements
+public class HtmlFile extends ValueWidget<HtmlFile,ValueDataSourceUsage> implements
         HasType, HasRequired, HasMultiple, HasAccept, HasCapture {
     public HtmlFile() {
         this("");

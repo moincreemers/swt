@@ -4,7 +4,6 @@ import com.philips.dmis.swt.ui.toolkit.ExtModuleInvoke;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.global.ConvertHyperlinksFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
 import com.philips.dmis.swt.ui.toolkit.widgets.CacheType;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
@@ -39,7 +38,6 @@ public class BeforeUpdateTableBodyFunction implements JsFunction {
     public void getDependencies(List<Class<? extends JsMember>> dependencies) {
         dependencies.add(GetElementFunction.class);
         dependencies.add(IsObjectFunction.class);
-        dependencies.add(ConvertHyperlinksFunction.class);
     }
 
     @Override

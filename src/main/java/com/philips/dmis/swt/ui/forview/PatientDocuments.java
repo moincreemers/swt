@@ -129,7 +129,7 @@ public class PatientDocuments extends AbstractViewerPage {
         dtoViewDataAdapter.setAppearance("authors", ViewAppearance.DEFAULT);
         dtoViewDataAdapter.setAppearance("typeCode", ViewAppearance.DEFAULT);
 
-        dtoViewDataAdapter.addAction("title", "download");
+        //dtoViewDataAdapter.addAction("title", "download");
 
         documents.addDataAdapter(dtoViewDataAdapter);
 

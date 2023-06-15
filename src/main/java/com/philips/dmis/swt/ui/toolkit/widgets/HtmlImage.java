@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlImage extends DataBoundWidget<HtmlImage> implements HasSrc<HtmlImage> {
+public class HtmlImage extends DataBoundWidget<HtmlImage, ValueDataSourceUsage> implements HasSrc<HtmlImage> {
     private ImageSize imageSize = ImageSize.DEFAULT;
     private ImageType imageType = ImageType.DEFAULT;
 
@@ -28,7 +28,7 @@ public class HtmlImage extends DataBoundWidget<HtmlImage> implements HasSrc<Html
     }
 
     public HtmlImage addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

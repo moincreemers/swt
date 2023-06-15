@@ -6,13 +6,13 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 // todo: Does not have HasValue
 
-public class HtmlProgress extends DataBoundWidget<HtmlProgress> implements HasMax {
+public class HtmlProgress extends DataBoundWidget<HtmlProgress, ValueDataSourceUsage> implements HasMax {
     public HtmlProgress() {
         super(WidgetType.PROGRESS);
     }
 
     public HtmlProgress addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

@@ -16,6 +16,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,16 +37,16 @@ public class IfStatement extends MethodStatement {
         }
     }
 
-    private final ValueWidget<?> valueWidget;
+    private final ValueWidget<?, ?> valueWidget;
     private final boolean breakOnMatch;
     private final List<Case> cases = new ArrayList<>();
     private final List<Statement> elseStatements = new ArrayList<>();
 
-    public IfStatement(ValueWidget<?> valueWidget) {
+    public IfStatement(ValueWidget<?, ?> valueWidget) {
         this(valueWidget, true);
     }
 
-    public IfStatement(ValueWidget<?> valueWidget, boolean breakOnMatch) {
+    public IfStatement(ValueWidget<?, ?> valueWidget, boolean breakOnMatch) {
         this.valueWidget = valueWidget;
         this.breakOnMatch = breakOnMatch;
     }
@@ -141,9 +142,7 @@ public class IfStatement extends MethodStatement {
     }
 
     public IfStatement Else(Statement... statements) {
-        for (Statement statement : statements) {
-            elseStatements.add(statement);
-        }
+        elseStatements.addAll(Arrays.asList(statements));
         return this;
     }
 

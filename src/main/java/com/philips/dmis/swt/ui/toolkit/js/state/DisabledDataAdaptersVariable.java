@@ -19,7 +19,7 @@ public class DisabledDataAdaptersVariable implements JsVariable {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof DataSourceSupplier || widget instanceof DataBoundWidget<?>;
+        return widget instanceof DataSourceSupplier || widget instanceof DataBoundWidget<?,?>;
     }
 
     @Override
@@ -39,8 +39,7 @@ public class DisabledDataAdaptersVariable implements JsVariable {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        if (widget instanceof DataSourceSupplier) {
-            DataSourceSupplier dataSourceSupplier = (DataSourceSupplier) widget;
+        if (widget instanceof DataSourceSupplier dataSourceSupplier) {
             if (dataSourceSupplier.getDisabledDataAdapters().isEmpty()) {
                 js.append("[]");
             } else {

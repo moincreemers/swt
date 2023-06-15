@@ -44,10 +44,10 @@ _WARNING: This opens a new instance of Chrome that you should only use for this 
 use a Browser with web security disabled to browse the Internet. You can have another normal instance running at the
 same time._
 
-4. Open Constants.java and make PatientSearch the default page, like so:
+4. Open Constants.java and make LoginPage the default page, like so:
 
 ```java
-DEMO = PatientSearch.class;
+DEMO = LoginPage.class;
 ```
 
 5. Run the project using the plugin in your IDE or terminal:

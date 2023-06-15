@@ -32,7 +32,7 @@ public class ParseHttpHeaderFunction implements JsFunction {
         js.append("(value)=>{");
 
         js.append("if(value==undefined||value==null||value==''){");
-        js.throwError("expected value", "value");
+        js.append("return '';");
         js.append("};");
         js.append("const result={};");
         js.append("const a=value.split(', ');"); // header value may contain more than one header

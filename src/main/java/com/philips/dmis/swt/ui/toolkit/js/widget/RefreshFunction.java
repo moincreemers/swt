@@ -49,16 +49,16 @@ public class RefreshFunction implements JsFunction {
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-        parameters.add(JsParameter.getInstance("id2", JsType.STRING));
+        parameters.add(JsParameter.getInstance("id", JsType.STRING));
         parameters.add(JsParameter.getInstance("reason", JsType.STRING));
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("(id2,reason)=>{");
+        js.append("(id,reason)=>{");
         js.trace(this);
 
-        js.append("const widget=window[id2];");
+        js.append("const widget=window[id];");
         js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
         js.append("const implements=widget.%s;", ImplementsVariable.ID);
 
@@ -73,7 +73,7 @@ public class RefreshFunction implements JsFunction {
         js.append("};"); // end if
         // notify subscribers that an update event will follow
         js.append("if(widget.%s){", NotifySubscribersVariable.ID);// if
-        js.append("%s(id2,'%s');",
+        js.append("%s(id,'%s');",
                 JsWidgetModule.getId(BeforeUpdateSubscribersFunction.class),
                 JsStateModule.REASON_DATA_SOURCE);
         js.append("};"); // end if
@@ -82,7 +82,7 @@ public class RefreshFunction implements JsFunction {
         // call onRefresh event handler
         js.append("const refreshEvent=%s;", CustomEvent.valueOf(new RefreshEvent()));
         js.append("refreshEvent.reason=reason;");
-        js.append("%s(id2,%s,refreshEvent);",
+        js.append("%s(id,%s,refreshEvent);",
                 JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
                 JsWidgetModule.getId(EventHandlerFunction.OnRefreshEventHandlerFunction.class));
 
@@ -108,10 +108,10 @@ public class RefreshFunction implements JsFunction {
 
         js.append("var xhrResponse=%s;", DtoUtil.getDefault(XhrResponse.class, false));
         js.append("xhrResponse.status=200;");
-        js.append("xhrResponse.url=widgetType+'://'+id2;");
+        js.append("xhrResponse.url=widgetType+'://'+id;");
         js.append("xhrResponse.data=data;");
         js.append("xhrResponse.contentType.value='%s';", ContentType.JSON.getEncoding());
-        js.append("%s(id2,xhrResponse);",
+        js.append("%s(id,xhrResponse);",
                 JsWidgetModule.getId(ProcessResponseFunction.class));
         js.append("};");
         js.append("};"); // end if
@@ -132,7 +132,7 @@ public class RefreshFunction implements JsFunction {
         js.append("if(cachedValue!=null){"); // if
         //xhrResponse
         js.append("const xhrResponse=JSON.parse(cachedValue);");
-        js.append("%s(id2,xhrResponse);", JsWidgetModule.getId(ProcessResponseFunction.class));
+        js.append("%s(id,xhrResponse);", JsWidgetModule.getId(ProcessResponseFunction.class));
         js.append("if(widget.%s=='%s'){",
                 CacheTypeVariable.ID, CacheType.ENABLED.name()); // if
         js.append("return;");  // exit function
@@ -149,7 +149,7 @@ public class RefreshFunction implements JsFunction {
         js.append("};"); // end if
 
         // method,contentTypeEncoding,responseType,url,headers,obj,success,failure,args
-        js.append("%s(id2,widget.%s,widget.%s,widget.%s,widget.%s,widget.%s,%s(id2),%s,%s,{});",
+        js.append("%s(id,widget.%s,widget.%s,widget.%s,widget.%s,widget.%s,%s(id),%s,%s,{});",
                 JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),
                 HttpMethodVariable.ID,
                 ContentTypeEncodingVariable.ID,

@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlWeekInput extends ValueWidget<HtmlWeekInput> implements
+public class HtmlWeekInput extends ValueWidget<HtmlWeekInput,ValueDataSourceUsage> implements
         HasType, HasValue<HtmlWeekInput>, HasKeyInput<HtmlWeekInput>, HasRange<String>, HasStep, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
     public HtmlWeekInput() {
@@ -25,7 +25,7 @@ public class HtmlWeekInput extends ValueWidget<HtmlWeekInput> implements
     }
 
     public HtmlWeekInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

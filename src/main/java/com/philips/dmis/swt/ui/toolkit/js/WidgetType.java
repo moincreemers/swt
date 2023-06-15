@@ -8,6 +8,8 @@ import java.util.Map;
 public final class WidgetType {
     private static final Map<String, WidgetType> VALUES = new LinkedHashMap<>();
 
+    public static final WidgetType HR = new WidgetType("HR", "hr", false, false, "hr");
+    public static final WidgetType BR = new WidgetType("BR", "br", false, false, "br");
     public static final WidgetType BUTTON = new WidgetType("BUTTON", "button", false, false, "button");
     public static final WidgetType IMAGE_BUTTON = new WidgetType("IMAGE_BUTTON", "image-button", false, false, "input");
     public static final WidgetType IMAGE = new WidgetType("IMAGE", "image", false, false, "img");
@@ -59,6 +61,7 @@ public final class WidgetType {
     public static final WidgetType STATICDATA = new WidgetType("STATICDATA", "", false, true, "div");
     public static final WidgetType DATA = new WidgetType("DATA", "", false, true, "div");
     public static final WidgetType DATA_PROXY = new WidgetType("DATA_PROXY", "", false, true, "div");
+    public static final WidgetType DATA_TEMPLATE = new WidgetType("DATA_TEMPLATE", "", false, true, "div");
     public static final WidgetType CODE = new WidgetType("CODE", "", false, true, "div");
     public static final WidgetType STYLE = new WidgetType("STYLE", "", false, true, "style");
     public static final WidgetType TIMER = new WidgetType("TIMER", "", false, true, "div");

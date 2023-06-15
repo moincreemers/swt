@@ -18,7 +18,7 @@ public class SetValueFunction implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return widget instanceof HasValue
-                || widget instanceof DataSourceSupplier;
+               || widget instanceof DataSourceSupplier;
     }
 
     @Override
@@ -49,8 +49,6 @@ public class SetValueFunction implements JsFunction {
         js.append("if(!implements.includes('%s')&&!implements.includes('%s')){",
                 DataSourceSupplier.class.getSimpleName(),
                 HasText.class.getSimpleName()); // if
-        // todo: is this still used?
-        // prevent duplication of potentially large blobs of JSON
         js.append("element.setAttribute('tk-value',value);");
         js.append("};"); // end if
 
@@ -60,6 +58,12 @@ public class SetValueFunction implements JsFunction {
         js.append("}else if(implements.includes('%s')){", HasValue.class.getSimpleName());
         js.append("if(widgetType=='%s'){", WidgetType.CHECK.name());
         js.append("element.checked=(value=='true');");
+
+        js.append("}else if(widgetType=='%s'){", WidgetType.SELECT.name());
+        js.append("if(element.options.length==0){");
+        js.append("%s(element,value,value,'__temp__');", JsWidgetModule.getId(AppendOptionFunction.class));
+        js.append("};");
+        js.append("element.value=value;");
 
         js.append("}else if(widgetType=='%s'){", WidgetType.MULTIPLE_CHOICE.name());
         // todo:

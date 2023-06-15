@@ -1,42 +1,36 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 public enum PanelType {
-    DEFAULT("", "d"),
+    DEFAULT(""),
 
-    PADDED("tk-panel-padded", "p"),
-    BORDERED("tk-panel-bordered", "b"),
-    TOOLBAR("tk-panel-toolbar", "t"),
-    TAB_PAGE("tk-panel-tabpage", "tp"),
+    PADDED("tk-panel-padded"),
+    BORDERED("tk-panel-bordered"),
+    TOOLBAR("tk-panel-toolbar"),
+    TAB_PAGE("tk-panel-tabpage"),
 
-    PAGE_HEADER("tk-panel-page-header", "h"),
-    PAGE_FOOTER("tk-panel-page-footer", "f"),
-    NAV_LEFT("tk-panel-nav-left", "l"),
-    NAV_RIGHT("tk-panel-nav-right", "r"),
+    PAGE_HEADER("tk-panel-page-header"),
+    PAGE_FOOTER("tk-panel-page-footer"),
+    NAV_LEFT("tk-panel-nav-left"),
+    NAV_RIGHT("tk-panel-nav-right"),
 
-    BANNER("tk-panel-banner", "b"),
-    SUCCESS("tk-panel-success", "s"),
-    INFO("tk-panel-info", "i"),
-    WARNING("tk-panel-warning", "w"),
-    ERROR("tk-panel-error", "e"),
+    BANNER("tk-panel-banner"),
+    SUCCESS("tk-panel-success"),
+    INFO("tk-panel-info"),
+    WARNING("tk-panel-warning"),
+    ERROR("tk-panel-error"),
 
-    GROUP("tk-panel-group", "g"),
+    GROUP("tk-panel-group"),
 
 
     ;
 
-    final String shortName;
     final String className;
 
-    PanelType(String className, String shortName) {
+    PanelType(String className) {
         this.className = className;
-        this.shortName = shortName;
     }
 
     public String getClassName() {
         return className;
-    }
-
-    public String getShortName() {
-        return shortName;
     }
 }

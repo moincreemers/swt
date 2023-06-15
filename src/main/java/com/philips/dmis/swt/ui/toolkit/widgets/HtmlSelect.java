@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.Map;
 import java.util.Set;
 
-public class HtmlSelect extends ValueWidget<HtmlSelect> implements
+public class HtmlSelect extends ValueWidget<HtmlSelect,ValueAndOptionsDataSourceUsage> implements
         HasOptions, HasValue<HtmlSelect>, HasAutocomplete, HasMultiple {
     private int size = 1;
 
@@ -48,11 +48,6 @@ public class HtmlSelect extends ValueWidget<HtmlSelect> implements
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
         super.getHtmlAttributes(htmlAttributes);
         htmlAttributes.put("size", Integer.valueOf(getSize()).toString());
-    }
-
-    @Override
-    protected DataSourceUsage getDefaultDataSourceUsage() {
-        return DataSourceUsage.OPTIONS;
     }
 
     // AUTOCOMPLETE

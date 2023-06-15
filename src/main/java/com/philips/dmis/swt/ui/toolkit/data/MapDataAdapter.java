@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit.data;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.dto.EventContext;
 import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
 import com.philips.dmis.swt.ui.toolkit.dto.TransformationMetadata;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
@@ -64,6 +65,8 @@ public class MapDataAdapter extends DataAdapter {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
         js.append("(serviceResponse,unmodifiedResponse)=>{");
         js.trace(this);
+
+        js.append("const eventContext=%s;", DtoUtil.getDefault(EventContext.class, false));
 
         // get data array from path
         js.append("const data=Object.assign([],serviceResponse%s);", getPath());

@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit.data;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.dto.EventContext;
 import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
 import com.philips.dmis.swt.ui.toolkit.dto.TransformationMetadata;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
@@ -114,6 +115,7 @@ public class FilterDataAdapter extends DataAdapter {
         js.append("(serviceResponse,unmodifiedResponse)=>{");
         js.trace(this);
 
+        js.append("const eventContext=%s;", DtoUtil.getDefault(EventContext.class, false));
         js.append("var processed=false;");
 
         js.append("const conditions=[];");
@@ -123,7 +125,7 @@ public class FilterDataAdapter extends DataAdapter {
             js.append("};");
             js.append("conditions.push(condition);");
         }
-        js.debug("console.log('FilterDataAdapter conditions',conditions);");
+        js.info("console.log('FilterDataAdapter conditions',conditions);");
 
         // re-create data structure
         js.append("const output=structuredClone(serviceResponse);");

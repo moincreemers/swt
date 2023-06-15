@@ -86,10 +86,10 @@ public class AppendElementFunction implements JsFunction {
         js.append("if(childWidgetPanelType=='%s'){", PanelType.PAGE_FOOTER.name());
         js.append("inner.classList.add('tk-page-has-footer');");
         js.append("};");
-        js.append("if(childWidgetPanelType=='%s'){", PanelType.NAV_LEFT.getShortName());
+        js.append("if(childWidgetPanelType=='%s'){", PanelType.NAV_LEFT.name());
         js.append("inner.classList.add('tk-page-has-nav-left');");
         js.append("};");
-        js.append("if(childWidgetPanelType=='%s'){", PanelType.NAV_RIGHT.getShortName());
+        js.append("if(childWidgetPanelType=='%s'){", PanelType.NAV_RIGHT.name());
         js.append("inner.classList.add('tk-page-has-nav-right');");
         js.append("};");
 

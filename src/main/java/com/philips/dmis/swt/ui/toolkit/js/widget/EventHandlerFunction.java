@@ -373,7 +373,6 @@ public abstract class EventHandlerFunction implements JsFunction {
         js.append("const widget=window[eventContext.widgetId];");
         js.append("const c=widget.%s['%s'];", EventHandlersVariable.ID, name);
         js.append("if(c!=undefined&&c!=null&&c.length!=0){");
-        js.info("console.log('event handlers',c);");
         js.append("for(const i in c){");
         js.append("var h=c[i];");
         js.append("h.fn(eventContext);");

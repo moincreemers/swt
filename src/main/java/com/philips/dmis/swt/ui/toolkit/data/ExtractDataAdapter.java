@@ -1,7 +1,9 @@
 package com.philips.dmis.swt.ui.toolkit.data;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.dto.EventContext;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -46,6 +48,8 @@ public class ExtractDataAdapter extends DataAdapter {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("(serviceResponse,unmodifiedResponse)=>{"); // begin function
         js.trace(this);
+
+        js.append("const eventContext=%s;", DtoUtil.getDefault(EventContext.class, false));
 
         js.append("const obj=serviceResponse%s;", getPath());
         js.append("if(obj==null||obj==undefined){");

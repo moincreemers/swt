@@ -66,8 +66,10 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(ContentTypeEncodingVariable.ID, new ContentTypeEncodingVariable(widget)));
         members.add(new Pair<>(ContentTypeVariable.ID, new ContentTypeVariable(widget)));
         members.add(new Pair<>(DataAdaptersVariable.ID, new DataAdaptersVariable(widget)));
+        members.add(new Pair<>(DataKeyFieldVariable.ID, new DataKeyFieldVariable(widget)));
         members.add(new Pair<>(DataKeysVariable.ID, new DataKeysVariable(widget)));
         members.add(new Pair<>(DataKeyVariable.ID, new DataKeyVariable(widget)));
+        members.add(new Pair<>(DataTemplateIdVariable.ID, new DataTemplateIdVariable(widget)));
         members.add(new Pair<>(DataVariable.ID, new DataVariable(widget)));
         members.add(new Pair<>(DisabledDataAdaptersVariable.ID, new DisabledDataAdaptersVariable(widget)));
         members.add(new Pair<>(EmptyTextVariable.ID, new EmptyTextVariable(widget)));
@@ -97,6 +99,7 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(SyncVariable.ID, new SyncVariable(widget)));
         members.add(new Pair<>(TableOrientationTypeVariable.ID, new TableOrientationTypeVariable(widget)));
         members.add(new Pair<>(TemplateIdVariable.ID, new TemplateIdVariable(widget)));
+        members.add(new Pair<>(TemplateTargetWidgetIdVariable.ID, new TemplateTargetWidgetIdVariable(widget)));
         members.add(new Pair<>(TextFormatVariable.ID, new TextFormatVariable(widget)));
         members.add(new Pair<>(TimerHandleVariable.ID, new TimerHandleVariable(widget)));
         members.add(new Pair<>(TimerIntervalVariable.ID, new TimerIntervalVariable(widget)));

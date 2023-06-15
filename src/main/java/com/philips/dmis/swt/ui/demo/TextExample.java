@@ -1,7 +1,7 @@
 package com.philips.dmis.swt.ui.demo;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
-import com.philips.dmis.swt.ui.toolkit.data.PathDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.ValueDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +35,7 @@ public class TextExample extends Page {
         Panel panel1 = add(new Panel(PanelType.PADDED));
         HtmlParagraph p1 = panel1.add(new HtmlParagraph());
         p1.setAppearance(WidgetAppearance.BORDERED);
-        p1.addDataSource(staticData, new PathDataAdapter());
+        p1.addDataSource(staticData, new ValueDataAdapter());
         panel1.add(new Caption("Source: Wikipedia"));
 
         add(new HtmlParagraph("Note that HTML is sanitized to protect the user against XSS attacks. If the data contains dangerous content, like:"));
@@ -45,6 +45,6 @@ public class TextExample extends Page {
         Panel panel2 = add(new Panel(PanelType.PADDED));
         HtmlParagraph p2 = panel2.add(new HtmlParagraph());
         p2.setAppearance(WidgetAppearance.BORDERED);
-        p2.addDataSource(dangerousStaticData, new PathDataAdapter());
+        p2.addDataSource(dangerousStaticData, new ValueDataAdapter());
     }
 }

@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlParagraph extends DataBoundWidget<HtmlParagraph> implements HasText {
+public class HtmlParagraph extends DataBoundWidget<HtmlParagraph, TextDataSourceUsage> implements HasText {
     public HtmlParagraph() {
         this("");
     }
@@ -14,7 +14,7 @@ public class HtmlParagraph extends DataBoundWidget<HtmlParagraph> implements Has
     }
 
     public HtmlParagraph addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
+        super.addDataSource(TextDataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
         return this;
     }
 

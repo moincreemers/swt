@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 
-public class CalculatedValueWidget extends DataSourceWidget implements
+public class CalculatedValueWidget extends DataSourceWidget<ValueDataSourceUsage> implements
         HasCalculatedValue {
     private final String name;
     private final ValueStatement valueStatement;
@@ -16,7 +16,7 @@ public class CalculatedValueWidget extends DataSourceWidget implements
         this.name = name;
         this.valueStatement = valueStatement;
     }
-    
+
     public ValueStatement getValueStatement() {
         return valueStatement;
     }

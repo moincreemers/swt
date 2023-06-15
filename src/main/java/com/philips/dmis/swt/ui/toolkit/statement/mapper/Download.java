@@ -138,7 +138,7 @@ public class Download extends MapStatement implements HasAbstractURL {
 
         // todo: failure function is undefined
         js.append("%s('%s','%s','%s','%s',url,headers,obj,%s,()=>{console.log('resource request failed');},arguments);",
-                JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),
+                JsWidgetModule.getQualifiedId(SendHttpRequestFunction.class),
                 widget.getId(),
                 httpMethod.name(),
                 contentType.getEncoding(),

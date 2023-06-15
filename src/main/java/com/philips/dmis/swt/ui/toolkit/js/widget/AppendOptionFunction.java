@@ -56,5 +56,6 @@ public class AppendOptionFunction implements JsFunction {
         parameters.add(JsParameter.getInstance("parent", JsType.OBJECT));
         parameters.add(JsParameter.getInstance("key", JsType.STRING));
         parameters.add(JsParameter.getInstance("value", JsType.STRING));
+        parameters.add(JsParameter.getInstance("dataSourceId", JsType.STRING));
     }
 }

@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlCheckInput extends ValueWidget<HtmlCheckInput> implements
+public class HtmlCheckInput extends ValueWidget<HtmlCheckInput,ValueDataSourceUsage> implements
         HasType, HasValue<HtmlCheckInput>, HasRequired {
     public HtmlCheckInput() {
         this("");
@@ -15,7 +15,7 @@ public class HtmlCheckInput extends ValueWidget<HtmlCheckInput> implements
     }
 
     public HtmlCheckInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

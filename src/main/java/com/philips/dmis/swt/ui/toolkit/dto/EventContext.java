@@ -3,6 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.dto;
 import java.io.Serializable;
 
 public class EventContext implements Serializable {
+    private String contextId;
     private String widgetId;
     private String slaveId;
     private Object dataKey;
@@ -10,6 +11,14 @@ public class EventContext implements Serializable {
 
     public EventContext() {
         // for serializable
+    }
+
+    public String getContextId() {
+        return contextId;
+    }
+
+    public void setContextId(String contextId) {
+        this.contextId = contextId;
     }
 
     public String getWidgetId() {

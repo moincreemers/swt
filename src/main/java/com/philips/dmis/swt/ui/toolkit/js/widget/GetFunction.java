@@ -57,7 +57,7 @@ public class GetFunction implements JsFunction {
 
         js.append("if(implements.includes('%s')){", HasValue.class.getSimpleName());
         js.append("if(widgetType=='%s'){", WidgetType.CHECK.name());
-        js.append("return elem.checked.toString();");
+        js.append("return elem.checked;");
 
         js.append("}else if(widgetType=='%s'){", WidgetType.MULTIPLE_CHOICE.name());
         js.append("var selectedValues=elem.getAttribute('value');");
@@ -77,6 +77,9 @@ public class GetFunction implements JsFunction {
 
         js.append("}else if(widgetType=='%s'){", WidgetType.DATA.name());
         js.append("return widget.%s;", DataVariable.ID);
+
+        js.append("}else if(widgetType=='%s'){", WidgetType.NUMBER.name());
+        js.append("return parseFloat(elem.value==''?0:elem.value);");
 
         js.append("}else{");
         js.append("return elem.value;");

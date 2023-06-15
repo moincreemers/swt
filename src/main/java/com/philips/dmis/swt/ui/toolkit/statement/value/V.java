@@ -62,6 +62,10 @@ public final class V {
 
     // Constant
 
+    public static ValueStatement Empty(){
+        return new ConstantValue("");
+    }
+
     public static ValueStatement Const(int value) {
         return new ConstantValue(value);
     }
@@ -105,6 +109,14 @@ public final class V {
     }
 
     // Event
+
+    public static ValueStatement GetEventContext() {
+        return new GetEventContext();
+    }
+
+    public static ValueStatement GetEventContext(ValueStatement property) {
+        return new GetEventContext(property);
+    }
 
     public static ValueStatement GetEvent() {
         return new GetEvent();

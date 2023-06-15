@@ -21,7 +21,7 @@ public class SelectFoodTypesDialog extends Page {
         headingPanel.add(new HtmlHeading("Select Food Type"));
 
         Panel bodyPanel = add(new Panel(PanelType.PADDED));
-        HtmlSelect fruitType = new HtmlSelect().addDataSource(foodOptions, new KeyValueListDataAdapter());
+        HtmlSelect fruitType = new HtmlSelect().addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, foodOptions, new KeyValueListDataAdapter());
         bodyPanel.add(new HtmlLabel(fruitType, "Please select a food type:"));
 
         bodyPanel.add(new HtmlParagraph("The Ok button below works like this:"));

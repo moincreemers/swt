@@ -33,6 +33,7 @@ public class PatientSearch extends AbstractViewerPage {
     }
 
     public PatientSearch() throws Exception {
+
     }
 
     @Override
@@ -157,7 +158,7 @@ public class PatientSearch extends AbstractViewerPage {
         idFilter.setPlaceholder("ID");
         HtmlSelect patientIdAuthFilter = idFilterPanel.add(new HtmlSelect());
         patientIdAuthFilter.setDisabled(true);
-        patientIdAuthFilter.addDataSource(DataSourceUsage.OPTIONS, patientDomains,
+        patientIdAuthFilter.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, patientDomains,
                 new KeyValueListDataAdapter(OrderBy.BY_VALUE));
         idFilter.onInput(new InputEventHandler(
                 M.SetDisabled(patientIdAuthFilter, V.Is(V.GetValue(idFilter), V.Const("")))
@@ -173,11 +174,11 @@ public class PatientSearch extends AbstractViewerPage {
                         .getData()
         ));
         HtmlSelect administrativeSexFilter = otherFilterPanel.add(
-                new HtmlSelect().addDataSource(DataSourceUsage.OPTIONS, administrativeSexOptions,
+                new HtmlSelect().addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, administrativeSexOptions,
                         new KeyValueListDataAdapter()));
         HtmlSelect whatDomainReturnedFilter = otherFilterPanel.add(new HtmlSelect());
-        whatDomainReturnedFilter.addDataSource(DataSourceUsage.OPTIONS, whatDomainReturnedOptions);
-        whatDomainReturnedFilter.addDataSource(DataSourceUsage.OPTIONS, patientDomains,
+        whatDomainReturnedFilter.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, whatDomainReturnedOptions);
+        whatDomainReturnedFilter.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, patientDomains,
                 new KeyValueListDataAdapter(OrderBy.BY_VALUE));
         StaticData xdsChangesDaysAgoOptions = add(new StaticData(
                 DataBuilder.keyValue()
@@ -190,7 +191,7 @@ public class PatientSearch extends AbstractViewerPage {
                         .getData()
         ));
         HtmlSelect xdsChangesDaysAgoFilter = otherFilterPanel.add(new HtmlSelect().addDataSource(
-                DataSourceUsage.OPTIONS, xdsChangesDaysAgoOptions, new KeyValueListDataAdapter()));
+                ValueAndOptionsDataSourceUsage.OPTIONS, xdsChangesDaysAgoOptions, new KeyValueListDataAdapter()));
 
         Panel buttonPanel = filterHtmlForm.add(new Panel(PanelType.DEFAULT));
         buttonPanel.setAppearance(WidgetAppearance.BLOCK);

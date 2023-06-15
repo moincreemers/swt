@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlColor extends ValueWidget<HtmlColor> implements
+public class HtmlColor extends ValueWidget<HtmlColor,ValueDataSourceUsage> implements
         HasType, HasValue<HtmlColor>, HasAutocomplete, HasList {
 
     public HtmlColor() {
@@ -21,7 +21,7 @@ public class HtmlColor extends ValueWidget<HtmlColor> implements
     }
 
     public HtmlColor addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

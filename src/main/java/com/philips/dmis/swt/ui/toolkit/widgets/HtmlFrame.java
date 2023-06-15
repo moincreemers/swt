@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlFrame extends ValueWidget<HtmlFrame> {
+public class HtmlFrame extends ValueWidget<HtmlFrame,ValueDataSourceUsage> {
     private FrameSize frameSize = FrameSize.FIT_CONTAINER;
 
     public HtmlFrame() {
@@ -27,7 +27,7 @@ public class HtmlFrame extends ValueWidget<HtmlFrame> {
     }
 
     public HtmlFrame addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

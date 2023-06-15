@@ -2,7 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
-import com.philips.dmis.swt.ui.toolkit.html.SanitizeHTML;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -66,7 +65,7 @@ public class TextImpl implements HasText {
         if (isText()) {
             classNames.add(HasConstantStorage.CSS_CLASS_GLOBAL);
             // NOTE: careful
-            token = toolkit.registerConstant(SanitizeHTML.secureHTML(text));
+            token = toolkit.registerConstant(text);
         }
         html.append(String.format("<span id=\"${id}%s\" class=\"%s\" %s=\"%s\"></span>",
                 HasText.getTextId(""),

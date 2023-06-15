@@ -41,12 +41,14 @@ public class RaiseEventFunction implements JsFunction {
         js.append("if(slaveId==undefined){slaveId=null;};");
         js.append("if(dataKey==undefined){dataKey=null;};");
 
+        js.append("const uid=String(Date.now().toString(32)+Math.random().toString(16)).replace(/\\./g,'');");
         js.append("const currentPageId=%s();", JsPageControllerModule.getQualifiedId(GetCurrentPageFunction.class));
         // note: this is used to raise global events
         js.append("if(id==null){id=currentPageId;};");
         js.append("const widget=window[id];");
         js.append("const eventSourceId=domEvent==null||domEvent.srcElement==undefined||domEvent.srcElement==null?'':domEvent.srcElement.id;");
         js.append("const eventContext=%s;", DtoUtil.getDefault(EventContext.class, false));
+        js.append("eventContext.contextId=uid;");
         js.append("eventContext.widgetId=id;");
         js.append("eventContext.slaveId=slaveId;");
         js.append("eventContext.dataKey=dataKey;");

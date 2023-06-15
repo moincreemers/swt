@@ -141,14 +141,14 @@ public class WidgetGalleryExample extends Page {
         inputWidgetsGrid.addAll(new HtmlRangeInput(), new HtmlParagraph("INPUT, type=range"), new HtmlParagraph(""));
         inputWidgetsGrid.addAll(new HtmlMeter(), new HtmlParagraph("METER"), new HtmlParagraph(""));
         inputWidgetsGrid.addAll(new HtmlProgress(), new HtmlParagraph("PROGRESS"), new HtmlParagraph(""));
-        inputWidgetsGrid.addAll(new HtmlSelect().addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT"), new HtmlParagraph("Standard drop down list"));
-        inputWidgetsGrid.addAll(new HtmlSelect(3).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT, size=3"), new HtmlParagraph("ListBox with size 3. Note that the SingleChoice widget probably provides a better User Experience."));
-        inputWidgetsGrid.addAll(new HtmlSelect(3, true).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT, size=3, muliple"), new HtmlParagraph("ListBox with size 3 that allows multiple values to be selected. Note that the MultipleChoice widget probably provides a better User Experience."));
-        inputWidgetsGrid.addAll(new SingleChoice().addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A single choice widget using Radio buttons and Labels."));
-        inputWidgetsGrid.addAll(new SingleChoice(SingleChoiceAppearance.INLINE).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.INLINE."));
-        inputWidgetsGrid.addAll(new Panel(new SingleChoice(SingleChoiceAppearance.TABS).addDataSource(options, new KeyValueListDataAdapter()).setValue("Apple")), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.TABS."));
-        inputWidgetsGrid.addAll(new MultipleChoice().addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A multiple choice widget using CheckBoxes and Labels."));
-        inputWidgetsGrid.addAll(new MultipleChoice(MultipleChoiceAppearance.INLINE).addDataSource(options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("MultipleChoiceAppearance.INLINE."));
+        inputWidgetsGrid.addAll(new HtmlSelect().addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT"), new HtmlParagraph("Standard drop down list"));
+        inputWidgetsGrid.addAll(new HtmlSelect(3).addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT, size=3"), new HtmlParagraph("ListBox with size 3. Note that the SingleChoice widget probably provides a better User Experience."));
+        inputWidgetsGrid.addAll(new HtmlSelect(3, true).addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()), new HtmlParagraph("SELECT, size=3, muliple"), new HtmlParagraph("ListBox with size 3 that allows multiple values to be selected. Note that the MultipleChoice widget probably provides a better User Experience."));
+        inputWidgetsGrid.addAll(new SingleChoice().addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A single choice widget using Radio buttons and Labels."));
+        inputWidgetsGrid.addAll(new SingleChoice(SingleChoiceAppearance.INLINE).addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.INLINE."));
+        inputWidgetsGrid.addAll(new Panel(new SingleChoice(SingleChoiceAppearance.TABS).addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()).setValue("Apple")), new HtmlParagraph(""), new HtmlParagraph("SingleChoiceAppearance.TABS."));
+        inputWidgetsGrid.addAll(new MultipleChoice().addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("A multiple choice widget using CheckBoxes and Labels."));
+        inputWidgetsGrid.addAll(new MultipleChoice(MultipleChoiceAppearance.INLINE).addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, options, new KeyValueListDataAdapter()), new HtmlParagraph(""), new HtmlParagraph("MultipleChoiceAppearance.INLINE."));
 
         add(new HtmlHeading("Grid and Table Widgets", 3));
         Grid tableWidgetsGrid = add(new Grid(3));

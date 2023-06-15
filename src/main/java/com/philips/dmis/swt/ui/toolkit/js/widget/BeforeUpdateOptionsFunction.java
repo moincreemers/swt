@@ -62,7 +62,8 @@ public class BeforeUpdateOptionsFunction implements JsFunction {
         js.append("}else{");
         js.append("elem.setAttribute('tk-value',selectedValue);");
         js.append("};");
-        js.append("%s(dataSourceId);", JsWidgetModule.getId(RemoveOptionsFunction.class));
+        js.append("%s(id,'__temp__');", JsWidgetModule.getId(RemoveOptionsFunction.class));
+        js.append("%s(id,dataSourceId);", JsWidgetModule.getId(RemoveOptionsFunction.class));
         js.append("};"); // end if
 
         js.append("}"); // end function

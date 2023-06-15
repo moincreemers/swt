@@ -2,6 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.statement.method;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
+import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -11,6 +12,10 @@ import com.philips.dmis.swt.ui.toolkit.widgets.*;
  */
 public final class M {
     private M() {
+    }
+
+    public static TryStatement Try(Statement... statements) {
+        return new TryStatement(statements);
     }
 
     public static MethodStatement AddClassName(Widget widget, ValueStatement className) {
@@ -53,11 +58,11 @@ public final class M {
         return new FocusStatement(widget);
     }
 
-    public static IfStatement If(ValueWidget<?> valueWidget) {
+    public static IfStatement If(ValueWidget<?, ?> valueWidget) {
         return new IfStatement(valueWidget);
     }
 
-    public static IfStatement If(ValueWidget<?> valueWidget, boolean breakOnMatch) {
+    public static IfStatement If(ValueWidget<?, ?> valueWidget, boolean breakOnMatch) {
         return new IfStatement(valueWidget, breakOnMatch);
     }
 
@@ -296,5 +301,9 @@ public final class M {
     public static MethodStatement RemoveClone(Widget template, ValueStatement dataKey) {
         return new RemoveCloneStatement(template, dataKey);
     }
+    public static MethodStatement RemoveAllClones(Widget template) {
+        return new RemoveAllClonesStatement(template);
+    }
+
 
 }

@@ -21,7 +21,7 @@ public class EmptyTextVariable implements JsVariable {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof DataBoundWidget<?>;
+        return widget instanceof DataBoundWidget<?,?>;
     }
 
     @Override
@@ -41,6 +41,6 @@ public class EmptyTextVariable implements JsVariable {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("'%s'", ((DataBoundWidget<?>) widget).getEmptyText());
+        js.append("'%s'", ((DataBoundWidget<?,?>) widget).getEmptyText());
     }
 }

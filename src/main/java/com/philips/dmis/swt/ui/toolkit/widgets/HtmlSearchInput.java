@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlSearchInput extends ValueWidget<HtmlSearchInput> implements
+public class HtmlSearchInput extends ValueWidget<HtmlSearchInput, ValueDataSourceUsage> implements
         HasType, HasValue<HtmlSearchInput>, HasKeyInput<HtmlSearchInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList {
     public HtmlSearchInput() {
@@ -25,7 +25,7 @@ public class HtmlSearchInput extends ValueWidget<HtmlSearchInput> implements
     }
 
     public HtmlSearchInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

@@ -14,11 +14,11 @@ public interface DataSourceSupplier extends Validatable {
 
     boolean isNotifySubscribers();
 
-    void subscribe(DataSourceUsage dataSourceUsage, HasDataSource<?> widget);
+    void subscribe(HasDataSourceUsage dataSourceUsage, HasDataSource<?,?> widget);
 
-    void unsubscribe(HasDataSource<?> widget);
+    void unsubscribe(HasDataSource<?,?> widget);
 
-    Map<HasDataSource<?>, DataSourceUsage> getSubscribers();
+    Map<HasDataSource<?,?>, DataSourceUsage> getSubscribers();
 
     DataSourceSupplier addDataAdapter(DataAdapter dataAdapter);
 

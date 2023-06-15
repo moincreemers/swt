@@ -1,31 +1,14 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
-import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public abstract class ValueWidget<T extends Widget> extends DataBoundWidget<T> implements
+public abstract class ValueWidget<T extends Widget, E extends HasDataSourceUsage> extends DataBoundWidget<T, E> implements
         HasValue<T>, HasDisabled {
+
     public ValueWidget(String name, WidgetType widgetType) {
         super(widgetType);
         setName(name);
-    }
-
-    protected DataAdapter getDefaultDataAdapter() {
-        return new KeyValueListDataAdapter();
-    }
-
-    protected DataSourceUsage getDefaultDataSourceUsage() {
-        return DataSourceUsage.VALUE;
-    }
-
-    public T addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        if (dataAdapters == null || dataAdapters.length == 0) {
-            dataAdapters = new DataAdapter[]{getDefaultDataAdapter()};
-        }
-        super.addDataSource(getDefaultDataSourceUsage(), dataSourceSupplier, dataAdapters);
-        return (T) this;
     }
 
     // VALUE

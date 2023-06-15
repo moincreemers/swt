@@ -3,13 +3,17 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlLabel extends DataBoundWidget<HtmlLabel> implements HasFor, HasIcon, HasText {
+public class HtmlLabel extends DataBoundWidget<HtmlLabel, TextDataSourceUsage> implements HasFor, HasIcon, HasText {
     public HtmlLabel(Widget widget) {
         this(widget, "");
     }
 
     public HtmlLabel(String text) {
         this(null, null, text);
+    }
+
+    public HtmlLabel() {
+        this(null, null, "");
     }
 
     public HtmlLabel(IconsWidget iconsWidget, String icon) {
@@ -34,7 +38,7 @@ public class HtmlLabel extends DataBoundWidget<HtmlLabel> implements HasFor, Has
     }
 
     public HtmlLabel addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
+        super.addDataSource(TextDataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
         return this;
     }
 

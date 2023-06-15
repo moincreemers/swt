@@ -36,6 +36,7 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
     final List<String> classNames = new ArrayList<>();
     boolean visible = true;
     final List<HasStaticHTML> staticHtmlImplementations = new ArrayList<>();
+    String backgroundColor = "";
 
     public Widget(WidgetType widgetType) {
         id = "w" + idCounter++;
@@ -106,6 +107,17 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
         this.visible = visible;
     }
 
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        if (backgroundColor == null) {
+            backgroundColor = "";
+        }
+        this.backgroundColor = backgroundColor;
+    }
+
     public Set<WidgetAppearance> getAppearance() {
         return appearance;
     }
@@ -166,6 +178,10 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
         if (!visible) {
             StyleAttribute style = new StyleAttribute(htmlAttributes, "style");
             style.add("display", "none");
+        }
+        if(!backgroundColor.isEmpty()){
+            StyleAttribute style = new StyleAttribute(htmlAttributes, "style");
+            style.add("background-color", backgroundColor);
         }
         for (HasStaticHTML hasStaticHTML : staticHtmlImplementations) {
             hasStaticHTML.getHtmlAttributes(htmlAttributes);

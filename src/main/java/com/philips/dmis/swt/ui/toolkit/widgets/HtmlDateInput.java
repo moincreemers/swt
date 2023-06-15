@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlDateInput extends ValueWidget<HtmlDateInput> implements
+public class HtmlDateInput extends ValueWidget<HtmlDateInput, ValueDataSourceUsage> implements
         HasType, HasValue<HtmlDateInput>, HasKeyInput<HtmlDateInput>, HasRange<String>, HasStep, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
     public HtmlDateInput() {
@@ -25,7 +25,7 @@ public class HtmlDateInput extends ValueWidget<HtmlDateInput> implements
     }
 
     public HtmlDateInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

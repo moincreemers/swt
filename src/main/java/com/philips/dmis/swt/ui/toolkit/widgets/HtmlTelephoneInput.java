@@ -9,7 +9,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlTelephoneInput extends ValueWidget<HtmlTelephoneInput> implements
+public class HtmlTelephoneInput extends ValueWidget<HtmlTelephoneInput,ValueDataSourceUsage> implements
         HasValue<HtmlTelephoneInput>, HasKeyInput<HtmlTelephoneInput>, HasLength, HasPattern, HasPlaceholder, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
     public HtmlTelephoneInput() {
@@ -26,7 +26,7 @@ public class HtmlTelephoneInput extends ValueWidget<HtmlTelephoneInput> implemen
     }
 
     public HtmlTelephoneInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

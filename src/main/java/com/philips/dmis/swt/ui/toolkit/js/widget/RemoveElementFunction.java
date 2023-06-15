@@ -89,17 +89,17 @@ public class RemoveElementFunction implements JsFunction {
         js.append("};");
         js.append("if(containerWidgetType=='%s'&&containerPanelType=='%s'){",
                 WidgetType.PANEL.name(),
-                PanelType.PAGE_FOOTER.getShortName());
+                PanelType.PAGE_FOOTER.name());
         js.append("inner.classList.remove('tk-page-has-footer');");
         js.append("};");
         js.append("if(containerWidgetType=='%s'&&containerPanelType=='%s'){",
                 WidgetType.PANEL.name(),
-                PanelType.NAV_LEFT.getShortName());
+                PanelType.NAV_LEFT.name());
         js.append("inner.classList.remove('tk-page-has-nav-left');");
         js.append("};");
         js.append("if(containerWidgetType=='%s'&&containerPanelType=='%s'){",
                 WidgetType.PANEL.name(),
-                PanelType.NAV_RIGHT.getShortName());
+                PanelType.NAV_RIGHT.name());
         js.append("inner.classList.remove('tk-page-has-nav-right');");
         js.append("};");
 

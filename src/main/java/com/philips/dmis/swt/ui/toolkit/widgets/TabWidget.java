@@ -54,7 +54,7 @@ public class TabWidget extends Composite {
         return this;
     }
 
-    public ValueWidget<SingleChoice> getValueWidget() {
+    public ValueWidget<SingleChoice, ValueAndOptionsDataSourceUsage> getValueWidget() {
         return tabWidget;
     }
 
@@ -112,7 +112,7 @@ public class TabWidget extends Composite {
         StaticData staticData = add(new StaticData(
                 DataBuilder.list(values.stream().map(pair -> pair.value).toList()).getData()
         ));
-        tabWidget.addDataSource(staticData, new KeyValueListDataAdapter());
+        tabWidget.addDataSource(ValueAndOptionsDataSourceUsage.VALUE, staticData, new KeyValueListDataAdapter());
 
         int initialIndex = getInitialIndex();
         for (int p = 0; p < values.size(); p++) {

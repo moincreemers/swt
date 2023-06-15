@@ -1,7 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.html.SanitizeHTML;
 
 public class NumberedTextImpl extends TextImpl implements HasNumberedText {
     protected int level = 1;
@@ -54,7 +53,7 @@ public class NumberedTextImpl extends TextImpl implements HasNumberedText {
             html.append(String.format("<td id=\"${id}%s\" class=\"%s\">",
                     HasText.getTextId(""), HasText.CSS_CLASS_TEXT));
             if (!(text == null || text.isEmpty())) {
-                html.append(SanitizeHTML.secureHTML(text));
+                html.append(text);
             }
             html.append("</td>");
             html.append("</tr></table>");

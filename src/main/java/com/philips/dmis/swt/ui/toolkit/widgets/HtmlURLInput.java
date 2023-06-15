@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlURLInput extends ValueWidget<HtmlURLInput> implements
+public class HtmlURLInput extends ValueWidget<HtmlURLInput,ValueDataSourceUsage> implements
         HasType, HasValue<HtmlURLInput>, HasKeyInput<HtmlURLInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList {
     public HtmlURLInput() {
@@ -25,7 +25,7 @@ public class HtmlURLInput extends ValueWidget<HtmlURLInput> implements
     }
 
     public HtmlURLInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

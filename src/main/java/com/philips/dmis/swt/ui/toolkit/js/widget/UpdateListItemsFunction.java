@@ -43,7 +43,6 @@ public class UpdateListItemsFunction implements JsFunction {
     public void getDependencies(List<Class<? extends JsMember>> dependencies) {
         dependencies.add(GetElementFunction.class);
         dependencies.add(IsObjectFunction.class);
-        dependencies.add(ConvertHyperlinksFunction.class);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class UpdateListItemsFunction implements JsFunction {
         parameters.add(JsParameter.getInstance("id", JsType.STRING));
         parameters.add(JsParameter.getInstance("reason", JsType.STRING));
         parameters.add(JsParameter.getInstance("cacheType", JsType.STRING));
-        parameters.add(JsParameter.getInstance("object", JsType.OBJECT));
+        parameters.add(JsParameter.getInstance("serviceResponse", JsType.OBJECT));
         parameters.add(JsParameter.getInstance("dataSourceId", JsType.STRING));
     }
 
@@ -103,7 +102,7 @@ public class UpdateListItemsFunction implements JsFunction {
 
         js.append("const cellValue=dataItem[viewValueField.source];");
 
-        js.append("element=li;");
+        js.append("var nextElement=li;");
         js.append("if(viewValueField.appearance=='%s'){", ViewAppearance.OPEN.name()); // if 2
         js.append("var openLink=document.createElement('a');");
         js.append("openLink.setAttribute('href','javascript:void(0);');");
@@ -117,10 +116,10 @@ public class UpdateListItemsFunction implements JsFunction {
                 JsWidgetModule.getId(EventHandlerFunction.OnOpenEventHandlerFunction.class));
         js.append("};");
         js.append("li.append(openLink);");
-        js.append("element=openLink;");
+        js.append("nextElement=openLink;");
         js.append("};"); // end if 2
 
-        js.append("const formattedElement=%s(element,cellValue,viewValueField);",
+        js.append("const formattedElement=%s(nextElement,cellValue,viewValueField);",
                 JsGlobalModule.getQualifiedId(CreateFormattedValue.class));
 
         js.append("%s(id,formattedElement,cellValue,viewValueField);",

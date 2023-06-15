@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlRangeInput extends ValueWidget<HtmlRangeInput> implements
+public class HtmlRangeInput extends ValueWidget<HtmlRangeInput, ValueDataSourceUsage> implements
         HasType, HasValue<HtmlRangeInput>, HasRange<Integer>, HasStep, HasList {
     public HtmlRangeInput() {
         this("", "");
@@ -20,7 +20,7 @@ public class HtmlRangeInput extends ValueWidget<HtmlRangeInput> implements
     }
 
     public HtmlRangeInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

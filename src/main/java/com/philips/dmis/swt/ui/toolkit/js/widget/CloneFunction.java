@@ -39,13 +39,15 @@ public class CloneFunction implements JsFunction {
     public void getParameters(List<JsParameter> parameters) {
         parameters.add(JsParameter.getInstance("templateId", JsType.STRING));
         parameters.add(JsParameter.getInstance("parentId", JsType.STRING));
+        parameters.add(JsParameter.getInstance("dataKeyField", JsType.STRING));
         parameters.add(JsParameter.getInstance("dataKey", JsType.STRING));
         parameters.add(JsParameter.getInstance("isRoot", JsType.BOOLEAN));
     }
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("(templateId,parentId,dataKey,isRoot)=>{");
+        js.append("(templateId,parentId,dataKeyField,dataKey,isRoot)=>{");
+        js.trace(this);
 
         js.append("if(isRoot==undefined||isRoot==null){isRoot=true;};");
 
@@ -98,7 +100,7 @@ public class CloneFunction implements JsFunction {
         js.append("};");
         js.append("clone.%s=templateId;", TemplateIdVariable.ID);
         js.append("clone.%s=slaveId;", WidgetIdVariable.ID);
-        js.append("clone.%s=dataKey;", DataKeyVariable.ID);
+        js.append("clone.%s={field:dataKeyField,value:dataKey};", DataKeyVariable.ID);
         js.append("clone.%s=parentId;", ParentWidgetIdVariable.ID);
         js.append("clone.%s={};", SyncVariable.ID);
 
@@ -110,7 +112,7 @@ public class CloneFunction implements JsFunction {
         // Clone child widgets
         js.append("for(const c in widget.%s){", ChildWidgetsVariable.ID);
         js.append("var templateChildWidgetId=widget.%s[c];", ChildWidgetsVariable.ID);
-        js.append("var childClone=%s(templateChildWidgetId,slaveId,dataKey,false);",
+        js.append("var childClone=%s(templateChildWidgetId,slaveId,dataKeyField,dataKey,false);",
                 JsWidgetModule.getId(CloneFunction.class));
         js.append("clone.%s.push(childClone.%s);", ChildWidgetsVariable.ID, WidgetIdVariable.ID);
         js.append("};");

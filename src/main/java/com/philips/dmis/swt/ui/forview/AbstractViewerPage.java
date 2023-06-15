@@ -4,6 +4,7 @@ import com.philips.dmis.swt.ui.toolkit.data.FieldMapping;
 import com.philips.dmis.swt.ui.toolkit.data.ImportObjectDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ResponseEvent;
 import com.philips.dmis.swt.ui.toolkit.events.ResponseEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
@@ -61,6 +62,8 @@ public abstract class AbstractViewerPage extends Page {
         errorMessage = errorPanel.add(new HtmlLabel(icons, "error", ""));
         warningMessagesList = add(new HtmlList(ListType.PILLS_WARNING));
         warningMessagesList.setVisible(false);
+
+        onColorSchemeChange(ColorSchemeChangeEventHandler.getDefaultHandler());
 
         titleLabel.setIconsWidget(icons);
         patientSearchHtmlLink.onClick(new ClickEventHandler(

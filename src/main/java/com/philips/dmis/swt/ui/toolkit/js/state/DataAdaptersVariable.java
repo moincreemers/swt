@@ -23,7 +23,7 @@ public class DataAdaptersVariable implements JsVariable {
 
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
-        return widget instanceof DataSourceSupplier || widget instanceof DataBoundWidget<?>;
+        return widget instanceof DataSourceSupplier || widget instanceof DataBoundWidget<?,?>;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class DataAdaptersVariable implements JsVariable {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("{");
-        if (widget instanceof HasDataSource<?> hasDataSource) {
+        if (widget instanceof HasDataSource<?,?> hasDataSource) {
             // this is the case for widgets that USE a data source
             int i = 0;
             for (DataSourceUsage dataSourceUsage : DataSourceUsage.values()) {

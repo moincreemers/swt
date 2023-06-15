@@ -6,14 +6,14 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 // todo: does not have HasValue
 
-public class HtmlMeter extends DataBoundWidget<HtmlMeter> implements
+public class HtmlMeter extends DataBoundWidget<HtmlMeter,ValueDataSourceUsage> implements
         HasRange<Integer>, HasLowHighOptimum {
     public HtmlMeter() {
         super(WidgetType.METER);
     }
 
     public HtmlMeter addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

@@ -8,6 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
 import com.philips.dmis.swt.ui.toolkit.events.ActivateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.DeactivateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.statement.mapper.C;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
@@ -152,7 +153,7 @@ public class WadoClient extends AbstractViewerPage {
 
         dtoViewDataAdapter.setAppearance("thumbnailUrl", ViewAppearance.DEFAULT);
         dtoViewDataAdapter.setFormat("thumbnailUrl",
-                new URLFormat().setAppearance(URLAppearanceType.IMAGE).setImageWidth("128px").setImageHeight("128px"));
+                new URLFormat().setAppearance(URLAppearanceType.IMAGE).setImageWidth("128px").setImageBorderRadius("0.5rem"));
 
         dtoViewDataAdapter.setAppearance("imageUrl", ViewAppearance.DEFAULT);
         dtoViewDataAdapter.setFormat("imageUrl",
@@ -164,10 +165,8 @@ public class WadoClient extends AbstractViewerPage {
         HtmlLabel seriesSelectLabel = toolbarRight.add(new HtmlLabel("Series:"));
         HtmlSelect seriesSelect = toolbarRight.add(new HtmlSelect());
         seriesSelectLabel.setFor(seriesSelect);
-        seriesSelect.addDataSource(studyService,
+        seriesSelect.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, studyService,
                 new KeyValueListDataAdapter("seriesUID", "seriesTitle"));
-        HtmlButton layoutOneButton = toolbarRight.add(new HtmlButton(icons, "crop_square", "One"));
-        HtmlButton layoutGridButton = toolbarRight.add(new HtmlButton(icons, "grid_view", "Grid"));
 
         DataProxy instanceThumbnailDataProxy = add(new DataProxy());
         instanceThumbnailDataProxy.addDataSource(studyService,
@@ -179,17 +178,17 @@ public class WadoClient extends AbstractViewerPage {
 
 
         Panel navLeft = add(new Panel(PanelType.NAV_LEFT));
-        navLeft.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("160px", Size.AUTO));
+        navLeft.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("165px", Size.AUTO));
         Panel toolbarLeft = navLeft.add(new Panel(PanelType.TOOLBAR));
-        HtmlButton instancesButton = toolbarLeft.add(new HtmlButton(icons, "photo_library", "Refresh"));
+        HtmlButton instanceThumbnailRefreshButton = toolbarLeft.add(new HtmlButton(icons, "photo_library", "Refresh"));
         MultipleChoice instanceThumbnailList = navLeft.add(new MultipleChoice());
-        instanceThumbnailList.addDataSource(instanceThumbnailDataProxy,
+        instanceThumbnailList.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, instanceThumbnailDataProxy,
                 new MapDataAdapter().map("thumbnailUrl",
                         HttpHeaderUtil.setNoCache(HttpHeaderUtil.setAuthorizationHeader(C.Download()))),
                 new KeyValueListDataAdapter("objectUID", "thumbnailUrl")
         );
 
-        instancesButton.onClick(new ClickEventHandler(
+        instanceThumbnailRefreshButton.onClick(new ClickEventHandler(
                 M.Refresh(instanceThumbnailDataProxy)
         ));
 
@@ -204,7 +203,7 @@ public class WadoClient extends AbstractViewerPage {
         ));
 
         HtmlList instanceList = add(new HtmlList(ListType.HORIZONTAL));
-        instanceList.addDataSource(instancesDataProxy,
+        instanceList.addDataSource(ListItemsDataSourceUsage.LIST_ITEMS, instancesDataProxy,
                 new MapDataAdapter().map("imageUrl",
                         HttpHeaderUtil.setNoCache(HttpHeaderUtil.setAuthorizationHeader(C.Download()))),
                 new KeyValueListDataAdapter("objectUID", "imageUrl")
@@ -228,6 +227,11 @@ public class WadoClient extends AbstractViewerPage {
                 M.Refresh(studyService, JsStateModule.REASON_LOCAL),
 
                 M.Refresh(userService)
+        ));
+
+        onDeactivate(new DeactivateEventHandler(
+                M.SetValue(instanceThumbnailList, V.Empty()),
+                M.Refresh(instancesDataProxy)
         ));
     }
 }

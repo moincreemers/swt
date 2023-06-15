@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlNumberInput extends ValueWidget<HtmlNumberInput> implements
+public class HtmlNumberInput extends ValueWidget<HtmlNumberInput,ValueDataSourceUsage> implements
         HasType, HasValue<HtmlNumberInput>, HasKeyInput<HtmlNumberInput>, HasRange<Integer>, HasStep, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList {
     public HtmlNumberInput() {
@@ -25,7 +25,7 @@ public class HtmlNumberInput extends ValueWidget<HtmlNumberInput> implements
     }
 
     public HtmlNumberInput addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(DataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 
