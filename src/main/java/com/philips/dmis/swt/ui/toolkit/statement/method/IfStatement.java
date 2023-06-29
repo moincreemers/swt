@@ -163,18 +163,19 @@ public class IfStatement extends MethodStatement {
                 JsWidgetModule.getQualifiedId(GetFunction.class),
                 valueWidget.getId());
 
+        js.append("var done=false;");
         int i = 0;
         for (Case c : cases) {
             String value = ValueStatement.valueOf(toolkit, c.valueStatement, widget);
             js.debug("console.log('if',value,'%s',%s);", c.functionClass.getSimpleName(), value);
-            js.append("if(%s(value,%s)){",
+            js.append("if(!done&&%s(value,%s)){",
                     JsGlobalModule.getQualifiedId(c.functionClass), value);
             js.debug("console.log('case %d is true');", i);
             for (Statement statement : c.statements) {
                 statement.renderJs(toolkit, widget, js);
             }
             if (breakOnMatch) {
-                js.append("return;");
+                js.append("done=true;");
             }
             js.append("}");
             i++;

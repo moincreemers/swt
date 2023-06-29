@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.RemoveSessionValueFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
-import com.philips.dmis.swt.ui.toolkit.widgets.HttpHeaderUtil;
+import com.philips.dmis.swt.ui.toolkit.widgets.RequestUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -31,7 +31,7 @@ public class RemoveAccessTokenStatement extends MethodStatement {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("%s('%s');",
                 JsGlobalModule.getQualifiedId(RemoveSessionValueFunction.class),
-                HttpHeaderUtil.GLOBAL_ACCESS_TOKEN_KEY);
+                RequestUtil.GLOBAL_ACCESS_TOKEN_KEY);
     }
 
     @Override

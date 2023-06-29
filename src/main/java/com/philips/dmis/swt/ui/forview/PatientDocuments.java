@@ -80,7 +80,8 @@ public class PatientDocuments extends AbstractViewerPage {
         */
         QueryService documents = add(new QueryService("http://localhost:8080/viewer/services/document/list.json",
                 false, false));
-        HttpHeaderUtil.setAuthorizationHeader(documents);
+        documents.setCacheType(CacheType.LOCAL_ONLY);
+        documents.setAuthenticationType(AuthenticationType.BEARER_JWT);
         documents.addDataAdapter(
                 new ImportArrayDataAdapter(".result.documents")
                         .add(FieldMapping.map(".formatCode", "formatCode", DataType.OBJECT))
@@ -97,19 +98,6 @@ public class PatientDocuments extends AbstractViewerPage {
                         .add(FieldMapping.map(".retrieveUrl", "retrieveUrl", DataType.URL))
                         .add(FieldMapping.map(".exportUrl", "exportUrl", DataType.URL))
                         .add(FieldMapping.map(".downloadUrl", "downloadUrl", DataType.URL))
-        );
-
-        ImportArrayDataAdapter importWarningsDataAdapter = new ImportArrayDataAdapter(".result.warnings", ".data.warnings")
-                .add(FieldMapping.map(".warningCode", "warningCode", DataType.STRING))
-                .add(FieldMapping.map(".warningContext", "warningContext", DataType.STRING))
-                .add(FieldMapping.map(".message", "message", DataType.STRING));
-        documents.addDataAdapter(importWarningsDataAdapter);
-
-        warningMessagesList.addDataSource(documents,
-                new OutputSelectorDataAdapter(importWarningsDataAdapter),
-                new MapDataAdapter()
-                        .map("warningCode", C.Call(forViewLib, ForViewLib.PARSE_WARNING), "warningCode", "warningContext", "message"),
-                new KeyValueListDataAdapter("warningCode","warningCode")
         );
 
         documents.addDataAdapter(new MapDataAdapter()
@@ -150,26 +138,26 @@ public class PatientDocuments extends AbstractViewerPage {
 
         htmlTableBody.onOpen(new OpenEventHandler(
                 M.Log(V.Const("Open"), V.GetEvent(OpenEvent.RECORD)),
-                M.Iif(V.Is(V.ObjectMember(V.GetEvent(OpenEvent.RECORD), "formatCode"), V.Const("DICOM Manifest"))).True(
+                M.Iif(V.Is(V.ObjectProperty(V.GetEvent(OpenEvent.RECORD), "formatCode"), V.Const("DICOM Manifest"))).True(
                         M.OpenPage(WadoClient.class, V.GetEvent(OpenEvent.RECORD))
                 ).Else(
                         M.OpenURL(
                                 V.StringConcat(
                                         V.Const("http://localhost:8080"),
-                                        V.ObjectMember(V.GetEvent(OpenEvent.RECORD), "retrieveUrl"))
+                                        V.ObjectProperty(V.GetEvent(OpenEvent.RECORD), "retrieveUrl"))
                         ))
         ));
 
         onActivate(new ActivateEventHandler(
-                M.SetText(titleLabel, V.ObjectMember(V.GetGlobalValue("selectedPatient"), "name")),
-                M.SetText(patientIdHtmlLabel, V.StringConcat(V.Const("ID: "), V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientId"))),
-                M.SetText(patientDateOfBirthHtmlLabel, V.StringConcat(V.ObjectMember(V.GetGlobalValue("selectedPatient"), "dateOfBirth"), V.Const(" ("), V.ObjectMember(V.GetGlobalValue("selectedPatient"), "age"), V.Const("yr)"))),
-                M.SetText(patientGenderHtmlLabel, V.ObjectMember(V.GetGlobalValue("selectedPatient"), "gender")),
-                M.SetText(patientAddressHtmlLabel, V.ObjectMember(V.GetGlobalValue("selectedPatient"), "address")),
+                M.SetText(titleLabel, V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "name")),
+                M.SetText(patientIdHtmlLabel, V.StringConcat(V.Const("ID: "), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"))),
+                M.SetText(patientDateOfBirthHtmlLabel, V.StringConcat(V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "dateOfBirth"), V.Const(" ("), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "age"), V.Const("yr)"))),
+                M.SetText(patientGenderHtmlLabel, V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "gender")),
+                M.SetText(patientAddressHtmlLabel, V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "address")),
 
                 // note: PatientSearch passes the entire patient record to this page
-                M.SetQueryParameter(documents, "patientID", V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientId")),
-                M.SetQueryParameter(documents, "patientIDAuth", V.ObjectMember(V.GetGlobalValue("selectedPatient"), "patientIdAuth")),
+                M.SetQueryParameter(documents, "patientID", V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId")),
+                M.SetQueryParameter(documents, "patientIDAuth", V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth")),
                 M.Refresh(documents, JsStateModule.REASON_LOCAL),
 
                 M.Refresh(userService)
@@ -177,24 +165,41 @@ public class PatientDocuments extends AbstractViewerPage {
 
         documents.onRefresh(new RefreshEventHandler(
                 M.SetDisabled(refreshHtmlLink),
-                M.SetDisplay(errorPanel, V.False)
+                M.SetDisplay(errorPanel, V.False),
+                //M.RemoveAllItems(errorPanel),
+                M.SetDisplay(warningMessagesList, V.False),
+                M.RemoveAllItems(warningMessagesList)
         ));
 
         documents.onResponse(new ResponseEventHandler(
                 M.SetEnabled(refreshHtmlLink),
+                M.SetDisplay(warningMessagesList, V.False),
+                M.RemoveAllItems(warningMessagesList),
 
-                M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_UNAUTHORIZED())).True(
+                M.Iif(ResponseEvent.isUnauthorized()).True(
                         M.OpenPage(LoginPage.class)
                 ),
-
-                M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_BAD_REQUEST())).True(
-                        M.SetText(errorMessage, V.GetEvent(ResponseEvent.HTTP_RESPONSE_DATA)),
+                M.Iif(ResponseEvent.isServerError()).True(
+                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
                         M.SetDisplay(errorPanel, V.True)
                 ),
-
+                M.Iif(ResponseEvent.isBadRequest()).True(
+                        M.SetText(errorMessage, ResponseEvent.getResponseText()),
+                        M.SetDisplay(errorPanel, V.True)
+                ),
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
                         M.SetDisplay(errorPanel, V.False)
+                ),
+                M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
+                        M.SetDisplay(errorPanel, V.False),
+                        M.ForEach(V.ObjectProperty(ResponseEvent.getResponseData(), "result.warnings"))
+                                .Apply(
+                                        M.Log(V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
+                                        M.AppendItems(warningMessagesList, V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
+                                        M.SetDisplay(warningMessagesList, V.True)
+                                )
                 )
         ));
     }
+
 }

@@ -2,15 +2,15 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface HasDataSource<T extends Widget, E extends HasDataSourceUsage> {
     Widget asWidget();
 
-    List<DataSource> getDataSources(DataSourceUsage dataSourceUsage);
+    Map<String, DataSource> getDataSources(DataSourceUsage dataSourceUsage);
 
-    List<DataSource> getDataSources(E dataSourceUsage);
+    Map<String, DataSource> getDataSources(E dataSourceUsage);
 
     boolean hasDataSource(DataSourceUsage dataSourceUsage);
 

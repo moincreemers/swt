@@ -92,26 +92,14 @@ import java.util.List;
  * </p>
  */
 public class ImportArrayDataAdapter extends DataAdapter {
-    private final String outputPath;
     private final List<FieldMapping> fieldMappings = new ArrayList<>();
-
-    public ImportArrayDataAdapter(String path) {
-        this(path, DEFAULT_PATH);
-    }
 
     /**
      * @param path          A path to a field in the JSON document that contains the array.
-     * @param outputPath    A property name that will store the new Array. By default this is the default path ".data.items".
      * @param fieldMappings Field mappings are used to extract information from the JSON document into a tabular format and to generate the view.
      */
-    public ImportArrayDataAdapter(String path, String outputPath, FieldMapping... fieldMappings) {
+    public ImportArrayDataAdapter(String path, FieldMapping... fieldMappings) {
         super(path);
-        // note: in-/output path is unlikely the same but it is possible.
-        //if (DEFAULT_PATH.equals(path)) {
-        //throw new IllegalArgumentException("expected a different path than: " + DEFAULT_PATH);
-        //}
-        validatePath(outputPath);
-        this.outputPath = outputPath;
         this.fieldMappings.addAll(Arrays.asList(fieldMappings));
     }
 
@@ -121,12 +109,13 @@ public class ImportArrayDataAdapter extends DataAdapter {
     }
 
     @Override
-    public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage == DataSourceUsage.IMPORT;
+    public DataSourceUsage getInitialDataSourceUsage() {
+        return DataSourceUsage.IMPORT;
     }
 
-    public String getOutputPath() {
-        return outputPath;
+    @Override
+    public boolean isDataSourceUsageAllowed(DataSourceUsage dataSourceUsage) {
+        return dataSourceUsage == getInitialDataSourceUsage();
     }
 
     @Override
@@ -180,18 +169,7 @@ public class ImportArrayDataAdapter extends DataAdapter {
         js.append("};");// end for row
 
 
-        js.append("newServiceResponse%s=outputArray;", outputPath);
-
-
-
-//        ViewBuilder viewBuilder = new ViewBuilder(getClass().getSimpleName());
-//        for (FieldMapping fieldMapping : fieldMappings) {
-//            viewBuilder.addField(fieldMapping.getName(), fieldMapping.getTo(), fieldMapping.getDataType());
-//            viewBuilder.setFormat(fieldMapping.getName(), fieldMapping.getFormat());
-//            viewBuilder.setOrderSource(fieldMapping.getName(), fieldMapping.getOrderSource());
-//            viewBuilder.setAppearance(fieldMapping.getName(), fieldMapping.getAppearance());
-//        }
-//        String rootViewId = viewBuilder.getId();
+        js.append("newServiceResponse%s=outputArray;", DEFAULT_PATH);
 
         String rootViewId = View.getRootViewId(getId());
         js.append("const viewTop=%s(newServiceResponse,'%s','%s',false);",

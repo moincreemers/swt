@@ -33,7 +33,6 @@ public class PatientSearch extends AbstractViewerPage {
     }
 
     public PatientSearch() throws Exception {
-
     }
 
     @Override
@@ -51,7 +50,9 @@ public class PatientSearch extends AbstractViewerPage {
 
         QueryService patientDomains = add(new QueryService(
                 "http://localhost:8080/viewer/services/domain/list.json", false, false));
-        HttpHeaderUtil.setAuthorizationHeader(patientDomains);
+        patientDomains.setCacheType(CacheType.DISABLED);
+        patientDomains.setAuthenticationType(AuthenticationType.BEARER_JWT);
+        patientDomains.setAuthenticationType(AuthenticationType.BEARER_JWT);
         patientDomains.addDataAdapter(
                 new ImportArrayDataAdapter(".items")
                         .add(FieldMapping.map(".id", KeyValueListDataAdapter.DEFAULT_KEY_FIELD, DataType.STRING))
@@ -69,7 +70,9 @@ public class PatientSearch extends AbstractViewerPage {
 
         QueryService patients = add(new QueryService("http://localhost:8080/viewer/services/patient/list.json",
                 false, false));
-        HttpHeaderUtil.setAuthorizationHeader(patients);
+        patients.setCacheType(CacheType.LOCAL_ONLY);
+        patients.setAuthenticationType(AuthenticationType.BEARER_JWT);
+        //patients.setCacheType(CacheType.BACKGROUND_REFRESH);
         patients.addDataAdapter(
                 new ImportArrayDataAdapter(".result.patients")
                         .add(FieldMapping.map(".id.extension", "patientId", DataType.STRING))
@@ -81,19 +84,6 @@ public class PatientSearch extends AbstractViewerPage {
                         .add(FieldMapping.map(".address.display", "address", DataType.STRING))
                         .add(FieldMapping.indexArray(".additionalAttributes", "additionalAttributes", "name"))
                         .add(FieldMapping.map(".additionalAttributes.PID14.values", "XTN", DataType.ARRAY))
-        );
-
-        ImportArrayDataAdapter importWarningsDataAdapter = new ImportArrayDataAdapter(".result.warnings", ".data.warnings")
-                .add(FieldMapping.map(".warningCode", "warningCode", DataType.STRING))
-                .add(FieldMapping.map(".warningContext", "warningContext", DataType.STRING))
-                .add(FieldMapping.map(".message", "message", DataType.STRING));
-        patients.addDataAdapter(importWarningsDataAdapter);
-
-        warningMessagesList.addDataSource(patients,
-                new OutputSelectorDataAdapter(importWarningsDataAdapter),
-                new MapDataAdapter()
-                        .map("warningCode", C.Call(forViewLib, ForViewLib.PARSE_WARNING), "warningCode", "warningContext", "message"),
-                new KeyValueListDataAdapter("warningCode", "warningCode")
         );
 
         patientDomains.onResponse(new ResponseEventHandler(
@@ -158,8 +148,8 @@ public class PatientSearch extends AbstractViewerPage {
         idFilter.setPlaceholder("ID");
         HtmlSelect patientIdAuthFilter = idFilterPanel.add(new HtmlSelect());
         patientIdAuthFilter.setDisabled(true);
-        patientIdAuthFilter.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, patientDomains,
-                new KeyValueListDataAdapter(OrderBy.BY_VALUE));
+        patientIdAuthFilter.addDataSource(ValueAndItemsDataSourceUsage.ITEMS, patientDomains,
+                new KeyValueListDataAdapter());
         idFilter.onInput(new InputEventHandler(
                 M.SetDisabled(patientIdAuthFilter, V.Is(V.GetValue(idFilter), V.Const("")))
         ));
@@ -174,12 +164,13 @@ public class PatientSearch extends AbstractViewerPage {
                         .getData()
         ));
         HtmlSelect administrativeSexFilter = otherFilterPanel.add(
-                new HtmlSelect().addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, administrativeSexOptions,
+                new HtmlSelect().addDataSource(ValueAndItemsDataSourceUsage.ITEMS, administrativeSexOptions,
                         new KeyValueListDataAdapter()));
         HtmlSelect whatDomainReturnedFilter = otherFilterPanel.add(new HtmlSelect());
-        whatDomainReturnedFilter.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, whatDomainReturnedOptions);
-        whatDomainReturnedFilter.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, patientDomains,
-                new KeyValueListDataAdapter(OrderBy.BY_VALUE));
+        whatDomainReturnedFilter.addDataSource(ValueAndItemsDataSourceUsage.ITEMS, whatDomainReturnedOptions,
+                new KeyValueListDataAdapter());
+        whatDomainReturnedFilter.addDataSource(ValueAndItemsDataSourceUsage.ITEMS, patientDomains,
+                new KeyValueListDataAdapter());
         StaticData xdsChangesDaysAgoOptions = add(new StaticData(
                 DataBuilder.keyValue()
                         .add("", "with or without documents")
@@ -191,7 +182,7 @@ public class PatientSearch extends AbstractViewerPage {
                         .getData()
         ));
         HtmlSelect xdsChangesDaysAgoFilter = otherFilterPanel.add(new HtmlSelect().addDataSource(
-                ValueAndOptionsDataSourceUsage.OPTIONS, xdsChangesDaysAgoOptions, new KeyValueListDataAdapter()));
+                ValueAndItemsDataSourceUsage.ITEMS, xdsChangesDaysAgoOptions, new KeyValueListDataAdapter()));
 
         Panel buttonPanel = filterHtmlForm.add(new Panel(PanelType.DEFAULT));
         buttonPanel.setAppearance(WidgetAppearance.BLOCK);
@@ -201,45 +192,66 @@ public class PatientSearch extends AbstractViewerPage {
         ));
         HtmlButton searchHtmlButton = buttonPanel.add(new HtmlButton(ButtonType.PRIMARY, "Search"));
         searchHtmlButton.onClick(new ClickEventHandler(
-                M.Refresh(patients)
-        ));
 
-        patients.onRefresh(new RefreshEventHandler(
-                M.SetDisabled(searchHtmlButton),
-                M.SetDisplay(errorPanel, V.False)
-        ));
-
-        patients.onResponse(new ResponseEventHandler(
-                M.SetEnabled(searchHtmlButton),
-
-                M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_UNAUTHORIZED())).True(
-                        M.OpenPage(LoginPage.class)
-                ),
-                M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_SERVER_ERROR())).True(
-                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetDisplay(errorPanel, V.True)
-                ),
-                M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_BAD_REQUEST())).True(
-                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetDisplay(errorPanel, V.True)
-                )
-        ));
-
-        filterHtmlForm.onInput(new InputEventHandler(
                 M.RemoveAllQueryParameters(patients),
 
-                M.SetQueryParameter(patients, "surName", V.GetValue(surNameFilter)),
-                M.SetQueryParameter(patients, "givenName", V.GetValue(givenNameFilter)),
-                M.SetQueryParameter(patients, "patientID", V.GetValue(idFilter)),
+                M.If(surNameFilter).NotEmpty(
+                        M.SetQueryParameter(patients, "surName", V.GetValue(surNameFilter))
+                ),
+                M.If(givenNameFilter).NotEmpty(
+                        M.SetQueryParameter(patients, "givenName", V.GetValue(givenNameFilter))
+                ),
                 M.If(idFilter).NotEmpty(
+                        M.SetQueryParameter(patients, "patientID", V.GetValue(idFilter)),
                         M.SetQueryParameter(patients, "patientIDAuth", V.GetValue(patientIdAuthFilter))
                 ),
-                M.SetQueryParameter(patients, "administrativeSex", V.GetValue(administrativeSexFilter)),
+                M.If(administrativeSexFilter).NotEmpty(
+                        M.SetQueryParameter(patients, "administrativeSex", V.GetValue(administrativeSexFilter))
+                ),
                 M.If(whatDomainReturnedFilter).NotEmpty(
                         M.SetQueryParameter(patients, "whatDomainReturned", V.GetValue(whatDomainReturnedFilter))
                 ),
                 M.If(xdsChangesDaysAgoFilter).NotEmpty(
                         M.SetQueryParameter(patients, "xdsChangesDaysAgo", V.GetValue(xdsChangesDaysAgoFilter))
+                ),
+
+                M.Log("search"),
+
+                M.Refresh(patients)
+        ));
+
+        patients.onRefresh(new RefreshEventHandler(
+                M.SetDisabled(searchHtmlButton),
+                M.SetDisplay(errorPanel, V.False),
+                //M.RemoveAllItems(errorPanel),
+                M.SetDisplay(warningMessagesList, V.False),
+                M.RemoveAllItems(warningMessagesList)
+        ));
+
+        patients.onResponse(new ResponseEventHandler(
+                M.SetEnabled(searchHtmlButton),
+                M.SetDisplay(warningMessagesList, V.False),
+                M.RemoveAllItems(warningMessagesList),
+
+                M.Iif(ResponseEvent.isUnauthorized()).True(
+                        M.OpenPage(LoginPage.class)
+                ),
+                M.Iif(ResponseEvent.isServerError()).True(
+                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
+                        M.SetDisplay(errorPanel, V.True)
+                ),
+                M.Iif(ResponseEvent.isBadRequest()).True(
+                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
+                        M.SetDisplay(errorPanel, V.True)
+                ),
+                M.Iif(ResponseEvent.isOk()).True(
+                        M.SetDisplay(errorPanel, V.False),
+                        M.ForEach(V.ObjectProperty(ResponseEvent.getResponseData(), "result.warnings"))
+                                .Apply(
+                                        M.Log(V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
+                                        M.AppendItems(warningMessagesList, V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
+                                        M.SetDisplay(warningMessagesList, V.True)
+                                )
                 )
         ));
 

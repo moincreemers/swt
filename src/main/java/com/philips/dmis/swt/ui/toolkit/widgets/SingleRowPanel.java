@@ -10,11 +10,11 @@ public class SingleRowPanel extends Panel {
     }
 
     public SingleRowPanel(Widget... widgets) throws WidgetConfigurationException {
-        super(widgets);
+        super("", WidgetType.SINGLE_ROW, PanelType.DEFAULT, widgets);
     }
 
     public SingleRowPanel(String name, Widget... widgets) throws WidgetConfigurationException {
-        super(name, widgets);
+        super(name, WidgetType.SINGLE_ROW, PanelType.DEFAULT, widgets);
     }
 
     public SingleRowPanel(String name) {
@@ -26,7 +26,7 @@ public class SingleRowPanel extends Panel {
     }
 
     public SingleRowPanel(PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
-        super(WidgetType.SINGLE_ROW, panelType, widgets);
+        super("", WidgetType.SINGLE_ROW, panelType, widgets);
     }
 
     public SingleRowPanel(String name, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {

@@ -4,12 +4,12 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.EventContext;
 import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
 import com.philips.dmis.swt.ui.toolkit.dto.TransformationMetadata;
-import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
-import com.philips.dmis.swt.ui.toolkit.statement.predicate.PredicateStatement;
-import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
+import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
+import com.philips.dmis.swt.ui.toolkit.statement.predicate.PredicateStatement;
+import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.ArrayList;
@@ -125,7 +125,7 @@ public class FilterDataAdapter extends DataAdapter {
             js.append("};");
             js.append("conditions.push(condition);");
         }
-        js.info("console.log('FilterDataAdapter conditions',conditions);");
+        js.trace("console.log('conditions',conditions);");
 
         // re-create data structure
         js.append("const output=structuredClone(serviceResponse);");
@@ -133,11 +133,11 @@ public class FilterDataAdapter extends DataAdapter {
         js.append("m.length=0;");
 
         js.append("const data=Object.assign([],serviceResponse%s);", getPath());
-        js.debug("console.log('FilterDataAdapter data from path',data)");
+        js.trace("console.log('data from path',data)");
 
         // EXIT
         js.append("if(data.length==0){");
-        js.debug("console.log('FilterDataAdapter exit');");
+        js.trace("console.log('no data, exit');");
         js.append("return serviceResponse;");
         js.append("};");
 
@@ -171,6 +171,7 @@ public class FilterDataAdapter extends DataAdapter {
 
 
         js.append("if(match){"); // if
+        js.trace("console.log('match',rowData);");
         js.append("m.push(rowData);");
         js.append("};"); // end if
         js.append("};"); // end if
@@ -183,7 +184,7 @@ public class FilterDataAdapter extends DataAdapter {
                 DtoUtil.valueOf(new TransformationMetadata(getId(), getClass().getSimpleName())));
 
 
-        js.debug("console.log('FilterDataAdapter after',output);");
+        js.trace("console.log('FilterDataAdapter after',output);");
         js.append("return output;");
 
         js.append("}"); // end function

@@ -8,7 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlButton extends DataBoundWidget<HtmlButton, TextDataSourceUsage> implements
+public class HtmlButton extends DataBoundWidget<HtmlButton, ValueDataSourceUsage> implements
         HasType, IsClickable<HtmlButton>, HasIcon, HasText, HasAction, HasEncType, HasMethod,
         HasNoValidate, HasTarget, HasForm {
     public static HtmlButton openPage(String text, Class<? extends Page> pageClass) {
@@ -88,7 +88,7 @@ public class HtmlButton extends DataBoundWidget<HtmlButton, TextDataSourceUsage>
     }
 
     public HtmlButton addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TextDataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

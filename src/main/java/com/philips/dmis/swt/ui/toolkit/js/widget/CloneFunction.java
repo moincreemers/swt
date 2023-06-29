@@ -102,7 +102,7 @@ public class CloneFunction implements JsFunction {
         js.append("clone.%s=slaveId;", WidgetIdVariable.ID);
         js.append("clone.%s={field:dataKeyField,value:dataKey};", DataKeyVariable.ID);
         js.append("clone.%s=parentId;", ParentWidgetIdVariable.ID);
-        js.append("clone.%s={};", SyncVariable.ID);
+        js.append("clone.%s={};", PromisesVariable.ID);
 
         js.append("window[slaveId]=clone;");
         js.append("%s(templateId,slaveId);", JsWidgetModule.getId(AddSlaveFunction.class));

@@ -2,7 +2,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.widgets.CacheType;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -50,9 +49,7 @@ public class BeforeUpdateTableFooterFunction implements JsFunction {
         js.append("(id,reason,cacheType,dataSourceId)=>{");
         js.trace(this);
 
-        js.append("if(cacheType=='%s'){", CacheType.ENABLED.name());
         js.append("document.getElementById(id).textContent='';");
-        js.append("};");
 
         js.append("}"); // end function
     }

@@ -18,7 +18,7 @@ public class ProcessResponseFunction implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return widget instanceof DataSourceSupplier
-                || widget instanceof DataProviderWidget<?>;
+               || widget instanceof DataProviderWidget<?>;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ProcessResponseFunction implements JsFunction {
         js.append("};");
 
         js.append("if(implements.includes('%s')){", DataSourceSupplier.class.getSimpleName()); // if
-        js.append("if(widget.%s=='%s'){", CacheTypeVariable.ID, CacheType.DISABLED.name()); // if
+        js.append("if(widget.%s!='%s'){", CacheTypeVariable.ID, CacheType.DISABLED.name()); // if
         // note: we can store STRING only, so we serialize.
         //  also, requestURL must be used as the cache key, the responseURL is NOT the same thing
         js.append("%s(xhrResponse.requestURL,JSON.stringify(xhrResponse));",
@@ -76,15 +76,19 @@ public class ProcessResponseFunction implements JsFunction {
         js.append("};"); // end if
 
         js.append("if(widget.%s==false){", ExpectServiceResponseVariable.ID); // if
-        // note: if the service response is not a ServiceResponse object then
-        //  one or more 'IMPORT' data adapters can be used to transform the data into one.
-        // note: we set serviceResponse to null because the import data adapter(s) create it
+        // notes:
+        // - if the service response is not a ServiceResponse object then one or more 'IMPORT' data adapters
+        //   can be used to transform the data into one.
+        // - we set serviceResponse to null because the import data adapter(s) create it
+        // - there should be only one data adapter used for IMPORT
         js.append("var serviceResponse2=null;");
-        js.append("var importAdapters=widget.%s['%s'];", DataAdaptersVariable.ID, DataSourceUsage.IMPORT.name());
+        js.append("var importAdapters=widget.%s['%s']['%s'];", DataAdaptersVariable.ID,
+                DataSourceUsage.IMPORT.name(),
+                DataAdaptersVariable.DATASOURCE_ID);
         js.append("for(const j in importAdapters){");
-        js.debug("console.log('Importing, adapter:',importAdapters[j]);");
+        js.trace("console.log('Importing, adapter:',importAdapters[j]);");
         js.append("if(widget.%s.includes(importAdapters[j].id)){", DisabledDataAdaptersVariable.ID);
-        js.debug("console.log('data import adapter disabled',importAdapters[j].id);");
+        js.trace("console.log('data import adapter disabled',importAdapters[j].id);");
         js.append("continue;");
         js.append("};");
         js.append("serviceResponse2=importAdapters[j].fn(serviceResponse2,unmodifiedResponse);");
@@ -95,10 +99,24 @@ public class ProcessResponseFunction implements JsFunction {
         js.append("};"); // end if
 
         // NOTE: This is where the adapters on DATA SOURCES are called in sequence
-        js.append("var adapters=widget.%s['%s'];", DataAdaptersVariable.ID, DataSourceUsage.TRANSFORM.name());
+
+        js.append("var adapters=widget.%s['%s']['%s'];", DataAdaptersVariable.ID,
+                DataSourceUsage.VIEW.name(),
+                DataAdaptersVariable.DATASOURCE_ID);
         js.append("for(const i in adapters){");
         js.append("if(widget.%s.includes(adapters[i].id)){", DisabledDataAdaptersVariable.ID);
-        js.debug("console.log('data adapter disabled',adapters[i].id);");
+        js.trace("console.log('data adapter disabled',adapters[i].id);");
+        js.append("continue;");
+        js.append("};");
+        js.append("serviceResponse=adapters[i].fn(serviceResponse,unmodifiedResponse);");
+        js.append("};");
+
+        js.append("var adapters=widget.%s['%s']['%s'];", DataAdaptersVariable.ID,
+                DataSourceUsage.TRANSFORM.name(),
+                DataAdaptersVariable.DATASOURCE_ID);
+        js.append("for(const i in adapters){");
+        js.append("if(widget.%s.includes(adapters[i].id)){", DisabledDataAdaptersVariable.ID);
+        js.trace("console.log('data adapter disabled',adapters[i].id);");
         js.append("continue;");
         js.append("};");
         js.append("serviceResponse=adapters[i].fn(serviceResponse,unmodifiedResponse);");
@@ -111,7 +129,7 @@ public class ProcessResponseFunction implements JsFunction {
         js.append("widget.%s=JSON.stringify(serviceResponse);", DataVariable.ID);
         js.append("};"); // end if
 
-        js.debug("console.log('ProcessResponseFunction after',id,serviceResponse);");
+        js.trace("console.log('ProcessResponseFunction after',id,serviceResponse);");
 
         // notify subscribers
         js.append("if(widget.%s){", NotifySubscribersVariable.ID); // if

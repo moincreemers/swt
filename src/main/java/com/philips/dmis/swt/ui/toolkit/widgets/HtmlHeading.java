@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlHeading extends DataBoundWidget<HtmlHeading,TextDataSourceUsage> implements HasIcon, HasText, HasNumberedText, IsFocusable {
+public class HtmlHeading extends DataBoundWidget<HtmlHeading,ValueDataSourceUsage> implements HasIcon, HasText, HasNumberedText, IsFocusable {
     public HtmlHeading(String text) {
         this(text, 1, false);
     }
@@ -34,7 +34,7 @@ public class HtmlHeading extends DataBoundWidget<HtmlHeading,TextDataSourceUsage
     }
 
     public HtmlHeading addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TextDataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

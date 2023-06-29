@@ -7,18 +7,18 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Set;
 
-public class HtmlDataList extends DataBoundWidget<HtmlDataList, OptionsDataSourceUsage> implements HasOptions {
+public class HtmlDataList extends DataBoundWidget<HtmlDataList, ItemsDataSourceUsage> implements HasOptions {
     public HtmlDataList() {
         super(WidgetType.DATA_LIST);
     }
 
     public HtmlDataList addDataSource(DataSourceSupplier dataSourceSupplier) throws WidgetConfigurationException {
-        super.addDataSource(OptionsDataSourceUsage.OPTIONS, dataSourceSupplier, new KeyValueListDataAdapter());
+        super.addDataSource(ItemsDataSourceUsage.ITEMS, dataSourceSupplier, new KeyValueListDataAdapter());
         return this;
     }
 
     public HtmlDataList addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(OptionsDataSourceUsage.OPTIONS, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ItemsDataSourceUsage.ITEMS, dataSourceSupplier, dataAdapters);
         return this;
     }
 

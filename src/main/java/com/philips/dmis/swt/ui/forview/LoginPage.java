@@ -31,7 +31,7 @@ public class LoginPage extends AbstractViewerPage {
 
         UpdateService refreshSessionService = add(new UpdateService("http://localhost:8080/viewer/services/user/session/refresh.json"));
         refreshSessionService.setHttpMethod(HttpMethod.GET);
-        HttpHeaderUtil.setAuthorizationHeader(refreshSessionService);
+        refreshSessionService.setAuthenticationType(AuthenticationType.BEARER_JWT);
 
         titleLabel.setIcon("login");
         titleLabel.setText("Sign In");
@@ -49,6 +49,7 @@ public class LoginPage extends AbstractViewerPage {
         onActivate(new ActivateEventHandler(
                 // note: suspend the session refresh because user is signed out
                 M.Stop(refreshSessionTokenTimer),
+                M.RemoveAccessToken(),
 
                 M.SetDisplay(errorPanel, V.False),
                 M.SetDisabled(patientSearchHtmlLink),
@@ -86,9 +87,9 @@ public class LoginPage extends AbstractViewerPage {
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
                         M.Log("refresh session ok"),
                         M.SetAccessToken(
-                                V.ObjectMember(V.ParseJSON(V.GetEvent(ResponseEvent.HTTP_RESPONSE_DATA)), "jwt")),
+                                V.ObjectProperty(ResponseEvent.getResponseData(), "jwt")),
                         M.SetGlobalValue("sessionTimeout",
-                                V.ObjectMember(V.ParseJSON(V.GetEvent(ResponseEvent.HTTP_RESPONSE_DATA)), "sessionTimeout"))
+                                V.ObjectProperty(ResponseEvent.getResponseData(), "sessionTimeout"))
                 ).Else(
                         M.Log(V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
                         M.OpenPage(LoginPage.class)
@@ -101,6 +102,7 @@ public class LoginPage extends AbstractViewerPage {
         loginService.onResponse(new ResponseEventHandler(
                 M.SetEnabled(loginHtmlButton),
                 M.RemoveAccessToken(),
+                M.Log(V.Const("LOGIN"), V.GetEvent()),
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
 
                         // store the access token and start the timer

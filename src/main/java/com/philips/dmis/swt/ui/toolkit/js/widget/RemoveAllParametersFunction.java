@@ -49,8 +49,9 @@ public class RemoveAllParametersFunction implements JsFunction {
 
         js.append("const widget=window[id];");
         js.append("const params=widget.%s;", ParametersVariable.ID);
-        js.append("for(const paramName in params){");
-        js.append("params[paramName].value=null;");
+        js.append("const properties=structuredClone(params);");
+        js.append("for(const property in properties){");
+        js.append("delete params[property];");
         js.append("};");
 
         js.append("}"); // end function

@@ -34,12 +34,13 @@ public class RaiseEventFunction implements JsFunction {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
-        js.append("(id,eventHandlerFunction,domEvent,slaveId,dataKey)=>{");
+        js.append("(id,eventHandlerFunction,domEvent,slaveId,dataKey,arguments)=>{");
         js.trace(this);
 
         js.append("if(domEvent==undefined){domEvent=null;};");
         js.append("if(slaveId==undefined){slaveId=null;};");
         js.append("if(dataKey==undefined){dataKey=null;};");
+        js.append("if(arguments==undefined){arguments=null;};");
 
         js.append("const uid=String(Date.now().toString(32)+Math.random().toString(16)).replace(/\\./g,'');");
         js.append("const currentPageId=%s();", JsPageControllerModule.getQualifiedId(GetCurrentPageFunction.class));
@@ -53,18 +54,8 @@ public class RaiseEventFunction implements JsFunction {
         js.append("eventContext.slaveId=slaveId;");
         js.append("eventContext.dataKey=dataKey;");
         js.append("eventContext.domEvent=domEvent;");
-
+        js.append("eventContext.arguments=arguments;");
         js.append("eventHandlerFunction(eventContext);");
-
-//        js.append("const c=widget.%s[eventHandlerName.toLowerCase()];", EventHandlersVariable.ID);
-//        js.append("for(const i in c){"); // for
-//        js.append("var h=c[i];");
-//        js.append("if((h.pageId==''||h.pageId==currentPageId)" +
-//                "&&(eventSourceId==''||h.widgetId==''||h.widgetId==eventSourceId)){");
-//        js.append("h.fn(eventContext);");
-//        js.append("};"); // end if
-//        js.append("};"); // end for
-
 
         js.append("}");
     }
@@ -81,5 +72,6 @@ public class RaiseEventFunction implements JsFunction {
         parameters.add(JsParameter.getInstance("domEvent", JsType.OBJECT));
         parameters.add(JsParameter.getInstance("slaveId", JsType.STRING));
         parameters.add(JsParameter.getInstance("dataKey", JsType.OBJECT));
+        parameters.add(JsParameter.getInstance("arguments", JsType.OBJECT));
     }
 }

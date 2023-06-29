@@ -1,6 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-import com.philips.dmis.swt.ui.toolkit.data.SortingDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.InteractiveOrderingDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
 import com.philips.dmis.swt.ui.toolkit.events.OrderChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
@@ -42,8 +42,9 @@ public class OrderedTableHeader extends Composite {
     protected void build() throws Exception {
         add(htmlTableHeader);
         htmlTableHeader.addDataSource(dataSourceSupplier);
-        SortingDataAdapter sortingDataAdapter = new SortingDataAdapter(htmlTableHeader);
-        dataSourceSupplier.addDataAdapter(sortingDataAdapter);
+        InteractiveOrderingDataAdapter interactiveOrderingDataAdapter =
+                new InteractiveOrderingDataAdapter(htmlTableHeader);
+        dataSourceSupplier.addDataAdapter(interactiveOrderingDataAdapter);
         htmlTableHeader.onOrderChange(new OrderChangeEventHandler(
                 M.Refresh(dataSourceSupplier.asWidget(), JsStateModule.REASON_LOCAL)
         ));

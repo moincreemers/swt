@@ -32,12 +32,10 @@ public class CopyViewFieldFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(serviceResponse,viewTop,nameOrSource,name,source)=>{");
+        js.trace(this);
 
         js.append("const currentView=%s(serviceResponse);",
                 JsGlobalModule.getQualifiedId(GetSelectedViewFunction.class));
-
-        js.debug("console.log('CopyViewFieldFunction',viewTop,nameOrSource,name,source,currentView);");
-
         js.append("for(const v in currentView){"); // for
         js.append("var view=currentView[v];");
         js.append("if(view.viewType=='%s'&&(view.name==nameOrSource||view.source==nameOrSource)){", ViewType.FIELD); // if

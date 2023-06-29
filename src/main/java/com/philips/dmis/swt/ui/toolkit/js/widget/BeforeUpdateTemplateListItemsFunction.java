@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
-import com.philips.dmis.swt.ui.toolkit.js.state.DataTemplateIdVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.DataTemplateIdsVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.HtmlList;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -53,8 +53,12 @@ public class BeforeUpdateTemplateListItemsFunction implements JsFunction {
         js.trace(this);
 
         js.append("const widget=window[id];");
-        js.append("const dataTemplateId=widget.%s;", DataTemplateIdVariable.ID);
-        js.append("%s(dataTemplateId);", JsWidgetModule.getQualifiedId(RemoveAllClonesFunction.class));
+        js.append("const dataTemplateIds=widget.%s;", DataTemplateIdsVariable.ID);
+        js.append("if(dataTemplateIds!=undefined&&dataTemplateIds!=null){");
+        js.append("for(var i in dataTemplateIds){");
+        js.append("%s(dataTemplateIds[i]);", JsWidgetModule.getQualifiedId(RemoveAllClonesFunction.class));
+        js.append("};");
+        js.append("};");
 
         js.append("}"); // end function
     }

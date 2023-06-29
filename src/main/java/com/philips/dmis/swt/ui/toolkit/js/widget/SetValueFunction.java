@@ -76,7 +76,7 @@ public class SetValueFunction implements JsFunction {
 
         js.append("}else ");
         js.ifInArray("widgetType", WidgetType.FRAME.name(),
-                WidgetType.IMAGE_BUTTON.name(), WidgetType.IMAGE.name());
+                WidgetType.IMAGE_BUTTON.name());
         js.append("element.setAttribute('src',value);");
 
         js.append("}else if(widgetType=='%s'){", WidgetType.DATA.name());
@@ -97,6 +97,11 @@ public class SetValueFunction implements JsFunction {
         js.append("element.value=value;");
 
         js.append("};");
+
+        js.append("}else if(implements.includes('%s')){", HasSrc.class.getSimpleName());
+        //js.append("if(widgetType=='%s'){", WidgetType.IMAGE.name());
+        js.append("element.setAttribute('src',value);");
+        //js.append("};");
 
         js.append("}else if(implements.includes('%s')){", DataSourceSupplier.class.getSimpleName());
 

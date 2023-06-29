@@ -26,7 +26,9 @@ public final class WidgetType {
     public static final WidgetType PAGE = new WidgetType("PAGE", "page", true, false, "div");
     public static final WidgetType PANEL = new WidgetType("PANEL", "panel", true, false, "div");
     public static final WidgetType GRID = new WidgetType("GRID", "grid", true, false, "div");
+    public static final WidgetType SMART_GRID = new WidgetType("SMART_GRID", "smartgrid", true, false, "div");
     public static final WidgetType SINGLE_ROW = new WidgetType("SINGLE_ROW", "single-row", true, false, "div");
+    public static final WidgetType OVERLAY = new WidgetType("OVERLAY", "overlay", true, false, "div");
     public static final WidgetType PARAGRAPH = new WidgetType("PARAGRAPH", "paragraph", false, false, "p");
     public static final WidgetType PREFORMATTED = new WidgetType("PREFORMATTED", "preformatted", false, false, "pre");
     public static final WidgetType TEXT = new WidgetType("TEXT", "textbox", false, false, "input");
@@ -62,6 +64,7 @@ public final class WidgetType {
     public static final WidgetType DATA = new WidgetType("DATA", "", false, true, "div");
     public static final WidgetType DATA_PROXY = new WidgetType("DATA_PROXY", "", false, true, "div");
     public static final WidgetType DATA_TEMPLATE = new WidgetType("DATA_TEMPLATE", "", false, true, "div");
+    public static final WidgetType DATA_CONSUMER = new WidgetType("DATA_CONSUMER", "", false, true, "div");
     public static final WidgetType CODE = new WidgetType("CODE", "", false, true, "div");
     public static final WidgetType STYLE = new WidgetType("STYLE", "", false, true, "style");
     public static final WidgetType TIMER = new WidgetType("TIMER", "", false, true, "div");

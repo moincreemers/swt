@@ -9,7 +9,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.List;
 import java.util.Map;
 
-public class HtmlLink extends DataBoundWidget<HtmlLink, TextDataSourceUsage> implements
+public class HtmlLink extends DataBoundWidget<HtmlLink, ValueDataSourceUsage> implements
         HasEncType, IsClickable<HtmlLink>, HasIcon, HasText, HasRel, HasTarget, HasReferrerPolicy, HasDownload {
     public static HtmlLink openPage(String text, Class<? extends Page> pageClass) {
         return new HtmlLink(text).onClick(new ClickEventHandler(M.OpenPage(pageClass)));
@@ -43,7 +43,7 @@ public class HtmlLink extends DataBoundWidget<HtmlLink, TextDataSourceUsage> imp
     }
 
     public HtmlLink addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TextDataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

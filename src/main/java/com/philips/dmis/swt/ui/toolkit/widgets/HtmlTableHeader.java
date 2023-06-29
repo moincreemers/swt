@@ -7,14 +7,14 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlTableHeader extends DataBoundWidget<HtmlTableHeader, TableHeaderDataSourceUsage> implements
-        HasOrderingControls<HtmlTableHeader> {
+public class HtmlTableHeader extends DataBoundWidget<HtmlTableHeader, ItemsDataSourceUsage> implements
+        HasOrderingControls<HtmlTableHeader>, HasTableHeaderRows {
     public HtmlTableHeader() {
         super(WidgetType.TABLE_HEADER);
     }
 
     public HtmlTableHeader addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TableHeaderDataSourceUsage.TABLE_HEADER, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ItemsDataSourceUsage.ITEMS, dataSourceSupplier, dataAdapters);
         return this;
     }
 

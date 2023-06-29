@@ -50,11 +50,11 @@ public class PatientDetails extends AbstractViewerPage {
         onActivate(new ActivateEventHandler(
                 M.SetValue(patientRecord, V.GetPageArgument()),
 
-                M.SetText(titleLabel, V.ObjectMember(V.GetPageArgument(), "name")),
-                M.SetText(patientIdHtmlLabel, V.StringConcat(V.Const("ID: "), V.ObjectMember(V.GetPageArgument(), "patientId"))),
-                M.SetText(patientDateOfBirthHtmlLabel, V.StringConcat(V.ObjectMember(V.GetPageArgument(), "dateOfBirth"), V.Const(" ("), V.ObjectMember(V.GetPageArgument(), "age"), V.Const("yr)"))),
-                M.SetText(patientGenderHtmlLabel, V.ObjectMember(V.GetPageArgument(), "gender")),
-                M.SetText(patientAddressHtmlLabel, V.ObjectMember(V.GetPageArgument(), "address")),
+                M.SetText(titleLabel, V.ObjectProperty(V.GetPageArgument(), "name")),
+                M.SetText(patientIdHtmlLabel, V.StringConcat(V.Const("ID: "), V.ObjectProperty(V.GetPageArgument(), "patientId"))),
+                M.SetText(patientDateOfBirthHtmlLabel, V.StringConcat(V.ObjectProperty(V.GetPageArgument(), "dateOfBirth"), V.Const(" ("), V.ObjectProperty(V.GetPageArgument(), "age"), V.Const("yr)"))),
+                M.SetText(patientGenderHtmlLabel, V.ObjectProperty(V.GetPageArgument(), "gender")),
+                M.SetText(patientAddressHtmlLabel, V.ObjectProperty(V.GetPageArgument(), "address")),
 
 // note: this was used when patientRecord was a QueryService
 //                M.SetQueryParameter(patientRecord, "patientID", V.ObjectMember(V.GetPageArgument(), "patientId")),

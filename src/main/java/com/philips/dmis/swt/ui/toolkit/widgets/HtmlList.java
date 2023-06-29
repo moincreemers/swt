@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Set;
 
-public class HtmlList extends DataBoundWidget<HtmlList, ListItemsDataSourceUsage> {
+public class HtmlList extends DataBoundWidget<HtmlList, ItemsDataSourceUsage> implements HasListItems {
     private ListType listType;
 
     public HtmlList() {
@@ -19,7 +19,7 @@ public class HtmlList extends DataBoundWidget<HtmlList, ListItemsDataSourceUsage
     }
 
     public HtmlList addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(ListItemsDataSourceUsage.LIST_ITEMS, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ItemsDataSourceUsage.ITEMS, dataSourceSupplier, dataAdapters);
         return this;
     }
 

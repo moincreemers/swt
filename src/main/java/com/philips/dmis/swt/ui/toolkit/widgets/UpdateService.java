@@ -14,6 +14,7 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     private HttpMethod httpMethod = HttpMethod.POST;
     private ContentType contentType = ContentType.JSON;
     private ResponseType responseType = ResponseType.DEFAULT;
+    private AuthenticationType authenticationType = AuthenticationType.NONE;
     private final Map<String, List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
     private final java.util.List<Parameter> parameters = new ArrayList<>();
 
@@ -21,6 +22,12 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     public UpdateService(String url) {
         super(WidgetType.UPDATE_SERVICE);
         setURL(url);
+    }
+
+    @Override
+    public UpdateService onChange(ChangeEventHandler eventHandler) {
+        getEventHandlers().add(eventHandler);
+        return this;
     }
 
     @Override
@@ -69,11 +76,6 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
         this.responseType = responseType;
     }
 
-    @Override
-    public UpdateService onChange(ChangeEventHandler eventHandler) {
-        getEventHandlers().add(eventHandler);
-        return this;
-    }
 
     @Override
     public Map<String, List<ValueStatement>> getHttpHeaders() {
@@ -104,5 +106,15 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     @Override
     public List<Parameter> getParameters() {
         return parameters;
+    }
+
+    @Override
+    public AuthenticationType getAuthenticationType() {
+        return authenticationType;
+    }
+
+    @Override
+    public void setAuthenticationType(AuthenticationType authenticationType) {
+        this.authenticationType = authenticationType;
     }
 }

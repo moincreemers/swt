@@ -17,6 +17,12 @@ public enum WidgetAppearance {
     ALIGN_RIGHT("tk-align-right"),
     FLOAT_RIGHT("tk-float-right"),
     CENTER("tk-center"),
+    POSITION_TOP_LEFT("tk-position-top-left"),
+    POSITION_TOP_RIGHT("tk-position-top-right"),
+    POSITION_BOTTOM_LEFT("tk-position-bottom-left"),
+    POSITION_BOTTOM_RIGHT("tk-position-bottom-right"),
+    DIM_ON_HOVER("tk-dim-on-hover"),
+    SHOW_ON_HOVER("tk-show-on-hover"),
 
     ;
 

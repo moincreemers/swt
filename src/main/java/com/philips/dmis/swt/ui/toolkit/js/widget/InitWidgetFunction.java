@@ -148,6 +148,13 @@ public class InitWidgetFunction implements JsFunction {
         js.append("%s(id,decodeURIComponent(atob(widget.%s)));", JsWidgetModule.getId(SetValueFunction.class), StaticDataVariable.ID);
         js.append("};"); // end if
 
+//        js.append("if(widgetType=='%s'&&widget.%s=='%s'){",
+//                WidgetType.IMAGE.name(),
+//                ImageTypeVariable.ID,
+//                ImageType.DRAG_TO_SCROLL.name()); // if
+//        js.append("element.addEventListener('mousedown',(e)=>{});");
+//        js.append("};"); // end if
+
         js.append("%s(id,%s);",
                 JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
                 JsWidgetModule.getId(EventHandlerFunction.OnInitEventHandlerFunction.class));

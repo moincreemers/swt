@@ -14,6 +14,14 @@ public abstract class EventHandlerFunction implements JsFunction {
     public static final String EVENTCONTEXT_ARGUMENT = "eventContext";
 
     // GLOBAL EVENTS
+    public static class OnApplicationStartEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = ApplicationStartEventHandler.NAME;
+
+        public OnApplicationStartEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
     public static class OnAfterPrintEventHandlerFunction extends EventHandlerFunction {
         public static final String ID = AfterPrintEventHandler.NAME;
 
@@ -324,6 +332,14 @@ public abstract class EventHandlerFunction implements JsFunction {
         public static final String ID = SelectionChangeEventHandler.NAME;
 
         public OnSelectionChangeEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnPageVariableChangeEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = PageVariableChangeEventHandler.NAME;
+
+        public OnPageVariableChangeEventHandlerFunction() {
             super(ID, false);
         }
     }

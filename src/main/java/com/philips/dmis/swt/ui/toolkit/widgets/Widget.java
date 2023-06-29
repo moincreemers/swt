@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.events.InitEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
+import com.philips.dmis.swt.ui.toolkit.utils.JavaNameDetector;
 
 import java.util.List;
 import java.util.*;
@@ -26,6 +27,7 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
 
     private static int idCounter = 0;
     final String id;
+    final String srcName;
 
     final WidgetType widgetType;
     Set<WidgetAppearance> appearance = new HashSet<>();
@@ -40,6 +42,7 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
 
     public Widget(WidgetType widgetType) {
         id = "w" + idCounter++;
+        srcName = JavaNameDetector.detectDeclaredName(getClass());
         this.widgetType = widgetType;
         // IMPORTANT: this line must be here in the constructor
         this.jsStateModule = new JsStateModule(this);
@@ -179,7 +182,7 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
             StyleAttribute style = new StyleAttribute(htmlAttributes, "style");
             style.add("display", "none");
         }
-        if(!backgroundColor.isEmpty()){
+        if (!backgroundColor.isEmpty()) {
             StyleAttribute style = new StyleAttribute(htmlAttributes, "style");
             style.add("background-color", backgroundColor);
         }
@@ -239,11 +242,11 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
             String pageClassName = "";
             Optional<Page> page = toolkit.getPages().stream().filter(p -> p.getId().equals(getPageId())).findAny();
             if (page.isPresent()) {
-                pageClassName = page.get().getClass().getName();
+                pageClassName = page.get().getClass().getSimpleName();
             }
             // note: it is important that this log statement contains enough information to identify the exact location
             // of a widget or statement when a validation error is raised
-            LOG.info("validate " + widgetType.name() + ": " + id + " on page: " + pageClassName);
+            LOG.info("validate " + widgetType.name() + ": " + id + " <" + srcName + "> on page: " + pageClassName);
         }
     }
 

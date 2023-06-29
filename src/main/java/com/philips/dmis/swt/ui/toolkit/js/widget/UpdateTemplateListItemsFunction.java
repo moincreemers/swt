@@ -57,15 +57,25 @@ public class UpdateTemplateListItemsFunction implements JsFunction {
         js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
         js.append("const implements=widget.%s;", ImplementsVariable.ID);
         js.append("const element=document.getElementById(id);");
-        js.append("const dataTemplateId=widget.%s;", DataTemplateIdVariable.ID);
+        js.append("const dataTemplateIds=widget.%s;", DataTemplateIdsVariable.ID);
         js.append("const dataKeyField=widget.%s;", DataKeyFieldVariable.ID);
         js.append("const templateTargetWidgetId=widget.%s;", TemplateTargetWidgetIdVariable.ID);
-        js.append("if(dataTemplateId==undefined||dataTemplateId==null||dataTemplateId==''||dataKeyField==null||templateTargetWidgetId==null){return;};");
+        js.append("const templateSelectorField=widget.%s;", TemplateSelectorFieldVariable.ID);
+        js.append("if(dataTemplateIds==undefined||dataTemplateIds==null||templateTargetWidgetId==null){return;};");
+        js.append("const hasTemplateSelectorField=(templateSelectorField!=undefined&&templateSelectorField!=null&&templateSelectorField!='');");
 
         js.append("const dataItems=serviceResponse.data.items;");
         js.append("for(const itemIndex in dataItems){"); // for R
         js.append("var dataItem=dataItems[itemIndex];");
         js.append("var dataKey=dataItem[dataKeyField];");
+        js.append("var dataTemplateId=dataTemplateIds['%s'];", DataTemplateIdsVariable.DEFAULT_TEMPLATE_ID);
+        js.append("var templateSelectorKey=null;");
+        js.append("if(hasTemplateSelectorField){");
+        js.append("templateSelectorKey=dataItem[templateSelectorField];");
+        js.append("if(dataTemplateIds.hasOwnProperty(templateSelectorKey)&&dataTemplateIds[templateSelectorKey]!=null&&dataTemplateIds[templateSelectorKey]!=''){");
+        js.append("dataTemplateId=dataTemplateIds[templateSelectorKey];");
+        js.append("};");
+        js.append("};");
 
         // render list item:
         js.append("%s(dataTemplateId,templateTargetWidgetId,dataKeyField,dataKey);",

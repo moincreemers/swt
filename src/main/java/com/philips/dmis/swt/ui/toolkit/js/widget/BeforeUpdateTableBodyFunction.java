@@ -5,7 +5,6 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
-import com.philips.dmis.swt.ui.toolkit.widgets.CacheType;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -54,9 +53,6 @@ public class BeforeUpdateTableBodyFunction implements JsFunction {
         js.trace(this);
 
         js.append("const widget=window[id];");
-        //js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
-        //js.append("const implements=widget.%s;", ImplementsVariable.ID);
-        js.append("if(cacheType=='%s'){", CacheType.ENABLED.name()); // if
         js.append("const element=document.getElementById(id);");
         js.append("element.style.display='';");
         js.append("element.textContent='';");
@@ -67,7 +63,6 @@ public class BeforeUpdateTableBodyFunction implements JsFunction {
         js.append("tr.append(td);");
         js.append("element.append(tr);");
         ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.BEGIN_PROGRESS, null, "tempId", js);
-        js.append("};"); // end if
 
         js.append("}"); // end function
     }

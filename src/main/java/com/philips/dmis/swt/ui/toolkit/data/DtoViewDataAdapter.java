@@ -4,6 +4,7 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.*;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
+import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 /**
@@ -50,6 +51,11 @@ public class DtoViewDataAdapter extends DataAdapter {
     public DtoViewDataAdapter addAction(String nameOrSource, String name) {
         viewBuilder.addAction(nameOrSource, name);
         return this;
+    }
+
+    @Override
+    public DataSourceUsage getInitialDataSourceUsage() {
+        return DataSourceUsage.VIEW;
     }
 
     @Override

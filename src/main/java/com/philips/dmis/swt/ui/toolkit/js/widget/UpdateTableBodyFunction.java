@@ -212,7 +212,8 @@ public class UpdateTableBodyFunction implements JsFunction {
         js.append("td.setAttribute('tk-even',evenCol);");
         js.append("const cellValue=dataItem[view.source];");
 
-        js.append("element=td;");
+        js.append("var nextElement=td;");
+
         js.append("if(view.appearance=='%s'){", ViewAppearance.OPEN.name()); // if
         js.append("var openLink=document.createElement('a');");
         js.append("openLink.setAttribute('href','javascript:void(0);');");
@@ -225,11 +226,11 @@ public class UpdateTableBodyFunction implements JsFunction {
         js.append("%s(id,event);",
                 JsWidgetModule.getId(EventHandlerFunction.OnOpenEventHandlerFunction.class));
         js.append("};");
-        js.append("td.append(openLink);");
-        js.append("element=openLink;");
+        js.append("nextElement.append(openLink);");
+        js.append("nextElement=openLink;");
         js.append("};"); // end if
 
-        js.append("%s(element,cellValue,view);",
+        js.append("const formattedElement=%s(nextElement,cellValue,view);",
                 JsGlobalModule.getQualifiedId(CreateFormattedValue.class));
 
         js.append("%s(id,formattedElement,cellValue,view);",

@@ -7,9 +7,9 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.List;
 import java.util.*;
 
-public abstract class DataSourceWidget<E extends HasDataSourceUsage> extends Widget implements DataSourceSupplier {
+public abstract class DataSourceWidget extends Widget implements DataSourceSupplier {
     private final Map<HasDataSource<?, ?>, DataSourceUsage> subscribers = new HashMap<>();
-    private final java.util.List<DataAdapter> dataAdapters = new ArrayList<>();
+    private final List<DataAdapter> dataAdapters = new ArrayList<>();
     private final boolean expectServiceResponse;
     private final boolean autoRefresh;
     private final boolean notifySubscribers;
@@ -77,8 +77,8 @@ public abstract class DataSourceWidget<E extends HasDataSourceUsage> extends Wid
     }
 
     @Override
-    public DataSourceWidget<E> addDataAdapter(DataAdapter dataAdapter) {
-        this.dataAdapters.add(dataAdapter);
+    public DataSourceWidget addDataAdapter(DataAdapter dataAdapter) {
+        dataAdapters.add(dataAdapter);
         return this;
     }
 
@@ -117,18 +117,22 @@ public abstract class DataSourceWidget<E extends HasDataSourceUsage> extends Wid
     @Override
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
         super.validate(toolkit);
+        boolean hasImportDataAdapter = dataAdapters.stream()
+                .anyMatch(dataAdapter -> dataAdapter.isDataSourceUsageAllowed(DataSourceUsage.IMPORT));
+        if (!expectServiceResponse && !hasImportDataAdapter) {
+            throw new WidgetConfigurationException("missing data adapter with DataSourceUsage.IMPORT in data source " + getId() + " <" + srcName + ">");
+        }
+        boolean hasViewDataAdapter = dataAdapters.stream()
+                .anyMatch(dataAdapter -> dataAdapter.isDataSourceUsageAllowed(DataSourceUsage.VIEW));
+        if (expectServiceResponse && !hasViewDataAdapter) {
+            // todo: this is a bit complicated
+            //throw new WidgetConfigurationException("missing data adapter with DataSourceUsage.VIEW in data source " + getId() + " <" + srcName + ">");
+        }
         for (HasDataSource<?, ?> hasDataSource : subscribers.keySet()) {
             hasDataSource.asWidget().validate(toolkit);
         }
-        boolean hasImportDataAdapter = false;
         for (DataAdapter dataAdapter : dataAdapters) {
             dataAdapter.validate(toolkit);
-            if (dataAdapter.isDataSourceUsage(DataSourceUsage.IMPORT)) {
-                hasImportDataAdapter = true;
-            }
-        }
-        if (!expectServiceResponse && !hasImportDataAdapter) {
-            throw new WidgetConfigurationException("missing data adapter with DataSourceUsage.IMPORT in data source " + getId());
         }
     }
 }

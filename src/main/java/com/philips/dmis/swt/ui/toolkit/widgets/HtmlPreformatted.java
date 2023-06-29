@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlPreformatted extends DataBoundWidget<HtmlPreformatted, TextDataSourceUsage> implements HasText {
+public class HtmlPreformatted extends DataBoundWidget<HtmlPreformatted, ValueDataSourceUsage> implements HasText {
     public HtmlPreformatted() {
         this("");
     }
@@ -23,7 +23,7 @@ public class HtmlPreformatted extends DataBoundWidget<HtmlPreformatted, TextData
     }
 
     public HtmlPreformatted addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TextDataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

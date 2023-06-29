@@ -7,8 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class JsLogTraceFilter {
+    record FunctionInfo(String moduleName, String functionName) {
+    }
+
     private final Set<String> moduleIndex = new HashSet<>();
-    private final Set<String> functionIndex = new HashSet<>();
+    private final Set<FunctionInfo> functionIndex = new HashSet<>();
     private final Set<String> idFilter = new HashSet<>();
     private boolean enable = false;
 
@@ -16,11 +19,10 @@ public class JsLogTraceFilter {
         if (!enable) {
             return true;
         }
-        if ((moduleName != null && !moduleName.isEmpty() && moduleIndex.contains(moduleName))) {
-            return false;
+        if (functionIndex.contains(new FunctionInfo(moduleName, functionName))) {
+            return true;
         }
-        return moduleName == null || moduleName.isEmpty() || functionName == null || functionName.isEmpty()
-                || !functionIndex.contains(moduleName + "." + functionName);
+        return moduleName == null || moduleName.isEmpty() || !moduleIndex.contains(moduleName);
     }
 
     public JsLogTraceFilter suppressModule(String... moduleNames) {
@@ -32,10 +34,17 @@ public class JsLogTraceFilter {
         return this;
     }
 
-    public JsLogTraceFilter suppressFunction(String moduleName, String... functionNames) {
+    public JsLogTraceFilter filterFunction(Class<?>... functions) {
+        for (Class<?> function : functions) {
+            filterFunction(JsWriter.getModuleName(function), JsWriter.getClassName(function));
+        }
+        return this;
+    }
+
+    public JsLogTraceFilter filterFunction(String moduleName, String... functionNames) {
         for (String functionName : functionNames) {
             if (moduleName != null && !moduleName.isEmpty() && functionName != null && !functionName.isEmpty()) {
-                functionIndex.add(moduleName + "." + functionName);
+                functionIndex.add(new FunctionInfo(moduleName, functionName));
             }
         }
         return this;

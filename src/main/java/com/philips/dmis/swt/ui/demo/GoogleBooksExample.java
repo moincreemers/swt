@@ -66,7 +66,7 @@ public class GoogleBooksExample extends Page {
 
         HtmlSearchInput queryParameter = htmlTableCaption.add(new HtmlSearchInput());
         queryParameter.setPlaceholder("Search Google Books");
-        queryParameter.onKeyPress(new KeyPressEventHandler(
+        onKeyPress(new KeyPressEventHandler(
                 M.Iif(V.Is(V.GetEvent(KeyPressEvent.KEY_CODE), V.Const(KeyPressEvent.VK_ENTER))).True(
                         M.SetQueryParameter(googleBooks, V.Const("q"), V.GetValue(queryParameter)),
                         M.Refresh(googleBooks),

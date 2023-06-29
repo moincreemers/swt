@@ -38,7 +38,7 @@ public class DialogsExamplePage extends Page {
                         .getData()
         ));
         SingleChoice dialogPosition = popupDialogs.add(new SingleChoice()
-                .addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, dialogPositionStaticData, new KeyValueListDataAdapter()));
+                .addDataSource(ValueAndItemsDataSourceUsage.ITEMS, dialogPositionStaticData, new KeyValueListDataAdapter()));
         dialogPosition.setValue(ViewPosition.DIALOG_CENTER.name());
         HtmlButton showDialog = popupDialogs.add(new HtmlButton("Show popup dialog"));
         showDialog.onClick(new ClickEventHandler(
@@ -60,7 +60,7 @@ public class DialogsExamplePage extends Page {
                         .getData()
         ));
         SingleChoice sidebarPosition = sidebarDialogs.add(new SingleChoice()
-                .addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, sidebarPositionStaticData, new KeyValueListDataAdapter()));
+                .addDataSource(ValueAndItemsDataSourceUsage.ITEMS, sidebarPositionStaticData, new KeyValueListDataAdapter()));
         sidebarPosition.setValue(ViewPosition.SIDEBAR_TOP.name());
         HtmlButton showSidebar = sidebarDialogs.add(new HtmlButton("Show sidebar dialog"));
         showSidebar.onClick(new ClickEventHandler(

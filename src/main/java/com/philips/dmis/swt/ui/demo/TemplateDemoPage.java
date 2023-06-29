@@ -2,6 +2,7 @@ package com.philips.dmis.swt.ui.demo;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.data.ValueDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
@@ -92,14 +93,14 @@ public class TemplateDemoPage extends Page {
                         quantity.setName("quantity");
                         quantity.addDataSource(records, new ValueDataAdapter("quantity"));"""));
 
-        Panel template = add(new Panel(PanelType.TOOLBAR));
+        Panel template = add(new Panel());
         template.setName("template");
         HtmlLabel idLabel = template.add(new HtmlLabel());
         idLabel.addDataSource(records, new ValueDataAdapter("id"));
         HtmlSelect product = template.add(new HtmlSelect());
         product.setName("product");
-        product.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, products);
-        product.addDataSource(ValueAndOptionsDataSourceUsage.VALUE, records, new ValueDataAdapter("product"));
+        product.addDataSource(ValueAndItemsDataSourceUsage.ITEMS, products, new KeyValueListDataAdapter());
+        product.addDataSource(ValueAndItemsDataSourceUsage.VALUE, records, new ValueDataAdapter("product"));
         HtmlNumberInput quantity = template.add(new HtmlNumberInput());
         quantity.setPlaceholder("Quantity");
         quantity.setName("quantity");
@@ -151,6 +152,7 @@ public class TemplateDemoPage extends Page {
                               "<code>M.RemoveAllClones</code>."));
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS, "M.RemoveAllClones(template)"));
 
+
         HtmlButton removeAll = add(new HtmlButton("Remove all clones"));
         removeAll.onClick(new ClickEventHandler(
                 M.RemoveAllClones(template)
@@ -170,25 +172,42 @@ public class TemplateDemoPage extends Page {
                 """
                         DataTemplateWidget dataTemplateWidget = add(new DataTemplateWidget());
                         dataTemplateWidget.addDataSource(records);
-                        dataTemplateWidget.setTemplateWidget(template);
+                        dataTemplateWidget.setDefaultTemplateWidget(template);
                         dataTemplateWidget.setDataKeyField("id");
-                        dataTemplateWidget.setTemplateTargetWidget(container);"""));
+                        dataTemplateWidget.setTemplateTargetWidget(container);
+                        
+                        // add a second template for when product = 'Apple'
+                        dataTemplateWidget.addTemplateWidget(template2, V.Const("Apple"));
+                        dataTemplateWidget.setTemplateSelectorField("product");"""));
 
         add(new HtmlParagraph("The data key field property is important, it should correspond to a field in the " +
                               "data that can be used to identify each record. A record-id for example. " +
                               "Whatever the value, you should make sure the value is unique."));
 
+        Panel template2 = add(new Panel(PanelType.WARNING));
+        template2.add(new HtmlParagraph("This is a second template that is selected when the product is 'Apple'"));
 
         DataTemplateWidget dataTemplateWidget = add(new DataTemplateWidget());
         dataTemplateWidget.addDataSource(records);
-        dataTemplateWidget.setTemplateWidget(template);
+        dataTemplateWidget.setDefaultTemplateWidget(template);
         dataTemplateWidget.setDataKeyField("id");
         dataTemplateWidget.setTemplateTargetWidget(target);
+        dataTemplateWidget.addTemplateWidget(template2, V.Const("Apple"));
+        dataTemplateWidget.setTemplateSelectorField("product");
 
         HtmlButton refreshRecords = add(new HtmlButton("Refresh data source"));
         refreshRecords.onClick(new ClickEventHandler(
                 M.RemoveAllClones(template),
                 M.Refresh(records),
+                M.Refresh(products)
+        ));
+        HtmlButton removeAll2 = add(new HtmlButton("Remove all clones from both templates"));
+        removeAll2.onClick(new ClickEventHandler(
+                M.RemoveAllClones(template),
+                M.RemoveAllClones(template2)
+        ));
+        HtmlButton refreshProducts = add(new HtmlButton("Refresh products"));
+        refreshProducts.onClick(new ClickEventHandler(
                 M.Refresh(products)
         ));
 

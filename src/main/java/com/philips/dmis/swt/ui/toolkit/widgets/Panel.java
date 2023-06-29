@@ -10,6 +10,23 @@ public class Panel extends ContainerWidget<Panel> {
     private Overflow overflow = Overflow.FIT_CONTENT;
     private Size size = new Size();
 
+    protected Panel(WidgetType widgetType) {
+        super(widgetType);
+    }
+
+    protected Panel(String name, WidgetType widgetType) {
+        super(name, widgetType);
+    }
+
+    protected Panel(String name, WidgetType widgetType, PanelType panelType) {
+        super(name, widgetType);
+        setPanelType(panelType);
+    }
+
+    protected Panel(WidgetType widgetType, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
+        this("", widgetType, panelType, widgets);
+    }
+
     public Panel() {
         super(WidgetType.PANEL);
     }
@@ -18,25 +35,12 @@ public class Panel extends ContainerWidget<Panel> {
         super(name, WidgetType.PANEL);
     }
 
-    public Panel(WidgetType widgetType) {
-        super(widgetType);
-    }
-
-    public Panel(String name, WidgetType widgetType) {
-        super(name, widgetType);
-    }
-
     public Panel(PanelType panelType) {
         this("", WidgetType.PANEL, panelType);
     }
 
     public Panel(WidgetType widgetType, PanelType panelType) {
         this("", widgetType, panelType);
-    }
-
-    public Panel(String name, WidgetType widgetType, PanelType panelType) {
-        super(name, widgetType);
-        setPanelType(panelType);
     }
 
     public Panel(Widget... widgets) throws WidgetConfigurationException {
@@ -51,12 +55,8 @@ public class Panel extends ContainerWidget<Panel> {
         this(WidgetType.PANEL, panelType, widgets);
     }
 
-    public Panel(WidgetType widgetType, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
-        this("", widgetType, panelType, widgets);
-    }
-
-    public Panel(String name, WidgetType widgetType, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
-        super(widgetType);
+    protected Panel(String name, WidgetType widgetType, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
+        super(name, widgetType);
         setPanelType(panelType);
         addAll(widgets);
     }

@@ -31,7 +31,7 @@ public class SendHttpRequestFunction implements JsFunction {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
-        js.append("(id,method,contentTypeEncoding,responseType,url,headers,obj,success,failure,args)=>{"); // function
+        js.append("(id,method,contentTypeEncoding,responseType,url,headers,authenticationType,obj,success,failure,args)=>{"); // function
         js.trace(this);
 
         js.append("var xhr=new XMLHttpRequest();");
@@ -56,6 +56,8 @@ public class SendHttpRequestFunction implements JsFunction {
         js.append("xhr.open(method,requestUrl,true);");
         js.append("%s(xhr,headers);",
                 JsGlobalModule.getQualifiedId(SetXhrRequestHeadersFunction.class));
+        js.append("%s(xhr,authenticationType);",
+                JsGlobalModule.getQualifiedId(SetXhrCredentialsFunction.class));
         js.append("try{");
         js.append("xhr.send();");
         js.append("}catch(ex){");
@@ -67,6 +69,8 @@ public class SendHttpRequestFunction implements JsFunction {
         js.append("xhr.open('POST',url,true);");
         js.append("%s(xhr,headers);",
                 JsGlobalModule.getQualifiedId(SetXhrRequestHeadersFunction.class));
+        js.append("%s(xhr,authenticationType);",
+                JsGlobalModule.getQualifiedId(SetXhrCredentialsFunction.class));
         js.append("xhr.setRequestHeader('Content-Type',contentTypeEncoding);");
 
         js.append("switch(contentTypeEncoding){"); // switch CONTENT-TYPE
@@ -130,6 +134,7 @@ public class SendHttpRequestFunction implements JsFunction {
         parameters.add(JsParameter.getInstance("responseType", JsType.STRING));
         parameters.add(JsParameter.getInstance("url", JsType.STRING));
         parameters.add(JsParameter.getInstance("headers", JsType.OBJECT));
+        parameters.add(JsParameter.getInstance("authenticationType", JsType.STRING));
         parameters.add(JsParameter.getInstance("obj", JsType.OBJECT));
         parameters.add(JsParameter.getInstance("success", JsType.FUNCTION));
         parameters.add(JsParameter.getInstance("failure", JsType.FUNCTION));

@@ -51,7 +51,7 @@ public class BeforeUpdateOptionsFunction implements JsFunction {
         js.append("const widget=window[id];");
         js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
         js.append("const implements=widget.%s;", ImplementsVariable.ID);
-        js.append("if(cacheType=='%s'&&implements.includes('%s')){", CacheType.ENABLED.name(), HasValue.class.getSimpleName());
+        js.append("if(cacheType=='%s'&&implements.includes('%s')){", CacheType.DISABLED.name(), HasValue.class.getSimpleName());
         js.append("const elem=document.getElementById(id);");
         js.append("const selectedValue=%s(id);", JsWidgetModule.getId(GetFunction.class));
         js.append("elem.removeAttribute('tk-value');");

@@ -41,8 +41,12 @@ public class ConstantValue extends ValueStatement {
     }
 
     public ConstantValue(String value) {
-        this.value = value.toString();
-        this.jsType = JsType.STRING;
+        this(value, false);
+    }
+
+    public ConstantValue(String value, boolean symbol) {
+        this.value = value;
+        this.jsType = symbol ? JsType.SYMBOL : JsType.STRING;
     }
 
     public ConstantValue(int hour, int minute) {

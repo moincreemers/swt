@@ -8,7 +8,6 @@ import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import org.springframework.http.HttpMethod;
 
 import java.net.URI;
-import java.util.List;
 import java.util.*;
 
 /**
@@ -24,6 +23,7 @@ public class QueryService extends DataSourceWidget implements HasURL {
     private HttpMethod httpMethod = HttpMethod.GET;
     private ContentType contentType = ContentType.NONE;
     private ResponseType responseType = ResponseType.DEFAULT;
+    private AuthenticationType authenticationType = AuthenticationType.NONE;
     private final Map<String, java.util.List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
     private final java.util.List<Parameter> parameters = new ArrayList<>();
 
@@ -132,5 +132,15 @@ public class QueryService extends DataSourceWidget implements HasURL {
     @Override
     public void setHttpHeader(String name, ValueStatement value) {
         httpHeaders.put(name, Arrays.asList(value));
+    }
+
+    @Override
+    public AuthenticationType getAuthenticationType() {
+        return authenticationType;
+    }
+
+    @Override
+    public void setAuthenticationType(AuthenticationType authenticationType) {
+        this.authenticationType = authenticationType;
     }
 }

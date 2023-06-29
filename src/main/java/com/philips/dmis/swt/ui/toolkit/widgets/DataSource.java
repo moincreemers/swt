@@ -4,11 +4,15 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class DataSource implements HasDataSourceUsage {
+    private static final Logger LOG = Logger.getLogger(DataSource.class.getName());
     private final DataSourceUsage dataSourceUsage;
     private final DataSourceSupplier dataSourceSupplier;
-    private final java.util.List<DataAdapter> dataAdapters = new ArrayList<>();
+    private final List<DataAdapter> dataAdapters = new ArrayList<>();
     private boolean validated;
 
     public DataSource(DataSourceUsage dataSourceUsage, DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
@@ -39,7 +43,7 @@ public class DataSource implements HasDataSourceUsage {
         return dataSourceSupplier;
     }
 
-    public java.util.List<DataAdapter> getDataAdapters() {
+    public List<DataAdapter> getDataAdapters() {
         return dataAdapters;
     }
 
@@ -51,6 +55,8 @@ public class DataSource implements HasDataSourceUsage {
         if (validated) {
             return;
         }
+        String dataAdaptersList = dataAdapters.stream().map(dataAdapter -> dataAdapter.getClass().getSimpleName() + " (" + dataAdapter.getId() + ")").collect(Collectors.joining(", "));
+        LOG.info("validate data source for: " + dataSourceUsage + ", data adapters: " + dataAdaptersList);
         validated = true;
         dataSourceSupplier.validate(toolkit);
         for (DataAdapter dataAdapter : dataAdapters) {

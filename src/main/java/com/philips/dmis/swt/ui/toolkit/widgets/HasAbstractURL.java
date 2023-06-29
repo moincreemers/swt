@@ -26,4 +26,8 @@ public interface HasAbstractURL {
     void setHttpHeader(String name, ValueStatement value);
 
     void addHttpHeader(String name, ValueStatement value);
+
+    AuthenticationType getAuthenticationType();
+
+    void setAuthenticationType(AuthenticationType authenticationType);
 }

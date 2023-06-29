@@ -3,8 +3,6 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
-import com.philips.dmis.swt.ui.toolkit.js.state.WidgetTypeVariable;
-import com.philips.dmis.swt.ui.toolkit.widgets.CacheType;
 import com.philips.dmis.swt.ui.toolkit.widgets.HtmlList;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -54,13 +52,9 @@ public class BeforeUpdateListItemsFunction implements JsFunction {
         js.trace(this);
 
         js.append("const widget=window[id];");
-        js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
-        js.append("if(widgetType=='%s'&&cacheType=='%s'){",
-                WidgetType.LIST.name(),
-                CacheType.ENABLED.name());
+        //js.append("const widgetType=widget.%s;", WidgetTypeVariable.ID);
         js.append("const element=document.getElementById(id);");
         js.append("element.textContent='';");
-        js.append("};");
 
         js.append("}"); // end function
     }

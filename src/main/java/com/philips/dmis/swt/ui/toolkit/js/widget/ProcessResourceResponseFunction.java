@@ -2,7 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.state.SyncVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.PromisesVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -51,12 +51,12 @@ public class ProcessResourceResponseFunction implements JsFunction {
 
         js.append("const widget=window[id];");
         js.append("const uid=xhrResponse.arguments['uid'];");
-        js.append("const sync=widget.%s[uid];", SyncVariable.ID);
+        js.append("const promise=widget.%s[uid];", PromisesVariable.ID);
         js.append("if(xhrResponse.status===200){");
-        js.append("sync.resolve(xhrResponse);");
+        js.append("promise.resolve(xhrResponse);");
         js.append("}else{");
         // todo: error object?
-        js.append("sync.reject(xhrResponse.status);");
+        js.append("promise.reject(xhrResponse.status);");
         js.append("};");
 
         js.append("}"); // end function

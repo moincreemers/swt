@@ -18,9 +18,18 @@ public final class M {
         return new TryStatement(statements);
     }
 
+    public static ForEachStatement ForEach(ValueStatement... valueStatements) {
+        return new ForEachStatement(valueStatements);
+    }
+
     public static MethodStatement AddClassName(Widget widget, ValueStatement className) {
         return new AddClassNameStatement(widget, className);
     }
+
+    public static MethodStatement SetStyle(Widget widget, ValueStatement property, ValueStatement value) {
+        return new SetStyleStatement(widget, property, value);
+    }
+
 
     public static MethodStatement Alert(String message) {
         return new AlertStatement(message);
@@ -143,7 +152,11 @@ public final class M {
     }
 
     public static MethodStatement SetDataAdapterEnabled(Widget widget, DataAdapter dataAdapter, ValueStatement enabled) {
-        return new SetDataAdapterEnabledStatement(widget, dataAdapter, enabled);
+        return new SetDataAdapterEnabledStatement(widget, dataAdapter, enabled, false);
+    }
+
+    public static MethodStatement SetDataAdapterDisabled(Widget widget, DataAdapter dataAdapter, ValueStatement enabled) {
+        return new SetDataAdapterEnabledStatement(widget, dataAdapter, enabled, true);
     }
 
     public static MethodStatement SetQueryParameter(HasURL hasURL, ValueStatement nameStatement, ValueStatement valueStatement) {
@@ -242,6 +255,30 @@ public final class M {
         return new SetValueStatement(widget, valueStatement);
     }
 
+    public static MethodStatement SetSrc(HasSrc<?> widget, ValueStatement valueStatement) {
+        return new SetSrcStatement(widget, valueStatement);
+    }
+
+    public static MethodStatement SelectAll(HasOptions widget) {
+        return new SelectAllStatement(widget);
+    }
+
+    public static MethodStatement SelectIndex(HasOptions widget, ValueStatement index) {
+        return new SelectIndexStatement(widget, index);
+    }
+
+    public static MethodStatement SelectNone(HasOptions widget) {
+        return new SelectNoneStatement(widget);
+    }
+
+    public static MethodStatement DeclarePageVariable(ValueStatement name) {
+        return new DeclarePageVariableStatement(name);
+    }
+
+    public static MethodStatement SetPageVariable(ValueStatement name, ValueStatement value, Operator operator) {
+        return new SetPageVariableStatement(name, value, operator);
+    }
+
     public static MethodStatement SetGlobalValue(String key, ValueStatement value) {
         return new SetGlobalValueStatement(V.Const(key), value);
     }
@@ -301,9 +338,24 @@ public final class M {
     public static MethodStatement RemoveClone(Widget template, ValueStatement dataKey) {
         return new RemoveCloneStatement(template, dataKey);
     }
+
     public static MethodStatement RemoveAllClones(Widget template) {
         return new RemoveAllClonesStatement(template);
     }
 
+    public static MethodStatement WithDataKey(ValueStatement dataKey, Statement... statements) {
+        return new WithDataKey(dataKey, statements);
+    }
 
+    public static DownloadStatement Download() {
+        return new DownloadStatement();
+    }
+
+    public static MethodStatement AppendItems(HasListItems hasListItems, ValueStatement... values) {
+        return new AppendItemStatement(hasListItems, values);
+    }
+
+    public static MethodStatement RemoveAllItems(HasListItems hasListItems) {
+        return new RemoveAllItemsStatement(hasListItems);
+    }
 }

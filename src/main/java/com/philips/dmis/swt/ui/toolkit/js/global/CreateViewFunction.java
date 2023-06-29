@@ -36,6 +36,7 @@ public class CreateViewFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(serviceResponse,id,name,inheritSelectedView,setSelectedView)=>{");
+        js.trace(this);
 
         // create view
         js.append("const viewTop=%s;",

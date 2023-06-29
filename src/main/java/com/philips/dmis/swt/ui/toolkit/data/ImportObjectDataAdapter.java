@@ -185,12 +185,13 @@ public class ImportObjectDataAdapter extends DataAdapter {
     }
 
     @Override
-    public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage == DataSourceUsage.IMPORT;
+    public DataSourceUsage getInitialDataSourceUsage() {
+        return DataSourceUsage.IMPORT;
     }
 
-    public String getOutputPath() {
-        return outputPath;
+    @Override
+    public boolean isDataSourceUsageAllowed(DataSourceUsage dataSourceUsage) {
+        return dataSourceUsage == getInitialDataSourceUsage();
     }
 
     @Override

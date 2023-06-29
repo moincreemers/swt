@@ -3,10 +3,7 @@ package com.philips.dmis.swt.ui.forview;
 import com.philips.dmis.swt.ui.toolkit.data.FieldMapping;
 import com.philips.dmis.swt.ui.toolkit.data.ImportObjectDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
-import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
-import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeEventHandler;
-import com.philips.dmis.swt.ui.toolkit.events.ResponseEvent;
-import com.philips.dmis.swt.ui.toolkit.events.ResponseEventHandler;
+import com.philips.dmis.swt.ui.toolkit.events.*;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -79,22 +76,33 @@ public abstract class AbstractViewerPage extends Page {
         userService = add(new QueryService(
                 "http://localhost:8080/viewer/services/user/details/retrieve.json",
                 false, false));
-        HttpHeaderUtil.setAuthorizationHeader(userService);
+        userService.setCacheType(CacheType.DISABLED);
+        userService.setAuthenticationType(AuthenticationType.BEARER_JWT);
         userService.addDataAdapter(new ImportObjectDataAdapter(".user")
                 .add(FieldMapping.map(".id", "id", DataType.STRING))
                 .add(FieldMapping.map(".displayName", "displayName", DataType.STRING))
                 .add(FieldMapping.map(".organization.displayName", "organization", DataType.STRING))
         );
+
+        onApplicationStart(new ApplicationStartEventHandler(
+                M.RemoveAccessToken(),
+                M.OpenPage(LoginPage.class)
+        ));
+//        onBeforeUnload(new BeforeUnloadEventHandler(
+//                M.Log("Bye")
+//        ));
+
         userService.onResponse(new ResponseEventHandler(
 //                M.Log(V.Const("User service response"),
 //                        V.ObjectMember(V.ParseJSON(V.GetValue(userService)), ".data.items.displayName"))
 
                 // todo: As it turns out, it takes a second for the logout to work properly
-
-                M.SetText(signOutLink,
-                        V.StringConcat(
-                                V.Const("Sign out "),
-                                V.ObjectMember(V.ParseJSON(V.GetValue(userService)), ".data.items.displayName")))
+                M.Try(
+                        M.SetText(signOutLink,
+                                V.StringConcat(
+                                        V.Const("Sign out "),
+                                        V.ObjectProperty(V.ParseJSON(V.GetValue(userService)), ".data.items.displayName")))
+                )
         ));
 
         logoutService = add(new UpdateService(

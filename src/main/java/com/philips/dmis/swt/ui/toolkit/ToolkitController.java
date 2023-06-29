@@ -1,12 +1,16 @@
 package com.philips.dmis.swt.ui.toolkit;
 
 import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
+import com.philips.dmis.swt.ui.toolkit.events.ApplicationStartEvent;
+import com.philips.dmis.swt.ui.toolkit.events.CustomEvent;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
 import com.philips.dmis.swt.ui.toolkit.html.StaticValueStorage;
 import com.philips.dmis.swt.ui.toolkit.js.JsModule;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.js.widget.EventHandlerFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.InitWidgetFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.js.widget.RaiseEventFunction;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasCode;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
@@ -251,6 +255,11 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
 
         js.append("initGlobalEvents();");
         ExtModuleInvoke.renderCall(ExtModuleEvent.READY, null, null, js);
+        
+        js.append("%s(null,%s,%s);",
+                JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
+                JsWidgetModule.getQualifiedId(EventHandlerFunction.OnApplicationStartEventHandlerFunction.class),
+                CustomEvent.valueOf(new ApplicationStartEvent()));
 
         js.append("console.log('hello world');");
         js.append("};"); // END MAIN

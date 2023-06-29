@@ -63,12 +63,17 @@ public class UpdateOptionsFunction implements JsFunction {
         js.append("const element=document.getElementById(id);");
 
         js.append("const dataItems=serviceResponse.data.items;");
-        js.append("const selectedView=%s(serviceResponse);", JsGlobalModule.getQualifiedId(GetSelectedViewFunction.class));
+
+        // note: the viewValueField is only used for formatting
+        // the key/value field mapping is based on a naming convention set in KeyValueDataAdapter
+        js.append("const selectedView=%s(serviceResponse);",
+                JsGlobalModule.getQualifiedId(GetSelectedViewFunction.class));
         js.append("var viewValueField=null;");
         js.append("if(selectedView!=null){"); // if
         js.append("for(const i in selectedView){"); // for
         js.append("var view=selectedView[i];");
-        js.append("if(view.viewType=='%s'&&view.source=='%s'){", ViewType.FIELD.name(), KeyValueListDataAdapter.DEFAULT_VALUE_FIELD); // if
+        js.append("if(view.viewType=='%s'&&view.source=='%s'){", ViewType.FIELD.name(),
+                KeyValueListDataAdapter.OUTPUT_VALUE_FIELD); // if
         js.append("viewValueField=view;");
         js.append("break;");
         js.append("};"); // end if
@@ -94,23 +99,26 @@ public class UpdateOptionsFunction implements JsFunction {
         js.append("cb.setAttribute('class','tk-mc-checkbox');");
         js.append("cb.setAttribute('type','checkbox');");
         js.append("cb.setAttribute('name',id+'_input');");
-        js.append("if(selectedValues.includes(dataItems[i].key)){"); // if
+        js.append("if(selectedValues.includes(dataItems[i]['%s'])){",
+                KeyValueListDataAdapter.OUTPUT_KEY_FIELD); // if
         js.append("cb.setAttribute('checked','');");
         js.append("item.classList.add('tk-selected');");
         js.append("};"); // end if
-        js.append("cb.value=dataItems[i].key;");
+        js.append("cb.value=dataItems[i]['%s'];", KeyValueListDataAdapter.OUTPUT_KEY_FIELD);
         js.append("var lbl=document.createElement('label');");
         js.append("lbl.setAttribute('for',id+'_input_'+i);");
         js.append("lbl.setAttribute('class','tk-mc-label');");
-        js.append("lbl.textContent=dataItems[i].value;");
+        js.append("lbl.textContent=dataItems[i]['%s'];", KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
         js.append("item.append(cb);");
         js.append("item.append(lbl);");
 
-        js.append("const formattedElement=%s(lbl,dataItems[i].value,viewValueField);",
-                JsGlobalModule.getQualifiedId(CreateFormattedValue.class));
+        js.append("const formattedElement=%s(lbl,dataItems[i]['%s'],viewValueField);",
+                JsGlobalModule.getQualifiedId(CreateFormattedValue.class),
+                KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
 
-        js.append("%s(id,formattedElement,dataItems[i].value,viewValueField);",
-                JsWidgetModule.getId(BlobToElementFunction.class));
+        js.append("%s(id,formattedElement,dataItems[i]['%s'],viewValueField);",
+                JsWidgetModule.getId(BlobToElementFunction.class),
+                KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
 
         js.append("if(formattedElement!=null&&lbl!=formattedElement){");
         js.append("item.classList.add('tk-hide-input');");
@@ -136,23 +144,26 @@ public class UpdateOptionsFunction implements JsFunction {
         js.append("rb.setAttribute('class','tk-sc-radio');");
         js.append("rb.setAttribute('type','radio');");
         js.append("rb.setAttribute('name',id+'_input');");
-        js.append("if(selectedValue==dataItems[i].key){"); // if
+        js.append("if(selectedValue==dataItems[i]['%s']){",
+                KeyValueListDataAdapter.OUTPUT_KEY_FIELD); // if
         js.append("rb.setAttribute('checked','');");
         js.append("item.classList.add('tk-selected');");
         js.append("};"); // end if
-        js.append("rb.value=dataItems[i].key;");
+        js.append("rb.value=dataItems[i]['%s'];", KeyValueListDataAdapter.OUTPUT_KEY_FIELD);
         js.append("var lbl=document.createElement('label');");
         js.append("lbl.setAttribute('for',id+'_input_'+i);");
         js.append("lbl.setAttribute('class','tk-sc-label');");
-        js.append("lbl.textContent=dataItems[i].value;");
+        js.append("lbl.textContent=dataItems[i]['%s'];", KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
         js.append("item.append(rb);");
         js.append("item.append(lbl);");
 
-        js.append("const formattedElement=%s(lbl,dataItems[i].value,viewValueField);",
-                JsGlobalModule.getQualifiedId(CreateFormattedValue.class));
+        js.append("const formattedElement=%s(lbl,dataItems[i]['%s'],viewValueField);",
+                JsGlobalModule.getQualifiedId(CreateFormattedValue.class),
+                KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
 
-        js.append("%s(id,formattedElement,dataItems[i].value,viewValueField);",
-                JsWidgetModule.getId(BlobToElementFunction.class));
+        js.append("%s(id,formattedElement,dataItems[i]['%s'],viewValueField);",
+                JsWidgetModule.getId(BlobToElementFunction.class),
+                KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
 
         js.append("if(formattedElement!=null&&lbl!=formattedElement){");
         js.append("item.classList.add('tk-hide-input');");
@@ -163,8 +174,10 @@ public class UpdateOptionsFunction implements JsFunction {
         js.append("}else{"); // if
         js.append("%s(id,dataSourceId);", JsWidgetModule.getId(RemoveOptionsFunction.class));
         js.append("for(const i in dataItems){"); // for
-        js.append("%s(element,dataItems[i].key,dataItems[i].value,dataSourceId);",
-                JsWidgetModule.getQualifiedId(AppendOptionFunction.class));
+        js.append("%s(element,dataItems[i]['%s'],dataItems[i]['%s'],dataSourceId);",
+                JsWidgetModule.getQualifiedId(AppendOptionFunction.class),
+                KeyValueListDataAdapter.OUTPUT_KEY_FIELD,
+                KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
         js.append("};"); // end for
 
         js.append("};"); // end if

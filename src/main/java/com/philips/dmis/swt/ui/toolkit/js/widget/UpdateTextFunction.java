@@ -81,7 +81,7 @@ public class UpdateTextFunction implements JsFunction {
         js.append("};"); // end if
         js.append("};"); // end if
 
-        js.append("const value=record['%s'];", ValueDataAdapter.OUTPUT_FIELD_NAME);
+        js.append("const value=record['%s'];", ValueDataAdapter.OUTPUT_VALUE_FIELD_NAME);
         js.append("%s(id,value);", JsWidgetModule.getId(SetTextFunction.class));
 
         js.append("}"); // end function

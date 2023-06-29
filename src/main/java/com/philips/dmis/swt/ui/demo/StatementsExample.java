@@ -199,15 +199,19 @@ public class StatementsExample extends Page {
                 )
         );
         gridOther.addAll(new HtmlParagraph("M.Iif, M.Enable, M.Disable"), enableHtmlButton, new HtmlPreformatted(
-                "M.Iif(V.GetEnabled(enableText))\n" +
-                        "  .True(\n" +
-                        "    M.Disable(enableText),\n" +
-                        "    M.Set(enableButton, V.Const(\"Enable\"))" +
-                        "  )\n" +
-                        "  .False(\n" +
-                        "    M.Enable(enableText),\n" +
-                        "    M.Set(enableButton, V.Const(\"Disable\"))" +
-                        ")"
+                """
+                        M.Iif(V.GetEnabled(enableText))
+                          .True(
+                            M.Disable(enableText),
+                            M.Set(enableButton, V.Const("Enable"))  )
+                          .False(
+                            M.Enable(enableText),
+                            M.Set(enableButton, V.Const("Disable")))"""
         ), enableText);
+
+//        M.ForEach(V.Array(V.Const(10))).Apply(
+////            V.Key(),
+////                V.Value()
+//        );
     }
 }

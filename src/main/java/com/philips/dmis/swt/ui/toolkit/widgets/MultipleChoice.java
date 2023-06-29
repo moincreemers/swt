@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Set;
 
-public class MultipleChoice extends ValueWidget<MultipleChoice, ValueAndOptionsDataSourceUsage> implements
+public class MultipleChoice extends ValueWidget<MultipleChoice, ValueAndItemsDataSourceUsage> implements
         HasOptions, HasValue<MultipleChoice> {
     private MultipleChoiceAppearance multipleChoiceAppearance = MultipleChoiceAppearance.DEFAULT;
 

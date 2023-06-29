@@ -180,9 +180,20 @@ public class TimesheetDashboardExample extends Page {
         StaticData viewOptions = add(new StaticData(
                 DataBuilder.keyValue()
                         .add("all", "All Records")
-                        .add("by-date", "Group by Date").getData()
+                        .add("by-date", "Group by Date")
+                        .getData()
         ));
+
+        StaticData employeesAllData = add(new StaticData(
+                DataBuilder.keyValue()
+                        .add("all", "All Employees")
+                        .getData()
+        ));
+        employeesAllData.addDataAdapter(new KeyValueViewDataAdapter());
+
         StaticData employeeStaticData = add(new StaticData(EMPLOYEES));
+        employeeStaticData.addDataAdapter(new DtoViewDataAdapter(Employee.class));
+
         CalculatedValueWidget currentWeekNumber = add(new CalculatedValueWidget("currentWeekNumber", V.WeekOfYearString(V.DateNow())));
         StaticData timeDeclarationsStaticData = add(new StaticData(TIME_DECLARATIONS));
 
@@ -193,8 +204,10 @@ public class TimesheetDashboardExample extends Page {
 
         Panel filterPanel = add(new Panel(PanelType.TOOLBAR));
         HtmlSelect employeeList = new HtmlSelect();
-        employeeList.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, employeeStaticData,
-                new KeyValueListDataAdapter(DataAdapter.DEFAULT_PATH, "id", "name", OrderBy.BY_VALUE));
+        employeeList.addDataSource(ValueAndItemsDataSourceUsage.ITEMS, employeesAllData,
+                new KeyValueListDataAdapter());
+        employeeList.addDataSource(ValueAndItemsDataSourceUsage.ITEMS, employeeStaticData,
+                new KeyValueListDataAdapter(DataAdapter.DEFAULT_PATH, "id", "name"));
         HtmlWeekInput htmlWeekInput = new HtmlWeekInput();
         htmlWeekInput.addDataSource(ValueDataSourceUsage.VALUE, currentWeekNumber,
                 new ValueDataAdapter("currentWeekNumber"));
@@ -210,7 +223,7 @@ public class TimesheetDashboardExample extends Page {
 
         HtmlSelect viewType = new HtmlSelect();
         filterPanel.add(viewType);
-        viewType.addDataSource(ValueAndOptionsDataSourceUsage.OPTIONS, viewOptions, new KeyValueListDataAdapter());
+        viewType.addDataSource(ValueAndItemsDataSourceUsage.ITEMS, viewOptions, new KeyValueListDataAdapter());
 
         // create the default view, this is generated from the DTO
         DtoViewDataAdapter dtoViewDataAdapter = new DtoViewDataAdapter(TimeDeclaration.class);
@@ -223,17 +236,23 @@ public class TimesheetDashboardExample extends Page {
         timeDeclarationsStaticData.addDataAdapter(dtoViewDataAdapter);
 
         // add filter adapter to respond to selected values in our filter controls
-        FilterDataAdapter filterDataAdapter = new FilterDataAdapter();
-        filterDataAdapter.addPredicate("employeeId", P.IsEqual(V.GetValue(employeeList)));
-        filterDataAdapter.addPredicate("date", P.IsGreaterThanOrEqual(V.DateValue(V.WeekOfYearToDate(V.GetValue(htmlWeekInput)))));
-        filterDataAdapter.addPredicate("date", P.IsLessThan(V.DateValue(V.ModifyDate(V.WeekOfYearToDate(V.GetValue(htmlWeekInput)), V.OneWeek))));
-        timeDeclarationsStaticData.addDataAdapter(filterDataAdapter);
+        FilterDataAdapter filterEmployeeDataAdapter = new FilterDataAdapter();
+        filterEmployeeDataAdapter.addPredicate("employeeId", P.IsEqual(V.GetValue(employeeList)));
+        timeDeclarationsStaticData.addDataAdapter(filterEmployeeDataAdapter);
+        // disable because we start with 'all' employees
+        timeDeclarationsStaticData.setDataAdapterDisabled(filterEmployeeDataAdapter, true);
+
+        FilterDataAdapter filterPeriodDataAdapter = new FilterDataAdapter();
+        filterPeriodDataAdapter.addPredicate("date", P.IsGreaterThanOrEqual(V.DateValue(V.WeekOfYearToDate(V.GetValue(htmlWeekInput)))));
+        filterPeriodDataAdapter.addPredicate("date", P.IsLessThan(V.DateValue(V.ModifyDate(V.WeekOfYearToDate(V.GetValue(htmlWeekInput)), V.OneWeek))));
+        timeDeclarationsStaticData.addDataAdapter(filterPeriodDataAdapter);
 
         // add the group by adapter
         GroupByDataAdapter groupByDataAdapter = new GroupByDataAdapter()
                 .addGroupBy("Date", "date", dateTimeFormat, JsType.DATE)
                 .addAggregate("Hours", "hours", null, R.Sum());
         timeDeclarationsStaticData.addDataAdapter(groupByDataAdapter);
+        // disable because we start with 'all' records
         timeDeclarationsStaticData.setDataAdapterDisabled(groupByDataAdapter, true);
 
         HtmlTable htmlTable = add(new HtmlTable());
@@ -256,6 +275,8 @@ public class TimesheetDashboardExample extends Page {
                 M.Refresh(timeDeclarationsStaticData)
         ));
         employeeList.onChange(new ChangeEventHandler(
+                M.SetDataAdapterDisabled(timeDeclarationsStaticData, filterEmployeeDataAdapter,
+                        V.Is(V.GetValue(employeeList), V.Const("all"))),
                 M.Refresh(timeDeclarationsStaticData)
         ));
         htmlWeekInput.onChange(new ChangeEventHandler(

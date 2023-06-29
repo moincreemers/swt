@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.URLAppearanceType;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.state.SyncVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.PromisesVariable;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -59,19 +59,19 @@ public class BlobToElementFunction implements JsFunction {
         // todo: move to function and call from other places as well
         js.append("if(element.tagName=='IMG'&&view.format.appearance=='%s'&&widget.%s[uid]!=undefined){",
                 URLAppearanceType.XHR_IMAGE,
-                SyncVariable.ID);
+                PromisesVariable.ID);
 
-        js.append("widget.%s[uid].then((xhrResponse)=>{", SyncVariable.ID); // function
+        js.append("widget.%s[uid].then((xhrResponse)=>{", PromisesVariable.ID); // function
         js.debug("console.log('image callback',xhrResponse);");
         js.append("const dataURL=window.URL.createObjectURL(xhrResponse.data);");
         js.append("element.setAttribute('src',dataURL);");
         js.append("element.style.visibility='';");
-        js.append("delete widget.%s[uid];", SyncVariable.ID);
+        js.append("delete widget.%s[uid];", PromisesVariable.ID);
         js.append("});"); // end function
 
-        js.append("widget.%s[uid].fail((e)=>{", SyncVariable.ID); // function
+        js.append("widget.%s[uid].fail((e)=>{", PromisesVariable.ID); // function
         js.info("console.log('failed',e);");
-        js.append("delete widget.%s[uid];", SyncVariable.ID);
+        js.append("delete widget.%s[uid];", PromisesVariable.ID);
         js.append("});"); // end function
 
         js.append("};");

@@ -37,7 +37,9 @@ public class ConcatValue extends ValueStatement {
             if (i > 0) {
                 js.append("+");
             }
+            js.append("(");
             valueStatement.renderJs(toolkit, widget, js);
+            js.append(").toString()");
             i++;
         }
         js.append(")");

@@ -62,7 +62,7 @@ public final class V {
 
     // Constant
 
-    public static ValueStatement Empty(){
+    public static ValueStatement Empty() {
         return new ConstantValue("");
     }
 
@@ -100,13 +100,26 @@ public final class V {
 
     // Local
 
-    public static ValueStatement GetValue(String name) {
-        return new GetLocalValue(V.Const(name));
+    public static ValueStatement Key() {
+        return new GetLocalValue("key");
     }
 
-    public static ValueStatement GetValue(ValueStatement name) {
+    public static ValueStatement Value() {
+        return new GetLocalValue("value");
+    }
+
+    public static ValueStatement Local(String name) {
         return new GetLocalValue(name);
     }
+
+    public static ValueStatement This(String name) {
+        return new GetThisValue(V.Const(name));
+    }
+
+    public static ValueStatement This(ValueStatement name) {
+        return new GetThisValue(name);
+    }
+
 
     // Event
 
@@ -148,115 +161,115 @@ public final class V {
         return new CodePointAt(string, index);
     }
 
-    public static ValueStatement StringConcat(ValueStatement... valueStatements) throws WidgetConfigurationException {
+    public static ValueStatement StringConcat(ValueStatement... valueStatements)  {
         return new ConcatValue(valueStatements);
     }
 
-    public static ValueStatement StringIncludes(ValueStatement string, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement StringIncludes(ValueStatement string, ValueStatement value)  {
         return new StringIncludes(string, value);
     }
 
-    public static ValueStatement StringIndexOf(ValueStatement string, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement StringIndexOf(ValueStatement string, ValueStatement value)  {
         return new StringIndexOf(string, value);
     }
 
-    public static ValueStatement StringLastIndexOf(ValueStatement string, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement StringLastIndexOf(ValueStatement string, ValueStatement value)  {
         return new StringLastIndexOf(string, value);
     }
 
-    public static ValueStatement StringLength(ValueStatement string) throws WidgetConfigurationException {
+    public static ValueStatement StringLength(ValueStatement string)  {
         return new StringLength(string);
     }
 
-    public static ValueStatement StringRepeat(ValueStatement string, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement StringRepeat(ValueStatement string, ValueStatement value)  {
         return new StringRepeat(string, value);
     }
 
-    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength) throws WidgetConfigurationException {
+    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength)  {
         return new PadStart(string, maxLength);
     }
 
-    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength, ValueStatement fillString) throws WidgetConfigurationException {
+    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength, ValueStatement fillString)  {
         return new PadStart(string, maxLength, fillString);
     }
 
-    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength) throws WidgetConfigurationException {
+    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength)  {
         return new PadEnd(string, maxLength);
     }
 
-    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength, ValueStatement fillString) throws WidgetConfigurationException {
+    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength, ValueStatement fillString)  {
         return new PadEnd(string, maxLength, fillString);
     }
 
-    public static ValueStatement Trim(ValueStatement string) throws WidgetConfigurationException {
+    public static ValueStatement Trim(ValueStatement string)  {
         return new Trim(string);
     }
 
-    public static ValueStatement TrimStart(ValueStatement string) throws WidgetConfigurationException {
+    public static ValueStatement TrimStart(ValueStatement string)  {
         return new TrimStart(string);
     }
 
-    public static ValueStatement TrimEnd(ValueStatement string) throws WidgetConfigurationException {
+    public static ValueStatement TrimEnd(ValueStatement string)  {
         return new TrimEnd(string);
     }
 
-    public static ValueStatement TrimLeft(ValueStatement string) throws WidgetConfigurationException {
+    public static ValueStatement TrimLeft(ValueStatement string)  {
         return new TrimLeft(string);
     }
 
-    public static ValueStatement TrimRight(ValueStatement string) throws WidgetConfigurationException {
+    public static ValueStatement TrimRight(ValueStatement string)  {
         return new TrimRight(string);
     }
 
-    public static ValueStatement StringMatch(ValueStatement string, ValueStatement regEx) throws WidgetConfigurationException {
+    public static ValueStatement StringMatch(ValueStatement string, ValueStatement regEx)  {
         return new StringMatch(string, regEx);
     }
 
-    public static ValueStatement StringMatchAll(ValueStatement string, ValueStatement regEx) throws WidgetConfigurationException {
+    public static ValueStatement StringMatchAll(ValueStatement string, ValueStatement regEx)  {
         return new StringMatchAll(string, regEx);
     }
 
-    public static ValueStatement StringSearch(ValueStatement string, ValueStatement regEx) throws WidgetConfigurationException {
+    public static ValueStatement StringSearch(ValueStatement string, ValueStatement regEx)  {
         return new StringSearch(string, regEx);
     }
 
-    public static ValueStatement StringReplace(ValueStatement string, ValueStatement search, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement StringReplace(ValueStatement string, ValueStatement search, ValueStatement value)  {
         return new StringReplace(string, search, value);
     }
 
-    public static ValueStatement StringReplaceAll(ValueStatement string, ValueStatement search, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement StringReplaceAll(ValueStatement string, ValueStatement search, ValueStatement value)  {
         return new StringReplaceAll(string, search, value);
     }
 
-    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start) throws WidgetConfigurationException {
+    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start)  {
         return new StringSlice(string, start);
     }
 
-    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start, ValueStatement end) throws WidgetConfigurationException {
+    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start, ValueStatement end)  {
         return new StringSlice(string, start, end);
     }
 
-    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from) throws WidgetConfigurationException {
+    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from)  {
         return new StringSubstr(string, from);
     }
 
-    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from, ValueStatement end) throws WidgetConfigurationException {
+    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from, ValueStatement end)  {
         return new StringSubstr(string, from, end);
     }
 
-    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start) throws WidgetConfigurationException {
+    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start)  {
         return new StringSubstring(string, start);
     }
 
-    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start, ValueStatement end) throws WidgetConfigurationException {
+    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start, ValueStatement end)  {
         return new StringSubstring(string, start, end);
     }
 
-    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter) throws WidgetConfigurationException {
+    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter)  {
         return new StringSplit(string, splitter);
     }
 
-    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter, ValueStatement limit) throws WidgetConfigurationException {
+    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter, ValueStatement limit)  {
         return new StringSplit(string, splitter, limit);
     }
 
@@ -266,22 +279,22 @@ public final class V {
 
     // NUMBER
 
-    public static ValueStatement ParseFloat(ValueStatement valueStatement) throws WidgetConfigurationException {
+    public static ValueStatement ParseFloat(ValueStatement valueStatement)  {
         return new ParseFloatValue(valueStatement);
     }
 
-    public static ValueStatement ParseInt(ValueStatement valueStatement) throws WidgetConfigurationException {
+    public static ValueStatement ParseInt(ValueStatement valueStatement)  {
         return new ParseIntegerValue(valueStatement);
     }
 
     // Object
 
-    public static ValueStatement ObjectMember(ValueStatement object, String memberNameOrPath) throws WidgetConfigurationException {
-        return new ObjectMemberValue(object, V.Const(memberNameOrPath));
+    public static ValueStatement ObjectProperty(ValueStatement object, String memberNameOrPath)  {
+        return new ObjectPropertyValue(object, V.Const(memberNameOrPath));
     }
 
-    public static ValueStatement ObjectMember(ValueStatement object, ValueStatement memberNameOrPath) throws WidgetConfigurationException {
-        return new ObjectMemberValue(object, memberNameOrPath);
+    public static ValueStatement ObjectProperty(ValueStatement object, ValueStatement memberNameOrPath)  {
+        return new ObjectPropertyValue(object, memberNameOrPath);
     }
 
     // Array
@@ -291,9 +304,9 @@ public final class V {
      *
      * @param value
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement IsArray(ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement IsArray(ValueStatement value)  {
         return new ArrayIsArrayValue(value);
     }
 
@@ -302,9 +315,9 @@ public final class V {
      *
      * @param array
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayLength(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArrayLength(ValueStatement array)  {
         return new ArrayLengthValue(array);
     }
 
@@ -313,9 +326,9 @@ public final class V {
      *
      * @param length
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement Array(ValueStatement length) throws WidgetConfigurationException {
+    public static ValueStatement Array(ValueStatement length)  {
         return new ArrayValue(length);
     }
 
@@ -324,9 +337,9 @@ public final class V {
      *
      * @param valueStatements
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayOf(ValueStatement... valueStatements) throws WidgetConfigurationException {
+    public static ValueStatement ArrayOf(ValueStatement... valueStatements)  {
         return new ArrayOfValue(valueStatements);
     }
 
@@ -335,9 +348,9 @@ public final class V {
      *
      * @param array
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayKeys(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArrayKeys(ValueStatement array)  {
         return new ArrayKeysValue(array);
     }
 
@@ -346,9 +359,9 @@ public final class V {
      *
      * @param array
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayValues(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArrayValues(ValueStatement array)  {
         return new ArrayValuesValue(array);
     }
 
@@ -357,9 +370,9 @@ public final class V {
      *
      * @param arrays
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayConcat(ValueStatement... arrays) throws WidgetConfigurationException {
+    public static ValueStatement ArrayConcat(ValueStatement... arrays)  {
         return new ArrayConcatValue(arrays);
     }
 
@@ -369,7 +382,7 @@ public final class V {
      * @param array
      * @param target
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
     public static ValueStatement ArrayCopyWithin(ValueStatement array, ValueStatement target) throws WidgetConfigurationException {
         return new ArrayCopyWithinValue(array, target);
@@ -382,7 +395,7 @@ public final class V {
      * @param target
      * @param start
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
     public static ValueStatement ArrayCopyWithin(ValueStatement array, ValueStatement target, ValueStatement start) throws WidgetConfigurationException {
         return new ArrayCopyWithinValue(array, target, start);
@@ -396,7 +409,7 @@ public final class V {
      * @param start
      * @param end
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
     public static ValueStatement ArrayCopyWithin(ValueStatement array, ValueStatement target, ValueStatement start, ValueStatement end) throws WidgetConfigurationException {
         return new ArrayCopyWithinValue(array, target, start, end);
@@ -408,9 +421,9 @@ public final class V {
      * @param array
      * @param predicate
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayEvery(ValueStatement array, PredicateStatement predicate) throws WidgetConfigurationException {
+    public static ValueStatement ArrayEvery(ValueStatement array, PredicateStatement predicate)  {
         return new ArrayEveryValue(array, predicate);
     }
 
@@ -420,9 +433,9 @@ public final class V {
      * @param array
      * @param predicate
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArraySome(ValueStatement array, PredicateStatement predicate) throws WidgetConfigurationException {
+    public static ValueStatement ArraySome(ValueStatement array, PredicateStatement predicate)  {
         return new ArraySomeValue(array, predicate);
     }
 
@@ -432,9 +445,9 @@ public final class V {
      * @param array
      * @param predicate
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayFilter(ValueStatement array, PredicateStatement predicate) throws WidgetConfigurationException {
+    public static ValueStatement ArrayFilter(ValueStatement array, PredicateStatement predicate)  {
         return new ArrayEveryValue(array, predicate);
     }
 
@@ -444,9 +457,9 @@ public final class V {
      * @param array
      * @param filter
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayFlatMap(ValueStatement array, MethodStatement filter) throws WidgetConfigurationException {
+    public static ValueStatement ArrayFlatMap(ValueStatement array, MethodStatement filter)  {
         return new ArrayFlatMapValue(array, filter);
     }
 
@@ -456,9 +469,9 @@ public final class V {
      * @param array
      * @param filter
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayMap(ValueStatement array, MethodStatement filter) throws WidgetConfigurationException {
+    public static ValueStatement ArrayMap(ValueStatement array, MethodStatement filter)  {
         return new ArrayMapValue(array, filter);
     }
 
@@ -467,9 +480,9 @@ public final class V {
      *
      * @param array
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayReverse(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArrayReverse(ValueStatement array)  {
         return new ArrayReverseValue(array);
     }
 
@@ -478,9 +491,9 @@ public final class V {
      *
      * @param array
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArraySort(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArraySort(ValueStatement array)  {
         return new ArraySortValue(array);
     }
 
@@ -490,7 +503,7 @@ public final class V {
      * @param array
      * @param value
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
     public static ValueStatement ArrayFill(ValueStatement array, ValueStatement value) throws WidgetConfigurationException {
         return new ArrayFillValue(array, value);
@@ -503,7 +516,7 @@ public final class V {
      * @param value
      * @param start
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
     public static ValueStatement ArrayFill(ValueStatement array, ValueStatement value, ValueStatement start) throws WidgetConfigurationException {
         return new ArrayFillValue(array, value, start);
@@ -516,7 +529,7 @@ public final class V {
      * @param value
      * @param start
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
     public static ValueStatement ArrayFill(ValueStatement array, ValueStatement value, ValueStatement start, ValueStatement end) throws WidgetConfigurationException {
         return new ArrayFillValue(array, value, start, end);
@@ -528,9 +541,9 @@ public final class V {
      * @param array
      * @param value
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayIncludes(ValueStatement array, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement ArrayIncludes(ValueStatement array, ValueStatement value)  {
         return new ArrayIncludesValue(array, value);
     }
 
@@ -540,9 +553,9 @@ public final class V {
      * @param array
      * @param value
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayIndexOf(ValueStatement array, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement ArrayIndexOf(ValueStatement array, ValueStatement value)  {
         return new ArrayIndexOfValue(array, value);
     }
 
@@ -552,9 +565,9 @@ public final class V {
      * @param array
      * @param value
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayLastIndexOf(ValueStatement array, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement ArrayLastIndexOf(ValueStatement array, ValueStatement value)  {
         return new ArrayLastIndexOfValue(array, value);
     }
 
@@ -564,9 +577,9 @@ public final class V {
      * @param array
      * @param predicate
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayFind(ValueStatement array, PredicateStatement predicate) throws WidgetConfigurationException {
+    public static ValueStatement ArrayFind(ValueStatement array, PredicateStatement predicate)  {
         return new ArrayFindValue(array, predicate);
     }
 
@@ -576,9 +589,9 @@ public final class V {
      * @param array
      * @param predicate
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayFindIndex(ValueStatement array, PredicateStatement predicate) throws WidgetConfigurationException {
+    public static ValueStatement ArrayFindIndex(ValueStatement array, PredicateStatement predicate)  {
         return new ArrayFindIndexValue(array, predicate);
     }
 
@@ -588,9 +601,9 @@ public final class V {
      * @param array
      * @param predicate
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayFindLast(ValueStatement array, PredicateStatement predicate) throws WidgetConfigurationException {
+    public static ValueStatement ArrayFindLast(ValueStatement array, PredicateStatement predicate)  {
         return new ArrayFindLastValue(array, predicate);
     }
 
@@ -600,25 +613,25 @@ public final class V {
      * @param array
      * @param predicate
      * @return
-     * @throws WidgetConfigurationException
+     * @
      */
-    public static ValueStatement ArrayFindLastIndex(ValueStatement array, PredicateStatement predicate) throws WidgetConfigurationException {
+    public static ValueStatement ArrayFindLastIndex(ValueStatement array, PredicateStatement predicate)  {
         return new ArrayFindLastIndexValue(array, predicate);
     }
 
-    public static ValueStatement ArrayForEach(ValueStatement array, MethodStatement method) throws WidgetConfigurationException {
+    public static ValueStatement ArrayForEach(ValueStatement array, MethodStatement method)  {
         return new ArrayForEachValue(array, method);
     }
 
-    public static ValueStatement ArrayJoin(ValueStatement array, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement ArrayJoin(ValueStatement array, ValueStatement value)  {
         return new ArrayJoinValue(array, value);
     }
 
-    public static ValueStatement ArrayPop(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArrayPop(ValueStatement array)  {
         return new ArrayPopValue(array);
     }
 
-    public static ValueStatement ArrayPush(ValueStatement array, ValueStatement... values) throws WidgetConfigurationException {
+    public static ValueStatement ArrayPush(ValueStatement array, ValueStatement... values)  {
         return new ArrayPushValue(array, values);
     }
 
@@ -638,97 +651,97 @@ public final class V {
         return new ArrayReduceRightValue(array, reducer, initialValue);
     }
 
-    public static ValueStatement ArrayShift(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArrayShift(ValueStatement array)  {
         return new ArrayShiftValue(array);
     }
 
-    public static ValueStatement ArrayUnshift(ValueStatement array, ValueStatement... values) throws WidgetConfigurationException {
+    public static ValueStatement ArrayUnshift(ValueStatement array, ValueStatement... values)  {
         return new ArrayUnshiftValue(array, values);
     }
 
-    public static ValueStatement ArraySlice(ValueStatement array) throws WidgetConfigurationException {
+    public static ValueStatement ArraySlice(ValueStatement array)  {
         return new ArraySliceValue(array);
     }
 
-    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start) throws WidgetConfigurationException {
+    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start)  {
         return new ArraySliceValue(array, start);
     }
 
-    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start, ValueStatement end) throws WidgetConfigurationException {
+    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start, ValueStatement end)  {
         return new ArraySliceValue(array, start, end);
     }
 
-    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start) throws WidgetConfigurationException {
+    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start)  {
         return new ArraySpliceValue(array, start);
     }
 
-    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount) throws WidgetConfigurationException {
+    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount)  {
         return new ArraySpliceValue(array, start, deleteCount);
     }
 
-    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount, ValueStatement... values) throws WidgetConfigurationException {
+    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount, ValueStatement... values)  {
         return new ArraySpliceValue(array, start, deleteCount, values);
     }
 
     //
 
-    public static ValueStatement GetGlobalValue(String key) throws WidgetConfigurationException {
+    public static ValueStatement GetGlobalValue(String key)  {
         return new GetGlobalValue(V.Const(key));
     }
 
-    public static ValueStatement GetGlobalValue(ValueStatement key) throws WidgetConfigurationException {
+    public static ValueStatement GetGlobalValue(ValueStatement key)  {
         return new GetGlobalValue(key);
     }
 
-    public static ValueStatement GetGlobalValue(String key, ValueStatement defaultValue) throws WidgetConfigurationException {
+    public static ValueStatement GetGlobalValue(String key, ValueStatement defaultValue)  {
         return new GetGlobalValue(V.Const(key), defaultValue);
     }
 
-    public static ValueStatement GetGlobalValue(ValueStatement key, ValueStatement defaultValue) throws WidgetConfigurationException {
+    public static ValueStatement GetGlobalValue(ValueStatement key, ValueStatement defaultValue)  {
         return new GetGlobalValue(key, defaultValue);
     }
 
-    public static ValueStatement GetValue(Widget widget) throws WidgetConfigurationException {
+    public static ValueStatement GetValue(Widget widget)  {
         return new GetValueValue(widget);
     }
 
-    public static ValueStatement IsSelected(String name) throws WidgetConfigurationException {
+    public static ValueStatement IsSelected(String name) {
         return new IsSelectionValue(name);
     }
 
-    public static ValueStatement GetSelection(String name) throws WidgetConfigurationException {
+    public static ValueStatement GetSelection(String name) {
         return new GetSelectionValue(name);
     }
 
-    public static ValueStatement GetSelection(String name, int top) throws WidgetConfigurationException {
+    public static ValueStatement GetSelection(String name, int top)  {
         return new GetSelectionValue(name, top);
     }
 
-    public static ValueStatement GetPage(Class<? extends Page> pageClass) throws WidgetConfigurationException {
+    public static ValueStatement GetPage(Class<? extends Page> pageClass) {
         return new GetPageValue(pageClass);
     }
 
-    public static ValueStatement GetPage(Class<? extends Page> pageClass, ValueStatement valueStatement) throws WidgetConfigurationException {
+    public static ValueStatement GetPage(Class<? extends Page> pageClass, ValueStatement valueStatement) {
         return new GetPageValue(pageClass, valueStatement);
     }
 
-    public static ValueStatement GetDisplay(Widget widget) throws WidgetConfigurationException {
+    public static ValueStatement GetDisplay(Widget widget) {
         return new GetDisplayValue(widget);
     }
 
-    public static ValueStatement GetEnabled(Widget widget) throws WidgetConfigurationException {
+    public static ValueStatement GetEnabled(Widget widget) {
         return new GetEnabledValue(widget);
     }
 
-    public static ValueStatement GetPageArgument() throws WidgetConfigurationException {
+    public static ValueStatement GetPageArgument() {
         return new GetPageArgumentValue();
     }
 
-    public static ValueStatement GetJSON(ValueStatement valueStatement) throws WidgetConfigurationException {
+    public static ValueStatement GetJSON(ValueStatement valueStatement) {
         return new GetJSONValue(valueStatement);
     }
 
-    public static ValueStatement ParseJSON(ValueStatement valueStatement) throws WidgetConfigurationException {
+    public static ValueStatement ParseJSON(ValueStatement valueStatement) {
         return new ParseJSONValue(valueStatement);
     }
 
@@ -738,17 +751,17 @@ public final class V {
         return new DateNowValue();
     }
 
-    public static ValueStatement ParseDate(ValueStatement valueStatement) throws WidgetConfigurationException {
+    public static ValueStatement ParseDate(ValueStatement valueStatement) {
         return new ParseDateValue(valueStatement);
     }
 
-    public static ValueStatement Date(ValueStatement dateValue) throws WidgetConfigurationException {
+    public static ValueStatement Date(ValueStatement dateValue)  {
         return new DateCreateValue(dateValue);
     }
 
     public static ValueStatement Date(
             ValueStatement year,
-            ValueStatement monthIndex) throws WidgetConfigurationException {
+            ValueStatement monthIndex)  {
         return new DateCreateValue(
                 year,
                 monthIndex);
@@ -757,7 +770,7 @@ public final class V {
     public static ValueStatement Date(
             ValueStatement year,
             ValueStatement monthIndex,
-            ValueStatement day) throws WidgetConfigurationException {
+            ValueStatement day)  {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -768,7 +781,7 @@ public final class V {
             ValueStatement year,
             ValueStatement monthIndex,
             ValueStatement day,
-            ValueStatement hour) throws WidgetConfigurationException {
+            ValueStatement hour)  {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -781,7 +794,7 @@ public final class V {
             ValueStatement monthIndex,
             ValueStatement day,
             ValueStatement hour,
-            ValueStatement minute) throws WidgetConfigurationException {
+            ValueStatement minute)  {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -796,7 +809,7 @@ public final class V {
             ValueStatement day,
             ValueStatement hour,
             ValueStatement minute,
-            ValueStatement second) throws WidgetConfigurationException {
+            ValueStatement second)  {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -813,7 +826,7 @@ public final class V {
             ValueStatement hour,
             ValueStatement minute,
             ValueStatement second,
-            ValueStatement milliSecond) throws WidgetConfigurationException {
+            ValueStatement milliSecond)  {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -824,13 +837,13 @@ public final class V {
                 milliSecond);
     }
 
-    public static ValueStatement ModifyDate(ValueStatement date, ValueStatement value) throws WidgetConfigurationException {
+    public static ValueStatement ModifyDate(ValueStatement date, ValueStatement value)  {
         return new DateModifyValue(date, value);
     }
 
     public static ValueStatement DateUTC(
             ValueStatement year,
-            ValueStatement monthIndex) throws WidgetConfigurationException {
+            ValueStatement monthIndex)  {
         return new DateUTCValue(
                 year,
                 monthIndex);
@@ -839,7 +852,7 @@ public final class V {
     public static ValueStatement DateUTC(
             ValueStatement year,
             ValueStatement monthIndex,
-            ValueStatement day) throws WidgetConfigurationException {
+            ValueStatement day)  {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -850,7 +863,7 @@ public final class V {
             ValueStatement year,
             ValueStatement monthIndex,
             ValueStatement day,
-            ValueStatement hour) throws WidgetConfigurationException {
+            ValueStatement hour)  {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -863,7 +876,7 @@ public final class V {
             ValueStatement monthIndex,
             ValueStatement day,
             ValueStatement hour,
-            ValueStatement minute) throws WidgetConfigurationException {
+            ValueStatement minute)  {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -878,7 +891,7 @@ public final class V {
             ValueStatement day,
             ValueStatement hour,
             ValueStatement minute,
-            ValueStatement second) throws WidgetConfigurationException {
+            ValueStatement second)  {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -895,7 +908,7 @@ public final class V {
             ValueStatement hour,
             ValueStatement minute,
             ValueStatement second,
-            ValueStatement milliSecond) throws WidgetConfigurationException {
+            ValueStatement milliSecond)  {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -1080,7 +1093,7 @@ public final class V {
         return new CodeValue(js, jsType);
     }
 
-    public static ValueStatement GetAuthorizationHeaderBearer() throws WidgetConfigurationException {
+    public static ValueStatement GetAuthorizationHeaderBearer()  {
         return new GetAuthorizationHeaderBearerValue();
     }
 
@@ -1102,6 +1115,14 @@ public final class V {
 
     public static ValueStatement GetDataKey(ValueStatement defaultValue) {
         return new GetDataKeyValue(defaultValue);
+    }
+
+    public static ValueStatement GetPageVariable(String name) {
+        return GetPageVariable(V.Const(name));
+    }
+
+    public static ValueStatement GetPageVariable(ValueStatement name) {
+        return new GetPageVariableValue(name);
     }
 
 }

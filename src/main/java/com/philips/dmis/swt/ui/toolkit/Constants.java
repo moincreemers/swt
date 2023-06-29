@@ -1,6 +1,9 @@
 package com.philips.dmis.swt.ui.toolkit;
 
-import com.philips.dmis.swt.ui.demo.TemplateDemoPage;
+import com.philips.dmis.swt.ui.demo.MainDemoPage;
+import com.philips.dmis.swt.ui.toolkit.js.widget.ProcessResponseFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.RefreshFunction;
+import com.philips.dmis.swt.ui.toolkit.js.widget.UpdateFunction;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 
 public class Constants {
@@ -16,8 +19,9 @@ public class Constants {
     public static final JsLogLevel JS_LOG_LEVEL = JsLogLevel.TRACE;
     public static final JsLogTraceFilter JS_LOG_FILTER = new JsLogTraceFilter()
             .enable(true)
-            .suppressModule("global", "controller");
-    public static final Class<? extends Page> DEMO = TemplateDemoPage.class;
+            .suppressModule("global", "controller", "widget", "data")
+            .filterFunction(RefreshFunction.class, ProcessResponseFunction.class, UpdateFunction.class);
+    public static final Class<? extends Page> DEMO = MainDemoPage.class;
 
 
     public static boolean isDemo(Class<? extends Page> page) {

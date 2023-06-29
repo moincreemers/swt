@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.Map;
 import java.util.Set;
 
-public class HtmlSelect extends ValueWidget<HtmlSelect,ValueAndOptionsDataSourceUsage> implements
+public class HtmlSelect extends ValueWidget<HtmlSelect, ValueAndItemsDataSourceUsage> implements
         HasOptions, HasValue<HtmlSelect>, HasAutocomplete, HasMultiple {
     private int size = 1;
 

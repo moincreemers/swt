@@ -5,24 +5,23 @@ import java.util.Comparator;
 import java.util.List;
 
 public enum DataSourceUsage {
-    TEXT(4, 1),
-    VALUE(4, 1),
-    OPTIONS(3, 0),
-    LIST_ITEMS(3, 0),
-    LIST_ITEMS_TEMPLATE(2, 0),
-    TABLE_HEADER(3, 1),
-    TABLE_FOOTER(3, 1),
-    TABLE_BODY(3, 1),
-
-    IMPORT(0, 1),
-    TRANSFORM(1, 1),
+    PROCEDURAL(false, true, 0, 0),
+    ITEMS(false, true, 2, 0),
+    VALUE(false, true, 4, 1),
+    IMPORT(true, false, 10, 1),
+    TRANSFORM(true, true, 11, 1),
+    VIEW(true, true, 12, 1),
 
     ;
 
+    final boolean applyToDataSource;
+    final boolean applyToDataConsumer;
     final int priority;
     final int maxOccurs;
 
-    DataSourceUsage(int priority, int maxOccurs) {
+    DataSourceUsage(boolean applyToDataSource, boolean applyToDataConsumer, int priority, int maxOccurs) {
+        this.applyToDataSource = applyToDataSource;
+        this.applyToDataConsumer = applyToDataConsumer;
         this.priority = priority;
         this.maxOccurs = maxOccurs;
     }
@@ -35,8 +34,28 @@ public enum DataSourceUsage {
         return maxOccurs;
     }
 
+    public boolean isApplyToDataSource() {
+        return applyToDataSource;
+    }
+
+    public boolean isApplyToDataConsumer() {
+        return applyToDataConsumer;
+    }
+
     public static List<DataSourceUsage> valuesByPriority() {
         return Arrays.stream(DataSourceUsage.values())
+                .sorted(Comparator.comparingInt(o -> o.priority)).toList();
+    }
+
+    public static List<DataSourceUsage> valuesByPriorityForDataSource() {
+        return Arrays.stream(DataSourceUsage.values())
+                .filter(DataSourceUsage::isApplyToDataSource)
+                .sorted(Comparator.comparingInt(o -> o.priority)).toList();
+    }
+
+    public static List<DataSourceUsage> valuesByPriorityForDataConsumer() {
+        return Arrays.stream(DataSourceUsage.values())
+                .filter(DataSourceUsage::isApplyToDataConsumer)
                 .sorted(Comparator.comparingInt(o -> o.priority)).toList();
     }
 }

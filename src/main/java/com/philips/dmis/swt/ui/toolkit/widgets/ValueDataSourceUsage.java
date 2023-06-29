@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 public enum ValueDataSourceUsage implements HasDataSourceUsage {
+    PROCEDURAL(DataSourceUsage.PROCEDURAL),
     VALUE(DataSourceUsage.VALUE),
 
     ;

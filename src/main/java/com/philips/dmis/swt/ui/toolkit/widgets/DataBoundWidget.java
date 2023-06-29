@@ -9,8 +9,9 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> extends Widget implements HasDataSource<T, E> {
-    private final Map<DataSourceUsage, java.util.List<DataSource>> dataSources = new HashMap<>();
+public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> extends Widget
+        implements HasDataSource<T, E> {
+    private final Map<DataSourceUsage, Map<String, DataSource>> dataSources = new HashMap<>();
     private String emptyText = "";
 
     public DataBoundWidget(WidgetType widgetType) {
@@ -24,12 +25,12 @@ public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> ext
 
 
     @Override
-    public java.util.List<DataSource> getDataSources(DataSourceUsage dataSourceUsage) {
+    public Map<String, DataSource> getDataSources(DataSourceUsage dataSourceUsage) {
         return dataSources.get(dataSourceUsage);
     }
 
     @Override
-    public java.util.List<DataSource> getDataSources(E dataSourceUsage) {
+    public Map<String, DataSource> getDataSources(E dataSourceUsage) {
         return dataSources.get(dataSourceUsage.getDataSourceUsage());
     }
 
@@ -50,14 +51,14 @@ public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> ext
         }
         unsubscribe(dataSource.getDataSourceUsage(), dataSource.getDataSourceSupplier().asWidget().getId());
         dataSource.getDataSourceSupplier().subscribe(dataSource, this);
-        java.util.List<DataSource> dataSources = this.dataSources.computeIfAbsent(dataSource.getDataSourceUsage(), k -> new ArrayList<>());
+        Map<String, DataSource> dataSources = this.dataSources.computeIfAbsent(dataSource.getDataSourceUsage(), k -> new HashMap<>());
         if (dataSource.getDataSourceUsage().getMaxOccurs() > 0
-                && dataSources.size() >= dataSource.getDataSourceUsage().getMaxOccurs()) {
+            && dataSources.size() >= dataSource.getDataSourceUsage().getMaxOccurs()) {
             throw new WidgetConfigurationException("data sources exceeds max-occurs for "
-                    + dataSource.getDataSourceUsage().name() + ": "
-                    + dataSource.getDataSourceUsage().getMaxOccurs());
+                                                   + dataSource.getDataSourceUsage().name() + ": "
+                                                   + dataSource.getDataSourceUsage().getMaxOccurs());
         }
-        dataSources.add(dataSource);
+        dataSources.put(dataSource.getDataSourceSupplier().asWidget().getId(), dataSource);
         return (T) this;
     }
 
@@ -69,9 +70,9 @@ public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> ext
     }
 
     private void unsubscribe(E dataSourceUsage) {
-        java.util.List<DataSource> existingDataSources = dataSources.get(dataSourceUsage.getDataSourceUsage());
+        Map<String, DataSource> existingDataSources = dataSources.get(dataSourceUsage.getDataSourceUsage());
         if (existingDataSources != null) {
-            for (DataSource existingDataSource : existingDataSources) {
+            for (DataSource existingDataSource : existingDataSources.values()) {
                 existingDataSource.getDataSourceSupplier().unsubscribe(this);
             }
             dataSources.remove(dataSourceUsage.getDataSourceUsage());
@@ -79,10 +80,10 @@ public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> ext
     }
 
     private void unsubscribe(DataSourceUsage dataSourceUsage, String dataSourceId) {
-        java.util.List<DataSource> existingDataSources = dataSources.get(dataSourceUsage);
+        Map<String, DataSource> existingDataSources = dataSources.get(dataSourceUsage);
         if (existingDataSources != null) {
             java.util.List<DataSource> removed = new ArrayList<>();
-            for (DataSource existingDataSource : existingDataSources) {
+            for (DataSource existingDataSource : existingDataSources.values()) {
                 if (existingDataSource.getDataSourceSupplier().asWidget().getId().equals(dataSourceId)) {
                     existingDataSource.getDataSourceSupplier().unsubscribe(this);
                     removed.add(existingDataSource);
@@ -117,8 +118,8 @@ public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> ext
         super.validate(toolkit);
         Set<Class<? extends DataAdapter>> requiredDataAdapters = new HashSet<>();
         getRequiredDataAdapters(requiredDataAdapters);
-        for (java.util.List<DataSource> dataSources : dataSources.values()) {
-            for (DataSource dataSource : dataSources) {
+        for (Map<String, DataSource> dataSources : dataSources.values()) {
+            for (DataSource dataSource : dataSources.values()) {
                 dataSource.validate(toolkit);
                 for (DataAdapter dataAdapter : dataSource.getDataAdapters()) {
                     requiredDataAdapters.remove(dataAdapter.getClass());
@@ -126,8 +127,10 @@ public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> ext
             }
         }
         if (!dataSources.isEmpty() && !requiredDataAdapters.isEmpty()) {
-            throw new WidgetConfigurationException("missing required data adapters: "
-                    + requiredDataAdapters.stream().map(Class::getSimpleName).collect(Collectors.joining(", "))
+            throw new WidgetConfigurationException(
+                    "missing required data adapters: "
+                    + requiredDataAdapters.stream()
+                            .map(Class::getSimpleName).collect(Collectors.joining(", "))
                     + " on data bound widget: "
                     + getId()
                     + " ("

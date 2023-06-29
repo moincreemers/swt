@@ -11,9 +11,9 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 import java.util.List;
 
 public class GetLocalValue extends ValueStatement {
-    final ValueStatement name;
+    final String name;
 
-    public GetLocalValue(ValueStatement name) {
+    public GetLocalValue(String name) {
         this.name = name;
     }
 
@@ -29,7 +29,7 @@ public class GetLocalValue extends ValueStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("this[%s]", ValueStatement.valueOf(toolkit, name, widget));
+        js.append(name);
     }
 
     @Override
@@ -38,11 +38,9 @@ public class GetLocalValue extends ValueStatement {
             return;
         }
         validated = true;
-        name.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(name);
     }
 }

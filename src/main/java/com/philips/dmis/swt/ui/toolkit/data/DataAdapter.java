@@ -2,12 +2,12 @@ package com.philips.dmis.swt.ui.toolkit.data;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
-import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
-import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
-import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
-import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
+import com.philips.dmis.swt.ui.toolkit.widgets.*;
+
+import java.util.logging.Logger;
 
 public abstract class DataAdapter {
+    private static final Logger LOG = Logger.getLogger(DataAdapter.class.getName());
     public static final String DEFAULT_PATH = ".data.items";
 
     static String validatePath(String path) {
@@ -53,14 +53,12 @@ public abstract class DataAdapter {
         return id;
     }
 
-    /**
-     * Returns true if the data adapter can be used for the specified data source usage.
-     *
-     * @param dataSourceUsage
-     * @return
-     */
-    public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage!=DataSourceUsage.IMPORT;
+    public DataSourceUsage getInitialDataSourceUsage() {
+        return DataSourceUsage.TRANSFORM;
+    }
+
+    public boolean isDataSourceUsageAllowed(DataSourceUsage dataSourceUsage) {
+        return true;
     }
 
     public String getPath() {
@@ -89,6 +87,7 @@ public abstract class DataAdapter {
         if (validated) {
             return;
         }
+        LOG.info("validate data adapter " + getClass().getSimpleName() + ": " + getId());
         validated = true;
     }
 }

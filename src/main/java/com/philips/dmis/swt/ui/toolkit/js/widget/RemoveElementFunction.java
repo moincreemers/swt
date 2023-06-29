@@ -112,8 +112,9 @@ public class RemoveElementFunction implements JsFunction {
         js.append("containerElement.removeChild(element);");
 
         js.append("}else if(containerWidgetType=='%s'){", WidgetType.LIST_CONTAINER.name()); // if
-        // todo:
-        js.append("containerElement.removeChild(element);");
+        js.append("var li=element.parentElement;");
+        js.append("li.removeChild(element);");
+        js.append("containerElement.removeChild(li);");
 
         js.append("}else{"); // else
         js.append("containerElement.removeChild(element);");

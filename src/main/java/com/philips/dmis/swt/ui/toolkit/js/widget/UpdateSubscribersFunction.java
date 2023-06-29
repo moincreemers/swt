@@ -61,7 +61,8 @@ public class UpdateSubscribersFunction implements JsFunction {
         js.append("for(const i in subscribers){"); // for
         js.append("var sub=subscribers[i];");
         // id,reason,cacheType,dataSourceUsage,object,dataSourceId
-        js.append("%s(sub.subscriberId,reason,sub.cacheType,sub.dataSourceUsage,object,id);", JsWidgetModule.getId(UpdateFunction.class));
+        js.append("%s(sub.subscriberId,reason,sub.cacheType,sub.dataSourceUsage,object,id);",
+                JsWidgetModule.getId(UpdateFunction.class));
         js.append("};"); // end for
         js.append("};"); // end if
 

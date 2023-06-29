@@ -7,7 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlTextInput extends ValueWidget<HtmlTextInput,ValueDataSourceUsage> implements
+public class HtmlTextInput extends ValueWidget<HtmlTextInput, ValueDataSourceUsage> implements
         HasType, HasValue<HtmlTextInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList, HasKeyInput<HtmlTextInput> {
 

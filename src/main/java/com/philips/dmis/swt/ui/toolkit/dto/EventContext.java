@@ -8,6 +8,7 @@ public class EventContext implements Serializable {
     private String slaveId;
     private Object dataKey;
     private Object domEvent;
+    private Object arguments;
 
     public EventContext() {
         // for serializable
@@ -51,5 +52,13 @@ public class EventContext implements Serializable {
 
     public void setDomEvent(Object domEvent) {
         this.domEvent = domEvent;
+    }
+
+    public Object getArguments() {
+        return arguments;
+    }
+
+    public void setArguments(Object arguments) {
+        this.arguments = arguments;
     }
 }

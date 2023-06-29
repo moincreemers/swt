@@ -12,6 +12,10 @@ import java.util.List;
 public class DtoUtil {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    public static String getDefault(Class<?> dto) throws DtoException {
+        return getDefault(dto, false);
+    }
+
     public static String getDefault(Class<?> dto, boolean asArray) throws DtoException {
         Constructor<?> ctor = null;
         try {

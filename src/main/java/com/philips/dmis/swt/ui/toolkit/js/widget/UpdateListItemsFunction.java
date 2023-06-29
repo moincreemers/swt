@@ -86,7 +86,7 @@ public class UpdateListItemsFunction implements JsFunction {
         js.append("var view=selectedView[i];");
         js.append("if(view.viewType=='%s'&&view.source=='%s'){", // if
                 ViewType.FIELD.name(),
-                KeyValueListDataAdapter.DEFAULT_VALUE_FIELD);
+                KeyValueListDataAdapter.OUTPUT_VALUE_FIELD);
         js.append("viewValueField=view;");
         js.append("break;");
         js.append("};"); // end if

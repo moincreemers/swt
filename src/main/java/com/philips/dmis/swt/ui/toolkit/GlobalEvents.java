@@ -14,6 +14,10 @@ import java.util.Set;
 public class GlobalEvents implements HasJS {
     private static final Set<String> eventHandlers = new HashSet<>();
 
+    public static void onApplicationStart() {
+        eventHandlers.add(ApplicationStartEventHandler.NAME);
+    }
+
     public static void onAfterPrint() {
         eventHandlers.add(AfterPrintEventHandler.NAME);
     }
@@ -86,12 +90,15 @@ public class GlobalEvents implements HasJS {
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         // add event handlers
         js.append("const initGlobalEvents=()=>{");
+        js.debug("console.log('attaching global event handlers');");
+
         if (eventHandlers.contains(AfterPrintEventHandler.NAME)) {
             js.append("window.addEventListener('afterprint',(e)=>{");
             js.append("%s(null,%s,e);",
                     JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
                     JsWidgetModule.getQualifiedId(EventHandlerFunction.OnAfterPrintEventHandlerFunction.class));
             js.append("});");
+
         }
         if (eventHandlers.contains(BeforePrintEventHandler.NAME)) {
             js.append("window.addEventListener('beforeprint',(e)=>{");
@@ -105,7 +112,7 @@ public class GlobalEvents implements HasJS {
             js.append("window.addEventListener('beforeunload',(e)=>{");
             js.append("%s(null,%s,e);",
                     JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
-                    JsWidgetModule.getQualifiedId(EventHandlerFunction.OnBeforeUpdateEventHandlerFunction.class));
+                    JsWidgetModule.getQualifiedId(EventHandlerFunction.OnBeforeUnloadEventHandlerFunction.class));
             js.append("});");
 
         }

@@ -2,17 +2,18 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 
 import java.util.Map;
 
-public class DataTemplateWidget extends DataBoundWidget<DataTemplateWidget, TemplateListItemsDataSourceUsage>
+public class DataTemplateWidget extends DataBoundWidget<DataTemplateWidget, ItemsDataSourceUsage>
         implements HasDataTemplate {
     public DataTemplateWidget() {
         super(WidgetType.DATA_TEMPLATE);
     }
 
     public DataTemplateWidget addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TemplateListItemsDataSourceUsage.LIST_ITEMS_TEMPLATE, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ItemsDataSourceUsage.ITEMS, dataSourceSupplier, dataAdapters);
         return this;
     }
 
@@ -33,13 +34,23 @@ public class DataTemplateWidget extends DataBoundWidget<DataTemplateWidget, Temp
     }
 
     @Override
-    public Widget getTemplateWidget() {
-        return dataTemplateImpl.getTemplateWidget();
+    public Map<Widget, ValueStatement> getTemplateWidgets() {
+        return dataTemplateImpl.getTemplateWidgets();
     }
 
     @Override
-    public void setTemplateWidget(Widget templateWidget) {
-        dataTemplateImpl.setTemplateWidget(templateWidget);
+    public Widget getDefaultTemplateWidget() {
+        return dataTemplateImpl.getDefaultTemplateWidget();
+    }
+
+    @Override
+    public void setDefaultTemplateWidget(Widget templateWidget) {
+        dataTemplateImpl.setDefaultTemplateWidget(templateWidget);
+    }
+
+    @Override
+    public void addTemplateWidget(Widget templateWidget, ValueStatement valueStatement) {
+        dataTemplateImpl.addTemplateWidget(templateWidget, valueStatement);
     }
 
     @Override
@@ -60,5 +71,15 @@ public class DataTemplateWidget extends DataBoundWidget<DataTemplateWidget, Temp
     @Override
     public void setDataKeyField(String dataKeyField) {
         dataTemplateImpl.setDataKeyField(dataKeyField);
+    }
+
+    @Override
+    public String getTemplateSelectorField() {
+        return dataTemplateImpl.getTemplateSelectorField();
+    }
+
+    @Override
+    public void setTemplateSelectorField(String templateSelectorField) {
+        dataTemplateImpl.setTemplateSelectorField(templateSelectorField);
     }
 }

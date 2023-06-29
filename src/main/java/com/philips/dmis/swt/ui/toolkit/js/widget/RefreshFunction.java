@@ -68,7 +68,7 @@ public class RefreshFunction implements JsFunction {
         js.append("if(widget.%s==false&&(reason=='%s'||reason=='%s')){",
                 AutoRefreshVariable.ID,
                 JsStateModule.REASON_INIT, JsStateModule.REASON_SHOW);
-        js.debug("console.log('did not refresh because of: '+reason);");
+        js.trace("console.log('did not refresh because of: '+reason);");
         js.append("return;");
         js.append("};"); // end if
         // notify subscribers that an update event will follow
@@ -104,8 +104,7 @@ public class RefreshFunction implements JsFunction {
                 WidgetType.DATA_PROXY.name()); // if
         //re-create xhrResponse
         js.append("var data=widget.%s;", DataVariable.ID);
-        js.append("if(data!=null){");
-
+        js.append("if(data!=null){"); // if
         js.append("var xhrResponse=%s;", DtoUtil.getDefault(XhrResponse.class, false));
         js.append("xhrResponse.status=200;");
         js.append("xhrResponse.url=widgetType+'://'+id;");
@@ -113,22 +112,26 @@ public class RefreshFunction implements JsFunction {
         js.append("xhrResponse.contentType.value='%s';", ContentType.JSON.getEncoding());
         js.append("%s(id,xhrResponse);",
                 JsWidgetModule.getId(ProcessResponseFunction.class));
-        js.append("};");
+        js.append("};"); // end if
         js.append("};"); // end if
 
         js.append("if(implements.includes('%s')){", QueryService.class.getSimpleName());//if
-        js.append("if(widget.%s=='%s'&&widget.%s=='%s'){",
-                CacheTypeVariable.ID, CacheType.DISABLED.name(),
+        js.append("const cacheType=widget.%s;", CacheTypeVariable.ID);
+        js.append("if(cacheType!='%s'&&widget.%s=='%s'){",
+                CacheType.DISABLED.name(),
                 HttpMethodVariable.ID, HttpMethod.GET.name()); // if
         // if reason is 'show' or 'local' and data is cached, then resend cached data
-        js.append("if(reason=='%s'||reason=='%s'){",
-                JsStateModule.REASON_SHOW, JsStateModule.REASON_LOCAL);
-        js.append("const key=widget.%s+'?'+%s(widget.%s);",
+        js.append("const enabledForShowAndLocal=cacheType=='%s'&&(reason=='%s'||reason=='%s');",
+                CacheType.ENABLED.name(), JsStateModule.REASON_SHOW, JsStateModule.REASON_LOCAL);
+        js.append("const enabledLocalOnly=cacheType=='%s'&&reason=='%s';",
+                CacheType.LOCAL_ONLY.name(), JsStateModule.REASON_LOCAL);
+        js.append("if(enabledForShowAndLocal||enabledLocalOnly){");
+        js.append("const key=widget.%s+'?'+%s(%s(id));",
                 URLVariable.ID,
                 JsGlobalModule.getQualifiedId(ToQueryStringFunction.class),
-                ParametersVariable.ID);
-        js.append("const cachedValue=%s(key,null);", JsGlobalModule.getId(GetCacheFunction.class));
-        js.debug("console.log('Cached value',key,cachedValue);");
+                JsWidgetModule.getId(GetParametersFunction.class));
+        js.append("const cachedValue=%s(key,null);", JsGlobalModule.getQualifiedId(GetCacheFunction.class));
+        js.trace("console.log('Cached value',key,cachedValue);");
         js.append("if(cachedValue!=null){"); // if
         //xhrResponse
         js.append("const xhrResponse=JSON.parse(cachedValue);");
@@ -148,14 +151,15 @@ public class RefreshFunction implements JsFunction {
         js.append("widget.%s=null;", DataVariable.ID);
         js.append("};"); // end if
 
-        // method,contentTypeEncoding,responseType,url,headers,obj,success,failure,args
-        js.append("%s(id,widget.%s,widget.%s,widget.%s,widget.%s,widget.%s,%s(id),%s,%s,{});",
+        // method,contentTypeEncoding,responseType,url,headers,authenticationType,obj,success,failure,args
+        js.append("%s(id,widget.%s,widget.%s,widget.%s,widget.%s,widget.%s,widget.%s,%s(id),%s,%s,{});",
                 JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),
                 HttpMethodVariable.ID,
                 ContentTypeEncodingVariable.ID,
                 ResponseTypeVariable.ID,
                 URLVariable.ID,
                 HttpHeadersVariable.ID,
+                AuthenticationTypeVariable.ID,
                 JsWidgetModule.getId(GetParametersFunction.class),
                 JsWidgetModule.getId(ProcessResponseFunction.class),
                 JsWidgetModule.getId(EventHandlerFunction.OnErrorEventHandlerFunction.class));

@@ -8,7 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.HttpHeadersVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
-import com.philips.dmis.swt.ui.toolkit.js.state.SyncVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.PromisesVariable;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.ProcessResourceResponseFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SendHttpRequestFunction;
@@ -28,6 +28,7 @@ public class Download extends MapStatement implements HasAbstractURL {
     private HttpMethod httpMethod = HttpMethod.GET;
     private ContentType contentType = ContentType.NONE;
     private ResponseType responseType = ResponseType.BLOB;
+    private AuthenticationType authenticationType = AuthenticationType.NONE;
     private final Map<String, List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
 
     @Override
@@ -82,6 +83,16 @@ public class Download extends MapStatement implements HasAbstractURL {
     }
 
     @Override
+    public AuthenticationType getAuthenticationType() {
+        return authenticationType;
+    }
+
+    @Override
+    public void setAuthenticationType(AuthenticationType authenticationType) {
+        this.authenticationType = authenticationType;
+    }
+
+    @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
         js.append("(%s,%s,%s,%s)=>{", ARGUMENT_SERVICE_RESPONSE, ARGUMENT_TARGET, ARGUMENT_OBJECT, ARGUMENT_VALUE);
         js.append("if(%s==undefined||%s==null||%s==''){return null;};",
@@ -100,11 +111,11 @@ public class Download extends MapStatement implements HasAbstractURL {
         //  1. we generate a unique id
         //  2. in widget, we set a callback object (e.g., like a Promise) using the id
         //  3. we use an asynchronous request to download the resource
-        //  4. when the request is complete, we update the synchronizer object
+        //  4. when the request is complete, we update the promise object
         //
-        //  When the client of a synchronizer object needs to retrieve the data, they can attach a callback to the
-        //  synchronizer. The callback is called as soon as the request completes or immediately when the callback is
-        //  attached to the synchronizer and the request has completed before that.
+        //  When the client of a promise object needs to retrieve the data, they can attach a callback to the
+        //  promise. The callback is called as soon as the request completes or immediately when the callback is
+        //  attached to the promise and the request has completed before that.
 
         js.append("const viewField=%s(%s,%s);",
                 JsGlobalModule.getQualifiedId(GetViewFieldFunction.class),
@@ -121,8 +132,8 @@ public class Download extends MapStatement implements HasAbstractURL {
 
         js.append("const uid=String(Date.now().toString(32)+Math.random().toString(16)).replace(/\\./g,'');");
         js.append("%s[uid]=%s();",
-                JsStateModule.getQualifiedId(widget, SyncVariable.class),
-                JsGlobalModule.getQualifiedId(CreateSynchronizerFunction.class));
+                JsStateModule.getQualifiedId(widget, PromisesVariable.class),
+                JsGlobalModule.getQualifiedId(CreatePromiseFunction.class));
 
         // method,contentType,url,headers,obj,success,failure,arguments
         js.append("var headers=");
@@ -137,12 +148,13 @@ public class Download extends MapStatement implements HasAbstractURL {
         js.debug("console.log('download resource',uid,obj);");
 
         // todo: failure function is undefined
-        js.append("%s('%s','%s','%s','%s',url,headers,obj,%s,()=>{console.log('resource request failed');},arguments);",
+        js.append("%s('%s','%s','%s','%s',url,headers,'%s',obj,%s,()=>{console.log('resource request failed');},arguments);",
                 JsWidgetModule.getQualifiedId(SendHttpRequestFunction.class),
                 widget.getId(),
                 httpMethod.name(),
                 contentType.getEncoding(),
                 responseType.getValue(),
+                authenticationType.name(),
                 JsWidgetModule.getQualifiedId(ProcessResourceResponseFunction.class)
         );
 

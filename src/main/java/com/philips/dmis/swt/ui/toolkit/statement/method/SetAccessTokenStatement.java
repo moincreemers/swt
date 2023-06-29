@@ -8,7 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
-import com.philips.dmis.swt.ui.toolkit.widgets.HttpHeaderUtil;
+import com.philips.dmis.swt.ui.toolkit.widgets.RequestUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -36,7 +36,7 @@ public class SetAccessTokenStatement extends MethodStatement {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         js.append("%s('%s',%s);",
                 JsGlobalModule.getQualifiedId(SetSessionValueFunction.class),
-                HttpHeaderUtil.GLOBAL_ACCESS_TOKEN_KEY,
+                RequestUtil.GLOBAL_ACCESS_TOKEN_KEY,
                 ValueStatement.valueOf(toolkit, accessToken, widget));
     }
 

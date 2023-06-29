@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DataProxy extends DataBoundWidget<DataProxy, TransformDataSourceUsage> implements DataSourceSupplier {
     private final Map<HasDataSource<?, ?>, DataSourceUsage> subscribers = new HashMap<>();
-    private final java.util.List<DataAdapter> dataAdapters = new ArrayList<>();
+    private final List<DataAdapter> dataAdapters = new ArrayList<>();
     private final boolean expectServiceResponse;
     private final boolean autoRefresh;
     private final boolean notifySubscribers;
@@ -47,8 +47,10 @@ public class DataProxy extends DataBoundWidget<DataProxy, TransformDataSourceUsa
         return notifySubscribers;
     }
 
-    public DataSourceSupplier addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TransformDataSourceUsage.TRANSFORM, dataSourceSupplier, dataAdapters);
+    // note that a DataProxy is not a data consumer, any data adapters will NOT be executed at any point
+    // for this reason we remove the dataAdapters argument here
+    public DataSourceSupplier addDataSource(DataSourceSupplier dataSourceSupplier) throws WidgetConfigurationException {
+        super.addDataSource(TransformDataSourceUsage.TRANSFORM, dataSourceSupplier);
         return this;
     }
 
@@ -67,7 +69,7 @@ public class DataProxy extends DataBoundWidget<DataProxy, TransformDataSourceUsa
     }
 
     public DataProxy addDataAdapter(DataAdapter dataAdapter) {
-        this.dataAdapters.add(dataAdapter);
+        dataAdapters.add(dataAdapter);
         return this;
     }
 

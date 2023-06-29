@@ -166,6 +166,11 @@ public abstract class Page extends Panel {
         return this;
     }
 
+    public Page onPageVariableChange(PageVariableChangeEventHandler eventHandler) {
+        eventHandlers.add(eventHandler);
+        return this;
+    }
+
     public Page onBeforePrint(BeforePrintEventHandler eventHandler) {
         eventHandler.setPageId(getId());
         GlobalEvents.onBeforePrint();
@@ -180,6 +185,14 @@ public abstract class Page extends Panel {
         return this;
     }
 
+    /**
+     * Warning: Do not attempt to provide a prompt or user interaction within this event handler.
+     * Additionally, this event handler may be ignored unless the user has interacted with the page.
+     * On mobile devices, this event may be ignored permanently.
+     *
+     * @param eventHandler a BeforeUnloadEventHandler instance
+     * @return this page
+     */
     public Page onBeforeUnload(BeforeUnloadEventHandler eventHandler) {
         eventHandler.setPageId(getId());
         GlobalEvents.onBeforeUnload();
@@ -281,6 +294,13 @@ public abstract class Page extends Panel {
     public Page onRedo(RedoEventHandler eventHandler) {
         eventHandler.setPageId(getId());
         GlobalEvents.onRedo();
+        eventHandlers.add(eventHandler);
+        return this;
+    }
+
+    public Page onApplicationStart(ApplicationStartEventHandler eventHandler) {
+        eventHandler.setPageId(getId());
+        GlobalEvents.onApplicationStart();
         eventHandlers.add(eventHandler);
         return this;
     }

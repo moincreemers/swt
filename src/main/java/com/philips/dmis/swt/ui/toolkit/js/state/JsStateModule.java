@@ -57,6 +57,7 @@ public class JsStateModule implements JsModule {
         this.widget = widget;
         this.widgetType = widget.getWidgetType();
 
+        members.add(new Pair<>(AuthenticationTypeVariable.ID, new AuthenticationTypeVariable(widget)));
         members.add(new Pair<>(AutoRefreshVariable.ID, new AutoRefreshVariable(widget)));
         members.add(new Pair<>(ButtonTypeVariable.ID, new ButtonTypeVariable(widget)));
         members.add(new Pair<>(CacheTypeVariable.ID, new CacheTypeVariable(widget)));
@@ -69,7 +70,7 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(DataKeyFieldVariable.ID, new DataKeyFieldVariable(widget)));
         members.add(new Pair<>(DataKeysVariable.ID, new DataKeysVariable(widget)));
         members.add(new Pair<>(DataKeyVariable.ID, new DataKeyVariable(widget)));
-        members.add(new Pair<>(DataTemplateIdVariable.ID, new DataTemplateIdVariable(widget)));
+        members.add(new Pair<>(DataTemplateIdsVariable.ID, new DataTemplateIdsVariable(widget)));
         members.add(new Pair<>(DataVariable.ID, new DataVariable(widget)));
         members.add(new Pair<>(DisabledDataAdaptersVariable.ID, new DisabledDataAdaptersVariable(widget)));
         members.add(new Pair<>(EmptyTextVariable.ID, new EmptyTextVariable(widget)));
@@ -79,6 +80,7 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(HtmlTagVariable.ID, new HtmlTagVariable(widget)));
         members.add(new Pair<>(HttpHeadersVariable.ID, new HttpHeadersVariable(widget)));
         members.add(new Pair<>(HttpMethodVariable.ID, new HttpMethodVariable(widget)));
+        members.add(new Pair<>(ImageTypeVariable.ID, new ImageTypeVariable(widget)));
         members.add(new Pair<>(ImplementsVariable.ID, new ImplementsVariable(widget)));
         members.add(new Pair<>(IsMultiLevelVariable.ID, new IsMultiLevelVariable(widget)));
         members.add(new Pair<>(IsNumberedVariable.ID, new IsNumberedVariable(widget)));
@@ -88,6 +90,7 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(PageClassNameVariable.ID, new PageClassNameVariable(widget)));
         members.add(new Pair<>(PageIdVariable.ID, new PageIdVariable(widget)));
         members.add(new Pair<>(PageRefreshVariable.ID, new PageRefreshVariable(widget)));
+        members.add(new Pair<>(PageVariablesVariable.ID, new PageVariablesVariable(widget)));
         members.add(new Pair<>(PanelTypeVariable.ID, new PanelTypeVariable(widget)));
         members.add(new Pair<>(ParametersVariable.ID, new ParametersVariable(widget)));
         members.add(new Pair<>(ParentWidgetIdVariable.ID, new ParentWidgetIdVariable(widget)));
@@ -96,9 +99,10 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(StaticDataVariable.ID, new StaticDataVariable(widget)));
         members.add(new Pair<>(StaticInnerHtmlVariable.ID, new StaticInnerHtmlVariable(widget)));
         members.add(new Pair<>(SubscribersVariable.ID, new SubscribersVariable(widget)));
-        members.add(new Pair<>(SyncVariable.ID, new SyncVariable(widget)));
+        members.add(new Pair<>(PromisesVariable.ID, new PromisesVariable(widget)));
         members.add(new Pair<>(TableOrientationTypeVariable.ID, new TableOrientationTypeVariable(widget)));
         members.add(new Pair<>(TemplateIdVariable.ID, new TemplateIdVariable(widget)));
+        members.add(new Pair<>(TemplateSelectorFieldVariable.ID, new TemplateSelectorFieldVariable(widget)));
         members.add(new Pair<>(TemplateTargetWidgetIdVariable.ID, new TemplateTargetWidgetIdVariable(widget)));
         members.add(new Pair<>(TextFormatVariable.ID, new TextFormatVariable(widget)));
         members.add(new Pair<>(TimerHandleVariable.ID, new TimerHandleVariable(widget)));

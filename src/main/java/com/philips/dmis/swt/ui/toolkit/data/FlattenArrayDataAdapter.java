@@ -5,7 +5,6 @@ import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
 import com.philips.dmis.swt.ui.toolkit.dto.TransformationMetadata;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
-import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 /**
@@ -67,11 +66,6 @@ public class FlattenArrayDataAdapter extends DataAdapter {
     public FlattenArrayDataAdapter(String path, String memberName) {
         super(path);
         this.memberName = memberName;
-    }
-
-    @Override
-    public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage == DataSourceUsage.TRANSFORM;
     }
 
     public String getMemberName() {

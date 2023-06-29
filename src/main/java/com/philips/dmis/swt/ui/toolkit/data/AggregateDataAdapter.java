@@ -9,7 +9,6 @@ import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.aggregate.AggregateStatement;
-import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceUsage;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
@@ -104,10 +103,6 @@ public class AggregateDataAdapter extends DataAdapter {
         }
         aggregateFields.add(new AggregateField(name, field, format, aggregateStatement));
         return this;
-    }
-
-    public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage!=DataSourceUsage.IMPORT;
     }
 
     @Override

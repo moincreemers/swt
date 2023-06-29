@@ -50,15 +50,18 @@ public class PostFunction implements JsFunction {
         js.append("(id,object)=>{");
         js.trace(this);
 
-        // method,contentTypeEncoding,responseType,url,headers,obj,success,failure,args
+
         js.append("const widget=window[id];");
-        js.append("%s(id,widget.%s,widget.%s,widget.%s,widget.%s,window.%s,object,%s,%s,{});",
+
+        // method,contentTypeEncoding,responseType,url,headers,authenticationType,obj,success,failure,args
+        js.append("%s(id,widget.%s,widget.%s,widget.%s,widget.%s,widget.%s,widget.%s,object,%s,%s,{});",
                 JsGlobalModule.getQualifiedId(SendHttpRequestFunction.class),
                 HttpMethodVariable.ID,
                 ContentTypeEncodingVariable.ID,
                 ResponseTypeVariable.ID,
                 URLVariable.ID,
                 HttpHeadersVariable.ID,
+                AuthenticationTypeVariable.ID,
                 JsWidgetModule.getQualifiedId(ProcessResponseFunction.class),
                 JsWidgetModule.getQualifiedId(EventHandlerFunction.OnErrorEventHandlerFunction.class));
 

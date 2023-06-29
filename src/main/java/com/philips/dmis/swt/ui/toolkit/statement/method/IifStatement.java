@@ -95,7 +95,11 @@ public class IifStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
+        int i = 0;
         for (Case c : cases) {
+            if (i > 0) {
+                js.append("}else ");
+            }
             js.append("if(%s(%s,%s)==%s){", JsGlobalModule.getQualifiedId(EqualsFunction.class),
                     ValueStatement.valueOf(toolkit, valueStatement, widget),
                     ValueStatement.valueOf(toolkit, c.valueStatement, widget),
@@ -103,14 +107,15 @@ public class IifStatement extends MethodStatement {
             for (Statement statement : c.statements) {
                 statement.renderJs(toolkit, widget, js);
             }
-            js.append("return;");
-            js.append("}");
+            i++;
         }
         if (!elseStatements.isEmpty()) {
+            js.append("}else{");
             for (Statement statement : elseStatements) {
                 statement.renderJs(toolkit, widget, js);
             }
         }
+        js.append("}");
     }
 
     @Override

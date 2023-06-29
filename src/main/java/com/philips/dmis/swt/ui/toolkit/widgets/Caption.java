@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class Caption extends DataBoundWidget<Caption, TextDataSourceUsage> implements HasIcon, HasText {
+public class Caption extends DataBoundWidget<Caption, ValueDataSourceUsage> implements HasIcon, HasText {
     public Caption(String text) {
         this(null, null, text);
     }
@@ -16,7 +16,7 @@ public class Caption extends DataBoundWidget<Caption, TextDataSourceUsage> imple
     }
 
     public Caption addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
-        super.addDataSource(TextDataSourceUsage.TEXT, dataSourceSupplier, dataAdapters);
+        super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
     }
 

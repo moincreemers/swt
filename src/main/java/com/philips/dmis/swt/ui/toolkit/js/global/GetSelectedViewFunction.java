@@ -32,6 +32,7 @@ public class GetSelectedViewFunction implements JsFunction {
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         js.append("(serviceResponse)=>{");
+        js.trace(this);
 
         js.append("const views=[];");
         js.debug("console.log('GetSelectedViewFunction',serviceResponse);");
@@ -61,8 +62,6 @@ public class GetSelectedViewFunction implements JsFunction {
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-        parameters.add(JsParameter.getInstance("parent", JsType.OBJECT));
-        parameters.add(JsParameter.getInstance("key", JsType.STRING));
-        parameters.add(JsParameter.getInstance("value", JsType.STRING));
+        parameters.add(JsParameter.getInstance("serviceResponse", JsType.OBJECT));
     }
 }

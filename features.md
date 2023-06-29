@@ -6,6 +6,8 @@
   specifically. Unclear why. Re-compiling (after adding a line break) always succeeds. Sometimes Maven already does a
   recompile but its unclear why it does that.
 - GetPageArgument throws when more than one 'd' argument is present on the hash.
+- GetCurrentPage does not work in the Page.onDeactivate event (the hash has already changed when this event is fired)
+- Global events are never dispatched to a widget other than the page.
 
 - For Viewer pages:
     - CORS is not enabled from server. Needs correct HTTP Headers to allow cross-domain requests to the API.
@@ -41,9 +43,8 @@
 
 ## Backlog
 
-- error handler Method?
+- Create a development/debug widget that can work with the tracing? Also: instrumentation module for UI testing
 - make open/selection widgets in tables focusable (class/attribute)
-- instrumentation module for UI testing
 - make timer interval gettable and settable in JS.
 - htmlTable: conditional formatting (based on staticData)
 - htmlTable: record selection. should lead to event handler on TableBody that provides an event with the selection
@@ -53,12 +54,10 @@
 - join-staticData-adapter
 - Configuration options through beans (using @Component and injecting into ToolkitController?)
 - more support for page layout
-- global 'model' store arbitrary values in? Statement.Get/Set should work. Scope to page/application option?
 - disable/enable individual options in checkbox/radiobutton lists
 - breadcrumb Widget
 - limit htmlTable loading to a number of records and then show a "load more records" htmlButton or something. This is
-  needed to
-  protect against huge responses.
+  needed to protect against huge responses.
 - TextArea widget
 - htmlTable header/footer for Grid
 - tree widget? And in combination with htmlTable?
@@ -186,12 +185,52 @@
 - Select boxes that have a value selected other than the first item, are reset to the first item when a page is
   activated. This is presumably caused by data source refresh.
 - limit size of the JS by reducing widget model size. Move code to global module
+- error handler Method. M.Try is now a method.
+- global 'model' store arbitrary values in? Statement.Get/Set should work. Scope to page/application option.
+  M.SetGlobalValue can be used to store values in SessionStorage. There is M.DeclarePageVariable, M.SetPageVariable and
+  V.GetPageVariable that provides variables scoped to the current page.
+- Templates:
+    - There is now a M.CloneWidget method that can be used to manually copy a widget.
+    - The M.CloneWidget method takes a 'data-key' to identify the clone.
+    - The clone will have an ID starting with 'g' instead of 'w'.
+    - The template widget will no longer be usable as a normal widget.
+    - M.SetValue and all other methods that affect a widget can be used on the template widget. In event handlers, use
+      the M.WithDayaKey method.
+    - Additionally, a DataTemplateWidget has been added that is a data consumer. The widget takes one or more template
+      widgets, a field that selects the template based on a field in the data source, a target container widget to which
+      the cloned widgets should be added and a data key field in the data source.
+    - Event handlers on the template widget will be used by cloned widgets.
+    - There is a M.RemoveClone method to remove a single clone or M.RemoveAllClones to remove all clones. The method
+      works on the template that was used to create the clones.
+- There is now a 'D' static class that has statements that work directly on the DOM.
+- DataAdapter 'framework' has been refactored. DataSourceUsage has been redefined to be more specific. That is: some
+  values for DataSourceUsage are only applicable to some widgets such as Value or Options. Therefore, the addDatasource
+  method now has a typed DataSourceUsage that only has the applicable values that correspond to the DataSourceUsage.
+- DataSourceUsage also has a priority now. This means that data adapters are called in a specific order determined by
+  this priority. This is necessary because DataSourceUsage.TEMPLATE_LIST_ITEMS is used to generate clones. This should
+  happen before any other data adapters are invoked.
+- The original design concept of some data adapters converting the data into a different data structure specifically for
+  DataSourceUsage.VALUE has been replaced by a more consistent design. All DataAdapters now operate on the existing
+  ServiceResponse data structure. They either modify the instance provided or recreate a new instance but the structure
+  must stay the same. The only exception is IMPORT data adapters.
+- The PathDataAdapter has been renamed ValueDataAdapter and instead ADDS a field to each data item
+  with a constant name. This field is referenced by ValueWidgets to grab the value they should be set to. If there are
+  multiple data items. The first one is used.
+- A DataConsumerWidget has been added. This is an invisible widget that simply acts as a data consumer similar to a
+  DataBound widget except that there is no visible output. The purpose is to allow switching from a purely Data driven
+  approach to a procedural approach. The idea is to use the onUpdate method of the DataConsumerWidget to start
+  responding to the data using statements.
+- Tracing has been improved. There is also a JsLogFilter class that can be set globally to configure tracing.
+- Fixed defect in data adapters on data consumers where there are multiple data adapters for the same usage with
+  different data sources. This would be the case with a SELECT that has two data sources that need a different
+  KeyValueListDataAdapter. The data adapter variable now groups data adapters by dataSourceId and during updates, the
+  dataSourceId is used to invoke the correct data adapters. For data adapters on data sources, the constant
+  dataSourceId "self" is used instead.
+- Templates: When using DataTemplateWidget with more than one template and refreshing, RemoveAllClones is now called on
+  all templates. Note that this means that developers should not use the same template from multiple DataTemplateWidgets
+  if it is not the intention to remove all clones every time the data is updated.
 
 ## Rejected
 
-- generate html using datasource, template widget to generate new widgets?
-  template widget: needs to convert widget hierarchy to a js template,
-  basically a method that builds the widgets and then add it to a page
-    - turns out to be very difficult.
 - set a 'media' setting on containers so that when printing, they can be hidden
 - support for image map. Not a commonly used feature of HTML and also not a good practise in terms of user experience.

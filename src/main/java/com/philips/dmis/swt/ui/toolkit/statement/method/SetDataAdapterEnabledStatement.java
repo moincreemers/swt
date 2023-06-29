@@ -19,11 +19,13 @@ public class SetDataAdapterEnabledStatement extends MethodStatement {
     private final Widget targetWidget;
     private final DataAdapter dataAdapter;
     private final ValueStatement enabled;
+    private final boolean invert;
 
-    public SetDataAdapterEnabledStatement(Widget targetWidget, DataAdapter dataAdapter, ValueStatement enabled) {
+    public SetDataAdapterEnabledStatement(Widget targetWidget, DataAdapter dataAdapter, ValueStatement enabled, boolean invert) {
         this.targetWidget = targetWidget;
         this.dataAdapter = dataAdapter;
         this.enabled = enabled;
+        this.invert = invert;
 
         if (enabled.getType() != JsType.BOOLEAN) {
             throw new IllegalArgumentException("expected boolean value 'enabled'");
@@ -42,12 +44,13 @@ public class SetDataAdapterEnabledStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s(%s('%s',eventContext),'%s',%s);",
+        js.append("%s(%s('%s',eventContext),'%s',(%s==%s));",
                 JsWidgetModule.getQualifiedId(SetDataAdapterEnabledFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.getId(),
                 dataAdapter.getId(),
-                ValueStatement.valueOf(toolkit, enabled, widget));
+                ValueStatement.valueOf(toolkit, enabled, widget),
+                invert ? "false" : "true");
     }
 
     @Override

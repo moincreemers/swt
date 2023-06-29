@@ -11,7 +11,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
  * to a new field called '__value__' which all data bound widgets use to extract a single value from a record.
  */
 public class ValueDataAdapter extends DataAdapter {
-    public static final String OUTPUT_FIELD_NAME = "__value__";
+    public static final String OUTPUT_VALUE_FIELD_NAME = "__value__";
     public static final String DEFAULT_FIELD = "value";
 
     private final String field;
@@ -30,8 +30,13 @@ public class ValueDataAdapter extends DataAdapter {
     }
 
     @Override
-    public boolean isDataSourceUsage(DataSourceUsage dataSourceUsage) {
-        return dataSourceUsage == DataSourceUsage.VALUE || dataSourceUsage == DataSourceUsage.TEXT;
+    public DataSourceUsage getInitialDataSourceUsage() {
+        return DataSourceUsage.VALUE;
+    }
+
+    @Override
+    public boolean isDataSourceUsageAllowed(DataSourceUsage dataSourceUsage) {
+        return dataSourceUsage == getInitialDataSourceUsage();
     }
 
     @Override
@@ -45,16 +50,22 @@ public class ValueDataAdapter extends DataAdapter {
         js.throwError("path not found", "serviceResponse");
         js.append("};");
 
+        js.append("if(items.length==0){"); // if
+        js.append("items.push({'%s':null});", OUTPUT_VALUE_FIELD_NAME);
+
+        js.append("}else{"); // else
         js.append("for(const i in items){"); // for
         js.append("var record=items[i];");
         js.append("const fieldName='%s';", field);
         js.append("if(!record.hasOwnProperty(fieldName)){");
         js.throwError("property not found", "items", "fieldName");
         js.append("};");
-        js.append("record['%s']=record[fieldName];", OUTPUT_FIELD_NAME);
+        js.append("record['%s']=record[fieldName];", OUTPUT_VALUE_FIELD_NAME);
         js.append("};"); // end for
 
-        js.info("console.log('%s',output);", getClass().getSimpleName());
+        js.append("};"); // end if
+
+        js.debug("console.log('%s',output);", getClass().getSimpleName());
         js.append("return output;");
 
         js.append("}");
