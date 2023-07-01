@@ -328,8 +328,18 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement Array(ValueStatement length) {
-        return new ArrayValue(length);
+    public static ValueStatement ArrayWithLength(ValueStatement length) {
+        return new ArrayWithLengthValue(length);
+    }
+
+    /**
+     * Creates an array.
+     *
+     * @return
+     * @
+     */
+    public static ArrayValue Array() {
+        return new ArrayValue();
     }
 
     /**

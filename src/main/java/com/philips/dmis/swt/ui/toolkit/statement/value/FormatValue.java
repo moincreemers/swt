@@ -37,7 +37,7 @@ public class FormatValue extends ValueStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("%s(%s,%s);",
+        js.append("%s(%s,%s)",
                 JsGlobalModule.getQualifiedId(FormatStringFunction.class),
                 ValueStatement.valueOf(toolkit, format, widget),
                 ValueStatement.valueOf(toolkit, object, widget));

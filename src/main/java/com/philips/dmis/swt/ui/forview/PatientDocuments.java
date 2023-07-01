@@ -128,12 +128,13 @@ public class PatientDocuments extends AbstractViewerPage {
         // Break-glass
         //http://localhost:8080/viewer/services/purposeofuse/overrideoption.json?patientID=356924599&patientIDAuth=1.3.6.1.4.1.21367.2005.3.7
 
-        HtmlLink refreshHtmlLink = menu.add(new HtmlLink(icons, "refresh", "Refresh"));
-        refreshHtmlLink.onClick(new ClickEventHandler(
-                M.Refresh(documents)
-        ));
 
         SingleRowPanel toolbar = add(new SingleRowPanel(PanelType.TOOLBAR));
+
+        HtmlButton refreshHtmlButton = toolbar.add(new HtmlButton(icons, "refresh", "Refresh"));
+        refreshHtmlButton.onClick(new ClickEventHandler(
+                M.Refresh(documents)
+        ));
 
         HtmlButton changePurposeOfUseButton = toolbar.add(new HtmlButton(icons, "lock", "Change purpose of use"));
         HtmlButton revertPurposeOfUseButton = toolbar.add(new HtmlButton(icons, "lock_open", "Revert to regular purpose of use"));
@@ -191,7 +192,7 @@ public class PatientDocuments extends AbstractViewerPage {
         ));
 
         documents.onRefresh(new RefreshEventHandler(
-                M.SetDisabled(refreshHtmlLink),
+                M.SetDisabled(refreshHtmlButton),
                 M.SetVisible(errorPanel, V.False),
                 //M.RemoveAllItems(errorPanel),
                 M.SetVisible(warningMessagesList, V.False),
@@ -199,7 +200,7 @@ public class PatientDocuments extends AbstractViewerPage {
         ));
 
         documents.onResponse(new ResponseEventHandler(
-                M.SetEnabled(refreshHtmlLink),
+                M.SetEnabled(refreshHtmlButton),
                 M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList),
 

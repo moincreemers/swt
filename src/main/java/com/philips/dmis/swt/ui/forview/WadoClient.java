@@ -194,13 +194,13 @@ public class WadoClient extends AbstractViewerPage {
 
         Panel templateThumbnail = navLeft.add(new Panel());
         templateThumbnail.setAppearance(WidgetAppearance.ROUNDED_CORNERS);
-        // we use this class name so we are able to 'select' these elements later
-        templateThumbnail.addClassName("wadoclient_thumbnail");
-        // we need to add this class name to make the panel 'selectable'
-        templateThumbnail.addClassName("tk-selectable");
         HtmlLabel templateThumbnailLabel = templateThumbnail.add(new HtmlLabel(icons, "image"));
         templateThumbnailLabel.setAppearance(WidgetAppearance.BLOCK);
         HtmlImageButton templateThumbnailImage = templateThumbnail.add(new HtmlImageButton());
+        // we need to add this class name to make the panel 'selectable'
+        templateThumbnailImage.addClassName("tk-selectable");
+        // we use this class name so we are able to 'select' these elements later
+        templateThumbnailImage.addClassName("wadoclient_thumbnail");
         templateThumbnailImage.setAppearance(WidgetAppearance.ROUNDED_CORNERS);
         templateThumbnail.setVisible(false);
         templateThumbnailImage.onClick(new ClickEventHandler(
@@ -208,11 +208,11 @@ public class WadoClient extends AbstractViewerPage {
         ));
 
         Panel templateReport = navLeft.add(new Panel());
-        // we use this class name so we are able to 'select' these elements later
-        templateReport.addClassName("wadoclient_thumbnail");
-        // we need to add this class name to make the panel 'selectable'
-        templateReport.addClassName("tk-selectable");
         HtmlLink templateReportLink = templateReport.add(new HtmlLink(icons, "unknown_document", "Report"));
+        // we need to add this class name to make the panel 'selectable'
+        templateReportLink.addClassName("tk-selectable");
+        // we use this class name so we are able to 'select' these elements later
+        templateReportLink.addClassName("wadoclient_thumbnail");
         templateReport.setVisible(false);
         templateReportLink.onClick(new ClickEventHandler(
                 M.SetPageVariable(V.Const(SELECTED_INSTANCES_VARIABLE), V.GetDataKey(), Operator.XOR)
@@ -288,7 +288,10 @@ public class WadoClient extends AbstractViewerPage {
                 M.Iif(V.Is(PageVariableChangeEvent.Name(), V.Const(SELECTED_INSTANCES_VARIABLE))).True(
                         D.RemoveClassName(D.GetElementsByClassName("wadoclient_thumbnail"), "tk-selected"),
                         M.ForEach(PageVariableChangeEvent.Value()).Apply(
-                                D.AddClassName(D.GetElementsByName(V.Value()), "tk-selected")
+                                D.AddClassName(D.QuerySelectorAll(
+                                        V.Format(V.Const("div[name=\"${value}\"]>.tk-selectable"),
+                                                V.Object().add(V.Const("value"), V.Value()))
+                                ), "tk-selected")
                         ),
                         M.Refresh(instancesDataProxy)
                 )

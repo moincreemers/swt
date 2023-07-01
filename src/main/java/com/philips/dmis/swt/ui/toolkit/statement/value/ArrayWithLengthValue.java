@@ -8,18 +8,13 @@ import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayValue extends ValueStatement {
-    private final List<ValueStatement> values = new ArrayList<>();
+public class ArrayWithLengthValue extends ValueStatement {
+    private final ValueStatement length;
 
-    public ArrayValue() {
-    }
-
-    public ArrayValue add(ValueStatement value) {
-        values.add(value);
-        return this;
+    public ArrayWithLengthValue(ValueStatement length) {
+        this.length = length;
     }
 
     @Override
@@ -34,16 +29,9 @@ public class ArrayValue extends ValueStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        js.append("[");
-        int i = 0;
-        for (ValueStatement value : values) {
-            if (i > 0) {
-                js.append(",");
-            }
-            value.renderJs(toolkit, widget, js);
-            i++;
-        }
-        js.append("]");
+        js.append("new Array(");
+        length.renderJs(toolkit, widget, js);
+        js.append(")");
     }
 
     @Override
@@ -52,13 +40,11 @@ public class ArrayValue extends ValueStatement {
             return;
         }
         validated = true;
-        for (ValueStatement value : values) {
-            value.validate(toolkit);
-        }
+        length.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.addAll(values);
+        statements.add(length);
     }
 }

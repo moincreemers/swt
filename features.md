@@ -27,15 +27,19 @@
         - Disclaimers
         - Multiple (configurable) Document Lists
         - Document Actions
-        - Document Filters (client-side)
+        - Delete document
+        - Add document / forms
+        - Document Filters (client-side). Note that the original feature supports customization of the filters.
         - Patient consent (should NOT be part of ForView anyway and we already have a new Patient-facing Consent App)
-        - Patient Identifiers
-        - Forms
+        - Patient Identifiers. Original feature supports adding/removing.
         - DICOM Export
         - User settings
         - About screen (licences, use policy, 3rd party notices)
         - Image Upload. This is currently a plugin on top of the old ForView but should probably be an integral part of
-          the viewer and not a plugin.
+          the viewer and not a plugin. Or alternatively, this should be a standalone application.
+        - No XDW client. As a result, e-Referral is not supported. Should be a standalone application.
+        - WADO: no reports, on-screen image meta data, greyscale, overlays or flv (video). Is this really needed for a
+          non-diagnostic viewer? Reports yes, but the rest?
 
 ## Started
 

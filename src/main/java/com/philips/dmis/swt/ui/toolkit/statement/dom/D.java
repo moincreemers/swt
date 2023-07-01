@@ -31,6 +31,10 @@ public final class D {
         return new GetElementsByClassNameStatement(className);
     }
 
+    public static DOMSelectorStatement QuerySelectorAll(ValueStatement query) {
+        return new QuerySelectorAllStatement(query);
+    }
+
     public static DOMStatement AddClassName(DOMSelectorStatement selector, String className) {
         return AddClassName(selector, V.Const(className));
     }

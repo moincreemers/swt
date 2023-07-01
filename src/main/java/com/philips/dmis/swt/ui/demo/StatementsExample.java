@@ -140,7 +140,7 @@ public class StatementsExample extends Page {
         HtmlPreformatted arrayFillText = new HtmlPreformatted();
         gridArray.addAll(new HtmlParagraph(ArrayFillValue.class.getSimpleName()), new HtmlButton("Run").onClick(
                 new ClickEventHandler(
-                        M.SetText(arrayFillText, V.GetJSON(V.ArrayFill(V.Array(V.Const(5)), V.Const(true)))))
+                        M.SetText(arrayFillText, V.GetJSON(V.ArrayFill(V.ArrayWithLength(V.Const(5)), V.Const(true)))))
         ), new HtmlPreformatted(
                 "V.ArrayFill(\n" +
                         "  V.Array(\n" +
@@ -162,9 +162,9 @@ public class StatementsExample extends Page {
 
         // V.Array
         HtmlPreformatted arrayText = new HtmlPreformatted();
-        gridArray.addAll(new HtmlParagraph(ArrayValue.class.getSimpleName()), new HtmlButton("Run").onClick(
+        gridArray.addAll(new HtmlParagraph(ArrayWithLengthValue.class.getSimpleName()), new HtmlButton("Run").onClick(
                 new ClickEventHandler(
-                        M.SetText(arrayText, V.GetJSON(V.Array(V.Const(5)))))
+                        M.SetText(arrayText, V.GetJSON(V.ArrayWithLength(V.Const(5)))))
         ), new HtmlPreformatted(
                 "V.Array(\n" +
                         "  V.Const(5)\n" +

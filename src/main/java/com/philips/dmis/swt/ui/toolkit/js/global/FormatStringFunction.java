@@ -34,7 +34,7 @@ public class FormatStringFunction implements JsFunction {
         js.trace(this);
 
         js.append("const fn=(i,g)=>{");
-        js.debug("console.log('format',i,g,obj[g]);");
+        js.trace("console.log('format',i,g,obj[g]);");
         js.append("return obj[g];");
         js.append("};");
         js.append("const inject=(str,obj)=>{");
