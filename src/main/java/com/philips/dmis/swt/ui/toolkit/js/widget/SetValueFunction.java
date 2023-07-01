@@ -3,6 +3,8 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
 import com.philips.dmis.swt.ui.toolkit.js.*;
+import com.philips.dmis.swt.ui.toolkit.js.global.IsSameOriginFunction;
+import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.state.DataVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.ImplementsVariable;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
@@ -77,6 +79,17 @@ public class SetValueFunction implements JsFunction {
         js.append("}else ");
         js.ifInArray("widgetType", WidgetType.FRAME.name(),
                 WidgetType.IMAGE_BUTTON.name());
+
+        // Note: Same-Origin-Policy
+        js.append("if(%s(value)){",
+                JsGlobalModule.getQualifiedId(IsSameOriginFunction.class));
+        js.append("element.classList.add('tk-same-origin');");
+        js.append("element.classList.remove('tk-third-party-resource');");
+        js.append("}else{");
+        js.append("element.classList.remove('tk-same-origin');");
+        js.append("element.classList.add('tk-third-party-resource');");
+        js.append("};");
+
         js.append("element.setAttribute('src',value);");
 
         js.append("}else if(widgetType=='%s'){", WidgetType.DATA.name());
@@ -99,9 +112,7 @@ public class SetValueFunction implements JsFunction {
         js.append("};");
 
         js.append("}else if(implements.includes('%s')){", HasSrc.class.getSimpleName());
-        //js.append("if(widgetType=='%s'){", WidgetType.IMAGE.name());
         js.append("element.setAttribute('src',value);");
-        //js.append("};");
 
         js.append("}else if(implements.includes('%s')){", DataSourceSupplier.class.getSimpleName());
 

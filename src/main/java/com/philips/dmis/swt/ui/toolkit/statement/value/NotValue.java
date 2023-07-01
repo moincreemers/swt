@@ -1,29 +1,25 @@
-package com.philips.dmis.swt.ui.toolkit.statement.method;
+package com.philips.dmis.swt.ui.toolkit.statement.value;
 
-import com.philips.dmis.swt.ui.toolkit.ExtModuleInvoke;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
-import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
-import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
-public class HideProgressStatement extends MethodStatement {
-    final Widget targetWidget;
+public class NotValue extends ValueStatement {
+    private final ValueStatement value;
 
-    public HideProgressStatement(Widget targetWidget) {
-        this.targetWidget = targetWidget;
+    public NotValue(ValueStatement value) {
+        this.value = value;
     }
 
     @Override
     public JsType getType() {
-        return JsType.VOID;
+        return JsType.BOOLEAN;
     }
 
     @Override
@@ -33,10 +29,9 @@ public class HideProgressStatement extends MethodStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
-        String idVar = String.format("%s('%s',eventContext)",
-                JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.getId());
-        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.END_PROGRESS, null, idVar, js);
+        js.append("(!");
+        value.renderJs(toolkit, widget, js);
+        js.append(")");
     }
 
     @Override
@@ -45,9 +40,11 @@ public class HideProgressStatement extends MethodStatement {
             return;
         }
         validated = true;
+        value.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
+        statements.add(value);
     }
 }

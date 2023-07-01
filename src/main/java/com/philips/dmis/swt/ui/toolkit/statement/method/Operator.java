@@ -1,10 +1,10 @@
 package com.philips.dmis.swt.ui.toolkit.statement.method;
 
 public enum Operator {
-    RESET,
-    COPY,
+    CLEAR,
+    SET,
     AND,
-    OR,
+    ADD,
     XOR,
-    NOT
+    REMOVE
 }

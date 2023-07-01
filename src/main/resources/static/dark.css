@@ -17,31 +17,31 @@ a.tk-ordering-control-ascending::after{color:#fff;}
 a.tk-ordering-control-descending::after{color:#fff;}
 a,a:visited{color:#65b2ff;}
 a[disabled]{color:#666;}
-iframe.frame{border-color:#666;}
+hr.hr{background-color:#333;}
 
-button.button{background-color:#4c4c4c;color:#fff;border-color:#4c4c4c;}
-button.button:hover{background-color:#656262;color:#fff;border-color:#656262;}
-button.button:active{background-color:#393939;color:#fff;border-color:#393939;}
+button.button{background-color:#4c4c4c;color:#fff;}
+button.button:hover{background-color:#656262;color:#fff;}
+button.button:active{background-color:#393939;color:#fff;}
 
-button.tk-button-primary{background-color:#0051aa;border-color:#0051aa;}
-button.tk-button-primary:hover{background-color:#0362ca;color:#fff;border-color:#0362ca;}
-button.tk-button-primary:active{background-color:#023d7e;color:#fff;border-color:#023d7e;}
+button.tk-button-primary{background-color:#0051aa;}
+button.tk-button-primary:hover{background-color:#0362ca;color:#fff;}
+button.tk-button-primary:active{background-color:#023d7e;color:#fff;}
 
-button.tk-button-success{background-color:#066d3e;border-color:#066d3e;}
-button.tk-button-success:hover{background-color:#057a46;color:#fff;border-color:#057a46;}
-button.tk-button-success:active{background-color:#0f5233;color:#fff;border-color:#0f5233;}
+button.tk-button-success{background-color:#066d3e;}
+button.tk-button-success:hover{background-color:#057a46;color:#fff;}
+button.tk-button-success:active{background-color:#0f5233;color:#fff;}
 
-button.tk-button-info{background-color:#01819b;border-color:#01819b;}
-button.tk-button-info:hover{background-color:#019bba;color:#fff;border-color:#019bba;}
-button.tk-button-info:active{background-color:#016b81;color:#fff;border-color:#016b81;}
+button.tk-button-info{background-color:#01819b;}
+button.tk-button-info:hover{background-color:#019bba;color:#fff;}
+button.tk-button-info:active{background-color:#016b81;color:#fff;}
 
-button.tk-button-warning{background-color:#9a6100;border-color:#9a6100;}
-button.tk-button-warning:hover{background-color:#b37100;color:#fff;border-color:#b37100;}
-button.tk-button-warning:active{background-color:#8c5900;color:#fff;border-color:#8c5900;}
+button.tk-button-warning{background-color:#9a6100;}
+button.tk-button-warning:hover{background-color:#b37100;color:#fff;}
+button.tk-button-warning:active{background-color:#8c5900;color:#fff;}
 
-button.tk-button-error{background-color:#a52b36;border-color:#a52b36;}
-button.tk-button-error:hover{background-color:#cc2b39;color:#fff;border-color:#cc2b39;}
-button.tk-button-error:active{background-color:#8d1c25;color:#fff;border-color:#8d1c25;}
+button.tk-button-error{background-color:#a52b36;}
+button.tk-button-error:hover{background-color:#cc2b39;color:#fff;}
+button.tk-button-error:active{background-color:#8d1c25;color:#fff;}
 
 div.tk-panel-banner{background-color:#333;}
 div.tk-panel-bordered{border-color:#666;}
@@ -56,8 +56,8 @@ div.tk-panel-toolbar>*{border-color:#333!important;}
 div.tk-panel-toolbar>div.single-row-cell>*{border-color:#333!important;}
 div.tk-panel-nav-left,div.tk-panel-nav-right{background-color:#222;}
 
-input.textbox,input.password,input.datebox,input.timebox,input.datetimebox,input.monthbox,input.weekbox,input.numberbox,input.rangewidget,input.emailbox,input.telephonebox,input.urlbox,input.searchbox,input.colorbox{background-color:#333;color:#fff;border:1px solid #666;border-radius:0.125rem;}
-input.textbox[disabled],input.password[disabled],input.datebox[disabled],input.timebox[disabled],input.datetimebox[disabled],input.monthbox[disabled],input.weekbox[disabled],input.numberbox[disabled],input.rangewidget[disabled],input.emailbox[disabled],input.telephonebox[disabled],input.urlbox[disabled],input.searchbox[disabled],input.colorbox[disabled],button.button[disabled]{color:#666;border-color:#444;}
+input.textbox,input.password,input.datebox,input.timebox,input.datetimebox,input.monthbox,input.weekbox,input.numberbox,input.rangewidget,input.emailbox,input.telephonebox,input.urlbox,input.searchbox,input.colorbox,textarea.textarea{background-color:#333;color:#fff;border:1px solid #666;border-radius:0.125rem;}
+input.textbox[disabled],input.password[disabled],input.datebox[disabled],input.timebox[disabled],input.datetimebox[disabled],input.monthbox[disabled],input.weekbox[disabled],input.numberbox[disabled],input.rangewidget[disabled],input.emailbox[disabled],input.telephonebox[disabled],input.urlbox[disabled],input.searchbox[disabled],input.colorbox[disabled],button.button[disabled],textarea.textarea[disabled]{color:#666;border-color:#444;}
 input.searchbox{border-radius:1rem;}
 input.rangewidget,meter.meter,progress.progress{accent-color:#198cff;}
 input::-webkit-calendar-picker-indicator{filter:invert(100%);}
@@ -109,3 +109,7 @@ div.tk-panel-page-footer{background-color:#000;color:#fff;}
 
 div.grid.tk-bordered{border:1px solid #333;}
 div.grid.tk-bordered>div.grid-row>div.grid-cell{border-right:1px solid #333;border-bottom:1px solid #333;}
+
+div.spinner{border-color:#65b2ff;border-top-color:transparent;}
+
+dialog.dialog{background-color:#2f2f2f;color:#fff;border:1px solid #666;border-radius:7px;}

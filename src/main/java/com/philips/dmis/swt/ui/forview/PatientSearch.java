@@ -222,15 +222,15 @@ public class PatientSearch extends AbstractViewerPage {
 
         patients.onRefresh(new RefreshEventHandler(
                 M.SetDisabled(searchHtmlButton),
-                M.SetDisplay(errorPanel, V.False),
+                M.SetVisible(errorPanel, V.False),
                 //M.RemoveAllItems(errorPanel),
-                M.SetDisplay(warningMessagesList, V.False),
+                M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList)
         ));
 
         patients.onResponse(new ResponseEventHandler(
                 M.SetEnabled(searchHtmlButton),
-                M.SetDisplay(warningMessagesList, V.False),
+                M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList),
 
                 M.Iif(ResponseEvent.isUnauthorized()).True(
@@ -238,19 +238,19 @@ public class PatientSearch extends AbstractViewerPage {
                 ),
                 M.Iif(ResponseEvent.isServerError()).True(
                         M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetDisplay(errorPanel, V.True)
+                        M.SetVisible(errorPanel, V.True)
                 ),
                 M.Iif(ResponseEvent.isBadRequest()).True(
                         M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetDisplay(errorPanel, V.True)
+                        M.SetVisible(errorPanel, V.True)
                 ),
                 M.Iif(ResponseEvent.isOk()).True(
-                        M.SetDisplay(errorPanel, V.False),
+                        M.SetVisible(errorPanel, V.False),
                         M.ForEach(V.ObjectProperty(ResponseEvent.getResponseData(), "result.warnings"))
                                 .Apply(
                                         M.Log(V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
                                         M.AppendItems(warningMessagesList, V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
-                                        M.SetDisplay(warningMessagesList, V.True)
+                                        M.SetVisible(warningMessagesList, V.True)
                                 )
                 )
         ));

@@ -51,6 +51,7 @@ public class GetPageVariableFunction implements JsFunction {
         js.append("if(!pageVars.hasOwnProperty(name)){");
         js.throwError("undeclared page variable", "name");
         js.append("};");
+        js.append("if(!Array.isArray(pageVars[name])){pageVars[name]=[];};");
         js.append("return arr=pageVars[name];");
 
         js.append("}"); // end function

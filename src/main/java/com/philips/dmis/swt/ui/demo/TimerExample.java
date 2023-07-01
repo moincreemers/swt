@@ -31,17 +31,17 @@ public class TimerExample extends Page {
         alarmPanel.setVisible(false);
         Timer alarm = add(new Timer("wake-up", TimerType.ALARM, 5000));
         alarm.onElapsed(new ElapsedEventHandler(
-                M.SetDisplay(alarmPanel, V.True)
+                M.SetVisible(alarmPanel, V.True)
         ));
         setAlarm.onClick(new ClickEventHandler(
                 M.Start(alarm),
-                M.SetDisplay(alarmPanel, V.False)
+                M.SetVisible(alarmPanel, V.False)
         ));
 
         add(new HtmlParagraph("Timers can also be used to let your application execute an action " +
-                "repeatedly which is called a repeater. To create a repeat event every 5 seconds:"));
+                "repeatedly which is called a repeater. To create a repeat event every second:"));
 
-        add(new HtmlPreformatted("TimerWidget timer = new TimerWidget(\"repeater\", TimerType.REPEAT, 5000)"));
+        add(new HtmlPreformatted("TimerWidget timer = new TimerWidget(\"repeater\", TimerType.REPEAT, 1000)"));
 
         HtmlButton startRepeater = add(new HtmlButton("Start Repeater"));
         HtmlButton stopRepeater = add(new HtmlButton("Stop Repeater"));
@@ -56,8 +56,8 @@ public class TimerExample extends Page {
         ));
         repeater.onElapsed(new ElapsedEventHandler(
                 M.Iif(V.GetDisplay(repeaterPanel))
-                .True(M.SetDisplay(repeaterPanel, V.False))
-                .False(M.SetDisplay(repeaterPanel, V.True))
+                .True(M.SetVisible(repeaterPanel, V.False))
+                .False(M.SetVisible(repeaterPanel, V.True))
         ));
     }
 }

@@ -57,8 +57,9 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         for (Page page : logicalPages) {
             page.validate(this);
         }
+
+        // todo: integrate this
         externalModules.put("PageHeaders", "pageheaders.js");
-        externalModules.put("Spinner", "spinner.js");
     }
 
     private Page findRootPage(List<Page> pages) throws WebControllerException {

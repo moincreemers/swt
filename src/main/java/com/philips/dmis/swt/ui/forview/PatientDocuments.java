@@ -1,6 +1,9 @@
 package com.philips.dmis.swt.ui.forview;
 
-import com.philips.dmis.swt.ui.toolkit.data.*;
+import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.FieldMapping;
+import com.philips.dmis.swt.ui.toolkit.data.ImportArrayDataAdapter;
+import com.philips.dmis.swt.ui.toolkit.data.MapDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
 import com.philips.dmis.swt.ui.toolkit.dto.ViewAppearance;
@@ -8,6 +11,7 @@ import com.philips.dmis.swt.ui.toolkit.events.*;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.statement.mapper.C;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
+import com.philips.dmis.swt.ui.toolkit.statement.method.Operator;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
@@ -129,6 +133,13 @@ public class PatientDocuments extends AbstractViewerPage {
                 M.Refresh(documents)
         ));
 
+        SingleRowPanel toolbar = add(new SingleRowPanel(PanelType.TOOLBAR));
+
+        HtmlButton changePurposeOfUseButton = toolbar.add(new HtmlButton(icons, "lock", "Change purpose of use"));
+        HtmlButton revertPurposeOfUseButton = toolbar.add(new HtmlButton(icons, "lock_open", "Revert to regular purpose of use"));
+        changePurposeOfUseButton.setVisible(false);
+        revertPurposeOfUseButton.setVisible(false);
+
         HtmlTable htmlTable = add(new HtmlTable());
         OrderedTableHeader orderedTableHeader = htmlTable.add(new OrderedTableHeader(documents));
         orderedTableHeader.setOrder("creationTime", Order.DESCENDING);
@@ -149,6 +160,22 @@ public class PatientDocuments extends AbstractViewerPage {
         ));
 
         onActivate(new ActivateEventHandler(
+                M.DeclarePageVariable(V.Const("purposeOfUsePatients")),
+                M.DeclarePageVariable(V.Const("purposeOfUseReason")),
+
+                //M.SetVisible(purposeOfUseToolbar, V.False),
+                M.SetVisible(changePurposeOfUseButton, V.False),
+                M.Iif(V.ArrayIncludes(V.GetPageVariable(V.Const("purposeOfUsePatients")),
+                        V.StringConcat(
+                                V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"),
+                                V.Const("-"),
+                                V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth")
+                        ))
+                ).True(
+                        //M.SetVisible(purposeOfUseToolbar, V.True),
+                        M.SetVisible(revertPurposeOfUseButton, V.True)
+                ),
+
                 M.SetText(titleLabel, V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "name")),
                 M.SetText(patientIdHtmlLabel, V.StringConcat(V.Const("ID: "), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"))),
                 M.SetText(patientDateOfBirthHtmlLabel, V.StringConcat(V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "dateOfBirth"), V.Const(" ("), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "age"), V.Const("yr)"))),
@@ -165,15 +192,15 @@ public class PatientDocuments extends AbstractViewerPage {
 
         documents.onRefresh(new RefreshEventHandler(
                 M.SetDisabled(refreshHtmlLink),
-                M.SetDisplay(errorPanel, V.False),
+                M.SetVisible(errorPanel, V.False),
                 //M.RemoveAllItems(errorPanel),
-                M.SetDisplay(warningMessagesList, V.False),
+                M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList)
         ));
 
         documents.onResponse(new ResponseEventHandler(
                 M.SetEnabled(refreshHtmlLink),
-                M.SetDisplay(warningMessagesList, V.False),
+                M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList),
 
                 M.Iif(ResponseEvent.isUnauthorized()).True(
@@ -181,23 +208,140 @@ public class PatientDocuments extends AbstractViewerPage {
                 ),
                 M.Iif(ResponseEvent.isServerError()).True(
                         M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetDisplay(errorPanel, V.True)
+                        M.SetVisible(errorPanel, V.True)
                 ),
                 M.Iif(ResponseEvent.isBadRequest()).True(
                         M.SetText(errorMessage, ResponseEvent.getResponseText()),
-                        M.SetDisplay(errorPanel, V.True)
+                        M.SetVisible(errorPanel, V.True)
                 ),
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
-                        M.SetDisplay(errorPanel, V.False)
+                        M.SetVisible(errorPanel, V.False)
                 ),
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
-                        M.SetDisplay(errorPanel, V.False),
+                        M.SetVisible(errorPanel, V.False),
                         M.ForEach(V.ObjectProperty(ResponseEvent.getResponseData(), "result.warnings"))
                                 .Apply(
-                                        M.Log(V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
                                         M.AppendItems(warningMessagesList, V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
-                                        M.SetDisplay(warningMessagesList, V.True)
+                                        M.SetVisible(warningMessagesList, V.True),
+
+                                        // purpose of use
+                                        M.Iif(V.ArrayIncludes(V.GetPageVariable(V.Const("purposeOfUsePatients")),
+                                                V.StringConcat(
+                                                        V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"),
+                                                        V.Const("-"),
+                                                        V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth")
+                                                ))
+                                        ).False(
+                                                M.Iif(V.Call(forViewLib, ForViewLib.IS_DOCUMENT_ACCESS_RESTRICTED, V.Value())).True(
+                                                        //M.SetVisible(purposeOfUseToolbar, V.True),
+                                                        M.SetVisible(changePurposeOfUseButton, V.True),
+                                                        M.SetVisible(revertPurposeOfUseButton, V.False)
+                                                ))
                                 )
+                )
+        ));
+
+        UpdateService changePurposeOfUseService = add(new UpdateService(
+                "http://localhost:8080/viewer/services/purposeofuse/override"));
+        changePurposeOfUseService.setContentType(ContentType.FORM_URLENCODED);
+        changePurposeOfUseService.setAuthenticationType(AuthenticationType.BEARER_JWT);
+
+        UpdateService revertPurposeOfUseService = add(new UpdateService(
+                "http://localhost:8080/viewer/services/purposeofuse/revoke"));
+        revertPurposeOfUseService.setContentType(ContentType.FORM_URLENCODED);
+        revertPurposeOfUseService.setAuthenticationType(AuthenticationType.BEARER_JWT);
+
+        HtmlDialog changePurposeOfUseDialog = add(new HtmlDialog());
+        changePurposeOfUseDialog.add(new HtmlHeading("Change purpose of use", 3));
+        changePurposeOfUseDialog.add(new HtmlParagraph("""
+                You may change your purpose of use for this patient's information.<br/>
+                This might affect what information is visible to you.<br/>
+                All access to information will be audited and logged by the application.<br/>
+                The patient may be informed.
+                """));
+        HtmlLabel purposeOfUseLabel = changePurposeOfUseDialog.add(new HtmlLabel("Please specify the reason for access:"));
+        HtmlTextAreaInput purposeOfUseReasonText = changePurposeOfUseDialog.add(new HtmlTextAreaInput());
+        purposeOfUseLabel.setFor(purposeOfUseReasonText);
+        Panel changePurposeOfUseDialogButtonPanel = changePurposeOfUseDialog.add(new Panel());
+        changePurposeOfUseDialogButtonPanel.setAppearance(WidgetAppearance.ALIGN_RIGHT);
+        HtmlButton changePurposeOfUseCancelButton = changePurposeOfUseDialogButtonPanel.add(new HtmlButton("Cancel"));
+        HtmlButton changePurposeOfUseOkButton = changePurposeOfUseDialogButtonPanel.add(new HtmlButton(ButtonType.PRIMARY, "OK"));
+        changePurposeOfUseOkButton.setEnabled(false);
+        changePurposeOfUseCancelButton.onClick(new ClickEventHandler(
+                M.CloseDialog(changePurposeOfUseDialog, V.Cancel)
+        ));
+        changePurposeOfUseOkButton.onClick(new ClickEventHandler(
+                M.CloseDialog(changePurposeOfUseDialog, V.Ok)
+        ));
+        changePurposeOfUseButton.onClick(new ClickEventHandler(
+                M.OpenDialog(changePurposeOfUseDialog)
+        ));
+        purposeOfUseReasonText.onInput(new InputEventHandler(
+                M.SetDisabled(changePurposeOfUseOkButton, V.IsEmpty(V.GetValue(purposeOfUseReasonText)))
+        ));
+
+        changePurposeOfUseDialog.onClose(new CloseDialogEventHandler(
+                M.Iif(
+                        V.And(
+                                V.Is(V.GetReturnValue(changePurposeOfUseDialog), V.Ok),
+                                V.IsNotEmpty(V.GetValue(purposeOfUseReasonText))
+                        )
+                ).True(
+                        // POST: http://localhost:8080/viewer/services/purposeofuse/override
+                        // patientid=7482736282
+                        // patientIDAuth=1.3.6.1.4.1.21367.2005.3.7
+                        // reason=test
+                        // code=2
+                        // codeSystem=1.0.14265.1
+                        M.SetValue(changePurposeOfUseService,
+                                V.Object()
+                                        .add(V.Const("patientID"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"))
+                                        .add(V.Const("patientIDAuth"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth"))
+                                        .add(V.Const("reason"), V.GetValue(purposeOfUseReasonText))
+                                        .add(V.Const("code"), V.Const("2"))
+                                        .add(V.Const("codeSystem"), V.Const("1.0.14265.1"))
+                        )
+                )
+        ));
+
+        changePurposeOfUseService.onResponse(new ResponseEventHandler(
+                M.Iif(ResponseEvent.isOk()).True(
+                        M.SetPageVariable(V.Const("purposeOfUsePatients"),
+                                V.StringConcat(
+                                        V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"),
+                                        V.Const("-"),
+                                        V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth")
+                                ), Operator.ADD),
+                        //M.SetVisible(purposeOfUseToolbar, V.True),
+                        M.SetVisible(changePurposeOfUseButton, V.False),
+                        M.SetVisible(revertPurposeOfUseButton, V.True),
+                        M.Refresh(documents)
+                )
+        ));
+
+        revertPurposeOfUseButton.onClick(new ClickEventHandler(
+                // POST: https://localhost/viewer/services/purposeofuse/revoke
+                // patientid=7482736282
+                // patientIDAuth=1.3.6.1.4.1.21367.2005.3.7
+                M.SetValue(revertPurposeOfUseService,
+                        V.Object()
+                                .add(V.Const("patientID"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"))
+                                .add(V.Const("patientIDAuth"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth"))
+                )
+        ));
+
+        revertPurposeOfUseService.onResponse(new ResponseEventHandler(
+                M.Iif(ResponseEvent.isOk()).True(
+                        M.SetPageVariable(V.Const("purposeOfUsePatients"),
+                                V.StringConcat(
+                                        V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"),
+                                        V.Const("-"),
+                                        V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth")
+                                ), Operator.REMOVE),
+                        //M.SetVisible(purposeOfUseToolbar, V.True),
+                        M.SetVisible(changePurposeOfUseButton, V.True),
+                        M.SetVisible(revertPurposeOfUseButton, V.False),
+                        M.Refresh(documents)
                 )
         ));
     }

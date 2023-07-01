@@ -47,7 +47,8 @@ public class DeclarePageVariableFunction implements JsFunction {
         js.trace(this);
 
         js.append("const widget=window[id];");
-        js.append("widget.%s[name]=[];", PageVariablesVariable.ID);
+        js.append("const pageVars=widget.%s;", PageVariablesVariable.ID);
+        js.append("if(!pageVars.hasOwnProperty(name)){pageVars[name]=[];};");
 
         js.append("}"); // end function
     }

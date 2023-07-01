@@ -344,6 +344,22 @@ public abstract class EventHandlerFunction implements JsFunction {
         }
     }
 
+    public static class OnOpenDialogEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = OpenDialogEventHandler.NAME;
+
+        public OnOpenDialogEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
+    public static class OnCloseDialogEventHandlerFunction extends EventHandlerFunction {
+        public static final String ID = CloseDialogEventHandler.NAME;
+
+        public OnCloseDialogEventHandlerFunction() {
+            super(ID, false);
+        }
+    }
+
     private final String name;
     private final boolean propagateToParent;
 

@@ -124,7 +124,7 @@ public class TabWidget extends Composite {
                 pair.panel.setVisible(false);
             }
             changeEventHandler.getStatements().add(
-                    M.SetDisplay(pair.panel, V.Is(V.GetValue(tabWidget), V.Const(pair.value))));
+                    M.SetVisible(pair.panel, V.Is(V.GetValue(tabWidget), V.Const(pair.value))));
 
             // add panel to composite
             add(pair.panel);

@@ -92,19 +92,19 @@ public class WidgetGalleryExample extends Page {
         ), new HtmlParagraph(""), new HtmlParagraph("Numbered headings are often used for (technical) documentation. Note that numbering is scoped to a page."));
         textWidgetsGrid.addAll(new HtmlParagraph(HtmlParagraph.class.getSimpleName()), new HtmlParagraph("P"), new HtmlParagraph(HtmlParagraph.class.getSimpleName() + " is the only widget that allows HTML content. Note that HTML is sanitized which means that potentially dangerous elements are removed automatically."));
         textWidgetsGrid.addAll(new HtmlHorizontalRule(), new HtmlParagraph("HR"), new HtmlParagraph(HtmlHorizontalRule.class.getSimpleName() + " is a horizontal rule that is typically used to indicate a division on a page."));
-        textWidgetsGrid.addAll(new HtmlLineBreak(), new HtmlParagraph("BR"), new HtmlParagraph(HtmlLineBreak.class.getSimpleName() + " is a simple line break"));
+        textWidgetsGrid.addAll(new Panel(new HtmlButton("Button"), new HtmlLineBreak(), new HtmlButton("Button")), new HtmlParagraph("BR"), new HtmlParagraph(HtmlLineBreak.class.getSimpleName() + " is a simple line break"));
         textWidgetsGrid.addAll(new HtmlPreformatted("Preformatted"), new HtmlParagraph("PRE"), new HtmlParagraph(HtmlPreformatted.class.getSimpleName() + " is meant for things like code. Wraps text at spaces. You can use TextFormat.JSON to display JSON documents. The toolkit will then format the documents for you."));
         textWidgetsGrid.addAll(new ListContainer(new HtmlParagraph("Item 1"), new HtmlParagraph("Item 2"), new HtmlParagraph("Item 3")), new HtmlParagraph("UL"), new HtmlParagraph(ListContainer.class.getSimpleName() + " is a container widget that displays items as an unordered list by default."));
         textWidgetsGrid.addAll(new ListContainer(ListType.ORDERED, new HtmlParagraph("Item 1"), new HtmlParagraph("Item 2"), new HtmlParagraph("Item 3")), new HtmlParagraph("OL"), new HtmlParagraph("ListType.ORDERED"));
         textWidgetsGrid.addAll(new ListContainer(ListType.MENU, new HtmlLink("Item 1"), new HtmlLink("Item 2"), new HtmlLink("Item 3"), new HtmlButton("Item 4")), new HtmlParagraph("UL"), new HtmlParagraph("ListType.MENU"));
         textWidgetsGrid.addAll(new ListContainer(ListType.INLINE_MENU, new HtmlLink("Item 1"), new HtmlLink("Item 2"), new HtmlLink("Item 3"), new HtmlButton("Item 4")), new HtmlParagraph("UL"), new HtmlParagraph("ListType.INLINE_MENU"));
 
-
         add(new HtmlHeading("Input Widgets", 3));
         Grid inputWidgetsGrid = add(new Grid(3));
         inputWidgetsGrid.setAppearance(WidgetAppearance.BORDERED);
         inputWidgetsGrid.addAll(new Panel(PanelType.BANNER, new HtmlLabel(new HtmlTextInput(), HtmlLabel.class.getSimpleName())), new HtmlParagraph("LABEL"), new HtmlParagraph(HtmlLabel.class.getSimpleName() + " widgets are typically used in combination with an input field. But they can also be used without. Labels also support icons."));
         inputWidgetsGrid.addAll(new HtmlLink(HtmlLink.class.getSimpleName()), new HtmlParagraph("A"), new HtmlParagraph("Links are functionally equivalent to buttons. Links support icons."));
+
         inputWidgetsGrid.addAll(new HtmlButton(HtmlButton.class.getSimpleName()), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.DEFAULT."));
         inputWidgetsGrid.addAll(new HtmlButton(ButtonType.PRIMARY, HtmlButton.class.getSimpleName()), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.PRIMARY."));
         inputWidgetsGrid.addAll(new HtmlButton(ButtonType.SUCCESS, HtmlButton.class.getSimpleName()), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.SUCCESS."));
@@ -113,6 +113,10 @@ public class WidgetGalleryExample extends Page {
         inputWidgetsGrid.addAll(new HtmlButton(ButtonType.ERROR, HtmlButton.class.getSimpleName()), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.ERROR."));
         inputWidgetsGrid.addAll(new HtmlButton(ButtonType.DEFAULT, icons, "search", HtmlButton.class.getSimpleName()), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.DEFAULT + icon."));
         inputWidgetsGrid.addAll(new HtmlButton(ButtonType.ERROR, icons, "error", HtmlButton.class.getSimpleName()), new HtmlParagraph("BUTTON"), new HtmlParagraph("ButtonType.ERROR + icon"));
+        HtmlButton customButton = new HtmlButton(ButtonType.DEFAULT, HtmlButton.class.getSimpleName());
+        customButton.setBackgroundColor("purple");
+        inputWidgetsGrid.addAll(customButton, new HtmlParagraph("BUTTON"), new HtmlParagraph("Default button with custom background color"));
+
         inputWidgetsGrid.addAll(new HtmlImageButton("example.jpg").setImageSize(ImageSize.customSize("150px", "")).setAppearance(WidgetAppearance.ROUNDED_CORNERS), new HtmlParagraph("INPUT type=image"), new HtmlParagraph(HtmlImageButton.class.getSimpleName() + " is an image that can be used instead of a button to submit a form or just used to display an image. The widget supports data binding so this can be used if the datasource contains an URL for example."));
         inputWidgetsGrid.addAll(new HtmlCheckInput(), new HtmlParagraph("INPUT type=checkbox"), new HtmlParagraph(HtmlCheckInput.class.getSimpleName()));
         inputWidgetsGrid.addAll(new HtmlTextInput(HtmlTextInput.class.getSimpleName()), new HtmlParagraph("INPUT, type=text"), new HtmlParagraph(HtmlTextInput.class.getSimpleName() + " is a simple text input field."));
@@ -196,7 +200,11 @@ public class WidgetGalleryExample extends Page {
 
         HtmlFrame htmlFrame = new HtmlFrame();
         htmlFrame.onInit(new InitEventHandler(M.SetValue(htmlFrame, V.Const("example.html"))));
-        specialWidgetsGrid.addAll(htmlFrame, new HtmlParagraph("IFRAME"), new HtmlParagraph("A standard IFRAME element. Iframes have an explicit border to serve as a visual clue that this is in fact an iframe."));
+        HtmlFrame htmlFrameThirdParty = new HtmlFrame();
+        htmlFrameThirdParty.onInit(new InitEventHandler(M.SetValue(htmlFrameThirdParty, V.Const("http://www.example.com"))));
+
+        specialWidgetsGrid.addAll(htmlFrame, new HtmlParagraph("IFRAME"), new HtmlParagraph("A standard IFRAME element showing a resource with the same origin."));
+        specialWidgetsGrid.addAll(htmlFrameThirdParty, new HtmlParagraph("IFRAME"), new HtmlParagraph("An IFRAME element showing a third-party resource. Note that an IFRAME with a URL set to an absolute URL is subject to Same-Origin-Policy. If the URL of the IFRAME does not match the origin of the parent page, the toolkit adds an explicit border to serve as a visual warning to users."));
 
         StaticData dataForStaticDataList = add(new StaticData(DataBuilder.array(LARGE_FRUITS).getData()));
         HtmlDataList htmlDataList = add(new HtmlDataList().addDataSource(dataForStaticDataList, new KeyValueListDataAdapter()));

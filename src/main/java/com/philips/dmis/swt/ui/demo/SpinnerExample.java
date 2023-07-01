@@ -3,6 +3,7 @@ package com.philips.dmis.swt.ui.demo;
 import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
+import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
@@ -20,18 +21,19 @@ public class SpinnerExample extends Page {
         add(new HtmlHeading("Spinner"));
 
         add(new HtmlParagraph("Sometimes its useful to provide feedback to the user that something takes some time. " +
-                "For this you can use the M.ShowProgress and M.HideProgress statements."));
+                              "For this you can use the M.ShowProgress and M.HideProgress statements."));
 
         HtmlButton showButton = add(new HtmlButton("Show spinner"));
         HtmlButton hideButton = add(new HtmlButton("Hide spinner"));
 
         Panel panel = add(new Panel(PanelType.BANNER));
+        Spinner spinner = panel.add(new Spinner());
 
         showButton.onClick(new ClickEventHandler(
-                M.ShowProgress(panel)
+                M.SetVisible(spinner, V.True)
         ));
         hideButton.onClick(new ClickEventHandler(
-                M.HideProgress(panel)
+                M.SetVisible(spinner, V.False)
         ));
 
     }

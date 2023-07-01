@@ -14,11 +14,11 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
-public class SetDisplayStatement extends MethodStatement {
+public class SetVisibleStatement extends MethodStatement {
     private final Widget targetWidget;
     private final ValueStatement valueStatement;
 
-    public SetDisplayStatement(Widget widget, ValueStatement valueStatement) {
+    public SetVisibleStatement(Widget widget, ValueStatement valueStatement) {
         this.targetWidget = widget;
         this.valueStatement = valueStatement;
     }

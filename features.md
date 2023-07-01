@@ -2,70 +2,76 @@
 
 ## Defects
 
-- When the maven webserver is running, recompiling sometimes results in a validation error on a page reference
-  specifically. Unclear why. Re-compiling (after adding a line break) always succeeds. Sometimes Maven already does a
-  recompile but its unclear why it does that.
-- GetPageArgument throws when more than one 'd' argument is present on the hash.
+- When the maven (development) webserver is running, recompiling sometimes results in a validation error on a page
+  reference specifically. Unclear why. Re-compiling always succeeds! Sometimes Maven already does a recompile but its
+  unclear why it does that.
 - GetCurrentPage does not work in the Page.onDeactivate event (the hash has already changed when this event is fired)
-- Global events are never dispatched to a widget other than the page.
+- Global events are no longer dispatched to a widget other than the page. Basically, sending global events back to
+  widgets on which the subscription took place is disabled. This is because of refactoring in GlobalEvents.java.
+
+## VIEWER STATUS
 
 - For Viewer pages:
-    - CORS is not enabled from server. Needs correct HTTP Headers to allow cross-domain requests to the API.
-    - Cookie only APIs? Not sure if all APIs will work properly without cookies and just a JWT.
-        - Confirmed that viewer/services/document/list.json fails after a while with a 500 (Session is missing). The
-          problem is that the JWT is valid and patient search still works but an 'URL hashing' security feature seems to
-          rely on HttpSession to exist. Suggest to remove the URL hashing as it certainly is a proprietary security
-          mechanism.
-        - The fact that a JWT authenticates the user but the HttpSession is not re-created seems to be a defect, this
-          only affects some APIs. If it does, the request does not return a HTTP 401 but 500 which is strange. The WADO
-          API's suffer this problem.
-        - The URL hashing in document retrieve endpoint is very problematic. This makes caching impossible.
+    - CORS is not enabled from server. Needs correct HTTP Headers to allow cross-domain requests to the API if we want
+      to run the frontend from another host. If we can run both from the same domain, this should not be a problem.
+    - ForView API still requires session cookie.
+    - The URL hashing in document retrieve endpoint could be somewhat problematic. This makes caching impractical. There
+      is no mechanism that provides an expiration time or anything like that.
     - Some APIs return HL7 data structures that need to be parsed to be useful. This is a bit of extra work (
-      HL7Lib.java).
-    - WADO client
-    - CDA's render, but not great. CSS/layout is a bit 'off'.
+      HL7Lib.java). This work is incomplete at this time so things like patient email / phone is not parsed yet.
+    - WADO client works but is very, very basic right now.
+    - CDA's render ok, but not great. CSS/layout seems a bit 'off'. Needs a closer inspection. Everything currently just
+      opens in another tab/window. This could be reasonable but we can provide an iframe instead.
     - Features missing:
-        - Document actions
-        - PIX
-        - Export
+        - Session timeout --> automatic logout with warning dialog
+        - Disclaimers
+        - Multiple (configurable) Document Lists
+        - Document Actions
+        - Document Filters (client-side)
+        - Patient consent (should NOT be part of ForView anyway and we already have a new Patient-facing Consent App)
+        - Patient Identifiers
         - Forms
-        - Patient consent
-        - Image Upload
+        - DICOM Export
+        - User settings
+        - About screen (licences, use policy, 3rd party notices)
+        - Image Upload. This is currently a plugin on top of the old ForView but should probably be an integral part of
+          the viewer and not a plugin.
 
 ## Started
 
 - KeyShortcutWidget that can be configured to capture certain key strokes and then raise an event. Even double keyed
   shortcuts could easily be captured.
-- iFrame with staticData binding support: started.
+- iFrame with data binding support: started.
 - responsive css. on hold: difficult to define exact requirements
 - unit tests that can run/verify generated JS
 - FileUpload widget (and Binary upload). Widget completed, not tested.
+- Download method when using code to load an image.
 
 ## Backlog
 
 - Create a development/debug widget that can work with the tracing? Also: instrumentation module for UI testing
 - make open/selection widgets in tables focusable (class/attribute)
 - make timer interval gettable and settable in JS.
-- htmlTable: conditional formatting (based on staticData)
+- htmlTable: conditional formatting (based on data)
 - htmlTable: record selection. should lead to event handler on TableBody that provides an event with the selection
-  staticData and the record being (de-)selected.
+  data and the record being (de-)selected.
 - htmlTable: perhaps a CSS style for selected records?
 - MapDataAdapter, add option to combine multiple columns into one or split a column into multiple columns
-- join-staticData-adapter
+- join-data-adapter
 - Configuration options through beans (using @Component and injecting into ToolkitController?)
 - more support for page layout
 - disable/enable individual options in checkbox/radiobutton lists
 - breadcrumb Widget
 - limit htmlTable loading to a number of records and then show a "load more records" htmlButton or something. This is
   needed to protect against huge responses.
-- TextArea widget
+- TextArea widget. It is undefined what this will be used for exactly. If we need a way to enter large amounts of text
+  then text area is perhaps too basic.
 - htmlTable header/footer for Grid
 - tree widget? And in combination with htmlTable?
-- htmlTable header with hierarchy. Data view staticData structure support this.
+- htmlTable header with hierarchy. Data view structure support this.
 - css support & responsive. Theme support?
 - adding fonts? not arbitrary but with indirection. So a way to define "serif", "sans-serif", "monospace" and "icons" (
   for example). Then add an Enum to set desired font in widgets.
-- update service support for other HTTP methods and encoding
 - Language support. We can do multi-language constants, this is easy to implement. Users would still need
   to set a different text for each language they want to support which may be a bit tedious and result in messy Java
   code. Constant tokens are now generated automatically, we probably want a way to set a constant token so that we can
@@ -95,7 +101,7 @@
 - Data Binding on widgets: DONE.
 - iFrame: DONE
 - Table with DataBinding: DONE.
-- non staticData driven Tables: DONE. Implemented Grid.
+- non data driven Tables: DONE. Implemented Grid.
 - Numbered paragraphs: DONE.
 - ClickHandler, ChangeHandler on certain widgets: DONE.
 - Statements: DONE.
@@ -119,8 +125,8 @@
 - Format code (JS, Java): DONE
 - Dialogs are not in the correct position when the page is scrolled. The scrollbar is then removed but the dialog may be
   out of the viewport. Sidebar dialogs do the same thing. Preferred solution is CSS (if possible).: DONE.
-- Dialogs can return decision and other staticData to the page that owns them: Partially done. We need some way to use
-  the staticData returned in QueryService parameters and statements etc.: DONE. See V.GetReturnValue.
+- Dialogs can return decision and other data to the page that owns them: Partially done. We need some way to use
+  the data returned in QueryService parameters and statements etc.: DONE. See V.GetReturnValue.
 - filter adapter: DONE
 - groupBy adapter: DONE
 - aggregate adapter: DONE
@@ -133,7 +139,7 @@
 - allow parameters in DataSourceWidget
 - allow parameters in DataSourceWidget to be updatable using a statement
 - Radiobutton and Checkbox lists value get/set.
-- ServiceResponse staticData structure also allows for views to be stored.
+- ServiceResponse data structure also allows for views to be stored.
 - Added widgets to support many of the standard HTML elements
 - Added File widget
 - if dialog then z-index of active dialog must be higher then everything else. Currently, the tk-page-active class sets
@@ -150,14 +156,11 @@
   tasks that require the parent-child relationship to be valid (and other things).
 - Os light/dark theme on load and response to change now supported. However, since one stylesheet needs to be disabled
   to switch to light. re-enabling dark mode does not require a round trip to the web server.
-- htmlTable header sorting. Add SortingDataAdapter to staticData source which takes a widget that implements
-  HasOrderingControls.
-  The staticData adapter automatically binds to the widget to get the desired ordering information. HasOrderingControls
-  adds
-  the onOrderChange even handler which should be used to refresh the staticData source when the ordering changes. There
-  is an
-  OrderedTableHeader composite widget to make this very simple. Ordering information stays with the ordering controls.
-  This means that the selected ordering remains after refreshing the staticData source.
+- htmlTable header sorting. Add SortingDataAdapter to data source which takes a widget that implements
+  HasOrderingControls. The data adapter automatically binds to the widget to get the desired ordering information.
+  HasOrderingControls adds the onOrderChange even handler which should be used to refresh the data source when the
+  ordering changes. There is an OrderedTableHeader composite widget to make this very simple. Ordering information stays
+  with the ordering controls. This means that the selected ordering remains after refreshing the data source.
 - Added ListType to replace the 'numbered' argument. Added MENU and INLINE_MENU and CSS styles. A List with INLINE_MENU
   and Panel with PanelType.TOOLBAR can be combined.
 - image input widget
@@ -166,19 +169,17 @@
 - GROUP panel type, just for keeping widgets together
 - Code is now a module that can contain multiple functions. the module can be added to a page as a library but will be
   rendered only once. The call statement now takes the Code widget as an argument.
-- local cache has a CacheType to support background-refresh. This means the cached staticData is displayed first, then
-  the
-  staticData source performs a refresh.
-- staticData bound widgets are now cleared (htmlTable) before the staticData source is refreshing.
+- local cache has a CacheType to support background-refresh. This means the cached data is displayed first, then the
+  data source performs a refresh.
+- data bound widgets are now cleared (htmlTable) before the data source is refreshing.
 - htmlTable: open record by clicking a specified cell (Link) and option to add a column with a Link or Button to execute
-  a
-  statement. this should lead to an event handler on TableBody that provides an event with the record staticData.
-- Table ordering now supports ability to display a column but use the staticData from another for the sorting, this is
+  a statement. this should lead to an event handler on TableBody that provides an event with the record data.
+- Table ordering now supports ability to display a column but use the data from another for the sorting, this is
   useful
-  when the staticData being displayed is formatted in a way that does not support normal sorting such as formatted
+  when the data being displayed is formatted in a way that does not support normal sorting such as formatted
   dates.
-- staticData transfer between pages using session storage. The state is still referenced in the hash (d) but the value
-  is a token. Use V.GetPageArgumentValue to retrieve the actual staticData. V.GetReturnValue removed.
+- data transfer between pages using session storage. The state is still referenced in the hash (d) but the value
+  is a token. Use V.GetPageArgumentValue to retrieve the actual data. V.GetReturnValue removed.
 - added PageHeaders module to handle window resize to set the correct padding on page_inner when page header and/or
   footer are present.
 - navigation panels (left/right) similar to page header/footer
@@ -229,6 +230,11 @@
 - Templates: When using DataTemplateWidget with more than one template and refreshing, RemoveAllClones is now called on
   all templates. Note that this means that developers should not use the same template from multiple DataTemplateWidgets
   if it is not the intention to remove all clones every time the data is updated.
+- update service support for other HTTP methods and encoding
+- Tracing. Methods can now call JsWriter.trace(JsMethod) -> js.trace(this). This will add tracing code to the top of the
+  method. Then subsequent js.trace(format, args[]) can be used to log messages that will appear only when the method is
+  whitelisted in JsLogFilter. This way we can target console logging to specific functions.
+- GetPageArgument throws when more than one 'd' argument is present on the hash.
 
 ## Rejected
 

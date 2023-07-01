@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 
 import java.util.List;
 
-public class ObjectToSearchFunction implements JsFunction {
+public class CreateUniqueKeyFunction implements JsFunction {
     @Override
     public boolean isMemberOf(Widget widget, WidgetType widgetType) {
         return true;
@@ -29,27 +29,15 @@ public class ObjectToSearchFunction implements JsFunction {
 
     @Override
     public void renderJs(Toolkit toolkit, JsWriter js) {
-        js.append("(obj)=>{");
-        js.append("if(obj==undefined){return '';};");
-        js.append("var sp=new URLSearchParams();");
-        js.append("for(const k in obj){"); // for
-        js.append("var v=obj[k];");
-        js.append("if(v==null){continue;};");
-        js.append("if(Array.isArray(v)){");
-        js.append("for(const i in v){");
-        js.append("sp.append(k,v[i]);");
-        js.append("};");
-        js.append("}else{");
-        js.append("sp.append(k,v);");
-        js.append("};");
-        js.append("};");
-        js.append("return sp.toString();");
+        js.append("()=>{");
+        js.append("return (new Date().getTime()).toString(16);");
         js.append("}");
     }
 
     @Override
     public void getParameters(List<JsParameter> parameters) {
-        parameters.add(JsParameter.getInstance("obj", JsType.OBJECT));
+        parameters.add(JsParameter.getInstance("key", JsType.STRING));
+        parameters.add(JsParameter.getInstance("value", JsType.STRING));
     }
 
     @Override

@@ -161,115 +161,115 @@ public final class V {
         return new CodePointAt(string, index);
     }
 
-    public static ValueStatement StringConcat(ValueStatement... valueStatements)  {
+    public static ValueStatement StringConcat(ValueStatement... valueStatements) {
         return new ConcatValue(valueStatements);
     }
 
-    public static ValueStatement StringIncludes(ValueStatement string, ValueStatement value)  {
+    public static ValueStatement StringIncludes(ValueStatement string, ValueStatement value) {
         return new StringIncludes(string, value);
     }
 
-    public static ValueStatement StringIndexOf(ValueStatement string, ValueStatement value)  {
+    public static ValueStatement StringIndexOf(ValueStatement string, ValueStatement value) {
         return new StringIndexOf(string, value);
     }
 
-    public static ValueStatement StringLastIndexOf(ValueStatement string, ValueStatement value)  {
+    public static ValueStatement StringLastIndexOf(ValueStatement string, ValueStatement value) {
         return new StringLastIndexOf(string, value);
     }
 
-    public static ValueStatement StringLength(ValueStatement string)  {
+    public static ValueStatement StringLength(ValueStatement string) {
         return new StringLength(string);
     }
 
-    public static ValueStatement StringRepeat(ValueStatement string, ValueStatement value)  {
+    public static ValueStatement StringRepeat(ValueStatement string, ValueStatement value) {
         return new StringRepeat(string, value);
     }
 
-    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength)  {
+    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength) {
         return new PadStart(string, maxLength);
     }
 
-    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength, ValueStatement fillString)  {
+    public static ValueStatement PadStart(ValueStatement string, ValueStatement maxLength, ValueStatement fillString) {
         return new PadStart(string, maxLength, fillString);
     }
 
-    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength)  {
+    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength) {
         return new PadEnd(string, maxLength);
     }
 
-    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength, ValueStatement fillString)  {
+    public static ValueStatement PadEnd(ValueStatement string, ValueStatement maxLength, ValueStatement fillString) {
         return new PadEnd(string, maxLength, fillString);
     }
 
-    public static ValueStatement Trim(ValueStatement string)  {
+    public static ValueStatement Trim(ValueStatement string) {
         return new Trim(string);
     }
 
-    public static ValueStatement TrimStart(ValueStatement string)  {
+    public static ValueStatement TrimStart(ValueStatement string) {
         return new TrimStart(string);
     }
 
-    public static ValueStatement TrimEnd(ValueStatement string)  {
+    public static ValueStatement TrimEnd(ValueStatement string) {
         return new TrimEnd(string);
     }
 
-    public static ValueStatement TrimLeft(ValueStatement string)  {
+    public static ValueStatement TrimLeft(ValueStatement string) {
         return new TrimLeft(string);
     }
 
-    public static ValueStatement TrimRight(ValueStatement string)  {
+    public static ValueStatement TrimRight(ValueStatement string) {
         return new TrimRight(string);
     }
 
-    public static ValueStatement StringMatch(ValueStatement string, ValueStatement regEx)  {
+    public static ValueStatement StringMatch(ValueStatement string, ValueStatement regEx) {
         return new StringMatch(string, regEx);
     }
 
-    public static ValueStatement StringMatchAll(ValueStatement string, ValueStatement regEx)  {
+    public static ValueStatement StringMatchAll(ValueStatement string, ValueStatement regEx) {
         return new StringMatchAll(string, regEx);
     }
 
-    public static ValueStatement StringSearch(ValueStatement string, ValueStatement regEx)  {
+    public static ValueStatement StringSearch(ValueStatement string, ValueStatement regEx) {
         return new StringSearch(string, regEx);
     }
 
-    public static ValueStatement StringReplace(ValueStatement string, ValueStatement search, ValueStatement value)  {
+    public static ValueStatement StringReplace(ValueStatement string, ValueStatement search, ValueStatement value) {
         return new StringReplace(string, search, value);
     }
 
-    public static ValueStatement StringReplaceAll(ValueStatement string, ValueStatement search, ValueStatement value)  {
+    public static ValueStatement StringReplaceAll(ValueStatement string, ValueStatement search, ValueStatement value) {
         return new StringReplaceAll(string, search, value);
     }
 
-    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start)  {
+    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start) {
         return new StringSlice(string, start);
     }
 
-    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start, ValueStatement end)  {
+    public static ValueStatement StringSlice(ValueStatement string, ValueStatement start, ValueStatement end) {
         return new StringSlice(string, start, end);
     }
 
-    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from)  {
+    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from) {
         return new StringSubstr(string, from);
     }
 
-    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from, ValueStatement end)  {
+    public static ValueStatement StringSubstr(ValueStatement string, ValueStatement from, ValueStatement end) {
         return new StringSubstr(string, from, end);
     }
 
-    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start)  {
+    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start) {
         return new StringSubstring(string, start);
     }
 
-    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start, ValueStatement end)  {
+    public static ValueStatement StringSubstring(ValueStatement string, ValueStatement start, ValueStatement end) {
         return new StringSubstring(string, start, end);
     }
 
-    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter)  {
+    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter) {
         return new StringSplit(string, splitter);
     }
 
-    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter, ValueStatement limit)  {
+    public static ValueStatement StringSplit(ValueStatement string, ValueStatement splitter, ValueStatement limit) {
         return new StringSplit(string, splitter, limit);
     }
 
@@ -279,21 +279,21 @@ public final class V {
 
     // NUMBER
 
-    public static ValueStatement ParseFloat(ValueStatement valueStatement)  {
+    public static ValueStatement ParseFloat(ValueStatement valueStatement) {
         return new ParseFloatValue(valueStatement);
     }
 
-    public static ValueStatement ParseInt(ValueStatement valueStatement)  {
+    public static ValueStatement ParseInt(ValueStatement valueStatement) {
         return new ParseIntegerValue(valueStatement);
     }
 
     // Object
 
-    public static ValueStatement ObjectProperty(ValueStatement object, String memberNameOrPath)  {
+    public static ValueStatement ObjectProperty(ValueStatement object, String memberNameOrPath) {
         return new ObjectPropertyValue(object, V.Const(memberNameOrPath));
     }
 
-    public static ValueStatement ObjectProperty(ValueStatement object, ValueStatement memberNameOrPath)  {
+    public static ValueStatement ObjectProperty(ValueStatement object, ValueStatement memberNameOrPath) {
         return new ObjectPropertyValue(object, memberNameOrPath);
     }
 
@@ -306,7 +306,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement IsArray(ValueStatement value)  {
+    public static ValueStatement IsArray(ValueStatement value) {
         return new ArrayIsArrayValue(value);
     }
 
@@ -317,7 +317,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayLength(ValueStatement array)  {
+    public static ValueStatement ArrayLength(ValueStatement array) {
         return new ArrayLengthValue(array);
     }
 
@@ -328,7 +328,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement Array(ValueStatement length)  {
+    public static ValueStatement Array(ValueStatement length) {
         return new ArrayValue(length);
     }
 
@@ -339,7 +339,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayOf(ValueStatement... valueStatements)  {
+    public static ValueStatement ArrayOf(ValueStatement... valueStatements) {
         return new ArrayOfValue(valueStatements);
     }
 
@@ -350,7 +350,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayKeys(ValueStatement array)  {
+    public static ValueStatement ArrayKeys(ValueStatement array) {
         return new ArrayKeysValue(array);
     }
 
@@ -361,7 +361,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayValues(ValueStatement array)  {
+    public static ValueStatement ArrayValues(ValueStatement array) {
         return new ArrayValuesValue(array);
     }
 
@@ -372,7 +372,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayConcat(ValueStatement... arrays)  {
+    public static ValueStatement ArrayConcat(ValueStatement... arrays) {
         return new ArrayConcatValue(arrays);
     }
 
@@ -423,7 +423,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayEvery(ValueStatement array, PredicateStatement predicate)  {
+    public static ValueStatement ArrayEvery(ValueStatement array, PredicateStatement predicate) {
         return new ArrayEveryValue(array, predicate);
     }
 
@@ -435,7 +435,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArraySome(ValueStatement array, PredicateStatement predicate)  {
+    public static ValueStatement ArraySome(ValueStatement array, PredicateStatement predicate) {
         return new ArraySomeValue(array, predicate);
     }
 
@@ -447,7 +447,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayFilter(ValueStatement array, PredicateStatement predicate)  {
+    public static ValueStatement ArrayFilter(ValueStatement array, PredicateStatement predicate) {
         return new ArrayEveryValue(array, predicate);
     }
 
@@ -459,7 +459,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayFlatMap(ValueStatement array, MethodStatement filter)  {
+    public static ValueStatement ArrayFlatMap(ValueStatement array, MethodStatement filter) {
         return new ArrayFlatMapValue(array, filter);
     }
 
@@ -471,7 +471,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayMap(ValueStatement array, MethodStatement filter)  {
+    public static ValueStatement ArrayMap(ValueStatement array, MethodStatement filter) {
         return new ArrayMapValue(array, filter);
     }
 
@@ -482,7 +482,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayReverse(ValueStatement array)  {
+    public static ValueStatement ArrayReverse(ValueStatement array) {
         return new ArrayReverseValue(array);
     }
 
@@ -493,7 +493,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArraySort(ValueStatement array)  {
+    public static ValueStatement ArraySort(ValueStatement array) {
         return new ArraySortValue(array);
     }
 
@@ -543,7 +543,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayIncludes(ValueStatement array, ValueStatement value)  {
+    public static ValueStatement ArrayIncludes(ValueStatement array, ValueStatement value) {
         return new ArrayIncludesValue(array, value);
     }
 
@@ -555,7 +555,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayIndexOf(ValueStatement array, ValueStatement value)  {
+    public static ValueStatement ArrayIndexOf(ValueStatement array, ValueStatement value) {
         return new ArrayIndexOfValue(array, value);
     }
 
@@ -567,7 +567,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayLastIndexOf(ValueStatement array, ValueStatement value)  {
+    public static ValueStatement ArrayLastIndexOf(ValueStatement array, ValueStatement value) {
         return new ArrayLastIndexOfValue(array, value);
     }
 
@@ -579,7 +579,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayFind(ValueStatement array, PredicateStatement predicate)  {
+    public static ValueStatement ArrayFind(ValueStatement array, PredicateStatement predicate) {
         return new ArrayFindValue(array, predicate);
     }
 
@@ -591,7 +591,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayFindIndex(ValueStatement array, PredicateStatement predicate)  {
+    public static ValueStatement ArrayFindIndex(ValueStatement array, PredicateStatement predicate) {
         return new ArrayFindIndexValue(array, predicate);
     }
 
@@ -603,7 +603,7 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayFindLast(ValueStatement array, PredicateStatement predicate)  {
+    public static ValueStatement ArrayFindLast(ValueStatement array, PredicateStatement predicate) {
         return new ArrayFindLastValue(array, predicate);
     }
 
@@ -615,23 +615,23 @@ public final class V {
      * @return
      * @
      */
-    public static ValueStatement ArrayFindLastIndex(ValueStatement array, PredicateStatement predicate)  {
+    public static ValueStatement ArrayFindLastIndex(ValueStatement array, PredicateStatement predicate) {
         return new ArrayFindLastIndexValue(array, predicate);
     }
 
-    public static ValueStatement ArrayForEach(ValueStatement array, MethodStatement method)  {
+    public static ValueStatement ArrayForEach(ValueStatement array, MethodStatement method) {
         return new ArrayForEachValue(array, method);
     }
 
-    public static ValueStatement ArrayJoin(ValueStatement array, ValueStatement value)  {
+    public static ValueStatement ArrayJoin(ValueStatement array, ValueStatement value) {
         return new ArrayJoinValue(array, value);
     }
 
-    public static ValueStatement ArrayPop(ValueStatement array)  {
+    public static ValueStatement ArrayPop(ValueStatement array) {
         return new ArrayPopValue(array);
     }
 
-    public static ValueStatement ArrayPush(ValueStatement array, ValueStatement... values)  {
+    public static ValueStatement ArrayPush(ValueStatement array, ValueStatement... values) {
         return new ArrayPushValue(array, values);
     }
 
@@ -651,58 +651,62 @@ public final class V {
         return new ArrayReduceRightValue(array, reducer, initialValue);
     }
 
-    public static ValueStatement ArrayShift(ValueStatement array)  {
+    public static ValueStatement ArrayShift(ValueStatement array) {
         return new ArrayShiftValue(array);
     }
 
-    public static ValueStatement ArrayUnshift(ValueStatement array, ValueStatement... values)  {
+    public static ValueStatement ArrayUnshift(ValueStatement array, ValueStatement... values) {
         return new ArrayUnshiftValue(array, values);
     }
 
-    public static ValueStatement ArraySlice(ValueStatement array)  {
+    public static ValueStatement ArraySlice(ValueStatement array) {
         return new ArraySliceValue(array);
     }
 
-    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start)  {
+    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start) {
         return new ArraySliceValue(array, start);
     }
 
-    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start, ValueStatement end)  {
+    public static ValueStatement ArraySlice(ValueStatement array, ValueStatement start, ValueStatement end) {
         return new ArraySliceValue(array, start, end);
     }
 
-    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start)  {
+    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start) {
         return new ArraySpliceValue(array, start);
     }
 
-    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount)  {
+    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount) {
         return new ArraySpliceValue(array, start, deleteCount);
     }
 
-    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount, ValueStatement... values)  {
+    public static ValueStatement ArraySplice(ValueStatement array, ValueStatement start, ValueStatement deleteCount, ValueStatement... values) {
         return new ArraySpliceValue(array, start, deleteCount, values);
     }
 
     //
 
-    public static ValueStatement GetGlobalValue(String key)  {
+    public static ValueStatement GetGlobalValue(String key) {
         return new GetGlobalValue(V.Const(key));
     }
 
-    public static ValueStatement GetGlobalValue(ValueStatement key)  {
+    public static ValueStatement GetGlobalValue(ValueStatement key) {
         return new GetGlobalValue(key);
     }
 
-    public static ValueStatement GetGlobalValue(String key, ValueStatement defaultValue)  {
+    public static ValueStatement GetGlobalValue(String key, ValueStatement defaultValue) {
         return new GetGlobalValue(V.Const(key), defaultValue);
     }
 
-    public static ValueStatement GetGlobalValue(ValueStatement key, ValueStatement defaultValue)  {
+    public static ValueStatement GetGlobalValue(ValueStatement key, ValueStatement defaultValue) {
         return new GetGlobalValue(key, defaultValue);
     }
 
-    public static ValueStatement GetValue(Widget widget)  {
+    public static ValueStatement GetValue(Widget widget) {
         return new GetValueValue(widget);
+    }
+
+    public static ValueStatement GetReturnValue(HtmlDialog dialog) {
+        return new GetReturnValueValue(dialog);
     }
 
     public static ValueStatement IsSelected(String name) {
@@ -713,7 +717,7 @@ public final class V {
         return new GetSelectionValue(name);
     }
 
-    public static ValueStatement GetSelection(String name, int top)  {
+    public static ValueStatement GetSelection(String name, int top) {
         return new GetSelectionValue(name, top);
     }
 
@@ -755,13 +759,13 @@ public final class V {
         return new ParseDateValue(valueStatement);
     }
 
-    public static ValueStatement Date(ValueStatement dateValue)  {
+    public static ValueStatement Date(ValueStatement dateValue) {
         return new DateCreateValue(dateValue);
     }
 
     public static ValueStatement Date(
             ValueStatement year,
-            ValueStatement monthIndex)  {
+            ValueStatement monthIndex) {
         return new DateCreateValue(
                 year,
                 monthIndex);
@@ -770,7 +774,7 @@ public final class V {
     public static ValueStatement Date(
             ValueStatement year,
             ValueStatement monthIndex,
-            ValueStatement day)  {
+            ValueStatement day) {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -781,7 +785,7 @@ public final class V {
             ValueStatement year,
             ValueStatement monthIndex,
             ValueStatement day,
-            ValueStatement hour)  {
+            ValueStatement hour) {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -794,7 +798,7 @@ public final class V {
             ValueStatement monthIndex,
             ValueStatement day,
             ValueStatement hour,
-            ValueStatement minute)  {
+            ValueStatement minute) {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -809,7 +813,7 @@ public final class V {
             ValueStatement day,
             ValueStatement hour,
             ValueStatement minute,
-            ValueStatement second)  {
+            ValueStatement second) {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -826,7 +830,7 @@ public final class V {
             ValueStatement hour,
             ValueStatement minute,
             ValueStatement second,
-            ValueStatement milliSecond)  {
+            ValueStatement milliSecond) {
         return new DateCreateValue(
                 year,
                 monthIndex,
@@ -837,13 +841,13 @@ public final class V {
                 milliSecond);
     }
 
-    public static ValueStatement ModifyDate(ValueStatement date, ValueStatement value)  {
+    public static ValueStatement ModifyDate(ValueStatement date, ValueStatement value) {
         return new DateModifyValue(date, value);
     }
 
     public static ValueStatement DateUTC(
             ValueStatement year,
-            ValueStatement monthIndex)  {
+            ValueStatement monthIndex) {
         return new DateUTCValue(
                 year,
                 monthIndex);
@@ -852,7 +856,7 @@ public final class V {
     public static ValueStatement DateUTC(
             ValueStatement year,
             ValueStatement monthIndex,
-            ValueStatement day)  {
+            ValueStatement day) {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -863,7 +867,7 @@ public final class V {
             ValueStatement year,
             ValueStatement monthIndex,
             ValueStatement day,
-            ValueStatement hour)  {
+            ValueStatement hour) {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -876,7 +880,7 @@ public final class V {
             ValueStatement monthIndex,
             ValueStatement day,
             ValueStatement hour,
-            ValueStatement minute)  {
+            ValueStatement minute) {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -891,7 +895,7 @@ public final class V {
             ValueStatement day,
             ValueStatement hour,
             ValueStatement minute,
-            ValueStatement second)  {
+            ValueStatement second) {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -908,7 +912,7 @@ public final class V {
             ValueStatement hour,
             ValueStatement minute,
             ValueStatement second,
-            ValueStatement milliSecond)  {
+            ValueStatement milliSecond) {
         return new DateUTCValue(
                 year,
                 monthIndex,
@@ -1043,6 +1047,11 @@ public final class V {
         return new OrValue(values);
     }
 
+    public static ValueStatement Not(ValueStatement value) {
+        return new NotValue(value);
+    }
+
+
     public static ValueStatement Is(ValueStatement left, ValueStatement right) {
         return new Is(left, right);
     }
@@ -1053,6 +1062,10 @@ public final class V {
 
     public static ValueStatement IsNotEmpty(ValueStatement value) {
         return new IsNotEmpty(value);
+    }
+
+    public static ValueStatement IsNotNullOrEmpty(ValueStatement value) {
+        return new IsNotNullOrEmpty(value);
     }
 
     public static ValueStatement Contains(ValueStatement left, ValueStatement right) {
@@ -1089,11 +1102,15 @@ public final class V {
         return new CallValue(code, name, parameterValues);
     }
 
+    public static ValueStatement Prompt(ValueStatement text) {
+        return new Prompt(text);
+    }
+
     public static ValueStatement Code(String js, JsType jsType) {
         return new CodeValue(js, jsType);
     }
 
-    public static ValueStatement GetAuthorizationHeaderBearer()  {
+    public static ValueStatement GetAuthorizationHeaderBearer() {
         return new GetAuthorizationHeaderBearerValue();
     }
 
@@ -1125,4 +1142,8 @@ public final class V {
         return new GetPageVariableValue(name);
     }
 
+
+    public static ObjectValue Object() {
+        return new ObjectValue();
+    }
 }

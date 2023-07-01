@@ -49,7 +49,7 @@ public class SetPageVariableFunction implements JsFunction {
         js.append("(id,name,value,operator)=>{");
         js.trace(this);
 
-        js.append("if(operator==undefined){operator='%s';};", Operator.OR.name());
+        js.append("if(operator==undefined){operator='%s';};", Operator.ADD.name());
 
         js.append("const widget=window[id];");
         js.append("const pageVars=widget.%s;", PageVariablesVariable.ID);
@@ -57,27 +57,23 @@ public class SetPageVariableFunction implements JsFunction {
         js.throwError("undeclared page variable", "name");
         js.append("};");
         js.append("var changed=false;");
+        js.append("if(!Array.isArray(pageVars[name])){pageVars[name]=[];};");
 
-        js.append("if(operator=='%s'){", Operator.RESET.name());
+        js.append("if(operator=='%s'){", Operator.CLEAR.name());
         js.append("pageVars[name]=[];");
         js.append("changed=true;");
         js.append("};");
 
-        js.append("if(operator=='%s'){", Operator.COPY.name());
+        js.append("if(operator=='%s'){", Operator.SET.name());
         js.append("pageVars[name]=value;");
         js.append("changed=true;");
         js.append("};");
 
-        js.append("if(operator=='%s'){", Operator.AND.name());
+        js.append("if(operator=='%s'){", Operator.ADD.name());
         js.append("if(!pageVars[name].includes(value)){");
         js.append("pageVars[name].push(value);");
         js.append("changed=true;");
         js.append("};");
-        js.append("};");
-
-        js.append("if(operator=='%s'){", Operator.OR.name());
-        js.append("pageVars[name].push(value);");
-        js.append("changed=true;");
         js.append("};");
 
         js.append("if(operator=='%s'){", Operator.XOR.name());
@@ -90,7 +86,7 @@ public class SetPageVariableFunction implements JsFunction {
         js.append("changed=true;");
         js.append("};");
 
-        js.append("if(operator=='%s'){", Operator.NOT.name());
+        js.append("if(operator=='%s'){", Operator.REMOVE.name());
         js.append("const i=pageVars[name].indexOf(value);");
         js.append("if(i>-1){");
         js.append("pageVars[name].splice(i,1);");

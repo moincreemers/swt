@@ -185,7 +185,7 @@ public class WadoClient extends AbstractViewerPage {
         // when the series changes, we want to reset the selected instances variable
         // and then refresh the data source for the instances
         seriesSelect.onChange(new ChangeEventHandler(
-                M.SetPageVariable(V.Const(SELECTED_INSTANCES_VARIABLE), null, Operator.RESET),
+                M.SetPageVariable(V.Const(SELECTED_INSTANCES_VARIABLE), null, Operator.CLEAR),
                 M.Refresh(instanceThumbnailDataProxy)
         ));
 
@@ -236,9 +236,6 @@ public class WadoClient extends AbstractViewerPage {
                                         M.CloneWidget(templateReport, instanceThumbnailList,
                                                 V.ObjectProperty(V.Value(), V.Const("objectUID"))),
                                         M.WithDataKey(V.ObjectProperty(V.Value(), V.Const("objectUID")),
-//                                                M.Iif(V.ArrayIncludes(V.GetPageVariable(V.Const(SELECTED_INSTANCES_VARIABLE)), V.GetDataKey())).True(
-//                                                        D.AddClassName(D.GetElementsByName(V.GetDataKey()), V.Const("tk-selected"))
-//                                                ),
                                                 M.SetText(templateReportLink, V.StringConcat(V.Sum(V.Key(), V.Const(1)), V.Const("/"), V.ObjectProperty(UpdateEvent.Items(), "length")))
                                         )
                                 )
@@ -246,9 +243,6 @@ public class WadoClient extends AbstractViewerPage {
                                         M.CloneWidget(templateThumbnail, instanceThumbnailList,
                                                 V.ObjectProperty(V.Value(), V.Const("objectUID"))),
                                         M.WithDataKey(V.ObjectProperty(V.Value(), V.Const("objectUID")),
-//                                                M.Iif(V.ArrayIncludes(V.GetPageVariable(V.Const(SELECTED_INSTANCES_VARIABLE)), V.GetDataKey())).True(
-//                                                        D.AddClassName(D.GetElementsByName(V.GetDataKey()), V.Const("tk-selected"))
-//                                                ),
                                                 // todo:
                                                 //C.Download()
                                                 M.SetText(templateThumbnailLabel, V.StringConcat(V.Sum(V.Key(), V.Const(1)), V.Const("/"), V.ObjectProperty(UpdateEvent.Items(), "length"))),
@@ -263,7 +257,7 @@ public class WadoClient extends AbstractViewerPage {
                 M.Refresh(instanceThumbnailDataProxy)
         ));
         instanceThumbnailSelectNoneButton.onClick(new ClickEventHandler(
-                M.SetPageVariable(V.Const(SELECTED_INSTANCES_VARIABLE), null, Operator.RESET)
+                M.SetPageVariable(V.Const(SELECTED_INSTANCES_VARIABLE), null, Operator.CLEAR)
         ));
 
 

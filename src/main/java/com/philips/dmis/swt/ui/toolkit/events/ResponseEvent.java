@@ -10,7 +10,7 @@ public class ResponseEvent extends CustomEvent {
     public static final ValueStatement HTTP_RESPONSE_DATA = V.Const("data");
 
     public static ValueStatement isOk() {
-        return V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_UNAUTHORIZED());
+        return V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK());
     }
 
     public static ValueStatement isUnauthorized() {

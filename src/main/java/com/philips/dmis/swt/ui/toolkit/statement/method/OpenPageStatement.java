@@ -5,6 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.dto.Hash;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.js.global.CreateUniqueKeyFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetDocumentHashFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
@@ -49,12 +50,12 @@ public class OpenPageStatement extends MethodStatement {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         Page targetPage = toolkit.getPage(pageClass);
         boolean isDialog = targetPage.getViewType() == ViewType.DIALOG
-                || targetPage.getViewType() == ViewType.SIDEBAR_DIALOG;
+                           || targetPage.getViewType() == ViewType.SIDEBAR_DIALOG;
         Hash hash = new Hash(targetPage.getId(), widget.getPageId(), null);
         js.append("const hash=%s;", DtoUtil.valueOf(hash));
         js.append("const data={value:%s};", ValueStatement.valueOf(toolkit, valueStatement, widget));
         js.append("data.type=typeof data.value;");
-        js.append("const key=(new Date().getTime()).toString(16);");
+        js.append("const key=%s();", JsGlobalModule.getQualifiedId(CreateUniqueKeyFunction.class));
         js.append("%s(key,JSON.stringify(data));", JsGlobalModule.getQualifiedId(SetSessionValueFunction.class));
         js.append("hash.d.push(key);");
         js.append("%s(hash,%s);",

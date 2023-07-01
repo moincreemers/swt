@@ -79,6 +79,8 @@ public class JsWidgetModule implements JsModule {
             new EventHandlerFunction.OnOpenEventHandlerFunction(),
             new EventHandlerFunction.OnSelectionChangeEventHandlerFunction(),
             new EventHandlerFunction.OnPageVariableChangeEventHandlerFunction(),
+            new EventHandlerFunction.OnOpenDialogEventHandlerFunction(),
+            new EventHandlerFunction.OnCloseDialogEventHandlerFunction(),
             new GetElementFunction(),
             new GetFunction(),
             new GetInnerElementFunction(),

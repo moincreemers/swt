@@ -8,9 +8,9 @@ import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DialogsExamplePage extends Page {
-    public DialogsExamplePage() throws Exception {
-        super(Constants.isDemo(DialogsExamplePage.class));
+public class PageDialogsExamplePage extends Page {
+    public PageDialogsExamplePage() throws Exception {
+        super(Constants.isDemo(PageDialogsExamplePage.class));
     }
 
     @Override
@@ -20,6 +20,8 @@ public class DialogsExamplePage extends Page {
         }
 
         add(new HtmlHeading("Dialogs"));
+
+        add(new Panel(PanelType.INFO, new HtmlParagraph("This demo is not the about the HtmlDialog widget.")));
 
         add(new HtmlParagraph("All dialogs and sidebars behave like 'modal' dialogs. " +
                 "This means that, while the page that opened the dialog is still part of the context, " +

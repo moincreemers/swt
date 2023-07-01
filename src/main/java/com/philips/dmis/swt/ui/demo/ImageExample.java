@@ -72,13 +72,13 @@ public class ImageExample extends Page {
                 M.SetStyle(panel, V.Const("height"), V.Const("auto"))
         ));
         showLayer1.onChange(new ChangeEventHandler(
-                M.SetDisplay(layer1, V.GetValue(showLayer1))
+                M.SetVisible(layer1, V.GetValue(showLayer1))
         ));
         showLayer2.onChange(new ChangeEventHandler(
-                M.SetDisplay(layer2, V.GetValue(showLayer2))
+                M.SetVisible(layer2, V.GetValue(showLayer2))
         ));
         showLayer3.onChange(new ChangeEventHandler(
-                M.SetDisplay(layer3, V.GetValue(showLayer3))
+                M.SetVisible(layer3, V.GetValue(showLayer3))
         ));
     }
 }

@@ -41,7 +41,8 @@ public class SetDocumentHashFunction implements JsFunction {
         js.append("obj=h;");
         js.debug("console.log('sdh',obj);");
         js.append("};"); // end if
-        js.append("document.location.hash='#'+%s(obj);", JsGlobalModule.getQualifiedId(ObjectToSearchFunction.class));
+        js.append("document.location.hash='#'+%s(obj);",
+                JsGlobalModule.getQualifiedId(ObjectToSearchFunction.class));
         //js.append("};"); // end if
         js.append("}");
     }

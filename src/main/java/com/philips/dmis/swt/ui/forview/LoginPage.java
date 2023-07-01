@@ -51,7 +51,7 @@ public class LoginPage extends AbstractViewerPage {
                 M.Stop(refreshSessionTokenTimer),
                 M.RemoveAccessToken(),
 
-                M.SetDisplay(errorPanel, V.False),
+                M.SetVisible(errorPanel, V.False),
                 M.SetDisabled(patientSearchHtmlLink),
                 M.SetDisabled(medicalDocumentsHtmlLink),
                 M.SetDisabled(patientDetailsHtmlLink),
@@ -112,7 +112,7 @@ public class LoginPage extends AbstractViewerPage {
                         M.OpenPage(PatientSearch.class)
                 ).Else(
                         M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetDisplay(errorPanel, V.True)
+                        M.SetVisible(errorPanel, V.True)
                 )
                 // todo: sessionTimeout
         ));

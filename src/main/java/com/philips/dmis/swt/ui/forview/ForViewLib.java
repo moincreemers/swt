@@ -11,6 +11,7 @@ public class ForViewLib extends Code {
     public static final String CALCULATE_AGE = "calcAge";
     public static final String CREATE_WADO_THUMB_URL = "createWadoThumbnailUrl";
     public static final String CREATE_WADO_IMAGE_URL = "createWadoImageUrl";
+    public static final String IS_DOCUMENT_ACCESS_RESTRICTED = "isDocumentAccessRestricted";
 
     public ForViewLib() {
         super("FV");
@@ -80,6 +81,17 @@ public class ForViewLib extends Code {
                 JsParameter.getInstance("warningContext", JsType.STRING),
                 JsParameter.getInstance("message", JsType.STRING))
         );
+
+        add(createFunction(IS_DOCUMENT_ACCESS_RESTRICTED, JsType.BOOLEAN,
+                """
+                        (warning)=>{
+                            return warning.errorCodes!=undefined&&warning.errorCodes.includes('forcare.BppcOrXuaAuthorizationFailed');
+                        };""",
+                JsParameter.getInstance("warningCode", JsType.STRING),
+                JsParameter.getInstance("warningContext", JsType.STRING),
+                JsParameter.getInstance("message", JsType.STRING))
+        );
+
 
         // if
         // end if

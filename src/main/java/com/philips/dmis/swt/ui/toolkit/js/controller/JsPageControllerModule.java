@@ -22,7 +22,8 @@ public class JsPageControllerModule implements JsModule {
             new UpdateFunction(),
             new RegisterPage(),
             new PageExistsFunction(),
-            new GetDefaultPageFunction()
+            new GetDefaultPageFunction(),
+            new GetPageArgumentFunction()
     );
 
     private static final Map<Class<? extends JsMember>, Pair<String, JsMember>> INDEX =

@@ -70,15 +70,15 @@ public class ViewControlExample extends Page {
         add(new HtmlParagraph("Using the return value of another page " +
                 "can be done using the onActivate event (see below) of the page and the GetPageArgument statement:"));
         add(new HtmlPreformatted(TextFormatType.JAVA_AND_JS,
-                "onActivate(\n" +
-                        "  new ActivateEventHandler(\n" +
-                        "    M.Set(selectedFoodTypeLabel,\n" +
-                        "      V.Concat(\n" +
-                        "        V.Const(\"The selected food type is: \"),\n" +
-                        "        V.GetPageArgument()\n" +
-                        "    )\n" +
-                        "  )\n" +
-                        ")"));
+                """
+                    onActivate(new ActivateEventHandler(
+                            M.SetText(selectedFoodTypeHtmlLabel,
+                                    V.StringConcat(
+                                            V.Const("The selected food type is: "),
+                                            V.GetPageArgument()
+                                    )
+                            )
+                    ));"""));
 
         HtmlLabel selectedFoodTypeHtmlLabel = add(new HtmlLabel("The selected food type is: (not selected yet)"));
         onActivate(new ActivateEventHandler(

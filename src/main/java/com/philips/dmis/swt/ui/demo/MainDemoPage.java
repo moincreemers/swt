@@ -26,7 +26,8 @@ public class MainDemoPage extends Page {
         listContainer.add(HtmlLink.openPage("Widget Gallery", WidgetGalleryExample.class));
         listContainer.add(HtmlLink.openPage("Modifying Appearance", AppearanceExample.class));
         listContainer.add(HtmlLink.openPage("Pages", PagesExamplePage.class));
-        listContainer.add(HtmlLink.openPage("Dialogs", DialogsExamplePage.class));
+        listContainer.add(HtmlLink.openPage("Dialog pages", PageDialogsExamplePage.class));
+        listContainer.add(HtmlLink.openPage("Dialog widget", HtmlDialogExamplePage.class));
         listContainer.add(HtmlLink.openPage("Icons", IconsExample.class));
         listContainer.add(HtmlLink.openPage("Integrating a Third-Party API", GoogleBooksExample.class));
         listContainer.add(HtmlLink.openPage("Image", ImageExample.class));

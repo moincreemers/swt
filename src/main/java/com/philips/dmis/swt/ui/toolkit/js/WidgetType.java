@@ -10,6 +10,7 @@ public final class WidgetType {
 
     public static final WidgetType HR = new WidgetType("HR", "hr", false, false, "hr");
     public static final WidgetType BR = new WidgetType("BR", "br", false, false, "br");
+    public static final WidgetType SPINNER = new WidgetType("SPINNER", "spinner-container", false, false, "div");
     public static final WidgetType BUTTON = new WidgetType("BUTTON", "button", false, false, "button");
     public static final WidgetType IMAGE_BUTTON = new WidgetType("IMAGE_BUTTON", "image-button", false, false, "input");
     public static final WidgetType IMAGE = new WidgetType("IMAGE", "image", false, false, "img");
@@ -25,6 +26,7 @@ public final class WidgetType {
     public static final WidgetType SINGLE_CHOICE = new WidgetType("SINGLE_CHOICE", "single-choice", false, false, "ul");
     public static final WidgetType PAGE = new WidgetType("PAGE", "page", true, false, "div");
     public static final WidgetType PANEL = new WidgetType("PANEL", "panel", true, false, "div");
+    public static final WidgetType DIALOG = new WidgetType("DIALOG", "dialog", true, false, "dialog");
     public static final WidgetType GRID = new WidgetType("GRID", "grid", true, false, "div");
     public static final WidgetType SMART_GRID = new WidgetType("SMART_GRID", "smartgrid", true, false, "div");
     public static final WidgetType SINGLE_ROW = new WidgetType("SINGLE_ROW", "single-row", true, false, "div");
@@ -32,6 +34,7 @@ public final class WidgetType {
     public static final WidgetType PARAGRAPH = new WidgetType("PARAGRAPH", "paragraph", false, false, "p");
     public static final WidgetType PREFORMATTED = new WidgetType("PREFORMATTED", "preformatted", false, false, "pre");
     public static final WidgetType TEXT = new WidgetType("TEXT", "textbox", false, false, "input");
+    public static final WidgetType TEXT_AREA = new WidgetType("TEXT_AREA", "textarea", false, false, "textarea");
     public static final WidgetType PASSWORD = new WidgetType("PASSWORD", "password", false, false, "input");
     public static final WidgetType DATE = new WidgetType("DATE", "datebox", false, false, "input");
     public static final WidgetType TIME = new WidgetType("TIME", "timebox", false, false, "input");

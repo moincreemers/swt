@@ -191,8 +191,8 @@ public final class M {
         return new SetDisabledStatement(widget, valueStatement);
     }
 
-    public static MethodStatement SetDisplay(Widget widget, ValueStatement valueStatement) {
-        return new SetDisplayStatement(widget, valueStatement);
+    public static MethodStatement SetVisible(Widget widget, ValueStatement valueStatement) {
+        return new SetVisibleStatement(widget, valueStatement);
     }
 
     public static MethodStatement SetEnabled(Widget widget) {
@@ -323,14 +323,6 @@ public final class M {
         return new PreventDefaultStatement();
     }
 
-    public static MethodStatement ShowProgress(Widget targetWidget) {
-        return new ShowProgressStatement(targetWidget);
-    }
-
-    public static MethodStatement HideProgress(Widget targetWidget) {
-        return new HideProgressStatement(targetWidget);
-    }
-
     public static MethodStatement CloneWidget(Widget template, ContainerWidget<?> target, ValueStatement dataKey) {
         return new CloneWidgetStatement(template, target, dataKey);
     }
@@ -357,5 +349,13 @@ public final class M {
 
     public static MethodStatement RemoveAllItems(HasListItems hasListItems) {
         return new RemoveAllItemsStatement(hasListItems);
+    }
+
+    public static MethodStatement OpenDialog(HtmlDialog dialog) {
+        return new OpenDialogStatement(dialog);
+    }
+
+    public static MethodStatement CloseDialog(HtmlDialog dialog, ValueStatement returnValue) {
+        return new CloseDialogStatement(dialog, returnValue);
     }
 }

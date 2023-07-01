@@ -65,6 +65,7 @@ public class TextImpl implements HasText {
         if (isText()) {
             classNames.add(HasConstantStorage.CSS_CLASS_GLOBAL);
             // NOTE: careful
+            // todo: base64 encode text?
             token = toolkit.registerConstant(text);
         }
         html.append(String.format("<span id=\"${id}%s\" class=\"%s\" %s=\"%s\"></span>",

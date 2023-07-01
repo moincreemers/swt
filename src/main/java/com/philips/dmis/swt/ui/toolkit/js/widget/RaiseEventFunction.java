@@ -55,7 +55,11 @@ public class RaiseEventFunction implements JsFunction {
         js.append("eventContext.dataKey=dataKey;");
         js.append("eventContext.domEvent=domEvent;");
         js.append("eventContext.arguments=arguments;");
+        js.append("try{");
         js.append("eventHandlerFunction(eventContext);");
+        js.append("}catch(e){");
+        js.append("console.log('unhandled error: '+e);");
+        js.append("};");
 
         js.append("}");
     }

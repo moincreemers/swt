@@ -30,6 +30,8 @@ public class TextExample extends Page {
                 "in the province of Friesland. Dutch, English and Papiamento are official in the Caribbean " +
                 "territories.</section>"));
 
+        add(new HtmlHeading("Dangerous content", 2));
+
         StaticData dangerousStaticData = add(new StaticData("Hello <script>alert('this message should never be displayed');</script>World!"));
 
         Panel panel1 = add(new Panel(PanelType.PADDED));
