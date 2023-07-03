@@ -40,6 +40,7 @@
         - No XDW client. As a result, e-Referral is not supported. Should be a standalone application.
         - WADO: no reports, on-screen image meta data, greyscale, overlays or flv (video). Is this really needed for a
           non-diagnostic viewer? Reports yes, but the rest?
+        - DSUB (notification when document list has changed)
 
 ## Started
 

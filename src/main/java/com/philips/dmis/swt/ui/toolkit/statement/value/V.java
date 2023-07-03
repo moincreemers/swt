@@ -50,6 +50,26 @@ public final class V {
         return new ConstantValue(401);
     }
 
+    public static ValueStatement HTTP_FORBIDDEN() {
+        return new ConstantValue(403);
+    }
+
+    public static ValueStatement HTTP_NOT_FOUND() {
+        return new ConstantValue(404);
+    }
+
+    public static ValueStatement HTTP_METHOD_NOT_ALLOWED() {
+        return new ConstantValue(405);
+    }
+
+    public static ValueStatement HTTP_NOT_ACCEPTABLE() {
+        return new ConstantValue(405);
+    }
+
+    public static ValueStatement HTTP_REQUEST_TIMEOUT() {
+        return new ConstantValue(408);
+    }
+
     public static ValueStatement HTTP_SERVER_ERROR() {
         return new ConstantValue(500);
     }

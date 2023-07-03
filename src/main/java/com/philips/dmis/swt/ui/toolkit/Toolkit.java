@@ -9,6 +9,14 @@ import java.io.IOException;
 import java.util.List;
 
 public interface Toolkit {
+    /**
+     * The application version is how the toolkit can tell if the application has changed
+     * it will be embedded into the JS Client as well. When the application changes,
+     * the application version should be changed accordingly, this will allow clients
+     * to know that the application version has changed and they should reload.
+     *
+     * @param appVersion
+     */
     void setAppVersion(String appVersion);
 
     Page getDefaultPage();

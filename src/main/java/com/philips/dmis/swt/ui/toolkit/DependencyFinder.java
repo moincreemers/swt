@@ -11,14 +11,20 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class DependencyFinder {
+    private static final Logger LOG = Logger.getLogger(DependencyFinder.class.getName());
     final Class<? extends Page> rootPage;
     final List<Page> pages;
 
     public DependencyFinder(Class<? extends Page> rootPage, List<Page> pages) {
         this.rootPage = rootPage;
         this.pages = pages;
+        LOG.info("Initialized with pages: " + pages.stream()
+                .map(page -> page.getClass().getSimpleName() + " (" + page.getId() + ")")
+                .collect(Collectors.joining(", ")));
     }
 
     public List<Page> find() throws WidgetConfigurationException {
@@ -80,6 +86,9 @@ public class DependencyFinder {
                 return page;
             }
         }
-        throw new WidgetConfigurationException("missing page: " + pageClass.getName());
+        throw new WidgetConfigurationException("missing page: " + pageClass.getSimpleName() + " in: "
+                                               + pages.stream()
+                                                       .map(page -> page.getClass().getSimpleName() + " (" + page.getId() + ")")
+                                                       .collect(Collectors.joining(", ")));
     }
 }

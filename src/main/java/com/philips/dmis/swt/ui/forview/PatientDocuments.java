@@ -193,14 +193,16 @@ public class PatientDocuments extends AbstractViewerPage {
 
         documents.onRefresh(new RefreshEventHandler(
                 M.SetDisabled(refreshHtmlButton),
-                M.SetVisible(errorPanel, V.False),
-                //M.RemoveAllItems(errorPanel),
+                M.SetVisible(errorMessagesList, V.False),
+                M.RemoveAllItems(errorMessagesList),
                 M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList)
         ));
 
         documents.onResponse(new ResponseEventHandler(
                 M.SetEnabled(refreshHtmlButton),
+                M.SetVisible(errorMessagesList, V.False),
+                M.RemoveAllItems(errorMessagesList),
                 M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList),
 
@@ -208,18 +210,15 @@ public class PatientDocuments extends AbstractViewerPage {
                         M.OpenPage(LoginPage.class)
                 ),
                 M.Iif(ResponseEvent.isServerError()).True(
-                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetVisible(errorPanel, V.True)
+                        M.AppendItems(errorMessagesList, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
+                        M.SetVisible(errorMessagesList, V.True)
                 ),
                 M.Iif(ResponseEvent.isBadRequest()).True(
-                        M.SetText(errorMessage, ResponseEvent.getResponseText()),
-                        M.SetVisible(errorPanel, V.True)
+                        M.AppendItems(errorMessagesList, ResponseEvent.getResponseText()),
+                        M.SetVisible(errorMessagesList, V.True)
                 ),
                 M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
-                        M.SetVisible(errorPanel, V.False)
-                ),
-                M.Iif(V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_OK())).True(
-                        M.SetVisible(errorPanel, V.False),
+                        M.SetVisible(errorMessagesList, V.False),
                         M.ForEach(V.ObjectProperty(ResponseEvent.getResponseData(), "result.warnings"))
                                 .Apply(
                                         M.AppendItems(warningMessagesList, V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
@@ -234,7 +233,6 @@ public class PatientDocuments extends AbstractViewerPage {
                                                 ))
                                         ).False(
                                                 M.Iif(V.Call(forViewLib, ForViewLib.IS_DOCUMENT_ACCESS_RESTRICTED, V.Value())).True(
-                                                        //M.SetVisible(purposeOfUseToolbar, V.True),
                                                         M.SetVisible(changePurposeOfUseButton, V.True),
                                                         M.SetVisible(revertPurposeOfUseButton, V.False)
                                                 ))
@@ -317,6 +315,11 @@ public class PatientDocuments extends AbstractViewerPage {
                         M.SetVisible(changePurposeOfUseButton, V.False),
                         M.SetVisible(revertPurposeOfUseButton, V.True),
                         M.Refresh(documents)
+                ),
+                M.Iif(ResponseEvent.isForbidden()).True(
+                        M.RemoveAllItems(errorMessagesList),
+                        M.AppendItems(errorMessagesList, V.Const("Access denied")),
+                        M.SetVisible(errorMessagesList, V.True)
                 )
         ));
 

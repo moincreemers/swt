@@ -17,6 +17,10 @@ public class ResponseEvent extends CustomEvent {
         return V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_UNAUTHORIZED());
     }
 
+    public static ValueStatement isForbidden() {
+        return V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_FORBIDDEN());
+    }
+
     public static ValueStatement isServerError() {
         return V.Is(V.GetEvent(ResponseEvent.HTTP_STATUS), V.HTTP_SERVER_ERROR());
     }

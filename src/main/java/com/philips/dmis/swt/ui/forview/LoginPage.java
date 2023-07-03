@@ -19,9 +19,12 @@ public class LoginPage extends AbstractViewerPage {
         super.build();
 
         // set to repeat every 2.5 minutes (we do not know why but that is what ForView does)
-        Timer refreshSessionTokenTimer = add(new Timer("refreshSessionTokenTimer", TimerType.REPEAT, 150000));
+        Timer refreshSessionTokenTimer = add(new Timer(
+                "refreshSessionTokenTimer", TimerType.REPEAT,
+                Timer.ONE_SECOND * 150));
 
-        UpdateService loginService = add(new UpdateService("http://localhost:8080/viewer/services/user/login.json"));
+        UpdateService loginService = add(new UpdateService(
+                "http://localhost:8080/viewer/services/user/login.json"));
         loginService.setHttpMethod(HttpMethod.POST);
         loginService.setContentType(ContentType.FORM_URLENCODED);
 
@@ -29,7 +32,8 @@ public class LoginPage extends AbstractViewerPage {
         //?lastUpdateTime=1683471605126&request.preventCache=1683480286176
         // ... apparently we do not
 
-        UpdateService refreshSessionService = add(new UpdateService("http://localhost:8080/viewer/services/user/session/refresh.json"));
+        UpdateService refreshSessionService = add(new UpdateService(
+                "http://localhost:8080/viewer/services/user/session/refresh.json"));
         refreshSessionService.setHttpMethod(HttpMethod.GET);
         refreshSessionService.setAuthenticationType(AuthenticationType.BEARER_JWT);
 
@@ -51,7 +55,9 @@ public class LoginPage extends AbstractViewerPage {
                 M.Stop(refreshSessionTokenTimer),
                 M.RemoveAccessToken(),
 
-                M.SetVisible(errorPanel, V.False),
+                M.RemoveAllItems(errorMessagesList),
+                M.SetVisible(errorMessagesList, V.False),
+
                 M.SetDisabled(patientSearchHtmlLink),
                 M.SetDisabled(medicalDocumentsHtmlLink),
                 M.SetDisabled(patientDetailsHtmlLink),
@@ -100,6 +106,9 @@ public class LoginPage extends AbstractViewerPage {
                 M.SetDisabled(loginHtmlButton)
         ));
         loginService.onResponse(new ResponseEventHandler(
+                M.RemoveAllItems(errorMessagesList),
+                M.SetVisible(errorMessagesList, V.False),
+
                 M.SetEnabled(loginHtmlButton),
                 M.RemoveAccessToken(),
                 M.Log(V.Const("LOGIN"), V.GetEvent()),
@@ -111,8 +120,8 @@ public class LoginPage extends AbstractViewerPage {
 
                         M.OpenPage(PatientSearch.class)
                 ).Else(
-                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetVisible(errorPanel, V.True)
+                        M.AppendItems(errorMessagesList, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
+                        M.SetVisible(errorMessagesList, V.True)
                 )
                 // todo: sessionTimeout
         ));

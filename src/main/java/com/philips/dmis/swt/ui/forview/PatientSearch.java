@@ -222,14 +222,16 @@ public class PatientSearch extends AbstractViewerPage {
 
         patients.onRefresh(new RefreshEventHandler(
                 M.SetDisabled(searchHtmlButton),
-                M.SetVisible(errorPanel, V.False),
-                //M.RemoveAllItems(errorPanel),
+                M.SetVisible(errorMessagesList, V.False),
+                M.RemoveAllItems(errorMessagesList),
                 M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList)
         ));
 
         patients.onResponse(new ResponseEventHandler(
                 M.SetEnabled(searchHtmlButton),
+                M.SetVisible(errorMessagesList, V.False),
+                M.RemoveAllItems(errorMessagesList),
                 M.SetVisible(warningMessagesList, V.False),
                 M.RemoveAllItems(warningMessagesList),
 
@@ -237,18 +239,16 @@ public class PatientSearch extends AbstractViewerPage {
                         M.OpenPage(LoginPage.class)
                 ),
                 M.Iif(ResponseEvent.isServerError()).True(
-                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetVisible(errorPanel, V.True)
+                        M.AppendItems(errorMessagesList, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
+                        M.SetVisible(errorMessagesList, V.True)
                 ),
                 M.Iif(ResponseEvent.isBadRequest()).True(
-                        M.SetText(errorMessage, V.Call(forViewLib, ForViewLib.PARSE_ERROR, V.GetEvent())),
-                        M.SetVisible(errorPanel, V.True)
+                        M.AppendItems(errorMessagesList, ResponseEvent.getResponseText()),
+                        M.SetVisible(errorMessagesList, V.True)
                 ),
                 M.Iif(ResponseEvent.isOk()).True(
-                        M.SetVisible(errorPanel, V.False),
                         M.ForEach(V.ObjectProperty(ResponseEvent.getResponseData(), "result.warnings"))
                                 .Apply(
-                                        M.Log(V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
                                         M.AppendItems(warningMessagesList, V.Call(forViewLib, ForViewLib.PARSE_WARNING, V.Value())),
                                         M.SetVisible(warningMessagesList, V.True)
                                 )

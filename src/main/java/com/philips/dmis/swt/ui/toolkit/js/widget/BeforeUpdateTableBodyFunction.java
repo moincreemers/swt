@@ -1,8 +1,6 @@
 package com.philips.dmis.swt.ui.toolkit.js.widget;
 
-import com.philips.dmis.swt.ui.toolkit.ExtModuleInvoke;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.dto.ExtModuleEvent;
 import com.philips.dmis.swt.ui.toolkit.js.*;
 import com.philips.dmis.swt.ui.toolkit.js.global.IsObjectFunction;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
@@ -58,11 +56,14 @@ public class BeforeUpdateTableBodyFunction implements JsFunction {
         js.append("element.textContent='';");
         js.append("const tr=document.createElement('tr');");
         js.append("const td=document.createElement('td');");
-        js.append("const tempId=id+'-nodata';");
-        js.append("td.id=tempId;");
+        js.append("const divContainer=document.createElement('div');");
+        js.append("const divSpinner=document.createElement('div');");
+        js.append("divContainer.classList.add('spinner-container');");
+        js.append("divSpinner.classList.add('spinner');");
+        js.append("divContainer.append(divSpinner);");
+        js.append("td.append(divContainer);");
         js.append("tr.append(td);");
         js.append("element.append(tr);");
-        ExtModuleInvoke.renderIndirectCall(ExtModuleEvent.BEGIN_PROGRESS, null, "tempId", js);
 
         js.append("}"); // end function
     }

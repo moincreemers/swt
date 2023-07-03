@@ -30,7 +30,7 @@ public class MainDemoPage extends Page {
         listContainer.add(HtmlLink.openPage("Dialog widget", HtmlDialogExamplePage.class));
         listContainer.add(HtmlLink.openPage("Icons", IconsExample.class));
         listContainer.add(HtmlLink.openPage("Integrating a Third-Party API", GoogleBooksExample.class));
-        listContainer.add(HtmlLink.openPage("Image", ImageExample.class));
+        listContainer.add(HtmlLink.openPage("Image", ImageAndOverlayExample.class));
         listContainer.add(HtmlLink.openPage("Frames", FrameExample.class));
         listContainer.add(HtmlLink.openPage("Header & Footer Panels", HeaderFooterPanelExample.class));
         listContainer.add(HtmlLink.openPage("Timers", TimerExample.class));

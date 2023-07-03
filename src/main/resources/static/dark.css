@@ -8,11 +8,11 @@ table.table>thead>tr>th,table.table>tbody>tr>td,table.table>tfoot>tr>td,table.ta
 ul.list,ol.list,ul.single-choice,ul.multiple-choice{color:#fff;}
 ul.tk-list-menu,ul.tk-list-inline-menu{background-color:#333;}
 ul.tk-list-menu>li>*:hover,ul.tk-list-inline-menu>li>*:hover{background-color:#444;}
-ul.tk-list-pills>li{background-color:#333;color:#969696;border-color:1px solid #666;}
-ul.tk-list-pills-success>li{background-color:#01341d;color:#08b566;border:1px solid 066d3e;}
-ul.tk-list-pills-info>li{background-color:#003b47;color:#00a6c8;border:1px solid #01819b;}
-ul.tk-list-pills-warning>li{background-color:#4d3100;color:#da8900;border:1px solid #9a6100;}
-ul.tk-list-pills-error>li{background-color:#501319;color:#dc3443;border:1px solid #a52b36;}
+ul.tk-list-pills>li{background-color:#333;color:#969696;border-color:#666;}
+ul.tk-list-pills-success>li{background-color:#01341d;color:#08b566;border-color:#066d3e;}
+ul.tk-list-pills-info>li{background-color:#003b47;color:#00a6c8;border-color:#01819b;}
+ul.tk-list-pills-warning>li{background-color:#4d3100;color:#da8900;border-color:#9a6100;}
+ul.tk-list-pills-error>li{background-color:#501319;color:#dc3443;border-color:#a52b36;}
 a.tk-ordering-control-ascending::after{color:#fff;}
 a.tk-ordering-control-descending::after{color:#fff;}
 a,a:visited{color:#65b2ff;}
@@ -22,6 +22,10 @@ hr.hr{background-color:#333;}
 button.button{background-color:#333;color:#fff;}
 button.button:hover{background-color:#494949;color:#fff;}
 button.button:active{background-color:#292929;color:#fff;}
+
+label.tk-check-button{background-color:#333;color:#fff;}
+label.tk-check-button:hover{background-color:#494949;color:#fff;}
+label.tk-check-button:active{background-color:#292929;color:#fff;}
 
 button.tk-button-primary{background-color:#0051aa;}
 button.tk-button-primary:hover{background-color:#0362ca;color:#fff;}

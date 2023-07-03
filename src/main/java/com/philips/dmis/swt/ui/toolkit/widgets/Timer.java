@@ -8,6 +8,10 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.Map;
 
 public class Timer extends Widget {
+    public static final int ONE_SECOND = 1000;
+    public static final int ONE_MINUTE = ONE_SECOND * 60;
+    public static final int ONE_HOUR = ONE_MINUTE * 60;
+
     private final String name;
     private final TimerType timerType;
     private final int intervalMilliSeconds;

@@ -15,11 +15,6 @@ public class MyApplicationController {
 
     public MyApplicationController(Toolkit toolkit) {
         this.toolkit = toolkit;
-
-        // The application version is how the toolkit can tell if the application has changed
-        // it will be embedded into the JS Client as well.
-        // when the application changes, the application version should be changed accordingly, this will allow clients
-        // to know that the application version has changed and they should reload.
         toolkit.setAppVersion(APP_VERSION);
     }
 

@@ -22,8 +22,7 @@ public abstract class AbstractViewerPage extends Page {
     HtmlLink patientDetailsHtmlLink;
     QueryService userService;
     UpdateService logoutService;
-    Panel errorPanel;
-    HtmlLabel errorMessage;
+    HtmlList errorMessagesList;
     HtmlList warningMessagesList;
     ListContainer titlePanel;
     HtmlLabel titleLabel;
@@ -54,9 +53,8 @@ public abstract class AbstractViewerPage extends Page {
         titlePanel.setAppearance(WidgetAppearance.BLOCK);
         titleLabel = titlePanel.add(new HtmlLabel(""));
         titleLabel.setAppearance(WidgetAppearance.LARGE_FONT);
-        errorPanel = add(new Panel(PanelType.ERROR));
-        errorPanel.setVisible(false);
-        errorMessage = errorPanel.add(new HtmlLabel(icons, "error", ""));
+        errorMessagesList = add(new HtmlList(ListType.PILLS_ERROR));
+        errorMessagesList.setVisible(false);
         warningMessagesList = add(new HtmlList(ListType.PILLS_WARNING));
         warningMessagesList.setVisible(false);
 

@@ -62,15 +62,18 @@ public class RenderElementFunction implements JsFunction {
         // create new child element
         js.append("var element=document.createElement(childWidget.%s);", HtmlTagVariable.ID);
 
-        // set id
-        js.append("element.id=childWidget.id;");
-
         // set html attributes
+        js.append("var idAlreadySet=false;");
         js.append("for(const key in childWidget.%s){", HtmlAttributesVariable.ID);
-        js.append("if(key=='id'){continue;};");
+        js.append("if(key=='id'){idAlreadySet=true;};");
         js.append("var value=childWidget.%s[key];", HtmlAttributesVariable.ID);
         js.append("if(value==null||value==undefined){continue;};");
         js.append("element.setAttribute(key,value);");
+        js.append("};");
+
+        // set id
+        js.append("if(!idAlreadySet){");
+        js.append("element.id=childWidget.id;");
         js.append("};");
 
         // set css classes
