@@ -69,8 +69,6 @@
 - breadcrumb Widget
 - limit htmlTable loading to a number of records and then show a "load more records" htmlButton or something. This is
   needed to protect against huge responses.
-- TextArea widget. It is undefined what this will be used for exactly. If we need a way to enter large amounts of text
-  then text area is perhaps too basic.
 - htmlTable header/footer for Grid
 - tree widget? And in combination with htmlTable?
 - htmlTable header with hierarchy. Data view structure support this.
@@ -240,6 +238,8 @@
   method. Then subsequent js.trace(format, args[]) can be used to log messages that will appear only when the method is
   whitelisted in JsLogFilter. This way we can target console logging to specific functions.
 - GetPageArgument throws when more than one 'd' argument is present on the hash.
+- TextArea widget
+- Much better spinner/loader
 
 ## Rejected
 

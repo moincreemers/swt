@@ -55,20 +55,24 @@ public class RemoveOptionsFunction implements JsFunction {
 
         js.ifInArray("widgetType", WidgetType.MULTIPLE_CHOICE.name(),
                 WidgetType.SINGLE_CHOICE.name()); // if
-            js.append("if(dataSourceId==undefined||dataSourceId==null||dataSourceId==''){");
-            js.append("element.textContent='';");
-            js.append("return;");
-            js.append("};");
-            js.append("const nl=element.querySelectorAll('[tk-source=\\''+dataSourceId+'\\']');");
-            js.append("nl.forEach((c)=>element.removeChild(c));");
+        js.append("if(dataSourceId==undefined||dataSourceId==null||dataSourceId==''){");
+        js.append("element.textContent='';");
+        js.append("return;");
+        js.append("};");
+        js.append("const nlTemp=element.querySelectorAll('[tk-source=\\'__temp__\\']');");
+        js.append("nlTemp.forEach((c)=>element.removeChild(c));");
+        js.append("const nl=element.querySelectorAll('[tk-source=\\''+dataSourceId+'\\']');");
+        js.append("nl.forEach((c)=>element.removeChild(c));");
 
         js.append("}else{");
-            js.append("if(dataSourceId==undefined||dataSourceId==null||dataSourceId==''){");
-            js.append("element.length=0;");
-            js.append("return;");
-            js.append("};");
-            js.append("const nl=element.querySelectorAll('[tk-source=\\''+dataSourceId+'\\']');");
-            js.append("nl.forEach((c)=>element.removeChild(c));");
+        js.append("if(dataSourceId==undefined||dataSourceId==null||dataSourceId==''){");
+        js.append("element.length=0;");
+        js.append("return;");
+        js.append("};");
+        js.append("const nlTemp=element.querySelectorAll('[tk-source=\\'__temp__\\']');");
+        js.append("nlTemp.forEach((c)=>element.removeChild(c));");
+        js.append("const nl=element.querySelectorAll('[tk-source=\\''+dataSourceId+'\\']');");
+        js.append("nl.forEach((c)=>element.removeChild(c));");
 
         js.append("};"); // end if
 

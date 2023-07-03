@@ -26,7 +26,7 @@ public class GetElementByIdStatement extends DOMSelectorStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("Array.from(document.getElementsById(%s))", ValueStatement.valueOf(toolkit, id, widget));
+        js.append("[document.getElementById(%s)]", ValueStatement.valueOf(toolkit, id, widget));
     }
 
     @Override

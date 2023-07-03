@@ -65,9 +65,11 @@ public class HtmlCheckInput extends ValueWidget<HtmlCheckInput, ValueDataSourceU
     @Override
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
         super.getHtmlAttributes(htmlAttributes);
-        // note: if we set an alternate element ID here, the toolkit will not overwrite it
-        htmlAttributes.put("id", getId() + "_button");
-        htmlAttributes.put("for", getId());
+        if (checkInputType == CheckInputType.BUTTON) {
+            // note: if we set an alternate element ID here, the toolkit will not overwrite it
+            htmlAttributes.put("id", getId() + "_button");
+            htmlAttributes.put("for", getId());
+        }
     }
 
     @Override
