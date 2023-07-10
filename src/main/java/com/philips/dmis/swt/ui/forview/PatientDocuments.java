@@ -82,7 +82,7 @@ public class PatientDocuments extends AbstractViewerPage {
             - patientID
             - patientIDAuth
         */
-        QueryService documents = add(new QueryService("http://localhost:8080/viewer/services/document/list.json",
+        QueryService documents = add(new QueryService(VIEWER_BASE_URL + "services/document/list.json",
                 false, false));
         documents.setCacheType(CacheType.LOCAL_ONLY);
         documents.setAuthenticationType(AuthenticationType.BEARER_JWT);
@@ -155,7 +155,7 @@ public class PatientDocuments extends AbstractViewerPage {
                 ).Else(
                         M.OpenURL(
                                 V.StringConcat(
-                                        V.Const("http://localhost:8080"),
+                                        V.Const(VIEWER_HOST),
                                         V.ObjectProperty(V.GetEvent(OpenEvent.RECORD), "retrieveUrl"))
                         ))
         ));
@@ -241,12 +241,12 @@ public class PatientDocuments extends AbstractViewerPage {
         ));
 
         UpdateService changePurposeOfUseService = add(new UpdateService(
-                "http://localhost:8080/viewer/services/purposeofuse/override"));
+                VIEWER_BASE_URL + "services/purposeofuse/override"));
         changePurposeOfUseService.setContentType(ContentType.FORM_URLENCODED);
         changePurposeOfUseService.setAuthenticationType(AuthenticationType.BEARER_JWT);
 
         UpdateService revertPurposeOfUseService = add(new UpdateService(
-                "http://localhost:8080/viewer/services/purposeofuse/revoke"));
+                VIEWER_BASE_URL + "services/purposeofuse/revoke"));
         revertPurposeOfUseService.setContentType(ContentType.FORM_URLENCODED);
         revertPurposeOfUseService.setAuthenticationType(AuthenticationType.BEARER_JWT);
 

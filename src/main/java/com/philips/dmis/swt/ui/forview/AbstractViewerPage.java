@@ -10,6 +10,9 @@ import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.http.HttpMethod;
 
 public abstract class AbstractViewerPage extends Page {
+    public static final String VIEWER_HOST = "http://localhost:8080";
+    public static final String VIEWER_BASE_URL = VIEWER_HOST + "/viewer/";
+
     IconsWidget icons;
     HL7Lib hl7;
     ForViewLib forViewLib;
@@ -72,7 +75,7 @@ public abstract class AbstractViewerPage extends Page {
         ));
 
         userService = add(new QueryService(
-                "http://localhost:8080/viewer/services/user/details/retrieve.json",
+                VIEWER_BASE_URL + "services/user/details/retrieve.json",
                 false, false));
         userService.setCacheType(CacheType.DISABLED);
         userService.setAuthenticationType(AuthenticationType.BEARER_JWT);
@@ -104,7 +107,7 @@ public abstract class AbstractViewerPage extends Page {
         ));
 
         logoutService = add(new UpdateService(
-                "http://localhost:8080/viewer/services/user/logout"));
+                VIEWER_BASE_URL + "services/user/logout"));
         logoutService.setHttpMethod(HttpMethod.POST);
         signOutLink.onClick(new ClickEventHandler(
                 M.SetValue(logoutService, V.Const(""))

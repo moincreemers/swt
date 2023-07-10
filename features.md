@@ -75,10 +75,6 @@
 - css support & responsive. Theme support?
 - adding fonts? not arbitrary but with indirection. So a way to define "serif", "sans-serif", "monospace" and "icons" (
   for example). Then add an Enum to set desired font in widgets.
-- Language support. We can do multi-language constants, this is easy to implement. Users would still need
-  to set a different text for each language they want to support which may be a bit tedious and result in messy Java
-  code. Constant tokens are now generated automatically, we probably want a way to set a constant token so that we can
-  reference it in language resource files.
 - right-to-left?
 - Notification panel. Non-modal. With or without a timeout.
 - RegEx comparator Statement
@@ -90,11 +86,11 @@
 ## Completed
 
 - Integration with Spring-Boot
-- Automatic mapping of JS Client rendering/download via default path (i.e., "/"): DONE
+- Automatic mapping of JS Client rendering/download via default path (i.e., "/"). This is now implemented by the
+  developer. The developer needs to create the application controller where the mapping is declared.
 - Widget hierarchy with containers and non-containers: DONE.
-- Automatic discovery of Views (i.e., "Pages") using the @Component attribute: DONE
-- Automatic validation of all views when starting application: DONE
-- Automatic validation of customEvent handlers and statements made that are part of those handlers: DONE
+- Automatic discovery of Pages using the @Component attribute: DONE
+- Automatic validation of all pages, widgets and statements when starting application: DONE
 - Icon font: DONE.
 - Button types: DONE.
 - Panel types: DONE.
@@ -240,6 +236,27 @@
 - GetPageArgument throws when more than one 'd' argument is present on the hash.
 - TextArea widget
 - Much better spinner/loader
+- Language support. The way this is implemented is as follows:
+    - Only ISO language codes are supported, e.g., "en". There is currently no support for differentiating between "
+      en-GB" and "en-US" for example.
+    - The toolkit is set to a default language. This is always English ("en").
+    - When constants are declared, for example setting text of an HtmlParagraph, the constant is assumed to have the
+      default language.
+    - The value of the constant in the default language is the key to that constant.
+    - When the application code is generated and the DEBUG flag is set, the toolkit will output all constants in the
+      default language. This can be copied and pasted into a resource file. Each constant token is prefixed with the
+      language, "en" by default. This needs to be replaced with a new language and then the value translated into that
+      language.
+    - The toolkit provides a method to add a language file. This needs to be a simple Java properties file. A good place
+      to declare these language files is in the application controller class.
+    - Depending on the language that the user has selected in the browser, the constant is looked up in that language if
+      available. If not, the default language is used.
+    - It is technically allowed to declare a constant in a language file for the default language ("en") which overrides
+      any constant set in the code. However, this is not the intended use.
+    - The application needs to be reloaded for a language change to take effect.
+    - When the constant value changes in the default language, e.g., a button used to have the text "Ok" and it is
+      now changed into "Save" then be aware that the token will change and therefore, the token of all translations must
+      be updated accordingly.
 
 ## Rejected
 

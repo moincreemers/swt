@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class TestToolkit implements Toolkit {
@@ -31,6 +32,10 @@ public class TestToolkit implements Toolkit {
     @Override
     public String registerConstant(String string) {
         return null;
+    }
+
+    @Override
+    public void addLanguageResourceFile(InputStream inputStream) throws IOException {
     }
 
     @Override

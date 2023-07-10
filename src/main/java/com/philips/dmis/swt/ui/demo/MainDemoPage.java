@@ -41,5 +41,6 @@ public class MainDemoPage extends Page {
         listContainer.add(HtmlLink.openPage("OS color theme", OsLightAndDarkThemeExample.class));
         listContainer.add(HtmlLink.openPage("Spinner", SpinnerExample.class));
         listContainer.add(HtmlLink.openPage("Templates", TemplateDemoPage.class));
+        listContainer.add(HtmlLink.openPage("Language Support", LanguageExample.class));
     }
 }

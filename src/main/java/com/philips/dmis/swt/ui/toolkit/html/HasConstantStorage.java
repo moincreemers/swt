@@ -2,6 +2,10 @@ package com.philips.dmis.swt.ui.toolkit.html;
 
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
 public interface HasConstantStorage {
     String HTML_ATTR_TOKEN = "ctoken";
     String CSS_CLASS_GLOBAL = "constant-token";
@@ -13,9 +17,17 @@ public interface HasConstantStorage {
 
     HasConstantStorage getConstantStorageImpl();
 
+    String getDefaultLanguage();
+
     String registerConstant(String value);
+
+    String registerTranslation(String valueInDefaultLanguage, String language, String value);
 
     void renderConstantHtml(StringBuffer html);
 
     void renderConstantJs(JsWriter js);
+
+    String generateLanguageFileTemplate();
+
+    void addLanguageResourceFile(InputStream inputStream) throws IOException;
 }

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface Toolkit {
@@ -26,6 +27,8 @@ public interface Toolkit {
     Page getPage(Class<? extends Page> pageClass);
 
     String registerConstant(String string);
+
+    void addLanguageResourceFile(InputStream inputStream) throws IOException;
 
     void registerCode(HasCode code);
 

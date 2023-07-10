@@ -46,7 +46,7 @@ public abstract class ContainerWidget<W extends ContainerWidget<? extends Widget
     }
 
     public <T extends Widget> T[] addAll(T... widgets) throws WidgetConfigurationException {
-        if (widgets == null || widgets.length == 0) {
+        if (widgets == null) {
             return widgets;
         }
         for (Widget widget : widgets) {

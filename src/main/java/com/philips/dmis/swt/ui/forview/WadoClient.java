@@ -105,7 +105,7 @@ public class WadoClient extends AbstractViewerPage {
         //  &home=1.2.3
         //  &hash=ddfdf7c8863f74a90d65afff21fe8c12073dd39a
         QueryService studyService = add(new QueryService(
-                "http://localhost:8080/viewer/services/document/retrieve",
+                VIEWER_BASE_URL + "services/document/retrieve",
                 false, false));
         studyService.setCacheType(CacheType.LOCAL_ONLY);
         studyService.addDataAdapter(new ImportArrayDataAdapter(".wado.series")

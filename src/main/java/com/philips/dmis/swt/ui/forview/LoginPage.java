@@ -24,7 +24,7 @@ public class LoginPage extends AbstractViewerPage {
                 Timer.ONE_SECOND * 150));
 
         UpdateService loginService = add(new UpdateService(
-                "http://localhost:8080/viewer/services/user/login.json"));
+                VIEWER_BASE_URL + "services/user/login.json"));
         loginService.setHttpMethod(HttpMethod.POST);
         loginService.setContentType(ContentType.FORM_URLENCODED);
 
@@ -33,7 +33,7 @@ public class LoginPage extends AbstractViewerPage {
         // ... apparently we do not
 
         UpdateService refreshSessionService = add(new UpdateService(
-                "http://localhost:8080/viewer/services/user/session/refresh.json"));
+                VIEWER_BASE_URL + "services/user/session/refresh.json"));
         refreshSessionService.setHttpMethod(HttpMethod.GET);
         refreshSessionService.setAuthenticationType(AuthenticationType.BEARER_JWT);
 

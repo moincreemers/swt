@@ -49,7 +49,7 @@ public class PatientSearch extends AbstractViewerPage {
         ));
 
         QueryService patientDomains = add(new QueryService(
-                "http://localhost:8080/viewer/services/domain/list.json", false, false));
+                VIEWER_BASE_URL + "services/domain/list.json", false, false));
         patientDomains.setCacheType(CacheType.DISABLED);
         patientDomains.setAuthenticationType(AuthenticationType.BEARER_JWT);
         patientDomains.setAuthenticationType(AuthenticationType.BEARER_JWT);
@@ -68,7 +68,7 @@ public class PatientSearch extends AbstractViewerPage {
                         )
         );
 
-        QueryService patients = add(new QueryService("http://localhost:8080/viewer/services/patient/list.json",
+        QueryService patients = add(new QueryService(VIEWER_BASE_URL + "services/patient/list.json",
                 false, false));
         patients.setCacheType(CacheType.LOCAL_ONLY);
         patients.setAuthenticationType(AuthenticationType.BEARER_JWT);

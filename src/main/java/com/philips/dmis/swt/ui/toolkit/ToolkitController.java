@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -31,10 +32,11 @@ import java.util.logging.Logger;
 @Component
 public class ToolkitController implements Toolkit, HasConstantStorage {
     private static final Logger LOG = Logger.getLogger(ToolkitController.class.getName());
+    private static final String DEFAULT_LANGUAGE = "en";
     private final List<? extends JsModule> jsModules;
     private final Map<Class<? extends Page>, Page> pages = new HashMap<>();
     private final Page defaultPage;
-    private final HasConstantStorage constantStorageImpl = new StaticValueStorage();
+    private final HasConstantStorage constantStorageImpl = new StaticValueStorage(DEFAULT_LANGUAGE);
     private final Map<String, HasCode> codeModules = new LinkedHashMap<>();
     private final Map<String, String> externalModules = new LinkedHashMap<>();
 
@@ -107,6 +109,11 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
     // CONSTANT STORAGE
 
     @Override
+    public String getDefaultLanguage() {
+        return constantStorageImpl.getDefaultLanguage();
+    }
+
+    @Override
     public HasConstantStorage getConstantStorageImpl() {
         return constantStorageImpl.getConstantStorageImpl();
     }
@@ -117,6 +124,11 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
     }
 
     @Override
+    public String registerTranslation(String valueInDefaultLanguage, String language, String value) {
+        return constantStorageImpl.registerTranslation(valueInDefaultLanguage, language, value);
+    }
+
+    @Override
     public void renderConstantHtml(StringBuffer html) {
         constantStorageImpl.renderConstantHtml(html);
     }
@@ -124,6 +136,16 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
     @Override
     public void renderConstantJs(JsWriter js) {
         constantStorageImpl.renderConstantJs(js);
+    }
+
+    @Override
+    public String generateLanguageFileTemplate() {
+        return constantStorageImpl.generateLanguageFileTemplate();
+    }
+
+    @Override
+    public void addLanguageResourceFile(InputStream inputStream) throws IOException {
+        constantStorageImpl.addLanguageResourceFile(inputStream);
     }
 
     // HasCode
@@ -177,7 +199,11 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         loadingScreen.renderHtml(html);
 
         // render constants
-        constantStorageImpl.renderConstantHtml(html);
+        renderConstantHtml(html);
+
+        if (Constants.DEBUG) {
+            System.out.println("*** LANGUAGE PROPERTIES FILE TEMPLATE *** \n" + generateLanguageFileTemplate() + "*** END ***");
+        }
 
         // note: add JS to page
         html.append("<script language='javascript'>");
@@ -256,7 +282,7 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
 
         js.append("initGlobalEvents();");
         ExtModuleInvoke.renderCall(ExtModuleEvent.READY, null, null, js);
-        
+
         js.append("%s(null,%s,%s);",
                 JsWidgetModule.getQualifiedId(RaiseEventFunction.class),
                 JsWidgetModule.getQualifiedId(EventHandlerFunction.OnApplicationStartEventHandlerFunction.class),
@@ -274,7 +300,7 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
         }
         js.append("};");
 
-        constantStorageImpl.renderConstantJs(js);
+        renderConstantJs(js);
 
         // export main and gc
         js.append("return {");

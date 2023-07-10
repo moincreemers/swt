@@ -13,9 +13,11 @@ public class MyApplicationController {
     static final String APP_VERSION = "1.0";
     final Toolkit toolkit;
 
-    public MyApplicationController(Toolkit toolkit) {
+    public MyApplicationController(Toolkit toolkit) throws IOException {
         this.toolkit = toolkit;
         toolkit.setAppVersion(APP_VERSION);
+        toolkit.addLanguageResourceFile(
+                MyApplicationController.class.getResourceAsStream("/ui-languages.properties"));
     }
 
     @GetMapping("/")

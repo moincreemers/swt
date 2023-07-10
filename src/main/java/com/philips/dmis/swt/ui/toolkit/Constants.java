@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit;
 
 import com.philips.dmis.swt.ui.demo.MainDemoPage;
+import com.philips.dmis.swt.ui.forview.LoginPage;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 
 public class Constants {

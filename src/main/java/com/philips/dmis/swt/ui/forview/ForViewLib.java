@@ -4,6 +4,8 @@ import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.widgets.Code;
 
+import static com.philips.dmis.swt.ui.forview.AbstractViewerPage.VIEWER_BASE_URL;
+
 public class ForViewLib extends Code {
     public static final String PARSE_ERROR = "parseError";
     public static final String PARSE_WARNING = "parseWarning";
@@ -156,11 +158,11 @@ public class ForViewLib extends Code {
                         (modality, studyUID, seriesUID, objectUID, contentType, aeTitle, retrieveLocationUID, homeCommunityUid, patientID, patientIDAuth)=>{
                                                 
                         if(modality=='SR'){
-                            var url='http://localhost:8080/viewer/2301-4/css/common-philips/img/kosViewer/document.svg';
+                            var url='${VIEWER_BASE_URL}2301-4/css/common-philips/img/kosViewer/document.svg';
                             return url;
                         };
                                                 
-                        var url='http://localhost:8080/viewer/services/connect/proxy/wado/PACS';
+                        var url='${VIEWER_BASE_URL}services/connect/proxy/wado/PACS';
                         url+='?requestType=WADO';
                         url+='&studyUID='+studyUID;
                         url+='&seriesUID='+seriesUID;
@@ -173,7 +175,7 @@ public class ForViewLib extends Code {
                         url+='&columns=128';
                         url+='&rows=128';
                         return url;
-                        };""",
+                        };""".replace("${VIEWER_BASE_URL}", VIEWER_BASE_URL),
 
                 JsParameter.getInstance("modality", JsType.STRING),
                 JsParameter.getInstance("studyUID", JsType.STRING),
@@ -206,7 +208,7 @@ public class ForViewLib extends Code {
                         (modality, studyUID, seriesUID, objectUID, contentType, aeTitle, retrieveLocationUID, homeCommunityUid, patientID, patientIDAuth)=>{
                         
                         if(modality=='SR'){
-                            var url='https://localhost/viewer/services/connect/sr/retrieve.html';
+                            var url='${VIEWER_BASE_URL}services/connect/sr/retrieve.html';
                             url+='?studyUID='+studyUID;
                             url+='&seriesUID='+seriesUID;
                             url+='&objectUID='+objectUID;
@@ -218,7 +220,7 @@ public class ForViewLib extends Code {
                             return url;
                         };
                         
-                        var url='http://localhost:8080/viewer/services/connect/proxy/wado/PACS';
+                        var url='${VIEWER_BASE_URL}viewer/services/connect/proxy/wado/PACS';
                         url+='?requestType=WADO';
                         url+='&studyUID='+studyUID;
                         url+='&seriesUID='+seriesUID;
@@ -229,7 +231,7 @@ public class ForViewLib extends Code {
                         url+='&patientID='+patientID;
                         url+='&patientIDAuth='+patientIDAuth;
                         return url;
-                        };""",
+                        };""".replace("${VIEWER_BASE_URL}", VIEWER_BASE_URL),
 
                 JsParameter.getInstance("modality", JsType.STRING),
                 JsParameter.getInstance("studyUID", JsType.STRING),
