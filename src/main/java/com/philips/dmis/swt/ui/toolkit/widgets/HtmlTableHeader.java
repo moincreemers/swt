@@ -9,6 +9,10 @@ import java.util.Map;
 
 public class HtmlTableHeader extends DataBoundWidget<HtmlTableHeader, ItemsDataSourceUsage> implements
         HasOrderingControls<HtmlTableHeader>, HasTableHeaderRows {
+    public HtmlTableHeader(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.TABLE_HEADER);
+    }
+
     public HtmlTableHeader() {
         super(WidgetType.TABLE_HEADER);
     }
@@ -28,8 +32,8 @@ public class HtmlTableHeader extends DataBoundWidget<HtmlTableHeader, ItemsDataS
     }
 
     @Override
-    public HtmlTableHeader setOrder(String source, Order order) {
-        return orderingControlsImpl.setOrder(source, order);
+    public HtmlTableHeader addOrder(String source, Order order) {
+        return orderingControlsImpl.addOrder(source, order);
     }
 
     @Override

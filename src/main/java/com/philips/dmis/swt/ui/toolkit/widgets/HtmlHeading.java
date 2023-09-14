@@ -1,9 +1,14 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlHeading extends DataBoundWidget<HtmlHeading,ValueDataSourceUsage> implements HasIcon, HasText, HasNumberedText, IsFocusable {
+public class HtmlHeading extends DataBoundWidget<HtmlHeading, ValueDataSourceUsage> implements HasIcon, HasText, HasNumberedText, IsFocusable {
+    public HtmlHeading(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.HEADING);
+    }
+
     public HtmlHeading(String text) {
         this(text, 1, false);
     }
@@ -30,7 +35,7 @@ public class HtmlHeading extends DataBoundWidget<HtmlHeading,ValueDataSourceUsag
         super(WidgetType.HEADING);
         setText(text);
         setLevel(level);
-        setNumberingEnabled(numbered);
+        setNumbered(numbered);
     }
 
     public HtmlHeading addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
@@ -77,6 +82,12 @@ public class HtmlHeading extends DataBoundWidget<HtmlHeading,ValueDataSourceUsag
         return iconImpl.isIcon();
     }
 
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
+    }
 
     // NUMBERED TEXT
 
@@ -128,13 +139,13 @@ public class HtmlHeading extends DataBoundWidget<HtmlHeading,ValueDataSourceUsag
     }
 
     @Override
-    public boolean isNumberingEnabled() {
-        return numberedTextImpl.isNumberingEnabled();
+    public boolean isNumbered() {
+        return numberedTextImpl.isNumbered();
     }
 
     @Override
-    public void setNumberingEnabled(boolean numbered) {
-        numberedTextImpl.setNumberingEnabled(numbered);
+    public void setNumbered(boolean numbered) {
+        numberedTextImpl.setNumbered(numbered);
     }
 
     // FOCUSABLE

@@ -1,29 +1,41 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-import java.util.logging.Logger;
 
-
-public class Data extends DataSourceWidget implements HasValue<Data> {
-    private static final Logger LOG = Logger.getLogger(Data.class.getName());
-    private static final String EMPTY_JSON_OBJECT = "{}";
-
+public class Data extends DataSourceWidget implements HasValue<Data, Object> {
     public Data(String name) {
         this(name, null);
     }
 
     public Data(String name, String value) {
-        super(WidgetType.DATA, true, false);
+        super(WidgetType.DATA);
+        setExpectServiceResponse(true);
+        setAutoRefresh(false);
         setName(name);
         setValue(value);
         setCacheType(CacheType.DISABLED);
     }
 
+    public Data(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.DATA);
+        setExpectServiceResponse(true);
+        setAutoRefresh(false);
+        setCacheType(CacheType.DISABLED);
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.OBJECT;
+    }
+
     // HASVALUE + HASNAME
 
-    private final ValueImpl<Data> valueImpl = new ValueImpl<>(this);
+    private final ValueImpl<Data, Object> valueImpl = new ValueImpl<>(this, JsType.OBJECT);
 
     @Override
     public HasName<Data> getNameImpl() {
@@ -41,17 +53,17 @@ public class Data extends DataSourceWidget implements HasValue<Data> {
     }
 
     @Override
-    public HasValue<Data> getValueImpl() {
+    public HasValue<Data, Object> getValueImpl() {
         return valueImpl;
     }
 
     @Override
-    public String getValue() {
+    public Object getValue() {
         return valueImpl.getValue();
     }
 
     @Override
-    public Data setValue(String value) {
+    public Data setValue(Object value) {
         return valueImpl.setValue(value);
     }
 

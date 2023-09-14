@@ -1,12 +1,14 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement("src")
 public class SrcImpl<T extends Widget> implements HasSrc<T> {
     private final T widget;
-    private String src = "";
+    private String src = DEFAULT_VALUE_SRC;
 
     public SrcImpl(T widget) {
         this.widget = widget;
@@ -31,7 +33,7 @@ public class SrcImpl<T extends Widget> implements HasSrc<T> {
     @Override
     public T setSrc(String src) {
         if (src == null) {
-            src = "";
+            src = DEFAULT_VALUE_SRC;
         }
         this.src = src;
         return widget;

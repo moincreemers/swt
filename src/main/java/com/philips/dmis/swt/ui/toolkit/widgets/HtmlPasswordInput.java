@@ -5,19 +5,25 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlPasswordInput extends ValueWidget<HtmlPasswordInput, ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlPasswordInput>, HasKeyInput<HtmlPasswordInput>, HasLength, HasPattern, HasPlaceholder,
+public class HtmlPasswordInput extends ValueWidget<HtmlPasswordInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlPasswordInput, String>, HasKeyInput<HtmlPasswordInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired {
+    public HtmlPasswordInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.PASSWORD, JsType.STRING);
+        setType(TypeType.PASSWORD);
+    }
+
     public HtmlPasswordInput() {
-        this("");
+        this(NAMELESS);
     }
 
     public HtmlPasswordInput(String name) {
-        super(name, WidgetType.PASSWORD);
+        super(name, WidgetType.PASSWORD, JsType.STRING);
         setType(TypeType.PASSWORD);
     }
 

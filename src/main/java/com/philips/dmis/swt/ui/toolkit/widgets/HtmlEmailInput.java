@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlEmailInput extends ValueWidget<HtmlEmailInput, ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlEmailInput>, HasKeyInput<HtmlEmailInput>, HasLength, HasPattern, HasPlaceholder,
+public class HtmlEmailInput extends ValueWidget<HtmlEmailInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlEmailInput, String>, HasKeyInput<HtmlEmailInput>, HasLength, HasPattern, HasPlaceholder,
         HasMultiple, HasReadonly, HasRequired, HasAutocomplete, HasList {
+    public HtmlEmailInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.EMAIL, JsType.STRING);
+        setType(TypeType.EMAIL);
+    }
+
     public HtmlEmailInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlEmailInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlEmailInput(String name, String value) {
-        super(name, WidgetType.EMAIL);
+        super(name, WidgetType.EMAIL, JsType.STRING);
         setType(TypeType.EMAIL);
         setValue(value);
     }

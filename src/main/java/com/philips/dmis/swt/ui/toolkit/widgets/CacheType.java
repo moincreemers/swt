@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum CacheType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum CacheType implements HasDefault<CacheType> {
     DISABLED,
     ENABLED,
     LOCAL_ONLY,
@@ -9,4 +11,9 @@ public enum CacheType {
     ;
 
     public static CacheType DEFAULT = ENABLED;
+
+    @Override
+    public CacheType getDefault() {
+        return ENABLED;
+    }
 }

@@ -1,9 +1,11 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement("disabled")
 public class DisabledImpl implements HasDisabled {
     private final Widget widget;
     private boolean disabled;

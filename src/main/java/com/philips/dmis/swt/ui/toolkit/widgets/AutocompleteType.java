@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum AutocompleteType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum AutocompleteType implements HasDefault<AutocompleteType> {
     /**
      * The browser is not permitted to automatically enter or select a value for this field. It is possible that the document or application provides its own autocomplete feature, or that security concerns require that the field's value not be automatically entered.
      */
@@ -44,8 +46,7 @@ public enum AutocompleteType {
     /**
      * A nickname or handle.
      */
-    NICKNAME(
-            "nickname"),
+    NICKNAME("nickname"),
 
     /**
      * An email address.
@@ -270,7 +271,6 @@ public enum AutocompleteType {
      */
     PHOTO("photo"),
 
-
     ;
 
     final String value;
@@ -281,5 +281,10 @@ public enum AutocompleteType {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public AutocompleteType getDefault() {
+        return OFF;
     }
 }

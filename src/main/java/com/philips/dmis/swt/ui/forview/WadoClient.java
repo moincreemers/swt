@@ -1,5 +1,7 @@
 package com.philips.dmis.swt.ui.forview;
 
+import com.philips.dmis.swt.ui.toolkit.css.CssConstant;
+import com.philips.dmis.swt.ui.toolkit.css.CssLength;
 import com.philips.dmis.swt.ui.toolkit.data.*;
 import com.philips.dmis.swt.ui.toolkit.dto.DataType;
 import com.philips.dmis.swt.ui.toolkit.dto.URLAppearanceType;
@@ -82,7 +84,7 @@ public class WadoClient extends AbstractViewerPage {
         seriesSelectLabel.setFor(seriesSelect);
 
         Panel navLeft = add(new Panel(PanelType.NAV_LEFT));
-        navLeft.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("165px", Size.AUTO));
+        navLeft.setOverflowAndSize(OverflowType.FIXED_SIZE, CssLength.px(165), CssConstant.AUTO);
         SingleRowPanel toolbarLeft = navLeft.add(new SingleRowPanel(PanelType.TOOLBAR));
         HtmlButton instanceThumbnailRefreshButton = toolbarLeft.add(new HtmlButton(icons, "refresh"));
         HtmlButton instanceThumbnailSelectNoneButton = toolbarLeft.add(new HtmlButton(icons, "clear_all"));
@@ -290,7 +292,7 @@ public class WadoClient extends AbstractViewerPage {
                         M.ForEach(PageVariableChangeEvent.Value()).Apply(
                                 D.AddClassName(D.QuerySelectorAll(
                                         V.Format(V.Const("div[name=\"${value}\"]>.tk-selectable"),
-                                                V.Object().add(V.Const("value"), V.Value()))
+                                                V.ObjectBuilder().add(V.Const("value"), V.Value()))
                                 ), "tk-selected")
                         ),
                         M.Refresh(instancesDataProxy)

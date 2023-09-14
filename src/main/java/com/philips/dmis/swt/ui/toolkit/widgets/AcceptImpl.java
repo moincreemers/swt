@@ -1,10 +1,12 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.ArrayList;
 import java.util.Map;
 
+@PageXmlElement("accept")
 public class AcceptImpl implements HasAccept {
     private final Widget widget;
     private final java.util.List<String> accept = new ArrayList<>();

@@ -5,14 +5,20 @@ import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.BeforeUpdateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.UpdateEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> extends Widget
+@PageXmlElement("emptyText")
+public abstract class DataBoundWidget<T extends Widget, E extends HasDataSourceUsage> extends Widget
         implements HasDataSource<T, E> {
     private final Map<DataSourceUsage, Map<String, DataSource>> dataSources = new HashMap<>();
     private String emptyText = "";
+
+    public DataBoundWidget(WidgetConfigurator widgetConfigurator, WidgetType widgetType) {
+        super(widgetConfigurator, widgetType);
+    }
 
     public DataBoundWidget(WidgetType widgetType) {
         super(widgetType);

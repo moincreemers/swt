@@ -5,7 +5,7 @@ import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import java.util.List;
 import java.util.Map;
 
-public interface DataSourceSupplier extends Validatable {
+public interface DataSourceSupplier extends Validatable, HasValueType<Object> {
     Widget asWidget();
 
     boolean isExpectServiceResponse();

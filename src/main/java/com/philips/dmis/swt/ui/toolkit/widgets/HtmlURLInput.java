@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlURLInput extends ValueWidget<HtmlURLInput,ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlURLInput>, HasKeyInput<HtmlURLInput>, HasLength, HasPattern, HasPlaceholder,
+public class HtmlURLInput extends ValueWidget<HtmlURLInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlURLInput, String>, HasKeyInput<HtmlURLInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList {
+    public HtmlURLInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.URL, JsType.STRING);
+        setType(TypeType.URL);
+    }
+
     public HtmlURLInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlURLInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlURLInput(String name, String value) {
-        super(name, WidgetType.URL);
+        super(name, WidgetType.URL, JsType.STRING);
         setType(TypeType.URL);
         setValue(value);
     }

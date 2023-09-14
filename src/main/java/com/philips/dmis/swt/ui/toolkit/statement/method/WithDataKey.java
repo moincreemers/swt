@@ -4,7 +4,9 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Description("Invokes one or more statements but changes the current event context to the provided data key value first")
 public class WithDataKey extends MethodStatement {
     final ValueStatement dataKey;
     final List<Statement> statements = new ArrayList<>();
@@ -48,6 +51,7 @@ public class WithDataKey extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertRequiredAndReturnType("dataKey", dataKey, JsType.STRING);
         dataKey.validate(toolkit);
         for (Statement statement : statements) {
             statement.validate(toolkit);

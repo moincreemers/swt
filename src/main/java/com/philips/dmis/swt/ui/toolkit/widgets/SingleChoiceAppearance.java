@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum SingleChoiceAppearance {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum SingleChoiceAppearance implements HasDefault<SingleChoiceAppearance> {
     DEFAULT(""),
     INLINE("tk-sc-inline"),
     TABS("tk-sc-tabs"),
@@ -15,5 +17,10 @@ public enum SingleChoiceAppearance {
 
     public String getClassName() {
         return className;
+    }
+
+    @Override
+    public SingleChoiceAppearance getDefault() {
+        return SingleChoiceAppearance.DEFAULT;
     }
 }

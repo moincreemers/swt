@@ -8,13 +8,16 @@ import com.philips.dmis.swt.ui.toolkit.js.controller.GetCurrentPageFunction;
 import com.philips.dmis.swt.ui.toolkit.js.controller.JsPageControllerModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.DeclarePageVariableFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Declares a variable that is scoped to the current page")
 public class DeclarePageVariableStatement extends MethodStatement {
     private final ValueStatement name;
 
@@ -46,6 +49,7 @@ public class DeclarePageVariableStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertRequiredAndReturnType("name", name, JsType.STRING);
         name.validate(toolkit);
     }
 

@@ -4,7 +4,6 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 public interface HasConstantStorage {
     String HTML_ATTR_TOKEN = "ctoken";
@@ -29,5 +28,5 @@ public interface HasConstantStorage {
 
     String generateLanguageFileTemplate();
 
-    void addLanguageResourceFile(InputStream inputStream) throws IOException;
+    void addLanguageResource(InputStream inputStream) throws IOException;
 }

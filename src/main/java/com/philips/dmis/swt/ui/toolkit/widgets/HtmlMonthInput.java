@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlMonthInput extends ValueWidget<HtmlMonthInput,ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlMonthInput>, HasKeyInput<HtmlMonthInput>, HasRange<String>, HasStep, HasReadonly,
+public class HtmlMonthInput extends ValueWidget<HtmlMonthInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlMonthInput, String>, HasKeyInput<HtmlMonthInput>, HasRange<String>, HasStep, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
+    public HtmlMonthInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.MONTH, JsType.STRING);
+        setType(TypeType.MONTH);
+    }
+
     public HtmlMonthInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlMonthInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlMonthInput(String name, String value) {
-        super(name, WidgetType.MONTH);
+        super(name, WidgetType.MONTH, JsType.STRING);
         setType(TypeType.MONTH);
         setValue(value);
     }

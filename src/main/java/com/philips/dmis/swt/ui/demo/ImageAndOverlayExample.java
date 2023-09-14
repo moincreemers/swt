@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.demo;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
+import com.philips.dmis.swt.ui.toolkit.css.CssConstant;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ColorSchemeChangeEventHandler;
@@ -37,7 +38,7 @@ public class ImageAndOverlayExample extends Page {
         HtmlCheckInput showLayer3 = toolbar.add(new HtmlCheckInput(CheckInputType.BUTTON, "", "Overlay 3"));
 
         Panel panel = add(new Panel(PanelType.BORDERED));
-        panel.setOverflowAndSize(Overflow.FIXED_SIZE, new Size("fit-content", "fit-content"));
+        panel.setOverflowAndSize(OverflowType.FIXED_SIZE, CssConstant.FIT_CONTENT, CssConstant.FIT_CONTENT);
 
         OverlayPanel layer1 = panel.add(new OverlayPanel());
         layer1.setAppearance(WidgetAppearance.POSITION_TOP_RIGHT);

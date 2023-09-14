@@ -1,9 +1,11 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement({"stepAny", "step"})
 public class StepImpl implements HasStep {
     private final Widget widget;
     private boolean stepAny;

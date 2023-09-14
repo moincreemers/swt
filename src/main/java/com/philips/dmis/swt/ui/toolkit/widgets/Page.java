@@ -5,20 +5,24 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.events.*;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.js.state.PageRefreshType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
+@PageXmlElement({"default", "viewType", "pageRefresh", "viewPosition"})
 public abstract class Page extends Panel {
-    private static final Logger LOG = Logger.getLogger(Page.class.getName());
-    private final boolean isDefault;
+    private boolean isDefault = false;
+    private ViewType viewType = ViewType.DEFAULT;
     private PageRefreshType pageRefresh = PageRefreshType.SHOW;
-    private final ViewType viewType;
     private ViewPosition viewPosition = ViewPosition.DEFAULT;
 
     public static String getInnerDivId(String pageId) {
         return pageId + "_inner";
+    }
+
+    public Page(WidgetConfigurator widgetConfigurator) throws Exception {
+        super(widgetConfigurator, WidgetType.PAGE);
     }
 
     public Page() throws Exception {
@@ -62,15 +66,14 @@ public abstract class Page extends Panel {
     }
 
     public Page(ViewType viewType, ViewPosition viewPosition, boolean isDefault) throws Exception {
-        this("", viewType, viewPosition, isDefault);
+        this(NAMELESS, viewType, viewPosition, isDefault);
     }
 
     public Page(String name, ViewType viewType, ViewPosition viewPosition, boolean isDefault) throws Exception {
         super(name, WidgetType.PAGE);
-        this.viewType = viewType;
-        this.isDefault = isDefault;
+        setViewType(viewType);
+        setDefault(isDefault);
         setViewPosition(viewPosition);
-        addClassName(viewType.classNameOuter);
         build();
         pack();
     }
@@ -92,16 +95,26 @@ public abstract class Page extends Panel {
         return viewType;
     }
 
+    public void setViewType(ViewType viewType) {
+        if (viewType == null) {
+            viewType = ViewType.DEFAULT;
+        }
+        removeClassName(this.viewType.classNameOuter);
+        addClassName(viewType.classNameOuter);
+        this.viewType = viewType;
+    }
+
     public ViewPosition getViewPosition() {
         return viewPosition;
     }
 
-    public Page setViewPosition(ViewPosition viewPosition) throws WidgetConfigurationException {
-        if (!viewPosition.viewTypes.isEmpty() && !viewPosition.viewTypes.contains(viewType)) {
-            throw new WidgetConfigurationException(
-                    String.format("view-position %s not applicable to view-type %s", viewPosition.name(),
-                            viewType.getClass().getSimpleName()));
-        }
+    public Page setViewPosition(ViewPosition viewPosition) {
+        // note: the problem is that using serialization/deserialization we cannot predict if viewType is already set
+//        if (!viewPosition.viewTypes.isEmpty() && !viewPosition.viewTypes.contains(viewType)) {
+//            throw new WidgetConfigurationException(
+//                    String.format("view-position %s not applicable to view-type %s", viewPosition.name(),
+//                            viewType.getClass().getSimpleName()));
+//        }
         if (this.viewPosition != null) {
             removeClassName(this.viewPosition.classNameOuter);
         }
@@ -112,6 +125,10 @@ public abstract class Page extends Panel {
 
     public boolean isDefault() {
         return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
     }
 
     public PageRefreshType getPageRefresh() {

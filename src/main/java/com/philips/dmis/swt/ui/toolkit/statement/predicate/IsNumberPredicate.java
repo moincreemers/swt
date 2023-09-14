@@ -13,7 +13,7 @@ import java.util.List;
 public class IsNumberPredicate extends PredicateStatement {
     @Override
     public JsType getParameterType() {
-        return JsType.BOOLEAN;
+        return JsType.NUMBER;
     }
 
     @Override

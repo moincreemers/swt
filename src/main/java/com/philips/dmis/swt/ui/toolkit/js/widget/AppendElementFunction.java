@@ -33,7 +33,7 @@ public class AppendElementFunction implements JsFunction {
     @Override
     public void getDependencies(List<Class<? extends JsMember>> dependencies) {
         dependencies.add(GetElementFunction.class);
-        dependencies.add(ColumnsVariable.class);
+        dependencies.add(GridColumnsVariable.class);
     }
 
     @Override
@@ -49,7 +49,9 @@ public class AppendElementFunction implements JsFunction {
 
         js.append("const childWidget=window[id];");
         js.append("const childWidgetType=childWidget.%s;", WidgetTypeVariable.ID);
+        js.append("const childImplements=childWidget.%s;", ImplementsVariable.ID);
         js.append("const isNumbered=childWidget.%s;", IsNumberedVariable.ID);
+        js.append("const layout=childWidget.%s;", LayoutVariable.ID);
 
         js.append("if(childWidgetType=='%s'){", WidgetType.PAGE.name());
         js.append("document.body.append(element);");
@@ -94,42 +96,41 @@ public class AppendElementFunction implements JsFunction {
         js.append("};");
 
         js.append("}else if(containerWidgetType=='%s'){", WidgetType.GRID.name());  // else
-
-                /* grid is a CSS-table:
-                    <div class="grid">
-                        <div class="grid-row">
-                            <div class="grid-cell">
-                */
-
-        js.append("const columns=containerWidget.%s;", ColumnsVariable.ID);
-        js.append("containerElement.setAttribute('tk-columns',columns);");
-
-        js.append("var numberOfRows=containerElement.childElementCount;");
-        js.debug("console.log(numberOfRows);");
-        js.append("var rowElement=containerElement.lastChild;");
-        js.append("var numberOfCells=rowElement!=null?rowElement.childElementCount:0;");
-
-        // add new row
-        js.append("if(numberOfRows==0||numberOfCells==columns){"); // if
-        js.append("rowElement=document.createElement('div');");
-        js.append("rowElement.id=containerWidgetId+'_row_'+numberOfRows;");
-        js.append("rowElement.setAttribute('class','%s');", Grid.CSS_CLASS_ROW);
-        js.append("rowElement.setAttribute('tk-row',numberOfRows);");
-        js.append("containerElement.append(rowElement);");
-        js.append("containerElement.setAttribute('tk-rows',(numberOfRows+1));");
-        js.append("numberOfCells=0;");
-        js.append("};"); // end if
-
-        // create cell
-        js.append("var cellElement=document.createElement('div');");
-        js.append("var cellIndex=(numberOfRows*columns)+numberOfCells;");
-        js.append("var cellClassNames='%s %s-'+columns;", Grid.CSS_CLASS_CELL, Grid.CSS_CLASS_CELL);
-        js.append("cellElement.id=containerWidgetId+'_cell_'+cellIndex;");
-        js.append("cellElement.setAttribute('class',cellClassNames);");
-        js.append("cellElement.setAttribute('tk-row',numberOfRows);");
-        js.append("cellElement.setAttribute('tk-col',numberOfCells);");
-        js.append("rowElement.append(cellElement);");
-        js.append("cellElement.append(element);");
+        js.append("const noResizeChildWidget=layout=='%s'||(layout=='%s'&&(" +
+                        "childImplements.includes('%s')" +
+                        "||childImplements.includes('%s')" +
+                        "||childImplements.includes('%s')" +
+                        "));",
+                LayoutType.NO_RESIZE, LayoutType.AUTO,
+                ValueWidget.class.getSimpleName(),
+                HtmlCheckInput.class.getSimpleName(),
+                HtmlButton.class.getSimpleName()
+        );
+        js.append("var cellElement=element;");
+        js.append("if(noResizeChildWidget){");
+        js.append("var outer=document.createElement('div');");
+        js.append("outer.append(cellElement);");
+        js.append("cellElement=outer;");
+        js.append("};");
+        js.append("cellElement.classList.add('%s');", Grid.CSS_CLASS_CELL);
+        js.append("const gridRows=containerWidget.%s;", GridRowsVariable.ID);
+        js.append("const gridColumns=containerWidget.%s;", GridColumnsVariable.ID);
+        js.append("const numberOfChildren=containerElement.childElementCount;");
+        js.append("if(gridColumns>0){");
+        js.append("if(numberOfChildren==0||numberOfChildren%gridColumns==0){");
+        js.append("cellElement.classList.add('grid-column-first');");
+        js.append("}else if((numberOfChildren+1)%gridColumns==0){");
+        js.append("cellElement.classList.add('grid-column-last');");
+        js.append("};");
+        js.append("};");
+        js.append("if(gridRows>0){");
+        js.append("if(numberOfChildren==0||numberOfChildren%gridRows==0){");
+        js.append("cellElement.classList.add('grid-row-first');");
+        js.append("}else if((numberOfChildren+1)%gridRows==0){");
+        js.append("cellElement.classList.add('grid-row-last');");
+        js.append("};");
+        js.append("};");
+        js.append("containerElement.append(cellElement);");
 
         js.append("}else if(containerWidgetType=='%s'){", WidgetType.SINGLE_ROW.name());  // else
 
@@ -156,10 +157,10 @@ public class AppendElementFunction implements JsFunction {
                 JsWidgetModule.getId(RaiseEventFunction.class),
                 JsWidgetModule.getId(EventHandlerFunction.OnAppendEventHandlerFunction.class));
 
-        js.append("if(containerWidgetType=='%s'&&isNumbered){",
-                WidgetType.PAGE.name()); // if
-        js.append("%s(containerWidgetId,childWidgetType);",
-                JsWidgetModule.getId(UpdateNumberingFunction.class));
+        js.append("if(isNumbered){"); // if
+        js.append("%s(childWidget.%s,childWidgetType);",
+                JsWidgetModule.getId(UpdateNumberingFunction.class),
+                PageIdVariable.ID);
         js.append("};"); // end if
 
         js.append("}"); // end function

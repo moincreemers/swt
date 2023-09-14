@@ -8,16 +8,18 @@ import com.philips.dmis.swt.ui.toolkit.js.widget.GetElementFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+// todo: what does this do?
 public class SelectStatement extends MethodStatement {
-    private Widget targetWidget;
+    private Widget widget;
 
-    public SelectStatement(Widget targetWidget) {
-        this.targetWidget = targetWidget;
+    public SelectStatement(Widget widget) {
+        this.widget = widget;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class SelectStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext)).select();",
                 JsWidgetModule.getQualifiedId(GetElementFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.getId());
+                this.widget.getId());
     }
 
     @Override
@@ -44,7 +46,8 @@ public class SelectStatement extends MethodStatement {
             return;
         }
         validated = true;
-        targetWidget.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
     }
 
     @Override

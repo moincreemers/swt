@@ -2,6 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.Map;
 /**
  * Adds an icons-font.
  */
+@PageXmlElement({"className", "fontFamily", "fontFile", "fontCodepointsFile", "fontFormat", "fontSize"})
 public class IconsWidget extends Widget {
     private String className = "icons";
     private final String fontFamily = "tk_icons_font";
@@ -40,6 +42,10 @@ public class IconsWidget extends Widget {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public String getFontFamily() {
+        return fontFamily;
     }
 
     public String getFontFile() {

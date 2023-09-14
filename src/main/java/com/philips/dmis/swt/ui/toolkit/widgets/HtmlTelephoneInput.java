@@ -5,23 +5,28 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlTelephoneInput extends ValueWidget<HtmlTelephoneInput,ValueDataSourceUsage> implements
-        HasValue<HtmlTelephoneInput>, HasKeyInput<HtmlTelephoneInput>, HasLength, HasPattern, HasPlaceholder, HasReadonly,
+public class HtmlTelephoneInput extends ValueWidget<HtmlTelephoneInput, String, ValueDataSourceUsage> implements
+        HasValue<HtmlTelephoneInput, String>, HasKeyInput<HtmlTelephoneInput>, HasLength, HasPattern, HasPlaceholder, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
+    public HtmlTelephoneInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.TELEPHONE, JsType.STRING);
+    }
+
     public HtmlTelephoneInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlTelephoneInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlTelephoneInput(String name, String value) {
-        super(name, WidgetType.TELEPHONE);
+        super(name, WidgetType.TELEPHONE, JsType.STRING);
         setValue(value);
     }
 

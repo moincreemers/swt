@@ -11,10 +11,10 @@ public class WidgetConfigurationException extends Exception {
     }
 
     public WidgetConfigurationException(String message) {
-        super(message + " but was referenced in " + getThrownLocation());
+        super(message + ". Referenced in " + getThrownLocation());
     }
 
     public WidgetConfigurationException(String message, Throwable cause) {
-        super(message + " but was referenced in " + getThrownLocation(), cause);
+        super(message + ". Referenced in " + getThrownLocation(), cause);
     }
 }

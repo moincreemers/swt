@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum ListType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum ListType implements HasDefault<ListType> {
     UNORDERED("tk-list-ul"),
     ORDERED("tk-list-ol"),
     MENU("tk-list-menu"),
@@ -24,5 +26,10 @@ public enum ListType {
 
     public String getClassName() {
         return className;
+    }
+
+    @Override
+    public ListType getDefault() {
+        return UNORDERED;
     }
 }

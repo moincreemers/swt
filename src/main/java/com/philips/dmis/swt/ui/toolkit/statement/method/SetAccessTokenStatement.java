@@ -6,7 +6,9 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.RequestUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -15,6 +17,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 import java.util.Arrays;
 import java.util.List;
 
+@Description("Sets the provided access token for the current session")
 public class SetAccessTokenStatement extends MethodStatement {
     final ValueStatement accessToken;
 
@@ -46,6 +49,7 @@ public class SetAccessTokenStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertRequiredAndReturnType("accessToken", accessToken, JsType.STRING);
         accessToken.validate(toolkit);
     }
 

@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlWeekInput extends ValueWidget<HtmlWeekInput,ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlWeekInput>, HasKeyInput<HtmlWeekInput>, HasRange<String>, HasStep, HasReadonly,
+public class HtmlWeekInput extends ValueWidget<HtmlWeekInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlWeekInput, String>, HasKeyInput<HtmlWeekInput>, HasRange<String>, HasStep, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
+    public HtmlWeekInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.WEEK, JsType.STRING);
+        setType(TypeType.WEEK);
+    }
+
     public HtmlWeekInput() {
-        this("");
+        this(NAMELESS);
     }
 
     public HtmlWeekInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlWeekInput(String name, String value) {
-        super(name, WidgetType.WEEK);
+        super(name, WidgetType.WEEK, JsType.STRING);
         setType(TypeType.WEEK);
         setValue(value);
     }

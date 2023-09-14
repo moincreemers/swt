@@ -293,7 +293,7 @@ public class PatientDocuments extends AbstractViewerPage {
                         // code=2
                         // codeSystem=1.0.14265.1
                         M.SetValue(changePurposeOfUseService,
-                                V.Object()
+                                V.ObjectBuilder()
                                         .add(V.Const("patientID"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"))
                                         .add(V.Const("patientIDAuth"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth"))
                                         .add(V.Const("reason"), V.GetValue(purposeOfUseReasonText))
@@ -328,7 +328,7 @@ public class PatientDocuments extends AbstractViewerPage {
                 // patientid=7482736282
                 // patientIDAuth=1.3.6.1.4.1.21367.2005.3.7
                 M.SetValue(revertPurposeOfUseService,
-                        V.Object()
+                        V.ObjectBuilder()
                                 .add(V.Const("patientID"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientId"))
                                 .add(V.Const("patientIDAuth"), V.ObjectProperty(V.GetGlobalValue("selectedPatient"), "patientIdAuth"))
                 )

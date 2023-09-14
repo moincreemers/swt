@@ -1,19 +1,40 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
-public abstract class ValueWidget<T extends Widget, E extends HasDataSourceUsage> extends DataBoundWidget<T, E> implements
-        HasValue<T>, HasDisabled {
+@PageXmlElement("returnType")
+public abstract class ValueWidget<T extends Widget, V, E extends HasDataSourceUsage> extends DataBoundWidget<T, E> implements
+        HasValue<T, V>, HasDisabled {
 
-    public ValueWidget(String name, WidgetType widgetType) {
-        super(widgetType);
+    private final JsType returnType;
+
+    public ValueWidget(WidgetConfigurator widgetConfigurator, String name, WidgetType widgetType, JsType returnType) {
+        super(widgetConfigurator, widgetType);
+        valueImpl = new ValueImpl<>((T) this, returnType);
         setName(name);
+        this.returnType = returnType;
+    }
+
+    public ValueWidget(String name, WidgetType widgetType, JsType returnType) {
+        super(widgetType);
+        valueImpl = new ValueImpl<>((T) this, returnType);
+        setName(name);
+        this.returnType = returnType;
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return returnType;
     }
 
     // VALUE
 
-    private final ValueImpl<T> valueImpl = new ValueImpl<>((T) this);
+    private final ValueImpl<T, V> valueImpl;
 
     @Override
     public HasName<T> getNameImpl() {
@@ -32,17 +53,17 @@ public abstract class ValueWidget<T extends Widget, E extends HasDataSourceUsage
     }
 
     @Override
-    public HasValue<T> getValueImpl() {
+    public HasValue<T, V> getValueImpl() {
         return valueImpl;
     }
 
     @Override
-    public String getValue() {
+    public V getValue() {
         return valueImpl.getValue();
     }
 
     @Override
-    public T setValue(String value) {
+    public T setValue(V value) {
         valueImpl.setValue(value);
         return (T) this;
     }

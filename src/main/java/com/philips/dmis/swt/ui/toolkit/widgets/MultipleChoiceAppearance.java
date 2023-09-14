@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum MultipleChoiceAppearance {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum MultipleChoiceAppearance implements HasDefault<MultipleChoiceAppearance> {
     DEFAULT(""),
     INLINE("tk-mc-inline"),
 
@@ -10,5 +12,10 @@ public enum MultipleChoiceAppearance {
 
     MultipleChoiceAppearance(String className) {
         this.className = className;
+    }
+
+    @Override
+    public MultipleChoiceAppearance getDefault() {
+        return DEFAULT;
     }
 }

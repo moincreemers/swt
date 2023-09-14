@@ -43,7 +43,7 @@ public class IsNumberedVariable implements JsVariable {
     public void renderJs(Toolkit toolkit, JsWriter js) throws JsRenderException {
         if (widget instanceof HasNumberedText) {
             HasNumberedText hasNumberedText = (HasNumberedText) widget;
-            js.append("%s", hasNumberedText.isNumberingEnabled() ? "true" : "false");
+            js.append("%s", hasNumberedText.isNumbered() ? "true" : "false");
         } else {
             js.append("false");
         }

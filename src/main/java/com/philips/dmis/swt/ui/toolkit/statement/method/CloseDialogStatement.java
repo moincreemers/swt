@@ -7,7 +7,9 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.EventHandlerFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.RaiseEventFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HtmlDialog;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -15,6 +17,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Closes an instance of the HtmlDialog widget")
 public class CloseDialogStatement extends MethodStatement {
     final HtmlDialog dialog;
     final ValueStatement returnValue;
@@ -52,7 +55,9 @@ public class CloseDialogStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertWidget("dialog", dialog);
         dialog.validate(toolkit);
+        StatementUtil.assertRequired("returnValue", returnValue);
         returnValue.validate(toolkit);
     }
 

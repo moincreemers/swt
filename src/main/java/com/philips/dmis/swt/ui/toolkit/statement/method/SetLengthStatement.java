@@ -7,20 +7,23 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetLengthFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Sets the minimum and/or maximum length attributes of the provided widget")
 public class SetLengthStatement extends MethodStatement {
-    private final Widget targetWidget;
+    private final Widget widget;
     private final ValueStatement minLength;
     private final ValueStatement maxLength;
 
     public SetLengthStatement(Widget widget, ValueStatement minLength, ValueStatement maxLength) {
-        this.targetWidget = widget;
+        this.widget = widget;
         this.minLength = minLength;
         this.maxLength = maxLength;
     }
@@ -40,7 +43,7 @@ public class SetLengthStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext),%s,%s);",
                 JsWidgetModule.getQualifiedId(SetLengthFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.getId(),
+                this.widget.getId(),
                 ValueStatement.valueOf(toolkit, minLength, widget),
                 ValueStatement.valueOf(toolkit, maxLength, widget));
     }
@@ -51,8 +54,11 @@ public class SetLengthStatement extends MethodStatement {
             return;
         }
         validated = true;
-        targetWidget.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("minLength", minLength, JsType.NUMBER);
         minLength.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("maxLength", maxLength, JsType.NUMBER);
         maxLength.validate(toolkit);
     }
 

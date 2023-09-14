@@ -1,16 +1,23 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Set;
 
-public class MultipleChoice extends ValueWidget<MultipleChoice, ValueAndItemsDataSourceUsage> implements
-        HasOptions, HasValue<MultipleChoice> {
+@PageXmlElement("multipleChoiceAppearance")
+public class MultipleChoice extends ValueWidget<MultipleChoice, String[], ValueAndItemsDataSourceUsage> implements
+        HasOptions, HasValue<MultipleChoice, String[]> {
     private MultipleChoiceAppearance multipleChoiceAppearance = MultipleChoiceAppearance.DEFAULT;
 
+    public MultipleChoice(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.MULTIPLE_CHOICE, JsType.ARRAY);
+    }
+
     public MultipleChoice() {
-        this("", MultipleChoiceAppearance.DEFAULT);
+        this(NAMELESS, MultipleChoiceAppearance.DEFAULT);
     }
 
     public MultipleChoice(String name) {
@@ -18,11 +25,11 @@ public class MultipleChoice extends ValueWidget<MultipleChoice, ValueAndItemsDat
     }
 
     public MultipleChoice(MultipleChoiceAppearance multipleChoiceAppearance) {
-        this("", multipleChoiceAppearance);
+        this(NAMELESS, multipleChoiceAppearance);
     }
 
     public MultipleChoice(String name, MultipleChoiceAppearance multipleChoiceAppearance) {
-        super(name, WidgetType.MULTIPLE_CHOICE);
+        super(name, WidgetType.MULTIPLE_CHOICE, JsType.ARRAY);
         setMultipleChoiceAppearance(multipleChoiceAppearance);
     }
 

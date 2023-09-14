@@ -20,7 +20,7 @@ public class InArrayPredicate extends PredicateStatement {
 
     @Override
     public JsType getParameterType() {
-        return JsType.ARRAY;
+        return JsType.OBJECT;
     }
 
     @Override

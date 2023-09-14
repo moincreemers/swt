@@ -1,9 +1,11 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement({"low", "high", "optimum"})
 public class LowHighOptimumImpl implements HasLowHighOptimum {
     private final Widget widget;
     private Integer low, high, optimum;

@@ -4,7 +4,9 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -12,6 +14,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Displays a modal message box")
 public class AlertStatement extends MethodStatement {
     final ValueStatement message;
 
@@ -44,6 +47,7 @@ public class AlertStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertRequiredAndReturnType("message", message, JsType.STRING);
         message.validate(toolkit);
     }
 

@@ -1,13 +1,16 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement({"enabled", "buttonType"})
 public class HtmlButton extends DataBoundWidget<HtmlButton, ValueDataSourceUsage> implements
         HasType, IsClickable<HtmlButton>, HasIcon, HasText, HasAction, HasEncType, HasMethod,
         HasNoValidate, HasTarget, HasForm {
@@ -43,31 +46,35 @@ public class HtmlButton extends DataBoundWidget<HtmlButton, ValueDataSourceUsage
         return new HtmlButton(buttonType, text).onClick(new ClickEventHandler(M.ClosePage(valueStatement)));
     }
 
-    private boolean enabled;
+    private boolean enabled = true;
     private ButtonType buttonType = ButtonType.DEFAULT;
 
+    public HtmlButton(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.BUTTON);
+    }
+
     public HtmlButton() {
-        this(ButtonType.DEFAULT, null, "", "", true);
+        this(ButtonType.DEFAULT, null, DEFAULT_VALUE_ICON, DEFAULT_VALUE_TEXT, true);
     }
 
     public HtmlButton(String text) {
-        this(ButtonType.DEFAULT, null, "", text, true);
+        this(ButtonType.DEFAULT, null, DEFAULT_VALUE_ICON, text, true);
     }
 
     public HtmlButton(String text, boolean enabled) {
-        this(ButtonType.DEFAULT, null, "", text, enabled);
+        this(ButtonType.DEFAULT, null, DEFAULT_VALUE_ICON, text, enabled);
     }
 
     public HtmlButton(ButtonType buttonType, String text) {
-        this(buttonType, null, "", text, true);
+        this(buttonType, null, DEFAULT_VALUE_ICON, text, true);
     }
 
     public HtmlButton(IconsWidget iconsWidget, String icon) {
-        this(ButtonType.DEFAULT, iconsWidget, icon, "", true);
+        this(ButtonType.DEFAULT, iconsWidget, icon, DEFAULT_VALUE_TEXT, true);
     }
 
     public HtmlButton(ButtonType buttonType, IconsWidget iconsWidget, String icon) {
-        this(buttonType, iconsWidget, icon, "", true);
+        this(buttonType, iconsWidget, icon, DEFAULT_VALUE_TEXT, true);
     }
 
     public HtmlButton(IconsWidget iconsWidget, String icon, String text) {
@@ -121,6 +128,13 @@ public class HtmlButton extends DataBoundWidget<HtmlButton, ValueDataSourceUsage
         if (!enabled) {
             htmlAttributes.put("disabled", "disabled");
         }
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
     }
 
     // TYPE

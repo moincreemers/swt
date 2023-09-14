@@ -5,19 +5,26 @@ import com.philips.dmis.swt.ui.toolkit.events.AppendEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.RemoveEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+@PageXmlElement("name")
 public abstract class ContainerWidget<W extends ContainerWidget<? extends Widget>> extends Widget implements
-        Iterable<Widget>, HasName<ContainerWidget<W>> {
+        Iterable<Widget>, HasName<ContainerWidget<W>>, HasValueType<Object> {
     protected final java.util.List<Widget> widgets = new ArrayList<>();
 
+    public ContainerWidget(WidgetConfigurator widgetConfigurator, WidgetType widgetType) {
+        super(widgetConfigurator, widgetType);
+    }
+
     public ContainerWidget(WidgetType widgetType) {
-        this("", widgetType);
+        this(NAMELESS, widgetType);
     }
 
     public ContainerWidget(String name, WidgetType widgetType) {
@@ -136,6 +143,14 @@ public abstract class ContainerWidget<W extends ContainerWidget<? extends Widget
     }
 
     protected abstract boolean acceptWidget(Widget widget);
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.OBJECT;
+    }
+
 
     // NAME
 

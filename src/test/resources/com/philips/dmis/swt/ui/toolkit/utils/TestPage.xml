@@ -1,0 +1,6 @@
+<Page>
+    <HtmlLabel id="label">Label</HtmlLabel>
+    <Panel id="panel" appearance="ROUNDED_CORNERS">
+        <HtmlButton id="buttonInsidePanel">Button</HtmlButton>
+    </Panel>
+</Page>

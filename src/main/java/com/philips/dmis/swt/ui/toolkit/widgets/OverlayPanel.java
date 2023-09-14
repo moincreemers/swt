@@ -3,12 +3,16 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class OverlayPanel extends Panel {
+    public OverlayPanel(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.OVERLAY);
+    }
+
     public OverlayPanel() {
-        super("", WidgetType.OVERLAY, PanelType.DEFAULT);
+        super(NAMELESS, WidgetType.OVERLAY, PanelType.DEFAULT);
     }
 
     public OverlayPanel(Widget... widgets) throws WidgetConfigurationException {
-        super("", WidgetType.OVERLAY, PanelType.DEFAULT, widgets);
+        super(NAMELESS, WidgetType.OVERLAY, PanelType.DEFAULT, widgets);
     }
 
     public OverlayPanel(String name, Widget... widgets) throws WidgetConfigurationException {
@@ -20,11 +24,11 @@ public class OverlayPanel extends Panel {
     }
 
     public OverlayPanel(PanelType panelType) {
-        super("", WidgetType.OVERLAY, panelType);
+        super(NAMELESS, WidgetType.OVERLAY, panelType);
     }
 
     public OverlayPanel(PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
-        super("", WidgetType.OVERLAY, panelType, widgets);
+        super(NAMELESS, WidgetType.OVERLAY, panelType, widgets);
     }
 
     public OverlayPanel(String name, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {

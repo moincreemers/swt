@@ -1,11 +1,16 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class HtmlParagraph extends DataBoundWidget<HtmlParagraph, ValueDataSourceUsage> implements HasText {
+    public HtmlParagraph(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.PARAGRAPH);
+    }
+
     public HtmlParagraph() {
-        this("");
+        this(DEFAULT_VALUE_TEXT);
     }
 
     public HtmlParagraph(String text) {
@@ -20,7 +25,7 @@ public class HtmlParagraph extends DataBoundWidget<HtmlParagraph, ValueDataSourc
 
     // TEXT
 
-    private HasText textImpl = new TextImpl(this);
+    private final HasText textImpl = new TextImpl(this);
 
     @Override
     public Widget asWidget() {
@@ -55,5 +60,12 @@ public class HtmlParagraph extends DataBoundWidget<HtmlParagraph, ValueDataSourc
     @Override
     public boolean isText() {
         return textImpl.isText();
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
     }
 }

@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
@@ -27,8 +28,12 @@ public class HtmlLink extends DataBoundWidget<HtmlLink, ValueDataSourceUsage> im
         return new HtmlLink(text).onClick(new ClickEventHandler(M.ClosePage(valueStatement)));
     }
 
+    public HtmlLink(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.LINK);
+    }
+
     public HtmlLink() {
-        this("");
+        this(DEFAULT_VALUE_TEXT);
     }
 
     public HtmlLink(String text) {
@@ -51,6 +56,13 @@ public class HtmlLink extends DataBoundWidget<HtmlLink, ValueDataSourceUsage> im
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
         super.getHtmlAttributes(htmlAttributes);
         htmlAttributes.put("href", "javascript:void(0);");
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
     }
 
     // ENCTYPE

@@ -4,13 +4,16 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Disables or enables a stylesheet")
 public class SetStylesheetDisabledStatement extends MethodStatement {
     private final ValueStatement href;
     private final ValueStatement disabled;
@@ -51,7 +54,9 @@ public class SetStylesheetDisabledStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertRequiredAndReturnType("href", href, JsType.STRING);
         href.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("disabled", disabled, JsType.BOOLEAN);
         disabled.validate(toolkit);
     }
 

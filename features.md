@@ -20,7 +20,7 @@
     - Some APIs return HL7 data structures that need to be parsed to be useful. This is a bit of extra work (
       HL7Lib.java). This work is incomplete at this time so things like patient email / phone is not parsed yet.
     - WADO client works but is very, very basic right now.
-    - CDA's render ok, but not great. CSS/layout seems a bit 'off'. Needs a closer inspection. Everything currently just
+    - CDA's render ok, but not great. CSS/layoutType seems a bit 'off'. Needs a closer inspection. Everything currently just
       opens in another tab/window. This could be reasonable but we can provide an iframe instead.
     - Features missing:
         - Session timeout --> automatic logout with warning dialog
@@ -64,7 +64,7 @@
 - MapDataAdapter, add option to combine multiple columns into one or split a column into multiple columns
 - join-data-adapter
 - Configuration options through beans (using @Component and injecting into ToolkitController?)
-- more support for page layout
+- more support for page layoutType
 - disable/enable individual options in checkbox/radiobutton lists
 - breadcrumb Widget
 - limit htmlTable loading to a number of records and then show a "load more records" htmlButton or something. This is
@@ -113,7 +113,7 @@
   resulting in a JSON document: DONE.
 - DataAdapter to 'find' htmlTable column names based on property names of 'record' objects: DONE
 - DataAdapter that maps foreign JSON documents to a record set structure: DONE
-- Radiobutton lists can act as Tab strip widget to facilitate a tabular layout: DONE
+- Radiobutton lists can act as Tab strip widget to facilitate a tabular layoutType: DONE
 - loading screen: DONE.
 - Proper HTML encoding when setting element.innerHTML=<some unicode text> (or element.textContent=...): DONE
 - Secure HTML injection for paragraphs: DONE. HTML injection is allowed but HTML is sanitized.

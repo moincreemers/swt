@@ -18,6 +18,9 @@ public abstract class PredicateStatement extends Statement {
         return JsType.BOOLEAN;
     }
 
+    /**
+     * The type of value that this predicate expects
+     */
     public abstract JsType getParameterType();
 
     public final List<JsParameter> getParameters() {

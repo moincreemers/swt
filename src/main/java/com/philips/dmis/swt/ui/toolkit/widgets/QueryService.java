@@ -3,8 +3,10 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.events.ErrorEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.RefreshEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ResponseEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 import org.springframework.http.HttpMethod;
 
 import java.net.URI;
@@ -13,6 +15,7 @@ import java.util.*;
 /**
  * A DataSource widget that sends an HTTP request.
  */
+@PageXmlElement({"url", "httpMethod", "contentType", "responseType", "authenticationType", "httpHeaders", "parameters"})
 public class QueryService extends DataSourceWidget implements HasURL {
     static boolean isRelativeURL(String url) {
         return (url != null &&
@@ -27,17 +30,25 @@ public class QueryService extends DataSourceWidget implements HasURL {
     private final Map<String, java.util.List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
     private final java.util.List<Parameter> parameters = new ArrayList<>();
 
+    public QueryService(WidgetConfigurator widgetConfigurator, String url) {
+        super(widgetConfigurator, WidgetType.QUERY_SERVICE);
+        setURL(url);
+    }
+
     public QueryService(String url) {
         this(url, isRelativeURL(url));
     }
 
     public QueryService(String url, boolean expectServiceResponse) {
-        super(WidgetType.QUERY_SERVICE, expectServiceResponse);
+        super(WidgetType.QUERY_SERVICE);
+        setExpectServiceResponse(expectServiceResponse);
         setURL(url);
     }
 
     public QueryService(String url, boolean expectServiceResponse, boolean autoRefresh) {
-        super(WidgetType.QUERY_SERVICE, expectServiceResponse, autoRefresh);
+        super(WidgetType.QUERY_SERVICE);
+        setExpectServiceResponse(expectServiceResponse);
+        setAutoRefresh(autoRefresh);
         setURL(url);
     }
 
@@ -142,5 +153,12 @@ public class QueryService extends DataSourceWidget implements HasURL {
     @Override
     public void setAuthenticationType(AuthenticationType authenticationType) {
         this.authenticationType = authenticationType;
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
     }
 }

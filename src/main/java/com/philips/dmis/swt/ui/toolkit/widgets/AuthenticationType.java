@@ -1,6 +1,13 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum AuthenticationType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum AuthenticationType implements HasDefault<AuthenticationType> {
     NONE,
-    BEARER_JWT
+    BEARER_JWT;
+
+    @Override
+    public AuthenticationType getDefault() {
+        return NONE;
+    }
 }

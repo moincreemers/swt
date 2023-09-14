@@ -17,53 +17,68 @@ public class HelloWorldExample extends Page {
         }
         add(new HtmlHeading("The Singular Web Toolkit"));
 
-        add(new HtmlParagraph("The Singular Web Toolkit (SWT) is a Web UI library created for Java " +
-                "Spring-Boot developers."));
+        Grid grid = add(new Grid(4, 0));
 
-        add(new HtmlParagraph("The goal of SWT is to provide software engineers that have already " +
-                "decided to use a Java Spring-Boot stack with a tool to quickly and easily create " +
-                "Web UI applications for their services."));
+        grid.add(new Panel(PanelType.INFO, new HtmlParagraph("""
+                <h3>For</h3>The Singular Web Toolkit is a Web UI library created for Java Spring-Boot developers
+                """)));
 
-        add(new HtmlParagraph("While choosing a tool to create the UI may sound straightforward, we " +
-                "believe that for business applications, there are not that many options available and " +
-                "the options that exist do a poor job of addressing important concerns and only focus " +
-                "on the technical aspects."));
+        grid.add(new Panel(PanelType.INFO, new HtmlParagraph("""
+                <h3>Why</h3>Quickly and easily create Web UI applications without writing any HTML, CSS or Javascript code
+                """)));
 
-        add(new HtmlParagraph("For that reason, SWT is designed specifically for " +
-                "the creation of business applications."));
+        grid.add(new Panel(PanelType.INFO, new HtmlParagraph("""
+                <h3>What</h3>Specifically aimed at creation and maintenance of business applications
+                """)));
 
-        add(new HtmlParagraph("SWT addresses total cost of ownership related aspects such as: " +
-                "competence management, maintenance, dependency management, information security and more, " +
-                "in a way that makes sense to developers and business leaders."));
+        grid.add(new Panel(PanelType.INFO, new HtmlParagraph("""
+                <h3>Unique</h3>SWT addresses total cost of ownership related aspects such as:
+                competence management, maintenance, dependency management, information security and more
+                """)));
 
         add(new HtmlHeading("SWT Design Requirements", 2));
-        ListContainer reqListContainer = add(new ListContainer());
 
-        reqListContainer.add(new HtmlParagraph("Designed primarily for creation and maintenance of Business Applications"));
-        reqListContainer.add(new HtmlParagraph("For Java Software Development teams"));
-        reqListContainer.add(new HtmlParagraph("Designed for Spring-Boot and must work together with Spring-Boot features"));
-        reqListContainer.add(new HtmlParagraph("Low-dependencies, no web framework needed"));
-        reqListContainer.add(new HtmlParagraph("Java only tech-stack, must not require any JS related development, test or build " +
-                "tools"));
-        reqListContainer.add(new HtmlParagraph("Zero-configuration, must work out of the box without any setup"));
-        reqListContainer.add(new HtmlParagraph("Support creation of Single Page Applications (SPA)"));
-        reqListContainer.add(new HtmlParagraph("No lead time for technology adoption"));
-        reqListContainer.add(new HtmlParagraph("Light weight"));
-        reqListContainer.add(new HtmlParagraph("Zero HTML, Javascript or CSS coding"));
-        reqListContainer.add(new HtmlParagraph("Speed of development over choice"));
-        reqListContainer.add(new HtmlParagraph("Speed of development over looks"));
-        reqListContainer.add(new HtmlParagraph("Avoid elaborate rules or conventions"));
-        reqListContainer.add(new HtmlParagraph("No domain specific languages (DSL)"));
-        reqListContainer.add(new HtmlParagraph("Basic, functional but still sophisticated styling (CSS) out of the box"));
-        reqListContainer.add(new HtmlParagraph("Support the standard HTML widgets and controls as much as possible"));
-        reqListContainer.add(new HtmlParagraph("Allow development of features across teams"));
-        reqListContainer.add(new HtmlParagraph("Built-in view controller logic"));
-        reqListContainer.add(new HtmlParagraph("Support querying any REST service"));
-        reqListContainer.add(new HtmlParagraph("Support updating REST services"));
-        reqListContainer.add(new HtmlParagraph("Support various encoding methods"));
-        reqListContainer.add(new HtmlParagraph("Supports static data for things like options or menu's etc."));
-        reqListContainer.add(new HtmlParagraph("Validates views automatically so composition errors are quickly identified"));
-        reqListContainer.add(new HtmlParagraph("Support a highly flexible data binding strategy"));
-        reqListContainer.add(new HtmlParagraph("Easy to extend by creating new widgets if needed"));
+        Grid gridReq = add(new Grid(4, 0));
+
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Produces Single Page Applications (SPA) that do not require interaction with a backend""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Low-dependency, no web framework is needed""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Integrates like a component and does not impact any other technology such as data storage""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Supports a Java-only tech-stack, does not require any JS related development, test or build tools""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Zero HTML or CSS coding""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Zero-configuration""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Prioritize speed of development over choice, appearance and cutting edge""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Avoid elaborate rules or conventions as much as possible""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                No domain specific language (DSL)""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Basic, functional and sophisticated look and feel out of the box""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Support the standard HTML widgets and controls as much as possible""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Allow development of features across teams""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Built-in view controller logic""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Support querying any REST service""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Support updating REST services""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Support various encoding methods""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Support static data for things like options or a menu""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Validates views automatically so composition errors are quickly identified""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Support a flexible and powerful data binding strategy""")));
+        gridReq.add(new Panel(PanelType.BANNER, new HtmlParagraph("""
+                Allow for extension""")));
     }
 }

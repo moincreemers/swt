@@ -112,3 +112,8 @@ $ mvn spring-boot:run
   an error. The error is always a missing page reference. In some cases the plugin automatically re-compiles again
   without errors. In most cases however, manually re-compiling is needed. The reason this happens is that the
   ToolkitController component does not receive all pages from Spring-Boot. Why this happens is not known.
+
+## Author
+
+Mo'in Creemers
+https://www.linkedin.com/in/moincreemers/

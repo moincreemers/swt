@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum ReferrerPolicyType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum ReferrerPolicyType implements HasDefault<ReferrerPolicyType> {
     /**
      * The Referer header will not be sent.
      */
@@ -45,5 +47,10 @@ public enum ReferrerPolicyType {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public ReferrerPolicyType getDefault() {
+        return STRICT_ORIGIN_WHEN_CROSS_ORIGIN;
     }
 }

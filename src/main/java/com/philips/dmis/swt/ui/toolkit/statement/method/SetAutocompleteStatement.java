@@ -7,19 +7,22 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetAutocompleteFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Sets the autocomplete attribute for the provided widget")
 public class SetAutocompleteStatement extends MethodStatement {
-    private final Widget targetWidget;
+    private final Widget widget;
     private final ValueStatement autocomplete;
 
     public SetAutocompleteStatement(Widget widget, ValueStatement autocomplete) {
-        this.targetWidget = widget;
+        this.widget = widget;
         this.autocomplete = autocomplete;
     }
 
@@ -38,7 +41,7 @@ public class SetAutocompleteStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext),%s);",
                 JsWidgetModule.getQualifiedId(SetAutocompleteFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.getId(),
+                this.widget.getId(),
                 ValueStatement.valueOf(toolkit, autocomplete, widget));
     }
 
@@ -48,7 +51,9 @@ public class SetAutocompleteStatement extends MethodStatement {
             return;
         }
         validated = true;
-        targetWidget.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("autocomplete", autocomplete, JsType.BOOLEAN);
         autocomplete.validate(toolkit);
     }
 

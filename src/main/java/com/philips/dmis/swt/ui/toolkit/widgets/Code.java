@@ -6,7 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.js.*;
 import java.util.List;
 import java.util.*;
 
-public class Code extends Widget implements HasCode {
+public abstract class Code extends Widget implements HasCode {
     public static JsFunction createFunction(String name, JsType returnType, String jsCode, JsParameter... jsParameters) {
         return createFunction(true, name, returnType, jsCode, jsParameters);
     }
@@ -71,6 +71,12 @@ public class Code extends Widget implements HasCode {
 
     private final String moduleName;
     private final java.util.List<JsFunction> functions = new ArrayList<>();
+
+    public Code(WidgetConfigurator widgetConfigurator, String moduleName) {
+        super(widgetConfigurator, WidgetType.CODE);
+        this.moduleName = moduleName;
+        build();
+    }
 
     public Code(String moduleName) {
         super(WidgetType.CODE);

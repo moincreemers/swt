@@ -1,9 +1,16 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
+@PageXmlElement("listType")
 public class ListContainer extends ContainerWidget<ListContainer> {
-    private ListType listType;
+    private ListType listType = ListType.UNORDERED;
+
+    public ListContainer(WidgetConfigurator widgetConfigurator, ListType listType) throws WidgetConfigurationException {
+        super(widgetConfigurator, WidgetType.LIST_CONTAINER);
+        setListType(listType);
+    }
 
     public ListContainer() throws WidgetConfigurationException {
         this(ListType.UNORDERED);

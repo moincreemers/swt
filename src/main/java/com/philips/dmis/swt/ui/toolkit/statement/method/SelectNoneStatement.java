@@ -7,18 +7,21 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SelectNoneFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasOptions;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Deselects any selected options in an HtmlSelect or MultipleChoice widget")
 public class SelectNoneStatement extends MethodStatement {
-    private final HasOptions targetWidget;
+    private final HasOptions widget;
 
     public SelectNoneStatement(HasOptions widget) {
-        this.targetWidget = widget;
+        this.widget = widget;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class SelectNoneStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext));",
                 JsWidgetModule.getQualifiedId(SelectNoneFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.asWidget().getId());
+                this.widget.asWidget().getId());
     }
 
     @Override
@@ -45,7 +48,8 @@ public class SelectNoneStatement extends MethodStatement {
             return;
         }
         validated = true;
-        targetWidget.asWidget().validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.asWidget().validate(toolkit);
     }
 
     @Override

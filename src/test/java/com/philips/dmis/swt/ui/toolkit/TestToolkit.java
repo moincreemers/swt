@@ -35,7 +35,7 @@ public class TestToolkit implements Toolkit {
     }
 
     @Override
-    public void addLanguageResourceFile(InputStream inputStream) throws IOException {
+    public void addLanguageResource(InputStream inputStream) throws IOException {
     }
 
     @Override

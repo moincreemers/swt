@@ -1,9 +1,11 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement("capture")
 public class CaptureImpl implements HasCapture {
     private final Widget widget;
     private CaptureType capture = CaptureType.UNSPECIFIED;

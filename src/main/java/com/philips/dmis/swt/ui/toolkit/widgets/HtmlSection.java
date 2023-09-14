@@ -3,12 +3,16 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class HtmlSection extends ContainerWidget<HtmlSection> {
+    public HtmlSection(WidgetConfigurator widgetConfigurator) throws WidgetConfigurationException {
+        super(widgetConfigurator, WidgetType.SECTION);
+    }
+
     public HtmlSection(Widget... widgets) throws WidgetConfigurationException {
-        this("", widgets);
+        this(NAMELESS, widgets);
     }
 
     public HtmlSection(String name, Widget... widgets) throws WidgetConfigurationException {
-        super(WidgetType.SECTION);
+        super(name, WidgetType.SECTION);
         addAll(widgets);
     }
 

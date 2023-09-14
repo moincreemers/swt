@@ -13,7 +13,7 @@ public interface HasNumberedText {
 
     void setLevel(int level);
 
-    boolean isNumberingEnabled();
+    boolean isNumbered();
 
-    void setNumberingEnabled(boolean numbered);
+    void setNumbered(boolean numbered);
 }

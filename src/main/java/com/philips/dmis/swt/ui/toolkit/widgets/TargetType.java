@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum TargetType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum TargetType implements HasDefault<TargetType> {
     SELF("_self"),
     BLANK("_blank"),
     PARENT("_parent"),
@@ -16,5 +18,10 @@ public enum TargetType {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public TargetType getDefault() {
+        return TargetType.BLANK;
     }
 }

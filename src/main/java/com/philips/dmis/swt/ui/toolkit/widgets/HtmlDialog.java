@@ -5,6 +5,10 @@ import com.philips.dmis.swt.ui.toolkit.events.OpenDialogEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class HtmlDialog extends ContainerWidget<HtmlDialog> {
+    public HtmlDialog(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.DIALOG);
+    }
+
     public HtmlDialog() {
         super(WidgetType.DIALOG);
     }

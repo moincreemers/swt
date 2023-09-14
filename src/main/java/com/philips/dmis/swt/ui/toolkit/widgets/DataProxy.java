@@ -2,19 +2,26 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.*;
 import java.util.List;
 
+@PageXmlElement({"expectServiceResponse", "autoRefresh", "notifySubscribers", "cacheType"})
 public class DataProxy extends DataBoundWidget<DataProxy, TransformDataSourceUsage> implements DataSourceSupplier {
     private final Map<HasDataSource<?, ?>, DataSourceUsage> subscribers = new HashMap<>();
     private final List<DataAdapter> dataAdapters = new ArrayList<>();
-    private final boolean expectServiceResponse;
-    private final boolean autoRefresh;
-    private final boolean notifySubscribers;
+    private boolean expectServiceResponse = true;
+    private boolean autoRefresh = true;
+    private boolean notifySubscribers = true;
     private final Set<String> disabledDataAdapters = new HashSet<>();
     private CacheType cacheType = CacheType.DEFAULT;
+
+    public DataProxy(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.DATA_PROXY);
+    }
 
     public DataProxy() {
         this(true, true, true);
@@ -39,12 +46,24 @@ public class DataProxy extends DataBoundWidget<DataProxy, TransformDataSourceUsa
         return expectServiceResponse;
     }
 
+    public void setExpectServiceResponse(boolean expectServiceResponse) {
+        this.expectServiceResponse = expectServiceResponse;
+    }
+
     public boolean isAutoRefresh() {
         return autoRefresh;
     }
 
+    public void setAutoRefresh(boolean autoRefresh) {
+        this.autoRefresh = autoRefresh;
+    }
+
     public boolean isNotifySubscribers() {
         return notifySubscribers;
+    }
+
+    public void setNotifySubscribers(boolean notifySubscribers) {
+        this.notifySubscribers = notifySubscribers;
     }
 
     // note that a DataProxy is not a data consumer, any data adapters will NOT be executed at any point
@@ -122,5 +141,12 @@ public class DataProxy extends DataBoundWidget<DataProxy, TransformDataSourceUsa
     @Override
     public void setCacheType(CacheType cacheType) {
         this.cacheType = cacheType;
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.OBJECT;
     }
 }

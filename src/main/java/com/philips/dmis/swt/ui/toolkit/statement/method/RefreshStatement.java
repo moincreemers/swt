@@ -8,7 +8,9 @@ import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.RefreshFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -16,12 +18,13 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Refeshes the provided widget which is only effective on Data Source widgets")
 public class RefreshStatement extends MethodStatement {
-    private final Widget targetWidget;
+    private final Widget widget;
     private final ValueStatement reason;
 
     public RefreshStatement(Widget widget) {
-        this.targetWidget = widget;
+        this.widget = widget;
         this.reason = null;
     }
 
@@ -30,7 +33,7 @@ public class RefreshStatement extends MethodStatement {
     }
 
     public RefreshStatement(Widget widget, ValueStatement reason) {
-        this.targetWidget = widget;
+        this.widget = widget;
         this.reason = reason;
     }
 
@@ -49,7 +52,7 @@ public class RefreshStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext),%s);",
                 JsWidgetModule.getQualifiedId(RefreshFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.getId(),
+                this.widget.getId(),
                 ValueStatement.valueOf(toolkit, reason != null
                         ? reason
                         : V.Const(JsStateModule.REASON_USER), widget));
@@ -61,7 +64,8 @@ public class RefreshStatement extends MethodStatement {
             return;
         }
         validated = true;
-        targetWidget.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
         if (reason != null) {
             reason.validate(toolkit);
         }
@@ -69,6 +73,8 @@ public class RefreshStatement extends MethodStatement {
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(reason);
+        if (reason != null) {
+            statements.add(reason);
+        }
     }
 }

@@ -7,12 +7,13 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.utils.JavaNameDetector;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
-import java.util.List;
 import java.util.*;
 import java.util.logging.Logger;
 
-public abstract class Widget implements HasId, Validatable, HasClassNames {
+@PageXmlElement({"appearance", "visible", "backgroundColor", "layoutType"})
+public abstract class Widget implements HasId, Validatable, HasClassNames, HasStaticHtmlImplementations {
     private static final Logger LOG = Logger.getLogger(Widget.class.getName());
 
     public static boolean isPageClassName(String className) {
@@ -24,11 +25,8 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
     }
 
     private final JsStateModule jsStateModule;
-
-    private static int idCounter = 0;
     final String id;
     final String srcName;
-
     final WidgetType widgetType;
     Set<WidgetAppearance> appearance = new HashSet<>();
     final List<Widget> siblings = new ArrayList<>();
@@ -39,11 +37,19 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
     boolean visible = true;
     final List<HasStaticHTML> staticHtmlImplementations = new ArrayList<>();
     String backgroundColor = "";
+    LayoutType layoutType = LayoutType.AUTO;
 
     public Widget(WidgetType widgetType) {
-        id = "w" + idCounter++;
-        srcName = JavaNameDetector.detectDeclaredName(getClass());
+        this(null, widgetType);
+    }
+
+    public Widget(WidgetConfigurator widgetConfigurator, WidgetType widgetType) {
+        if (widgetConfigurator == null) {
+            widgetConfigurator = new DefaultWidgetConfigurator(getClass());
+        }
+        id = widgetConfigurator.getId();
         this.widgetType = widgetType;
+        srcName = JavaNameDetector.detectDeclaredName(getClass());
         // IMPORTANT: this line must be here in the constructor
         this.jsStateModule = new JsStateModule(this);
     }
@@ -191,10 +197,17 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
         }
     }
 
+    @Override
     public void registerStaticHtmlImplementation(HasStaticHTML hasStaticHTML) {
         staticHtmlImplementations.add(hasStaticHTML);
     }
 
+    @Override
+    public List<HasStaticHTML> getStaticHtmlImplementations() {
+        return staticHtmlImplementations;
+    }
+
+    @Override
     public void renderStaticInnerHtml(Toolkit toolkit, StringBuffer html) {
         for (HasStaticHTML hasStaticHTML : staticHtmlImplementations) {
             hasStaticHTML.renderStaticInnerHtml(toolkit, html);
@@ -221,6 +234,7 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
         if (validated) {
             return;
         }
+        validated = true;
         logPreValidateStatement(toolkit);
         if (widgetType != WidgetType.PAGE && parent == null) {
             LOG.severe("Widget not added to view: " + id + " (" + widgetType.name() + ")");
@@ -232,7 +246,6 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
         for (HasStaticHTML hasStaticHTML : staticHtmlImplementations) {
             hasStaticHTML.validate(toolkit);
         }
-        validated = true;
     }
 
     void logPreValidateStatement(Toolkit toolkit) {
@@ -253,5 +266,13 @@ public abstract class Widget implements HasId, Validatable, HasClassNames {
     public Widget onInit(InitEventHandler eventHandler) {
         eventHandlers.add(eventHandler);
         return this;
+    }
+
+    public LayoutType getLayoutType() {
+        return layoutType;
+    }
+
+    public void setLayoutType(LayoutType layoutType) {
+        this.layoutType = layoutType;
     }
 }

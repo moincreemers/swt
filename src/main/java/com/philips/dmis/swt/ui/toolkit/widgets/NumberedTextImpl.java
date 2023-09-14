@@ -1,7 +1,9 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
+@PageXmlElement({"level", "numbered"})
 public class NumberedTextImpl extends TextImpl implements HasNumberedText {
     protected int level = 1;
     protected boolean numbered;
@@ -26,12 +28,12 @@ public class NumberedTextImpl extends TextImpl implements HasNumberedText {
     }
 
     @Override
-    public boolean isNumberingEnabled() {
+    public boolean isNumbered() {
         return numbered;
     }
 
     @Override
-    public void setNumberingEnabled(boolean numbered) {
+    public void setNumbered(boolean numbered) {
         if (this.numbered) {
             widget.removeClassName(HasNumberedText.CSS_CLASS_NUMBERED);
         }

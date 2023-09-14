@@ -1,23 +1,28 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class HtmlLabel extends DataBoundWidget<HtmlLabel, ValueDataSourceUsage> implements HasFor, HasIcon, HasText {
+    public HtmlLabel(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.LABEL);
+    }
+
     public HtmlLabel(Widget widget) {
-        this(widget, "");
+        this(widget, DEFAULT_VALUE_TEXT);
     }
 
     public HtmlLabel(String text) {
-        this(null, null, text);
+        this(null, DEFAULT_VALUE_ICON, text);
     }
 
     public HtmlLabel() {
-        this(null, null, "");
+        this(null, DEFAULT_VALUE_ICON, DEFAULT_VALUE_TEXT);
     }
 
     public HtmlLabel(IconsWidget iconsWidget, String icon) {
-        this(null, iconsWidget, icon, "");
+        this(null, iconsWidget, icon, DEFAULT_VALUE_TEXT);
     }
 
     public HtmlLabel(IconsWidget iconsWidget, String icon, String text) {
@@ -42,6 +47,12 @@ public class HtmlLabel extends DataBoundWidget<HtmlLabel, ValueDataSourceUsage> 
         return this;
     }
 
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
+    }
 
     // FOR
 

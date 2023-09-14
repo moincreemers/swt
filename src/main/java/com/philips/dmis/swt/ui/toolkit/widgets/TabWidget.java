@@ -1,5 +1,7 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
+import com.philips.dmis.swt.ui.toolkit.css.CssConstant;
+import com.philips.dmis.swt.ui.toolkit.css.CssValue;
 import com.philips.dmis.swt.ui.toolkit.data.KeyValueListDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
@@ -13,37 +15,37 @@ public class TabWidget extends Composite {
         final String value;
         final Panel panel;
 
-        Pair(String value, Size panelSize) {
+        Pair(String value, CssValue width, CssValue height) {
             this.value = value;
             panel = new Panel(PanelType.TAB_PAGE);
-            if (panelSize != null) {
-                panel.setOverflowAndSize(Overflow.FIXED_SIZE, panelSize);
-            }
+            panel.setOverflowAndSize(OverflowType.FIXED_SIZE, width, height);
         }
     }
 
     private final List<Pair> values = new ArrayList();
     private int initialIndex = -1;
-    private final Size panelSize;
+    private final CssValue width;
+    private final CssValue height;
     private final SingleChoice tabWidget = new SingleChoice(SingleChoiceAppearance.TABS);
 
     public TabWidget() {
-        this.panelSize = null;
+        this(CssConstant.EMPTY, CssConstant.EMPTY);
     }
 
-    public TabWidget(Size panelSize) {
-        this.panelSize = panelSize;
+    public TabWidget(CssValue width, CssValue height) {
+        this.width = width;
+        this.height = height;
     }
 
     public TabWidget(String... values) {
-        this.panelSize = null;
+        this(CssConstant.EMPTY, CssConstant.EMPTY);
         for (String value : values) {
             addValue(value);
         }
     }
 
-    public TabWidget(Size panelSize, String... values) {
-        this.panelSize = panelSize;
+    public TabWidget(CssValue width, CssValue height, String... values) {
+        this(width, height);
         for (String value : values) {
             addValue(value);
         }
@@ -54,7 +56,7 @@ public class TabWidget extends Composite {
         return this;
     }
 
-    public ValueWidget<SingleChoice, ValueAndItemsDataSourceUsage> getValueWidget() {
+    public ValueWidget<SingleChoice, String, ValueAndItemsDataSourceUsage> getValueWidget() {
         return tabWidget;
     }
 
@@ -62,7 +64,7 @@ public class TabWidget extends Composite {
         if (values.contains(value)) {
             throw new IllegalArgumentException("duplicate value " + value);
         }
-        values.add(new Pair(value, panelSize));
+        values.add(new Pair(value, width, height));
     }
 
     public int size() {

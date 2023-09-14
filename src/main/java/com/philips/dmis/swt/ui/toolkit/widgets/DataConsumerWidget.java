@@ -6,6 +6,10 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.Map;
 
 public class DataConsumerWidget extends DataBoundWidget<DataConsumerWidget, ProceduralDataSourceUsage> {
+    public DataConsumerWidget(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.DATA_CONSUMER);
+    }
+
     public DataConsumerWidget() {
         super(WidgetType.DATA_CONSUMER);
     }

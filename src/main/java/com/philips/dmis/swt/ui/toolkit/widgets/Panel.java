@@ -1,14 +1,28 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.css.CssConstant;
+import com.philips.dmis.swt.ui.toolkit.css.CssLength;
+import com.philips.dmis.swt.ui.toolkit.css.CssValue;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement({"panelType", "overflowType", "width", "height"})
 public class Panel extends ContainerWidget<Panel> {
     private PanelType panelType = PanelType.DEFAULT;
-    private Overflow overflow = Overflow.FIT_CONTENT;
-    private Size size = new Size();
+    private OverflowType overflowType = OverflowType.FIT_CONTENT;
+    private CssValue width = CssConstant.EMPTY;
+    private CssValue height = CssConstant.EMPTY;
+
+    protected Panel(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.PANEL);
+    }
+
+    protected Panel(WidgetConfigurator widgetConfigurator, WidgetType widgetType) {
+        super(widgetConfigurator, widgetType);
+    }
 
     protected Panel(WidgetType widgetType) {
         super(widgetType);
@@ -24,7 +38,7 @@ public class Panel extends ContainerWidget<Panel> {
     }
 
     protected Panel(WidgetType widgetType, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
-        this("", widgetType, panelType, widgets);
+        this(NAMELESS, widgetType, panelType, widgets);
     }
 
     public Panel() {
@@ -36,11 +50,11 @@ public class Panel extends ContainerWidget<Panel> {
     }
 
     public Panel(PanelType panelType) {
-        this("", WidgetType.PANEL, panelType);
+        this(NAMELESS, WidgetType.PANEL, panelType);
     }
 
     public Panel(WidgetType widgetType, PanelType panelType) {
-        this("", widgetType, panelType);
+        this(NAMELESS, widgetType, panelType);
     }
 
     public Panel(Widget... widgets) throws WidgetConfigurationException {
@@ -64,8 +78,8 @@ public class Panel extends ContainerWidget<Panel> {
     @Override
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
         super.validate(toolkit);
-        if (overflow.requiresSize) {
-            size.validate();
+        if (overflowType.requiresSize) {
+            // todo:
         }
     }
 
@@ -77,10 +91,10 @@ public class Panel extends ContainerWidget<Panel> {
     @Override
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
         super.getHtmlAttributes(htmlAttributes);
-        if (overflow.requiresSize) {
+        if (overflowType.requiresSize) {
             StyleAttribute style = new StyleAttribute(htmlAttributes, "style");
-            style.add("width", size.width);
-            style.add("height", size.height);
+            style.add("width", width.toString());
+            style.add("height", height.toString());
         }
     }
 
@@ -100,33 +114,48 @@ public class Panel extends ContainerWidget<Panel> {
         return this;
     }
 
-    public Overflow getOverflow() {
-        return overflow;
+    public OverflowType getOverflowType() {
+        return overflowType;
     }
 
-    public Panel setOverflow(Overflow overflow) {
-        if (overflow == null) {
+    public Panel setOverflowType(OverflowType overflowType) {
+        if (overflowType == null) {
             return this;
         }
-        if (this.overflow != Overflow.DEFAULT) {
-            removeClassName(this.overflow.className);
+        if (this.overflowType != OverflowType.DEFAULT) {
+            removeClassName(this.overflowType.className);
         }
-        this.overflow = overflow;
-        addClassName(this.overflow.className);
+        this.overflowType = overflowType;
+        addClassName(this.overflowType.className);
         return this;
     }
 
-    public Panel setOverflowAndSize(Overflow overflow, Size size) {
-        setOverflow(overflow);
-        setSize(size);
+    public Panel setOverflowAndSize(OverflowType overflowType, CssValue width, CssValue height) {
+        setOverflowType(overflowType);
+        setWidth(width);
+        setHeight(height);
         return this;
     }
 
-    public Size getSize() {
-        return size;
+    public CssValue getWidth() {
+        return width;
     }
 
-    public void setSize(Size size) {
-        this.size = size;
+    public void setWidth(CssValue width) {
+        if (width == null) {
+            width = new CssLength();
+        }
+        this.width = width;
+    }
+
+    public CssValue getHeight() {
+        return height;
+    }
+
+    public void setHeight(CssValue height) {
+        if (height == null) {
+            height = new CssLength();
+        }
+        this.height = height;
     }
 }

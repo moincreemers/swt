@@ -8,17 +8,20 @@ import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.StopFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Stops the provided (Timer) widget")
 public class StopStatement extends MethodStatement {
-    private final Widget targetWidget;
+    private final Widget widget;
 
     public StopStatement(Widget widget) {
-        this.targetWidget = widget;
+        this.widget = widget;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class StopStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext),'%s');",
                 JsWidgetModule.getQualifiedId(StopFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.getId(),
+                this.widget.getId(),
                 JsStateModule.REASON_USER);
     }
 
@@ -46,7 +49,8 @@ public class StopStatement extends MethodStatement {
             return;
         }
         validated = true;
-        targetWidget.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
     }
 
     @Override

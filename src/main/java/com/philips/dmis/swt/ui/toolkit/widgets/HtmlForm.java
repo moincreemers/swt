@@ -7,6 +7,10 @@ import java.util.List;
 public class HtmlForm extends ContainerWidget<HtmlForm> implements
         HasAutocomplete, HasAcceptCharSet, HasRel, HasAction, HasEncType,
         HasMethod, HasNoValidate, HasTarget {
+    public HtmlForm(WidgetConfigurator widgetConfigurator) throws WidgetConfigurationException {
+        super(widgetConfigurator, WidgetType.FORM);
+    }
+
     public HtmlForm(Widget... widgets) throws WidgetConfigurationException {
         super(WidgetType.FORM);
         addAll(widgets);

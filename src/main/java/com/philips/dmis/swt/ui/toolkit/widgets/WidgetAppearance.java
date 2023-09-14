@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum WidgetAppearance {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum WidgetAppearance implements HasDefault<WidgetAppearance> {
     DEFAULT(""),
     ROUNDED_CORNERS("tk-rounded"),
     HARD_CORNERS("tk-hard"),
@@ -30,5 +32,10 @@ public enum WidgetAppearance {
 
     WidgetAppearance(String className) {
         this.className = className;
+    }
+
+    @Override
+    public WidgetAppearance getDefault() {
+        return WidgetAppearance.DEFAULT;
     }
 }

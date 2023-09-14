@@ -1,9 +1,12 @@
 package com.philips.dmis.swt.ui.toolkit.statement.value;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
+
+import java.util.List;
 
 /**
  * A Value statement is a value literal.
@@ -23,5 +26,10 @@ public abstract class ValueStatement extends Statement {
         JsWriter js = new JsWriter();
         valueStatement.renderJs(toolkit, widget, js);
         return js.toString();
+    }
+
+    @Override
+    public final List<JsParameter> getParameters() {
+        return NO_PARAMETERS;
     }
 }

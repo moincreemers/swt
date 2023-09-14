@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum ButtonType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum ButtonType implements HasDefault<ButtonType> {
     DEFAULT("", "d"),
     PRIMARY("tk-button-primary", "p"),
     SUCCESS("tk-button-success", "s"),
@@ -23,5 +25,10 @@ public enum ButtonType {
 
     public String getShortName() {
         return shortName;
+    }
+
+    @Override
+    public ButtonType getDefault() {
+        return DEFAULT;
     }
 }

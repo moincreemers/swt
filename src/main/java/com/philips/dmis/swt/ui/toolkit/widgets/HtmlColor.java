@@ -1,21 +1,26 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlColor extends ValueWidget<HtmlColor,ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlColor>, HasAutocomplete, HasList {
+public class HtmlColor extends ValueWidget<HtmlColor, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlColor, String>, HasAutocomplete, HasList {
+    public HtmlColor(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.COLOR, JsType.STRING);
+        setType(TypeType.COLOR);
+    }
 
     public HtmlColor() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlColor(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlColor(String name, String value) {
-        super(name, WidgetType.COLOR);
+        super(name, WidgetType.COLOR, JsType.STRING);
         setType(TypeType.COLOR);
         setValue(value);
     }

@@ -2,12 +2,17 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.events.ErrorEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.ResponseEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
 public abstract class DataProviderWidget<T extends Widget> extends Widget implements
-        HasValue<DataProviderWidget<T>> {
+        HasValue<DataProviderWidget<T>, Object> {
+    public DataProviderWidget(WidgetConfigurator widgetConfigurator, WidgetType widgetType) {
+        super(widgetConfigurator, widgetType);
+    }
+
     public DataProviderWidget(WidgetType widgetType) {
         super(widgetType);
     }
@@ -31,7 +36,7 @@ public abstract class DataProviderWidget<T extends Widget> extends Widget implem
 
     // VALUE
 
-    private final ValueImpl<DataProviderWidget<T>> valueImpl = new ValueImpl<>(this);
+    private final ValueImpl<DataProviderWidget<T>, Object> valueImpl = new ValueImpl<>(this, JsType.OBJECT);
 
     @Override
     public HasName<DataProviderWidget<T>> getNameImpl() {
@@ -50,17 +55,17 @@ public abstract class DataProviderWidget<T extends Widget> extends Widget implem
     }
 
     @Override
-    public HasValue<DataProviderWidget<T>> getValueImpl() {
+    public HasValue<DataProviderWidget<T>, Object> getValueImpl() {
         return valueImpl;
     }
 
     @Override
-    public String getValue() {
+    public Object getValue() {
         return valueImpl.getValue();
     }
 
     @Override
-    public DataProviderWidget<T> setValue(String value) {
+    public DataProviderWidget<T> setValue(Object value) {
         valueImpl.setValue(value);
         return this;
     }

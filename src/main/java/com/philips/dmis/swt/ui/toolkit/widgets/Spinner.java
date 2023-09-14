@@ -4,6 +4,10 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class Spinner extends Widget {
+    public Spinner(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.SPINNER);
+    }
+
     public Spinner() {
         super(WidgetType.SPINNER);
         // default

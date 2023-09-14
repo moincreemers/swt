@@ -1,9 +1,14 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class Caption extends DataBoundWidget<Caption, ValueDataSourceUsage> implements HasIcon, HasText {
+    public Caption(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.CAPTION);
+    }
+
     public Caption(String text) {
         this(null, null, text);
     }
@@ -18,6 +23,13 @@ public class Caption extends DataBoundWidget<Caption, ValueDataSourceUsage> impl
     public Caption addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
         super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
     }
 
     // ICON

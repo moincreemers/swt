@@ -2,13 +2,16 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.html.HasConstantStorage;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.ArrayList;
 import java.util.Map;
 
+@PageXmlElement({"textFormat"})
 public class TextImpl implements HasText {
     protected final Widget widget;
-    protected TextFormatType textFormatType;
+    protected TextFormatType textFormatType = TextFormatType.TEXT;
     protected String text;
 
     public TextImpl(Widget widget) {
@@ -79,25 +82,10 @@ public class TextImpl implements HasText {
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
     }
 
+    // HASVALUETYPE
 
-    //    @Override
-//    protected void renderInnerHtmlText(Toolkit toolkit, StringBuffer html) {
-//        if (!(text == null || text.isEmpty())) {
-//            // NOTE: careful
-//            if (textFormat == TextFormat.TEXT) {
-//                html.append(StringUtils.encodeHtml(text));
-//            }
-//            if (textFormat == TextFormat.JSON) {
-//                try {
-//                    JsonNode j = OBJECT_MAPPER.readTree(text);
-//                    html.append(j.toPrettyString());
-//                } catch (JsonProcessingException e) {
-//                    html.append(e.getMessage());
-//                }
-//            }
-//            if (textFormat == TextFormat.JAVA_AND_JS) {
-//                html.append(JavaCodeFormatter.format(text));
-//            }
-//        }
-//    }
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
+    }
 }

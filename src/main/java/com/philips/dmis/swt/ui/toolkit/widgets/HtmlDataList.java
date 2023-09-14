@@ -8,6 +8,10 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import java.util.Set;
 
 public class HtmlDataList extends DataBoundWidget<HtmlDataList, ItemsDataSourceUsage> implements HasOptions {
+    public HtmlDataList(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.DATA_LIST);
+    }
+
     public HtmlDataList() {
         super(WidgetType.DATA_LIST);
     }

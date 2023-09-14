@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlSearchInput extends ValueWidget<HtmlSearchInput, ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlSearchInput>, HasKeyInput<HtmlSearchInput>, HasLength, HasPattern, HasPlaceholder,
+public class HtmlSearchInput extends ValueWidget<HtmlSearchInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlSearchInput, String>, HasKeyInput<HtmlSearchInput>, HasLength, HasPattern, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList {
+    public HtmlSearchInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.SEARCH, JsType.STRING);
+        setType(TypeType.SEARCH);
+    }
+
     public HtmlSearchInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlSearchInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlSearchInput(String name, String value) {
-        super(name, WidgetType.SEARCH);
+        super(name, WidgetType.SEARCH, JsType.STRING);
         setType(TypeType.SEARCH);
         setValue(value);
     }

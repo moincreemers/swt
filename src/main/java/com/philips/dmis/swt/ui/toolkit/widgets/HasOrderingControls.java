@@ -8,7 +8,7 @@ import java.util.Map;
 public interface HasOrderingControls<T extends Widget> extends HasStaticHTML {
     HasOrderingControls<T> getOrderingControlsImpl();
 
-    T setOrder(String source, Order order);
+    T addOrder(String source, Order order);
 
     Map<String, Order> getOrder();
 

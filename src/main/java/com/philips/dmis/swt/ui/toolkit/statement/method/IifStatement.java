@@ -6,9 +6,11 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.EqualsFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
-import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
+import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -19,29 +21,30 @@ import java.util.List;
 /**
  * Allows for evaluation of a single condition and perform multiple statements if the condition is true.
  */
+@Description("Evaluates a given boolean value statement and then executes the provided statements for either a True, False or Else block")
 public class IifStatement extends MethodStatement {
     static class Case {
-        final ValueStatement valueStatement;
+        final ValueStatement value;
         final boolean inverted;
         final List<Statement> statements = new ArrayList<>();
 
-        Case(ValueStatement valueStatement, Statement... statements) {
-            this(valueStatement, false, statements);
+        Case(ValueStatement value, Statement... statements) {
+            this(value, false, statements);
         }
 
-        Case(ValueStatement valueStatement, boolean inverted, Statement... statements) {
-            this.valueStatement = valueStatement;
+        Case(ValueStatement value, boolean inverted, Statement... statements) {
+            this.value = value;
             this.inverted = inverted;
             Collections.addAll(this.statements, statements);
         }
     }
 
-    private final ValueStatement valueStatement;
+    private final ValueStatement value;
     private final List<Case> cases = new ArrayList<>();
     private final List<Statement> elseStatements = new ArrayList<>();
 
-    public IifStatement(ValueStatement valueStatement) {
-        this.valueStatement = valueStatement;
+    public IifStatement(ValueStatement value) {
+        this.value = value;
     }
 
     public IifStatement True(Statement... statements) {
@@ -101,8 +104,8 @@ public class IifStatement extends MethodStatement {
                 js.append("}else ");
             }
             js.append("if(%s(%s,%s)==%s){", JsGlobalModule.getQualifiedId(EqualsFunction.class),
-                    ValueStatement.valueOf(toolkit, valueStatement, widget),
-                    ValueStatement.valueOf(toolkit, c.valueStatement, widget),
+                    ValueStatement.valueOf(toolkit, value, widget),
+                    ValueStatement.valueOf(toolkit, c.value, widget),
                     c.inverted ? "false" : "true");
             for (Statement statement : c.statements) {
                 statement.renderJs(toolkit, widget, js);
@@ -124,9 +127,11 @@ public class IifStatement extends MethodStatement {
             return;
         }
         validated = true;
-        valueStatement.validate(toolkit);
+        StatementUtil.assertRequired("value", value);
+        value.validate(toolkit);
         for (Case c : cases) {
-            c.valueStatement.validate(toolkit);
+            StatementUtil.assertRequired("case.value", c.value);
+            c.value.validate(toolkit);
             for (Statement statement : c.statements) {
                 statement.validate(toolkit);
             }
@@ -139,7 +144,7 @@ public class IifStatement extends MethodStatement {
     @Override
     public void getReferences(List<Statement> statements) {
         for (Case c : cases) {
-            statements.add(c.valueStatement);
+            statements.add(c.value);
             statements.addAll(c.statements);
         }
         statements.addAll(elseStatements);

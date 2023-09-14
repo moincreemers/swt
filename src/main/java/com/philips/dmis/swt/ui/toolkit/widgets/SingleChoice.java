@@ -1,16 +1,23 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Set;
 
-public class SingleChoice extends ValueWidget<SingleChoice, ValueAndItemsDataSourceUsage> implements
-        HasOptions, HasValue<SingleChoice> {
+@PageXmlElement("singleChoiceAppearance")
+public class SingleChoice extends ValueWidget<SingleChoice, String, ValueAndItemsDataSourceUsage> implements
+        HasOptions, HasValue<SingleChoice, String> {
     private SingleChoiceAppearance singleChoiceAppearance = SingleChoiceAppearance.DEFAULT;
 
+    public SingleChoice(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.SINGLE_CHOICE, JsType.STRING);
+    }
+
     public SingleChoice() {
-        this("", SingleChoiceAppearance.DEFAULT);
+        this(NAMELESS, SingleChoiceAppearance.DEFAULT);
     }
 
     public SingleChoice(String name) {
@@ -18,11 +25,11 @@ public class SingleChoice extends ValueWidget<SingleChoice, ValueAndItemsDataSou
     }
 
     public SingleChoice(SingleChoiceAppearance singleChoiceAppearance, Widget... tabPanels) {
-        this("", singleChoiceAppearance, tabPanels);
+        this(NAMELESS, singleChoiceAppearance, tabPanels);
     }
 
     public SingleChoice(String name, SingleChoiceAppearance singleChoiceAppearance, Widget... tabPanels) {
-        super(name, WidgetType.SINGLE_CHOICE);
+        super(name, WidgetType.SINGLE_CHOICE, JsType.STRING);
         setSingleChoiceAppearance(singleChoiceAppearance);
         addSiblings(tabPanels);
     }

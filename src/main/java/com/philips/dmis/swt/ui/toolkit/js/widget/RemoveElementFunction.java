@@ -2,10 +2,7 @@ package com.philips.dmis.swt.ui.toolkit.js.widget;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.*;
-import com.philips.dmis.swt.ui.toolkit.js.state.ChildWidgetsVariable;
-import com.philips.dmis.swt.ui.toolkit.js.state.IsNumberedVariable;
-import com.philips.dmis.swt.ui.toolkit.js.state.ParentWidgetIdVariable;
-import com.philips.dmis.swt.ui.toolkit.js.state.WidgetTypeVariable;
+import com.philips.dmis.swt.ui.toolkit.js.state.*;
 import com.philips.dmis.swt.ui.toolkit.widgets.ContainerWidget;
 import com.philips.dmis.swt.ui.toolkit.widgets.JsRenderException;
 import com.philips.dmis.swt.ui.toolkit.widgets.PanelType;
@@ -103,10 +100,6 @@ public class RemoveElementFunction implements JsFunction {
         js.append("inner.classList.remove('tk-page-has-nav-right');");
         js.append("};");
 
-        js.append("}else if(containerWidgetType=='%s'){", WidgetType.GRID.name());  // else
-        // todo:
-        //js.append("containerElement.removeChild(element);");
-
         js.append("}else if(containerWidgetType=='%s'){", WidgetType.SINGLE_ROW.name());  // else
         // todo:
         js.append("containerElement.removeChild(element);");
@@ -128,10 +121,10 @@ public class RemoveElementFunction implements JsFunction {
                 JsWidgetModule.getId(RaiseEventFunction.class),
                 JsWidgetModule.getId(EventHandlerFunction.OnRemoveEventHandlerFunction.class));
 
-        js.append("if(containerWidgetType=='%s'&&isNumbered){",
-                WidgetType.PAGE.name()); // if
-        js.append("%s(containerWidgetId,childWidgetType);",
-                JsWidgetModule.getId(UpdateNumberingFunction.class));
+        js.append("if(isNumbered){"); // if
+        js.append("%s(childWidget.%s,childWidgetType);",
+                JsWidgetModule.getId(UpdateNumberingFunction.class),
+                PageIdVariable.ID);
         js.append("};"); // end if
 
         js.append("}"); // end function

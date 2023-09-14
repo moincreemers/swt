@@ -1,6 +1,7 @@
 package com.philips.dmis.swt.ui.demo;
 
 import com.philips.dmis.swt.ui.toolkit.Constants;
+import com.philips.dmis.swt.ui.toolkit.css.CssLength;
 import com.philips.dmis.swt.ui.toolkit.data.DtoViewDataAdapter;
 import com.philips.dmis.swt.ui.toolkit.dto.*;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -45,7 +46,7 @@ public class TableExample extends Page {
             public String bottomRight = "Bottom-right";
         }
         TabWidget stringTabWidget = add(new TabWidget("Table", "Data"));
-        stringTabWidget.panel(1).setOverflowAndSize(Overflow.FIXED_SIZE, Size.getDefaultTabPage());
+        stringTabWidget.panel(1).setOverflowAndSize(OverflowType.FIXED_SIZE, CssLength.DEFAULT_TAB_PAGE_WIDTH, CssLength.DEFAULT_TAB_PAGE_HEIGHT);
         StaticData stringStaticData = add(new StaticData(Arrays.asList(new StringRecord())));
         DtoViewDataAdapter stringDataAdapter = new DtoViewDataAdapter(StringRecord.class);
         stringDataAdapter.setFormat("text", new TextFormat().setCellMaxWidth("20ch").setCellColor("white").setCellBackgroundColor("green"));
@@ -75,7 +76,7 @@ public class TableExample extends Page {
             public boolean squareTrue = true;
         }
         TabWidget booleanTabWidget = add(new TabWidget("Table", "Data"));
-        booleanTabWidget.panel(1).setOverflowAndSize(Overflow.FIXED_SIZE, Size.getDefaultTabPage());
+        booleanTabWidget.panel(1).setOverflowAndSize(OverflowType.FIXED_SIZE, CssLength.DEFAULT_TAB_PAGE_WIDTH, CssLength.DEFAULT_TAB_PAGE_HEIGHT);
         StaticData booleanStaticData = add(new StaticData(Arrays.asList(new BooleanRecord())));
         DtoViewDataAdapter booleanDataAdapter = new DtoViewDataAdapter(BooleanRecord.class);
         booleanDataAdapter.setFormat("circleFalse", new BooleanFormat().setAppearance(BooleanAppearanceType.CIRCLE));
@@ -102,7 +103,7 @@ public class TableExample extends Page {
             public double unit = N;
         }
         TabWidget numberTabWidget = add(new TabWidget("Table", "Data"));
-        numberTabWidget.panel(1).setOverflowAndSize(Overflow.FIXED_SIZE, Size.getDefaultTabPage());
+        numberTabWidget.panel(1).setOverflowAndSize(OverflowType.FIXED_SIZE, CssLength.DEFAULT_TAB_PAGE_WIDTH, CssLength.DEFAULT_TAB_PAGE_HEIGHT);
         StaticData numberStaticData = add(new StaticData(Arrays.asList(new NumberRecord())));
         DtoViewDataAdapter numberDataAdapter = new DtoViewDataAdapter(NumberRecord.class);
         numberDataAdapter.setFormat("twoDecimals", new NumberFormat().setMaximumFractionDigits(2));
@@ -125,7 +126,7 @@ public class TableExample extends Page {
             public Date formatted = new Date();
         }
         TabWidget dateTabWidget = add(new TabWidget("Table", "Data"));
-        dateTabWidget.panel(1).setOverflowAndSize(Overflow.FIXED_SIZE, Size.getDefaultTabPage());
+        dateTabWidget.panel(1).setOverflowAndSize(OverflowType.FIXED_SIZE, CssLength.DEFAULT_TAB_PAGE_WIDTH, CssLength.DEFAULT_TAB_PAGE_HEIGHT);
         StaticData dateStaticData = add(new StaticData(Arrays.asList(new DateRecord())));
         DtoViewDataAdapter dateDataAdapter = new DtoViewDataAdapter(DateRecord.class);
         dateDataAdapter.setFormat("formatted", new DateTimeFormat().setDateStyle(DateStyleType.FULL));
@@ -144,7 +145,7 @@ public class TableExample extends Page {
             public String imageURL = "/example.jpg";
         }
         TabWidget urlTabWidget = add(new TabWidget("Table", "Data"));
-        urlTabWidget.panel(1).setOverflowAndSize(Overflow.FIXED_SIZE, Size.getDefaultTabPage());
+        urlTabWidget.panel(1).setOverflowAndSize(OverflowType.FIXED_SIZE, CssLength.DEFAULT_TAB_PAGE_WIDTH, CssLength.DEFAULT_TAB_PAGE_HEIGHT);
         StaticData urlStaticData = add(new StaticData(Arrays.asList(new URLRecord())));
         DtoViewDataAdapter urlDataAdapter = new DtoViewDataAdapter(URLRecord.class);
         urlDataAdapter.setFormat("linkURL", new URLFormat().setAppearance(URLAppearanceType.ANCHOR));
@@ -165,7 +166,7 @@ public class TableExample extends Page {
             public String[] last = new String[]{"One", "Two", "Three"};
         }
         TabWidget arrayTabWidget = add(new TabWidget("Table", "Data"));
-        arrayTabWidget.panel(1).setOverflowAndSize(Overflow.FIXED_SIZE, Size.getDefaultTabPage());
+        arrayTabWidget.panel(1).setOverflowAndSize(OverflowType.FIXED_SIZE, CssLength.DEFAULT_TAB_PAGE_WIDTH, CssLength.DEFAULT_TAB_PAGE_HEIGHT);
         StaticData arrayStaticData = add(new StaticData(Arrays.asList(new ArrayRecord())));
         DtoViewDataAdapter arrayDataAdapter = new DtoViewDataAdapter(ArrayRecord.class);
         arrayDataAdapter.setFormat("join", new ArrayFormat().setAppearance(ArrayAppearanceType.JOIN).setSeparator("; "));

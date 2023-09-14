@@ -6,6 +6,7 @@ import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import java.util.HashMap;
 import java.util.Map;
 
+// todo: @PageXmlElement("")
 public class DataTemplateImpl<T extends Widget> implements HasDataTemplate {
     private final T widget;
     private Widget defaultTemplateWidget;

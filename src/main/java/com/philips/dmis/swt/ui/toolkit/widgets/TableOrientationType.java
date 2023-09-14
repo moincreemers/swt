@@ -1,6 +1,13 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum TableOrientationType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum TableOrientationType implements HasDefault<TableOrientationType> {
     NORMAL,
-    ROW_HEADERS
+    ROW_HEADERS;
+
+    @Override
+    public TableOrientationType getDefault() {
+        return TableOrientationType.NORMAL;
+    }
 }

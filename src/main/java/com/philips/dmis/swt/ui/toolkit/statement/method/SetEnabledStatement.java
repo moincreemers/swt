@@ -7,6 +7,7 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetDisabledFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -14,13 +15,14 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Sets the disabled attribute on the provided widget if the provided value evaluates to true")
 public class SetEnabledStatement extends MethodStatement {
     private final Widget targetWidget;
-    private final ValueStatement valueStatement;
+    private final ValueStatement enabled;
 
-    public SetEnabledStatement(Widget widget, ValueStatement valueStatement) {
+    public SetEnabledStatement(Widget widget, ValueStatement enabled) {
         this.targetWidget = widget;
-        this.valueStatement = valueStatement;
+        this.enabled = enabled;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class SetEnabledStatement extends MethodStatement {
                 JsWidgetModule.getQualifiedId(SetDisabledFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 targetWidget.getId(),
-                ValueStatement.valueOf(toolkit, valueStatement, widget));
+                ValueStatement.valueOf(toolkit, enabled, widget));
     }
 
     @Override
@@ -49,11 +51,11 @@ public class SetEnabledStatement extends MethodStatement {
         }
         validated = true;
         targetWidget.validate(toolkit);
-        valueStatement.validate(toolkit);
+        enabled.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(valueStatement);
+        statements.add(enabled);
     }
 }

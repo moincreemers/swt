@@ -3,14 +3,20 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.OpenEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Set;
 
+@PageXmlElement("listType")
 public class HtmlList extends DataBoundWidget<HtmlList, ItemsDataSourceUsage> implements HasListItems {
-    private ListType listType;
+    private ListType listType = ListType.UNORDERED;
 
     public HtmlList() {
         this(ListType.UNORDERED);
+    }
+
+    public HtmlList(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.LIST);
     }
 
     public HtmlList(ListType listType) {

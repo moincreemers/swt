@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum PanelType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum PanelType implements HasDefault<PanelType> {
     DEFAULT(""),
 
     PADDED("tk-panel-padded"),
@@ -32,5 +34,10 @@ public enum PanelType {
 
     public String getClassName() {
         return className;
+    }
+
+    @Override
+    public PanelType getDefault() {
+        return DEFAULT;
     }
 }

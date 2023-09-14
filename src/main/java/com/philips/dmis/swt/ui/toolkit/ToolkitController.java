@@ -144,8 +144,8 @@ public class ToolkitController implements Toolkit, HasConstantStorage {
     }
 
     @Override
-    public void addLanguageResourceFile(InputStream inputStream) throws IOException {
-        constantStorageImpl.addLanguageResourceFile(inputStream);
+    public void addLanguageResource(InputStream inputStream) throws IOException {
+        constantStorageImpl.addLanguageResource(inputStream);
     }
 
     // HasCode

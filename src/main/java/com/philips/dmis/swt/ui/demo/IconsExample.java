@@ -15,7 +15,7 @@ public class IconsExample extends Page {
 
     @Override
     protected void build() throws Exception {
-        if(!isDefault()) {
+        if (!isDefault()) {
             add(HtmlLink.closePage("Back to Examples"));
         }
         add(new HtmlHeading("Icons and Text"));
@@ -24,7 +24,6 @@ public class IconsExample extends Page {
 
         add(new HtmlHeading("Widgets that support Icons", 2));
         Grid grid = add(new Grid(3));
-        grid.setAppearance(WidgetAppearance.BORDERED);
         grid.addAll(new HtmlParagraph("Heading"), new HtmlHeading(icons, "folder", "Folder"), new HtmlParagraph("Icons scale with the font."));
         grid.addAll(new HtmlParagraph("Button"), new Panel(new HtmlButton(icons, "search", "Search"), new HtmlButton(icons, "edit")), new HtmlParagraph("Buttons with an Icon and Text."));
         grid.addAll(new HtmlParagraph("Link"), new HtmlLink(icons, "home", "Home"), new HtmlParagraph("Link with an icon."));
@@ -32,7 +31,6 @@ public class IconsExample extends Page {
 
         add(new HtmlHeading("Changing the Icon or Text", 2));
         Grid grid2 = add(new Grid(3));
-        grid2.setAppearance(WidgetAppearance.BORDERED);
         HtmlButton htmlButtonIconText = new HtmlButton(icons, "search", "Search");
         grid2.addAll(htmlButtonIconText, new Panel(
                 new HtmlButton("Change icon").onClick(new ClickEventHandler(M.SetIcon(htmlButtonIconText, V.Const("edit")))),

@@ -28,12 +28,12 @@ public class CodePredicate extends PredicateStatement {
 
     @Override
     public JsType getParameterType() {
-        return JsType.BOOLEAN;
+        return JsType.OBJECT;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(value)=>{");
+        js.append("()=>{");
         js.append(this.js);
         js.append("}");
     }

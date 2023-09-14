@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum ViewType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum ViewType implements HasDefault<ViewType> {
     DEFAULT("", "", false),
     DIALOG("tk-dlg-outer", "tk-dlg-inner", true),
     SIDEBAR_DIALOG("tk-sb-outer", "tk-sb-inner", true),
@@ -27,5 +29,10 @@ public enum ViewType {
 
     public boolean isHideScroll() {
         return hideScrollbar;
+    }
+
+    @Override
+    public ViewType getDefault() {
+        return ViewType.DEFAULT;
     }
 }

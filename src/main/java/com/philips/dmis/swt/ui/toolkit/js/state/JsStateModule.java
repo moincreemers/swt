@@ -63,7 +63,7 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(CacheTypeVariable.ID, new CacheTypeVariable(widget)));
         members.add(new Pair<>(CalculatedValueVariable.ID, new CalculatedValueVariable(widget)));
         members.add(new Pair<>(ChildWidgetsVariable.ID, new ChildWidgetsVariable(widget)));
-        members.add(new Pair<>(ColumnsVariable.ID, new ColumnsVariable(widget)));
+        members.add(new Pair<>(GridColumnsVariable.ID, new GridColumnsVariable(widget)));
         members.add(new Pair<>(ContentTypeEncodingVariable.ID, new ContentTypeEncodingVariable(widget)));
         members.add(new Pair<>(ContentTypeVariable.ID, new ContentTypeVariable(widget)));
         members.add(new Pair<>(DataAdaptersVariable.ID, new DataAdaptersVariable(widget)));
@@ -84,6 +84,7 @@ public class JsStateModule implements JsModule {
         members.add(new Pair<>(ImplementsVariable.ID, new ImplementsVariable(widget)));
         members.add(new Pair<>(IsMultiLevelVariable.ID, new IsMultiLevelVariable(widget)));
         members.add(new Pair<>(IsNumberedVariable.ID, new IsNumberedVariable(widget)));
+        members.add(new Pair<>(LayoutVariable.ID, new LayoutVariable(widget)));
         members.add(new Pair<>(NotifySubscribersVariable.ID, new NotifySubscribersVariable(widget)));
         members.add(new Pair<>(NumberingLevelVariable.ID, new NumberingLevelVariable(widget)));
         members.add(new Pair<>(OrderingVariable.ID, new OrderingVariable(widget)));

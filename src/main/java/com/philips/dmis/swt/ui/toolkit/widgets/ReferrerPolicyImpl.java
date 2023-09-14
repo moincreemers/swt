@@ -1,12 +1,14 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement("referrerPolicy")
 public class ReferrerPolicyImpl implements HasReferrerPolicy {
     private final Widget widget;
-    private ReferrerPolicyType referrerPolicyType = ReferrerPolicyType.STRICT_ORIGIN_WHEN_CROSS_ORIGIN;
+    private ReferrerPolicyType referrerPolicy = ReferrerPolicyType.STRICT_ORIGIN_WHEN_CROSS_ORIGIN;
 
     public ReferrerPolicyImpl(Widget widget) {
         this.widget = widget;
@@ -25,12 +27,12 @@ public class ReferrerPolicyImpl implements HasReferrerPolicy {
 
     @Override
     public ReferrerPolicyType getReferrerPolicy() {
-        return referrerPolicyType;
+        return referrerPolicy;
     }
 
     @Override
     public void setReferrerPolicy(ReferrerPolicyType referrerPolicy) {
-        this.referrerPolicyType = referrerPolicyType;
+        this.referrerPolicy = referrerPolicy;
     }
 
     @Override
@@ -40,8 +42,8 @@ public class ReferrerPolicyImpl implements HasReferrerPolicy {
 
     @Override
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
-        if (referrerPolicyType != null) {
-            htmlAttributes.put("referrerpolicy", referrerPolicyType.getValue());
+        if (referrerPolicy != null) {
+            htmlAttributes.put("referrerpolicy", referrerPolicy.getValue());
         }
     }
 

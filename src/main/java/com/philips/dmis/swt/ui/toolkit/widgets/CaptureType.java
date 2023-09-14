@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum CaptureType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum CaptureType implements HasDefault<CaptureType> {
     UNSPECIFIED(""),
     USER("user"),
     ENVIRONMENT("environment"),
@@ -15,5 +17,10 @@ public enum CaptureType {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public CaptureType getDefault() {
+        return UNSPECIFIED;
     }
 }

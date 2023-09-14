@@ -2,15 +2,22 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.InitEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
-public class HtmlFrame extends ValueWidget<HtmlFrame,ValueDataSourceUsage> {
+@PageXmlElement("frameSize")
+public class HtmlFrame extends ValueWidget<HtmlFrame, String, ValueDataSourceUsage> {
     private FrameSize frameSize = FrameSize.FIT_CONTAINER;
 
+    public HtmlFrame(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.FRAME, JsType.STRING);
+    }
+
     public HtmlFrame() {
-        this("", FrameSize.FIT_CONTAINER);
+        this(NAMELESS, FrameSize.FIT_CONTAINER);
     }
 
     public HtmlFrame(String name) {
@@ -18,11 +25,11 @@ public class HtmlFrame extends ValueWidget<HtmlFrame,ValueDataSourceUsage> {
     }
 
     public HtmlFrame(FrameSize frameSize) {
-        this("", frameSize);
+        this(NAMELESS, frameSize);
     }
 
     public HtmlFrame(String name, FrameSize frameSize) {
-        super(name, WidgetType.FRAME);
+        super(name, WidgetType.FRAME, JsType.STRING);
         setFrameSize(frameSize);
     }
 

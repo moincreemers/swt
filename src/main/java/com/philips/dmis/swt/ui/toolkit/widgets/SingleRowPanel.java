@@ -5,32 +5,44 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 public class SingleRowPanel extends Panel {
     public static final String CSS_CLASS_CELL = "single-row-cell";
 
+    public SingleRowPanel(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.SINGLE_ROW);
+        setLayoutType(LayoutType.NO_RESIZE);
+    }
+
     public SingleRowPanel() {
-        super("", WidgetType.SINGLE_ROW, PanelType.DEFAULT);
+        super(NAMELESS, WidgetType.SINGLE_ROW, PanelType.DEFAULT);
+        setLayoutType(LayoutType.NO_RESIZE);
     }
 
     public SingleRowPanel(Widget... widgets) throws WidgetConfigurationException {
-        super("", WidgetType.SINGLE_ROW, PanelType.DEFAULT, widgets);
+        super(NAMELESS, WidgetType.SINGLE_ROW, PanelType.DEFAULT, widgets);
+        setLayoutType(LayoutType.NO_RESIZE);
     }
 
     public SingleRowPanel(String name, Widget... widgets) throws WidgetConfigurationException {
         super(name, WidgetType.SINGLE_ROW, PanelType.DEFAULT, widgets);
+        setLayoutType(LayoutType.NO_RESIZE);
     }
 
     public SingleRowPanel(String name) {
         super(name, WidgetType.SINGLE_ROW, PanelType.DEFAULT);
+        setLayoutType(LayoutType.NO_RESIZE);
     }
 
     public SingleRowPanel(PanelType panelType) {
-        super("", WidgetType.SINGLE_ROW, panelType);
+        super(NAMELESS, WidgetType.SINGLE_ROW, panelType);
+        setLayoutType(LayoutType.NO_RESIZE);
     }
 
     public SingleRowPanel(PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
-        super("", WidgetType.SINGLE_ROW, panelType, widgets);
+        super(NAMELESS, WidgetType.SINGLE_ROW, panelType, widgets);
+        setLayoutType(LayoutType.NO_RESIZE);
     }
 
     public SingleRowPanel(String name, PanelType panelType, Widget... widgets) throws WidgetConfigurationException {
         super(name, WidgetType.SINGLE_ROW, panelType, widgets);
+        setLayoutType(LayoutType.NO_RESIZE);
     }
 
     @Override

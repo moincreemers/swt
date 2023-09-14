@@ -8,18 +8,21 @@ import com.philips.dmis.swt.ui.toolkit.js.state.JsStateModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.ResetFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.HtmlForm;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Resets the HtmlForm widget")
 public class ResetStatement extends MethodStatement {
-    private final HtmlForm htmlForm;
+    private final HtmlForm widget;
 
-    public ResetStatement(HtmlForm htmlForm) {
-        this.htmlForm = htmlForm;
+    public ResetStatement(HtmlForm widget) {
+        this.widget = widget;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class ResetStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext),'%s');",
                 JsWidgetModule.getQualifiedId(ResetFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                htmlForm.getId(),
+                this.widget.getId(),
                 JsStateModule.REASON_USER);
     }
 
@@ -47,7 +50,8 @@ public class ResetStatement extends MethodStatement {
             return;
         }
         validated = true;
-        htmlForm.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
     }
 
     @Override

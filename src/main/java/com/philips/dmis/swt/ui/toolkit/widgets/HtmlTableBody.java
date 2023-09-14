@@ -4,7 +4,9 @@ import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.OpenEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.SelectionChangeEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
+@PageXmlElement("tableOrientationType")
 public class HtmlTableBody extends DataBoundWidget<HtmlTableBody, ItemsDataSourceUsage> implements
         HasTableRows {
     public static final String CSS_CELL_BOOLEAN = "tk-boolean";
@@ -14,22 +16,35 @@ public class HtmlTableBody extends DataBoundWidget<HtmlTableBody, ItemsDataSourc
     public static final String CSS_CELL_URL = "tk-url";
     public static final String CSS_CELL_ARRAY = "tk-array";
 
-    private final TableOrientationType tableOrientationType;
+    private TableOrientationType tableOrientationType = TableOrientationType.NORMAL;
 
     public HtmlTableBody() {
         this(TableOrientationType.NORMAL);
     }
 
+    public HtmlTableBody(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.TABLE_BODY);
+    }
+
     public HtmlTableBody(TableOrientationType tableOrientationType) {
         super(WidgetType.TABLE_BODY);
-        this.tableOrientationType = tableOrientationType;
-        if (tableOrientationType == TableOrientationType.ROW_HEADERS) {
-            addClassName("tk-row-headers");
-        }
+        setTableOrientationType(tableOrientationType);
     }
 
     public TableOrientationType getTableOrientationType() {
         return tableOrientationType;
+    }
+
+    public void setTableOrientationType(TableOrientationType tableOrientationType) {
+        if (tableOrientationType == null) {
+            tableOrientationType = TableOrientationType.NORMAL;
+        }
+        if (tableOrientationType == TableOrientationType.ROW_HEADERS) {
+            addClassName("tk-row-headers");
+        } else {
+            removeClassName("tk-row-headers");
+        }
+        this.tableOrientationType = tableOrientationType;
     }
 
     public HtmlTableBody addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {

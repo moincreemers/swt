@@ -2,12 +2,13 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
+// todo: rename to Flex...
 public class SmartGrid extends Panel {
     public static final String CSS_CLASS_CELL = "smart-cell";
     private int cells;
 
     public SmartGrid(int cells) {
-        this("", cells);
+        this(NAMELESS, cells);
     }
 
     public SmartGrid(String name, int cells) {

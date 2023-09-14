@@ -3,13 +3,10 @@ package com.philips.dmis.swt.ui.toolkit.html;
 import com.philips.dmis.swt.ui.toolkit.Constants;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.utils.DistinctMap;
-import org.springframework.security.core.parameters.P;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
@@ -104,7 +101,7 @@ public class StaticValueStorage implements HasConstantStorage {
     }
 
     @Override
-    public void addLanguageResourceFile(InputStream inputStream) throws IOException {
+    public void addLanguageResource(InputStream inputStream) throws IOException {
         Properties properties = new Properties();
         properties.load(inputStream);
         for (String key : properties.stringPropertyNames()) {

@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum ResponseType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum ResponseType implements HasDefault<ResponseType> {
     DEFAULT(""),
     TEXT("text"),
     BLOB("blob"),
@@ -18,5 +20,10 @@ public enum ResponseType {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public ResponseType getDefault() {
+        return ResponseType.DEFAULT;
     }
 }

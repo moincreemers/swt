@@ -4,7 +4,9 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -12,6 +14,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Sets a named member of 'this'")
 public class LetStatement extends MethodStatement {
     final ValueStatement name;
     final ValueStatement value;
@@ -63,6 +66,8 @@ public class LetStatement extends MethodStatement {
         if (validated) {
             return;
         }
+        StatementUtil.assertRequiredAndReturnType("name", name, JsType.STRING);
+        StatementUtil.assertRequired("value", value);
         validated = true;
     }
 

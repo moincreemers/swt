@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlDateTimeInput extends ValueWidget<HtmlDateTimeInput, ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlDateTimeInput>, HasKeyInput<HtmlDateTimeInput>, HasRange<String>, HasStep, HasReadonly,
+public class HtmlDateTimeInput extends ValueWidget<HtmlDateTimeInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlDateTimeInput, String>, HasKeyInput<HtmlDateTimeInput>, HasRange<String>, HasStep, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
+    public HtmlDateTimeInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.DATETIME, JsType.STRING);
+        setType(TypeType.DATETIME_LOCAL);
+    }
+
     public HtmlDateTimeInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlDateTimeInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlDateTimeInput(String name, String value) {
-        super(name, WidgetType.DATETIME);
+        super(name, WidgetType.DATETIME, JsType.STRING);
         setType(TypeType.DATETIME_LOCAL);
         setValue(value);
     }

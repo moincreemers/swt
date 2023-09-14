@@ -9,6 +9,10 @@ import java.util.Map;
 public class KeyShortcutWidget extends Widget {
     private final Map<String, KeyShortcut[]> items = new HashMap<>();
 
+    public KeyShortcutWidget(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.KEYSHORTCUT);
+    }
+
     public KeyShortcutWidget() {
         super(WidgetType.KEYSHORTCUT);
     }

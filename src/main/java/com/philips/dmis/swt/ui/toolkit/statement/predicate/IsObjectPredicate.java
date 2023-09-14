@@ -13,12 +13,12 @@ import java.util.List;
 public class IsObjectPredicate extends PredicateStatement {
     @Override
     public JsType getParameterType() {
-        return JsType.BOOLEAN;
+        return JsType.OBJECT;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(value)=>{return Object.isObject(value);}");
+        js.append("(value)=>{return Object.isObject(value)&&!Array.isArray(value);}");
     }
 
     @Override

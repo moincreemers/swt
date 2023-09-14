@@ -1,11 +1,16 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class HtmlPreformatted extends DataBoundWidget<HtmlPreformatted, ValueDataSourceUsage> implements HasText {
+    public HtmlPreformatted(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.PREFORMATTED);
+    }
+
     public HtmlPreformatted() {
-        this("");
+        this(DEFAULT_VALUE_TEXT);
     }
 
     public HtmlPreformatted(String text) {
@@ -13,7 +18,7 @@ public class HtmlPreformatted extends DataBoundWidget<HtmlPreformatted, ValueDat
     }
 
     public HtmlPreformatted(TextFormatType textFormatType) {
-        this(textFormatType, "");
+        this(textFormatType, DEFAULT_VALUE_TEXT);
     }
 
     public HtmlPreformatted(TextFormatType textFormatType, String text) {
@@ -25,6 +30,13 @@ public class HtmlPreformatted extends DataBoundWidget<HtmlPreformatted, ValueDat
     public HtmlPreformatted addDataSource(DataSourceSupplier dataSourceSupplier, DataAdapter... dataAdapters) throws WidgetConfigurationException {
         super.addDataSource(ValueDataSourceUsage.VALUE, dataSourceSupplier, dataAdapters);
         return this;
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.STRING;
     }
 
     // TEXT

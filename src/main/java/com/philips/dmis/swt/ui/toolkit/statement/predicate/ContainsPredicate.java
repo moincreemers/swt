@@ -25,9 +25,9 @@ public class ContainsPredicate extends PredicateStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(value)=>{return value.indexOf('");
+        js.append("(value)=>{return value.indexOf(");
         valueStatement.renderJs(toolkit, widget, js);
-        js.append("')>-1;}");
+        js.append(")>-1;}");
     }
 
     @Override

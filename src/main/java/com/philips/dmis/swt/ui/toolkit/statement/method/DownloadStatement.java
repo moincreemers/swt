@@ -14,6 +14,7 @@ import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.ProcessResourceResponseFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SendHttpRequestFunction;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.*;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpMethod;
 
 import java.util.*;
 
+@Description("Downloads a resource")
 public class DownloadStatement extends MethodStatement implements HasAbstractURL {
     private HttpMethod httpMethod;
     private ContentType contentType;

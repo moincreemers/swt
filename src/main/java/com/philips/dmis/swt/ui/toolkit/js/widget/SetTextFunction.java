@@ -48,10 +48,11 @@ public class SetTextFunction implements JsFunction {
         js.append("const element=document.getElementById(id);");
 
         js.append("if(implements.includes('%s')){", HasText.class.getSimpleName()); // if
+
         js.append("const textElement=document.getElementById(%s(id));",
                 JsWidgetModule.getId(TextElementIdFunction.class));
         js.append("if(%s(text)||Array.isArray(text)){",
-                JsGlobalModule.getQualifiedId(IsObjectFunction.class));
+                JsGlobalModule.getQualifiedId(IsObjectFunction.class)); // if
         js.append("textElement.textContent=JSON.stringify(text,null,4);");
         js.append("}else if(widget.%s=='%s'){", TextFormatVariable.ID, TextFormatType.JSON.name());
         js.append("textElement.textContent=JSON.stringify(JSON.valueOf(text),null,4);");
@@ -59,14 +60,9 @@ public class SetTextFunction implements JsFunction {
         js.append("textElement.textContent=%s(text);",
                 JsGlobalModule.getQualifiedId(FormatCodeFunction.class));
         js.append("}else{");
-
-        // NOTE: careful
-//        js.append("textElement.innerHTML=%s(text);",
-//                JsGlobalModule.getQualifiedId(SanitizeHtmlFunction.class));
-
         js.append("textElement.setHTML(text,{sanitizer:new Sanitizer()});");
+        js.append("}"); // end if
 
-        js.append("}");
         js.append("element.setAttribute('tk-has-text',textElement.textContent.length!=0?'true':'false');");
         js.append("};"); // end if
 

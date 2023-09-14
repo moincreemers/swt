@@ -6,7 +6,9 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -14,6 +16,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 import java.util.Arrays;
 import java.util.List;
 
+@Description("Sets the provided variable to the provided value for the current session")
 public class SetGlobalValueStatement extends MethodStatement {
     final ValueStatement key;
     final ValueStatement value;
@@ -50,7 +53,9 @@ public class SetGlobalValueStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertRequiredAndReturnType("key", key, JsType.STRING);
         key.validate(toolkit);
+        StatementUtil.assertRequired("value", value);
         value.validate(toolkit);
     }
 

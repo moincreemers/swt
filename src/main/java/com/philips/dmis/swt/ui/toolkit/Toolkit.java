@@ -28,7 +28,7 @@ public interface Toolkit {
 
     String registerConstant(String string);
 
-    void addLanguageResourceFile(InputStream inputStream) throws IOException;
+    void addLanguageResource(InputStream inputStream) throws IOException;
 
     void registerCode(HasCode code);
 

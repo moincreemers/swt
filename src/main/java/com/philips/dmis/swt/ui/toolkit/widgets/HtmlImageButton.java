@@ -2,13 +2,16 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.statement.method.M;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
-public class HtmlImageButton extends ValueWidget<HtmlImageButton, ValueDataSourceUsage> implements
+@PageXmlElement({"imageSize", "imageType", "enabled"})
+public class HtmlImageButton extends ValueWidget<HtmlImageButton, String, ValueDataSourceUsage> implements
         HasType, IsClickable<HtmlImageButton>, HasAction, HasEncType, HasMethod,
         HasNoValidate, HasTarget, HasForm {
 
@@ -46,14 +49,19 @@ public class HtmlImageButton extends ValueWidget<HtmlImageButton, ValueDataSourc
 
     private ImageSize imageSize = ImageSize.DEFAULT;
     private ImageType imageType = ImageType.DEFAULT;
-    private boolean enabled;
+    private boolean enabled = true;
+
+    public HtmlImageButton(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.IMAGE_BUTTON, JsType.STRING);
+        setType(TypeType.IMAGE);
+    }
 
     public HtmlImageButton() {
-        this("", ImageType.DEFAULT, "", true);
+        this(NAMELESS, ImageType.DEFAULT, DEFAULT_VALUE_STRING, true);
     }
 
     public HtmlImageButton(String src) {
-        this("", ImageType.DEFAULT, src, true);
+        this(NAMELESS, ImageType.DEFAULT, src, true);
     }
 
     public HtmlImageButton(String name, String src) {
@@ -61,7 +69,7 @@ public class HtmlImageButton extends ValueWidget<HtmlImageButton, ValueDataSourc
     }
 
     public HtmlImageButton(String src, boolean enabled) {
-        this("", ImageType.DEFAULT, src, enabled);
+        this(NAMELESS, ImageType.DEFAULT, src, enabled);
     }
 
     public HtmlImageButton(String name, String src, boolean enabled) {
@@ -69,7 +77,7 @@ public class HtmlImageButton extends ValueWidget<HtmlImageButton, ValueDataSourc
     }
 
     public HtmlImageButton(ImageType imageType, String src) {
-        this("", imageType, src, true);
+        this(NAMELESS, imageType, src, true);
     }
 
     public HtmlImageButton(String name, ImageType imageType, String src) {
@@ -77,7 +85,7 @@ public class HtmlImageButton extends ValueWidget<HtmlImageButton, ValueDataSourc
     }
 
     public HtmlImageButton(String name, ImageType imageType, String src, boolean enabled) {
-        super(name, WidgetType.IMAGE_BUTTON);
+        super(name, WidgetType.IMAGE_BUTTON, JsType.STRING);
         setType(TypeType.IMAGE);
         setImageType(imageType);
         setValue(src);

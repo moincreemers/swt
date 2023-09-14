@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
-public enum ImageType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum ImageType implements HasDefault<ImageType> {
     DEFAULT(""),
     ;
     final String className;
@@ -11,5 +13,10 @@ public enum ImageType {
 
     public String getClassName() {
         return className;
+    }
+
+    @Override
+    public ImageType getDefault() {
+        return DEFAULT;
     }
 }

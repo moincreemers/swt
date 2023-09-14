@@ -43,7 +43,7 @@ public class SetLengthFunction implements JsFunction {
         js.append("const element=document.getElementById(id);");
 
         js.append("if(widgetType=='%s'||widgetType=='%s'||widgetType=='%s'||widgetType=='%s'||widgetType=='%s'||widgetType=='%s'){",
-                WidgetType.TEXT.name(), WidgetType.SEARCH.name(), WidgetType.URL.name(),
+                WidgetType.TEXT_FIELD.name(), WidgetType.SEARCH.name(), WidgetType.URL.name(),
                 WidgetType.TELEPHONE.name(), WidgetType.EMAIL.name(), WidgetType.PASSWORD.name()); // if
         js.append("if(minLength!=null){");
         js.append("element.setAttribute('minLength',minLength);");

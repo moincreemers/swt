@@ -18,7 +18,7 @@ public class IsEvenPredicate extends PredicateStatement {
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(value)=>{return value%2==0");
+        js.append("(value)=>{return value%2==0;}");
     }
 
     @Override

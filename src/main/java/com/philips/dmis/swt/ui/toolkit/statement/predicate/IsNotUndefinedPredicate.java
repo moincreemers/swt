@@ -13,7 +13,7 @@ import java.util.List;
 public class IsNotUndefinedPredicate extends PredicateStatement {
     @Override
     public JsType getParameterType() {
-        return JsType.BOOLEAN;
+        return JsType.OBJECT;
     }
 
     @Override

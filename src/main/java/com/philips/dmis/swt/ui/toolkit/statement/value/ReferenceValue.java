@@ -1,15 +1,16 @@
 package com.philips.dmis.swt.ui.toolkit.statement.value;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
-import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("The provided reference")
 public class ReferenceValue extends ValueStatement {
     public final String name;
 
@@ -20,11 +21,6 @@ public class ReferenceValue extends ValueStatement {
     @Override
     public JsType getType() {
         return JsType.OBJECT;
-    }
-
-    @Override
-    public List<JsParameter> getParameters() {
-        return NO_PARAMETERS;
     }
 
     @Override

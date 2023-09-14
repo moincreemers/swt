@@ -1,13 +1,16 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 import org.springframework.http.HttpMethod;
 
 import java.util.*;
 import java.util.List;
 
+@PageXmlElement({"url", "httpMethod", "contentType", "responseType", "authenticationType", "httpHeaders", "parameters"})
 public class UpdateService extends DataProviderWidget<UpdateService> implements
         HasURL {
     private String url;
@@ -18,6 +21,10 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     private final Map<String, List<ValueStatement>> httpHeaders = new LinkedHashMap<>();
     private final java.util.List<Parameter> parameters = new ArrayList<>();
 
+    public UpdateService(WidgetConfigurator widgetConfigurator, String url) {
+        super(widgetConfigurator, WidgetType.UPDATE_SERVICE);
+        setURL(url);
+    }
 
     public UpdateService(String url) {
         super(WidgetType.UPDATE_SERVICE);
@@ -116,5 +123,12 @@ public class UpdateService extends DataProviderWidget<UpdateService> implements
     @Override
     public void setAuthenticationType(AuthenticationType authenticationType) {
         this.authenticationType = authenticationType;
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.OBJECT;
     }
 }

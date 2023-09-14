@@ -1,17 +1,23 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.util.Map;
 
-public class HtmlFile extends ValueWidget<HtmlFile,ValueDataSourceUsage> implements
+public class HtmlFile extends ValueWidget<HtmlFile, Object, ValueDataSourceUsage> implements
         HasType, HasRequired, HasMultiple, HasAccept, HasCapture {
     public HtmlFile() {
-        this("");
+        this(NAMELESS);
+    }
+
+    public HtmlFile(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.FILE, JsType.OBJECT);
+        setType(TypeType.FILE);
     }
 
     public HtmlFile(String name) {
-        super(name, WidgetType.FILE);
+        super(name, WidgetType.FILE, JsType.OBJECT);
         setType(TypeType.FILE);
     }
 

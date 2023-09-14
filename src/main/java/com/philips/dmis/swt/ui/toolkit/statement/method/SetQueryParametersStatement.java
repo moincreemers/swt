@@ -6,7 +6,9 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetParametersFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasURL;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -14,6 +16,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Sets multiple parameters of the provided data source widget using the provided object")
 public class SetQueryParametersStatement extends MethodStatement {
     private final HasURL hasURL;
     private final ValueStatement object;
@@ -47,7 +50,9 @@ public class SetQueryParametersStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertWidget("hasURL", hasURL);
         hasURL.asWidget().validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("object", object, JsType.OBJECT);
         object.validate(toolkit);
     }
 

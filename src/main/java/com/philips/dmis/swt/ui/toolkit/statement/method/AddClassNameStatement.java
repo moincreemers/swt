@@ -8,19 +8,22 @@ import com.philips.dmis.swt.ui.toolkit.js.global.AddClassNameFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Adds a CSS class name to an element")
 public class AddClassNameStatement extends MethodStatement {
     private final Widget targetWidget;
     private final ValueStatement className;
 
-    public AddClassNameStatement(Widget widget, ValueStatement className) {
-        this.targetWidget = widget;
+    public AddClassNameStatement(Widget targetWidget, ValueStatement className) {
+        this.targetWidget = targetWidget;
         this.className = className;
     }
 
@@ -49,7 +52,9 @@ public class AddClassNameStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertWidget("targetWidget", targetWidget);
         targetWidget.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("className", className, JsType.STRING);
         className.validate(toolkit);
     }
 

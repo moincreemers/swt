@@ -21,12 +21,12 @@ public class OrPredicate extends PredicateStatement {
 
     @Override
     public JsType getParameterType() {
-        return JsType.BOOLEAN;
+        return JsType.VOID;
     }
 
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
-        js.append("(value)=>{return (");
+        js.append("()=>{return (");
         int i = 0;
         for (PredicateStatement predicate : predicates) {
             if (i > 0) {

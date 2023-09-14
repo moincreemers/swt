@@ -5,22 +5,26 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlTextAreaInput extends ValueWidget<HtmlTextAreaInput, ValueDataSourceUsage> implements
-        HasValue<HtmlTextAreaInput>, HasLength, HasPlaceholder, HasReadonly, HasRequired,
+public class HtmlTextAreaInput extends ValueWidget<HtmlTextAreaInput, String, ValueDataSourceUsage> implements
+        HasValue<HtmlTextAreaInput, String>, HasLength, HasPlaceholder, HasReadonly, HasRequired,
         HasAutocomplete, HasKeyInput<HtmlTextAreaInput> {
+    public HtmlTextAreaInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.TEXT_AREA, JsType.STRING);
+    }
 
     public HtmlTextAreaInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlTextAreaInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlTextAreaInput(String name, String value) {
-        super(name, WidgetType.TEXT_AREA);
+        super(name, WidgetType.TEXT_AREA, JsType.STRING);
         setValue(value);
     }
 

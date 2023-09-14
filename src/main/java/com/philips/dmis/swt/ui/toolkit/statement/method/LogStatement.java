@@ -4,6 +4,7 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 // todo: not clear how we can do logging in a generic way
+@Description("Prints the provided values using console.log")
 public class LogStatement extends MethodStatement {
     final List<ValueStatement> values = new ArrayList<>();
 

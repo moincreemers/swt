@@ -1,0 +1,58 @@
+<Page>
+    <HtmlHeading text="Appearance"/>
+
+    <Grid id="grid" columns="2" rows="0">
+        <Panel panelType="BANNER">
+            <HtmlLabel appearance="BORDERED">Label</HtmlLabel>
+        </Panel>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.BORDERED)</HtmlPreformatted>
+
+        <Panel panelType="INFO" appearance="ROUNDED_CORNERS"/>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.ROUNDED_CORNERS)</HtmlPreformatted>
+
+        <Panel>
+            <HtmlTextInput name="text1" appearance="HARD_CORNERS"/>
+            <HtmlButton appearance="HARD_CORNERS">Button</HtmlButton>
+        </Panel>
+        <HtmlPreformatted appearance="HARD_CORNERS">Widget.setAppearance(WidgetAppearance.HARD_CORNERS)
+        </HtmlPreformatted>
+
+        <HtmlButton appearance="LARGE_FONT">Large Font</HtmlButton>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.LARGE_FONT)</HtmlPreformatted>
+
+        <HtmlButton appearance="SMALL_FONT">Small Font</HtmlButton>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.SMALL_FONT)</HtmlPreformatted>
+
+        <HtmlLabel appearance="BLOCK,BORDERED">Label</HtmlLabel>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.BLOCK)</HtmlPreformatted>
+
+        <Panel panelType="INFO">
+            <HtmlLabel appearance="INLINE_BLOCK">Label</HtmlLabel>
+        </Panel>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.INLINE_BLOCK)</HtmlPreformatted>
+
+        <Panel panelType="BANNER">
+            <HtmlLabel appearance="CENTER">Label</HtmlLabel>
+        </Panel>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.CENTER)</HtmlPreformatted>
+
+        <Panel panelType="BANNER">
+            <HtmlLabel appearance="ALIGN_RIGHT">Label</HtmlLabel>
+        </Panel>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.ALIGN_RIGHT)</HtmlPreformatted>
+
+        <Grid id="someGrid" columns="2" rows="0" appearance="FIT_CONTENT">
+            <HtmlLabel>Label</HtmlLabel>
+            <HtmlLabel>Label</HtmlLabel>
+        </Grid>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.FIT_CONTENT)</HtmlPreformatted>
+
+        <HtmlLabel appearance="FLOAT_RIGHT,BORDERED">Label</HtmlLabel>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.FLOAT_RIGHT)</HtmlPreformatted>
+
+        <Panel panelType="INFO">
+            <HtmlLabel appearance="FILL_BACKGROUND">Label</HtmlLabel>
+        </Panel>
+        <HtmlPreformatted>Widget.setAppearance(WidgetAppearance.FILL_BACKGROUND)</HtmlPreformatted>
+    </Grid>
+</Page>

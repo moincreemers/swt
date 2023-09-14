@@ -5,6 +5,10 @@ import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class HtmlTableFooter extends DataBoundWidget<HtmlTableFooter, ItemsDataSourceUsage> implements
         HasTableFooterRows {
+    public HtmlTableFooter(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.TABLE_FOOTER);
+    }
+
     public HtmlTableFooter() {
         super(WidgetType.TABLE_FOOTER);
     }

@@ -1,12 +1,14 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement("name")
 public class NameImpl<T extends Widget> implements HasName<T> {
     protected final T widget;
-    private String name = "";
+    private String name = NAMELESS;
 
     public NameImpl(T widget) {
         this.widget = widget;
@@ -31,7 +33,7 @@ public class NameImpl<T extends Widget> implements HasName<T> {
     @Override
     public T setName(String name) {
         if (name == null) {
-            name = "";
+            name = NAMELESS;
         }
         this.name = name;
         return widget;

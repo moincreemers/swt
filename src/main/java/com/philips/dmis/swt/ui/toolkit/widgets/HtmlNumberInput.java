@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlNumberInput extends ValueWidget<HtmlNumberInput,ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlNumberInput>, HasKeyInput<HtmlNumberInput>, HasRange<Integer>, HasStep, HasPlaceholder,
+public class HtmlNumberInput extends ValueWidget<HtmlNumberInput, Double, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlNumberInput, Double>, HasKeyInput<HtmlNumberInput>, HasRange<Integer>, HasStep, HasPlaceholder,
         HasReadonly, HasRequired, HasAutocomplete, HasList {
+    public HtmlNumberInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.NUMBER, JsType.NUMBER);
+        setType(TypeType.NUMBER);
+    }
+
     public HtmlNumberInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_NUMBER);
     }
 
     public HtmlNumberInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_NUMBER);
     }
 
-    public HtmlNumberInput(String name, String value) {
-        super(name, WidgetType.NUMBER);
+    public HtmlNumberInput(String name, Double value) {
+        super(name, WidgetType.NUMBER, JsType.NUMBER);
         setType(TypeType.NUMBER);
         setValue(value);
     }

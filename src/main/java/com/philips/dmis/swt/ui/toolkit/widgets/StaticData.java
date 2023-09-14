@@ -3,34 +3,35 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philips.dmis.swt.ui.toolkit.dto.ServiceResponse;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.logging.Logger;
 
-
-public class StaticData extends DataSourceWidget {
-    private static final Logger LOG = Logger.getLogger(StaticData.class.getName());
-
+public class StaticData extends DataSourceWidget implements HasJson {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
-    public static StaticData unsafe(String json) {
-        return new StaticData(json);
-    }
 
     private Object object;
     private String json = "";
     private boolean serializationCompleted;
 
+    private StaticData(WidgetConfigurator widgetConfigurator, String json) {
+        super(widgetConfigurator, WidgetType.STATICDATA);
+        setExpectServiceResponse(true);
+        setJson(json);
+        setCacheType(CacheType.DISABLED);
+    }
+
     private StaticData(String json) {
-        super(WidgetType.STATICDATA, true);
+        super(WidgetType.STATICDATA);
         if (json == null) {
             setJson("");
             return;
         }
+        setExpectServiceResponse(true);
         setJson(json);
         setCacheType(CacheType.DISABLED);
     }
@@ -40,8 +41,10 @@ public class StaticData extends DataSourceWidget {
     }
 
     public StaticData(Object object, boolean autoRefresh) throws IOException {
-        super(WidgetType.STATICDATA, true, autoRefresh);
+        super(WidgetType.STATICDATA);
         this.object = object;
+        setExpectServiceResponse(true);
+        setAutoRefresh(autoRefresh);
     }
 
     void ensureSerialized() throws JsRenderException {
@@ -72,14 +75,15 @@ public class StaticData extends DataSourceWidget {
         json = "";
     }
 
+    @Override
     public String getJson() throws JsRenderException {
         ensureSerialized();
         return json;
     }
 
+    @Override
     public void setJson(String json) {
-        //LOG.info("Data, JSON: " + json);
-        this.json = json;
+        this.json = json == null ? "" : json;
         serializationCompleted = true;
     }
 
@@ -103,5 +107,12 @@ public class StaticData extends DataSourceWidget {
         //System.out.println("encoding JSON data: " + getJson() + " for object: " + object);
         String escapedJson = URLEncoder.encode(getJson(), StandardCharsets.UTF_8).replace("+", " ");
         return new String(Base64.getEncoder().encode(escapedJson.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return JsType.OBJECT;
     }
 }

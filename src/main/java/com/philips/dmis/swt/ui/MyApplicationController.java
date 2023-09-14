@@ -16,7 +16,7 @@ public class MyApplicationController {
     public MyApplicationController(Toolkit toolkit) throws IOException {
         this.toolkit = toolkit;
         toolkit.setAppVersion(APP_VERSION);
-        toolkit.addLanguageResourceFile(
+        toolkit.addLanguageResource(
                 MyApplicationController.class.getResourceAsStream("/ui-languages.properties"));
     }
 

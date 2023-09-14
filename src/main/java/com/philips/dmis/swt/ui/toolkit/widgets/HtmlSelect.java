@@ -1,17 +1,24 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 import java.util.Set;
 
-public class HtmlSelect extends ValueWidget<HtmlSelect, ValueAndItemsDataSourceUsage> implements
-        HasOptions, HasValue<HtmlSelect>, HasAutocomplete, HasMultiple {
+@PageXmlElement("size")
+public class HtmlSelect extends ValueWidget<HtmlSelect, String, ValueAndItemsDataSourceUsage> implements
+        HasOptions, HasValue<HtmlSelect, String>, HasAutocomplete, HasMultiple {
     private int size = 1;
 
+    public HtmlSelect(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.SELECT, JsType.STRING);
+    }
+
     public HtmlSelect() {
-        this("", 1, false);
+        this(NAMELESS, 1, false);
     }
 
     public HtmlSelect(String name) {
@@ -19,7 +26,7 @@ public class HtmlSelect extends ValueWidget<HtmlSelect, ValueAndItemsDataSourceU
     }
 
     public HtmlSelect(int size) {
-        this("", size, false);
+        this(NAMELESS, size, false);
     }
 
     public HtmlSelect(String name, int size) {
@@ -27,11 +34,11 @@ public class HtmlSelect extends ValueWidget<HtmlSelect, ValueAndItemsDataSourceU
     }
 
     public HtmlSelect(int size, boolean multiple) {
-        this("", size, multiple);
+        this(NAMELESS, size, multiple);
     }
 
     public HtmlSelect(String name, int size, boolean multiple) {
-        super(name, WidgetType.SELECT);
+        super(name, WidgetType.SELECT, JsType.STRING);
         setSize(size);
         setMultiple(multiple);
     }

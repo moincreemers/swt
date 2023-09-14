@@ -10,6 +10,7 @@ import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetDocumentHashFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
@@ -19,17 +20,18 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Opens the provided page with the provided argument")
 public class OpenPageStatement extends MethodStatement {
     private final Class<? extends Page> pageClass;
-    private final ValueStatement valueStatement;
+    private final ValueStatement value;
 
     public OpenPageStatement(Class<? extends Page> pageClass) {
         this(pageClass, null);
     }
 
-    public OpenPageStatement(Class<? extends Page> pageClass, ValueStatement valueStatement) {
+    public OpenPageStatement(Class<? extends Page> pageClass, ValueStatement value) {
         this.pageClass = pageClass;
-        this.valueStatement = valueStatement;
+        this.value = value;
     }
 
     public Class<? extends Page> getPageClass() {
@@ -50,10 +52,10 @@ public class OpenPageStatement extends MethodStatement {
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) {
         Page targetPage = toolkit.getPage(pageClass);
         boolean isDialog = targetPage.getViewType() == ViewType.DIALOG
-                           || targetPage.getViewType() == ViewType.SIDEBAR_DIALOG;
+                || targetPage.getViewType() == ViewType.SIDEBAR_DIALOG;
         Hash hash = new Hash(targetPage.getId(), widget.getPageId(), null);
         js.append("const hash=%s;", DtoUtil.valueOf(hash));
-        js.append("const data={value:%s};", ValueStatement.valueOf(toolkit, valueStatement, widget));
+        js.append("const data={value:%s};", ValueStatement.valueOf(toolkit, value, widget));
         js.append("data.type=typeof data.value;");
         js.append("const key=%s();", JsGlobalModule.getQualifiedId(CreateUniqueKeyFunction.class));
         js.append("%s(key,JSON.stringify(data));", JsGlobalModule.getQualifiedId(SetSessionValueFunction.class));
@@ -72,13 +74,15 @@ public class OpenPageStatement extends MethodStatement {
         if (toolkit.getPage(pageClass) == null) {
             throw new WidgetConfigurationException("missing page reference " + pageClass.getName());
         }
-        if (valueStatement != null) {
-            valueStatement.validate(toolkit);
+        if (value != null) {
+            value.validate(toolkit);
         }
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(valueStatement);
+        if (value != null) {
+            statements.add(value);
+        }
     }
 }

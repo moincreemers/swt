@@ -28,7 +28,7 @@ public class PagesExamplePage extends Page {
                 The toolkit also uses this pattern and the views are called "Pages".
                 """));
 
-        add(new HtmlHeading("Creating a Page", 2));
+        add(new HtmlHeading("Creating a Page programmatically", 2));
 
         add(new HtmlParagraph("""
                 A Page can be easily created by creating a Java class and letting it extend the Page class.
@@ -39,6 +39,64 @@ public class PagesExamplePage extends Page {
                     }
                 }
                 </pre>
+                """));
+
+        add(new HtmlHeading("Creating a Page declaratively", 2));
+
+        add(new HtmlParagraph("""
+                While you still need to create a class that extends <code>Page</code>, it is possible to use XML files
+                to build your page.
+                <pre>
+                public class MyHomePage extends Page {
+                    protected void build() {
+                        PageBuilder.getInstance().loadFromXml(this);
+                    }
+                }
+                </pre>
+                In this example, the <code>PageBuilder</code> will load the widget structure from an XML file and add it
+                to the provided page. In this case, the <code>loadFromXml</code> method assumes the XML file is named
+                "MyHomePage.xml". However, there is an overloaded method that allows you to specify which resource file
+                to load.
+                <br><br>
+                It is allowed to use both programmatic and declarative ways to build the page and you are
+                allowed to use the PageBuilder multiple times for the same page.
+                <br><br>
+                When using the PageBuilder, event handlers must still be written programmatically. To do this, first
+                define the widget in the page class:
+                <pre>
+                public class MyHomePage extends Page {
+                
+                    HtmlButton button1;
+                
+                    protected void build() {
+                        PageBuilder.getInstance().loadFromXml(this);
+                    }
+                }
+                </pre>
+                Let's assume the MyHomePage.xml file contains:
+                <pre>
+                &lt;Page&gt;
+                    &lt;HtmlButton id="button1"&gt;Click me&lt;/HtmlButton&gt;
+                &lt;/Page&gt;
+                </pre>
+                In this case, the PageBuilder will automatically set the button1 field.
+                This means that, after the PageBuilder has been used to build the page, you can use the field "button1",
+                to add an event handler:
+                <pre>
+                public class MyHomePage extends Page {
+                
+                    HtmlButton button1;
+                
+                    protected void build() {
+                        PageBuilder.getInstance().loadFromXml(this);
+                        
+                        button1.onClick(new ClickEventHandler(
+                            M.Alert("Hello world!")
+                        ));
+                    }
+                }
+                </pre>
+                
                 """));
 
         add(new HtmlHeading("The Page Hierarchy", 2));
@@ -80,5 +138,8 @@ public class PagesExamplePage extends Page {
                 will provide this name when the toolkit is in DEBUG mode.
                 This makes locating errors much easier for example.
                 """));
+
+
+
     }
 }

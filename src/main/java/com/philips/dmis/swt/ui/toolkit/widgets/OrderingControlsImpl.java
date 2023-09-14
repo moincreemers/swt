@@ -3,13 +3,15 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.dto.Order;
 import com.philips.dmis.swt.ui.toolkit.events.OrderChangeEventHandler;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@PageXmlElement({"order", "multiLevel"})
 public class OrderingControlsImpl<T extends Widget> implements HasOrderingControls<T> {
     private final T widget;
-    private final Map<String, Order> fields = new LinkedHashMap<>();
+    private Map<String, Order> order = new LinkedHashMap<>();
     private boolean multiLevel;
 
     public OrderingControlsImpl(T widget) {
@@ -28,14 +30,14 @@ public class OrderingControlsImpl<T extends Widget> implements HasOrderingContro
     }
 
     @Override
-    public T setOrder(String source, Order order) {
-        fields.put(source, order);
+    public T addOrder(String source, Order order) {
+        this.order.put(source, order);
         return widget;
     }
 
     @Override
     public Map<String, Order> getOrder() {
-        return fields;
+        return order;
     }
 
     @Override

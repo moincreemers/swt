@@ -8,6 +8,10 @@ import java.util.Map;
 
 public class DataTemplateWidget extends DataBoundWidget<DataTemplateWidget, ItemsDataSourceUsage>
         implements HasDataTemplate {
+    public DataTemplateWidget(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.DATA_TEMPLATE);
+    }
+
     public DataTemplateWidget() {
         super(WidgetType.DATA_TEMPLATE);
     }

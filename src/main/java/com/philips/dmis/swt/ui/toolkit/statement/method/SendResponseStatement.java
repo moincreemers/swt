@@ -10,6 +10,7 @@ import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.ProcessResponseFunction;
 import com.philips.dmis.swt.ui.toolkit.reflect.DtoUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceSupplier;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
@@ -54,6 +55,7 @@ public class SendResponseStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertWidget("dataSourceSupplier", dataSourceSupplier);
         dataSourceSupplier.validate(toolkit);
     }
 

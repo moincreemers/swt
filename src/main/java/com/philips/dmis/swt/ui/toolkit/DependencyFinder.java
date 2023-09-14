@@ -3,7 +3,7 @@ package com.philips.dmis.swt.ui.toolkit;
 import com.philips.dmis.swt.ui.toolkit.events.EventHandler;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.method.OpenPageStatement;
-import com.philips.dmis.swt.ui.toolkit.statement.value.GetPageValue;
+import com.philips.dmis.swt.ui.toolkit.statement.value.GetPageValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.ContainerWidget;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -75,8 +75,8 @@ public class DependencyFinder {
         if (statement instanceof OpenPageStatement openPageStatement) {
             scanWidget(getPageInstance(openPageStatement.getPageClass()), dependencies);
         }
-        if (statement instanceof GetPageValue getPageValue) {
-            scanWidget(getPageInstance(getPageValue.getPageClass()), dependencies);
+        if (statement instanceof GetPageValueStatement getPageValueStatement) {
+            scanWidget(getPageInstance(getPageValueStatement.getPageClass()), dependencies);
         }
     }
 

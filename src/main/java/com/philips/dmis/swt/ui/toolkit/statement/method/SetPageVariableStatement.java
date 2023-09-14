@@ -8,13 +8,16 @@ import com.philips.dmis.swt.ui.toolkit.js.controller.GetCurrentPageFunction;
 import com.philips.dmis.swt.ui.toolkit.js.controller.JsPageControllerModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetPageVariableFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Sets the value of a page variable using the provided name, value and operator")
 public class SetPageVariableStatement extends MethodStatement {
     private final ValueStatement name;
     private final ValueStatement value;
@@ -52,6 +55,7 @@ public class SetPageVariableStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertRequiredAndReturnType("name", name, JsType.STRING);
         name.validate(toolkit);
         if (value != null) {
             value.validate(toolkit);

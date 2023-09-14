@@ -1,20 +1,26 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlRangeInput extends ValueWidget<HtmlRangeInput, ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlRangeInput>, HasRange<Integer>, HasStep, HasList {
+public class HtmlRangeInput extends ValueWidget<HtmlRangeInput, Double, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlRangeInput, Double>, HasRange<Double>, HasStep, HasList {
+    public HtmlRangeInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.RANGE, JsType.NUMBER);
+        setType(TypeType.RANGE);
+    }
+
     public HtmlRangeInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_NUMBER);
     }
 
     public HtmlRangeInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_NUMBER);
     }
 
-    public HtmlRangeInput(String name, String value) {
-        super(name, WidgetType.RANGE);
+    public HtmlRangeInput(String name, Double value) {
+        super(name, WidgetType.RANGE, JsType.NUMBER);
         setType(TypeType.RANGE);
         setValue(value);
     }
@@ -45,30 +51,30 @@ public class HtmlRangeInput extends ValueWidget<HtmlRangeInput, ValueDataSourceU
 
     // RANGE
 
-    private final RangeImpl<Integer> rangeImpl = new RangeImpl<>(this);
+    private final RangeImpl<Double> rangeImpl = new RangeImpl<>(this);
 
     @Override
-    public HasRange<Integer> getRangeImpl() {
+    public HasRange<Double> getRangeImpl() {
         return rangeImpl;
     }
 
     @Override
-    public Integer getRangeMin() {
+    public Double getRangeMin() {
         return rangeImpl.getRangeMin();
     }
 
     @Override
-    public void setRangeMin(Integer rangeMin) {
+    public void setRangeMin(Double rangeMin) {
         rangeImpl.setRangeMin(rangeMin);
     }
 
     @Override
-    public Integer getRangeMax() {
+    public Double getRangeMax() {
         return rangeImpl.getRangeMax();
     }
 
     @Override
-    public void setRangeMax(Integer rangeMax) {
+    public void setRangeMax(Double rangeMax) {
         rangeImpl.setRangeMax(rangeMax);
     }
 

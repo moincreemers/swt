@@ -34,7 +34,7 @@ public class OrderedTableHeader extends Composite {
     }
 
     public OrderedTableHeader setOrder(String source, Order order) {
-        htmlTableHeader.setOrder(source, order);
+        htmlTableHeader.addOrder(source, order);
         return this;
     }
 

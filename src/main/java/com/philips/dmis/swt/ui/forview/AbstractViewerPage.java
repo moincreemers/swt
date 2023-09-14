@@ -10,7 +10,7 @@ import com.philips.dmis.swt.ui.toolkit.widgets.*;
 import org.springframework.http.HttpMethod;
 
 public abstract class AbstractViewerPage extends Page {
-    public static final String VIEWER_HOST = "http://localhost:8080";
+    public static final String VIEWER_HOST = "http://192.168.2.4:8080";
     public static final String VIEWER_BASE_URL = VIEWER_HOST + "/viewer/";
 
     IconsWidget icons;

@@ -2,17 +2,26 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
-public class HtmlCheckInput extends ValueWidget<HtmlCheckInput, ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlCheckInput>, HasRequired {
+@PageXmlElement({"checkInputType", "buttonText"})
+public class HtmlCheckInput extends ValueWidget<HtmlCheckInput, Boolean, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlCheckInput, Boolean>, HasRequired {
+    public static final String DEFAULT_BUTTON_TEXT = "";
     private CheckInputType checkInputType = CheckInputType.DEFAULT;
-    private String buttonText;
+    private String buttonText = DEFAULT_BUTTON_TEXT;
+
+    public HtmlCheckInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.CHECK, JsType.BOOLEAN);
+        setType(TypeType.CHECK);
+    }
 
     public HtmlCheckInput() {
-        this(CheckInputType.DEFAULT, "");
+        this(CheckInputType.DEFAULT, NAMELESS);
     }
 
     public HtmlCheckInput(String name) {
@@ -20,15 +29,15 @@ public class HtmlCheckInput extends ValueWidget<HtmlCheckInput, ValueDataSourceU
     }
 
     public HtmlCheckInput(CheckInputType checkInputType) {
-        this(checkInputType, "");
+        this(checkInputType, NAMELESS);
     }
 
     public HtmlCheckInput(CheckInputType checkInputType, String name) {
-        this(checkInputType, name, "");
+        this(checkInputType, name, DEFAULT_BUTTON_TEXT);
     }
 
     public HtmlCheckInput(CheckInputType checkInputType, String name, String buttonText) {
-        super(name, WidgetType.CHECK);
+        super(name, WidgetType.CHECK, JsType.BOOLEAN);
         setType(TypeType.CHECK);
         setCheckInputType(checkInputType);
         setButtonText(buttonText);

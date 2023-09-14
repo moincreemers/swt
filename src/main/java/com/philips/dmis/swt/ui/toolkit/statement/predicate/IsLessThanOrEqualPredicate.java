@@ -26,13 +26,7 @@ public class IsLessThanOrEqualPredicate extends PredicateStatement {
     @Override
     public void renderJs(Toolkit toolkit, Widget widget, JsWriter js) throws JsRenderException {
         js.append("(value)=>{return value<=");
-        if (valueStatement.getType() == JsType.STRING) {
-            js.append("'");
-        }
         valueStatement.renderJs(toolkit, widget, js);
-        if (valueStatement.getType() == JsType.STRING) {
-            js.append("'");
-        }
         js.append(";}");
     }
 

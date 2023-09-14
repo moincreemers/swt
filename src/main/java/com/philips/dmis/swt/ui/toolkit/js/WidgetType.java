@@ -32,8 +32,9 @@ public final class WidgetType {
     public static final WidgetType SINGLE_ROW = new WidgetType("SINGLE_ROW", "single-row", true, false, "div");
     public static final WidgetType OVERLAY = new WidgetType("OVERLAY", "overlay", true, false, "div");
     public static final WidgetType PARAGRAPH = new WidgetType("PARAGRAPH", "paragraph", false, false, "p");
+    public static final WidgetType TEXT = new WidgetType("TEXT", "text", false, false, "span");
     public static final WidgetType PREFORMATTED = new WidgetType("PREFORMATTED", "preformatted", false, false, "pre");
-    public static final WidgetType TEXT = new WidgetType("TEXT", "textbox", false, false, "input");
+    public static final WidgetType TEXT_FIELD = new WidgetType("TEXT_FIELD", "textbox", false, false, "input");
     public static final WidgetType TEXT_AREA = new WidgetType("TEXT_AREA", "textarea", false, false, "textarea");
     public static final WidgetType PASSWORD = new WidgetType("PASSWORD", "password", false, false, "input");
     public static final WidgetType DATE = new WidgetType("DATE", "datebox", false, false, "input");

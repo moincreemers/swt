@@ -6,7 +6,9 @@ import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.AppendListItemFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasListItems;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Description("Adds a list item to a list")
 public class AppendItemStatement extends MethodStatement {
     final HasListItems hasListItems;
     final List<ValueStatement> values = new ArrayList<>();
@@ -51,8 +54,11 @@ public class AppendItemStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertWidget("hasListItems", hasListItems);
         hasListItems.asWidget().validate(toolkit);
+        StatementUtil.assertSize("values", values, 1);
         for (ValueStatement value : values) {
+            StatementUtil.assertReturnType("values", value, JsType.STRING);
             value.validate(toolkit);
         }
     }

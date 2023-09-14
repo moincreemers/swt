@@ -7,7 +7,9 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.RemoveParameterFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.DataSourceSupplier;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -15,13 +17,14 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Removes the provided parameter from the provided data source widget")
 public class RemoveQueryParameterStatement extends MethodStatement {
     private final DataSourceSupplier dataSourceSupplier;
-    private final ValueStatement nameStatement;
+    private final ValueStatement name;
 
-    public RemoveQueryParameterStatement(DataSourceSupplier dataSourceSupplier, ValueStatement nameStatement) {
+    public RemoveQueryParameterStatement(DataSourceSupplier dataSourceSupplier, ValueStatement name) {
         this.dataSourceSupplier = dataSourceSupplier;
-        this.nameStatement = nameStatement;
+        this.name = name;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class RemoveQueryParameterStatement extends MethodStatement {
                 JsWidgetModule.getQualifiedId(RemoveParameterFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 dataSourceSupplier.asWidget().getId(),
-                ValueStatement.valueOf(toolkit, nameStatement, widget));
+                ValueStatement.valueOf(toolkit, name, widget));
     }
 
     @Override
@@ -49,12 +52,14 @@ public class RemoveQueryParameterStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertWidget("dataSourceSupplier", dataSourceSupplier);
         dataSourceSupplier.validate(toolkit);
-        nameStatement.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("name", name, JsType.STRING);
+        name.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(nameStatement);
+        statements.add(name);
     }
 }

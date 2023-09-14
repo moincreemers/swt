@@ -8,22 +8,22 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.global.*;
 import com.philips.dmis.swt.ui.toolkit.js.widget.GetFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.V;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.ValueWidget;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Allows for evaluation of multiple conditions (i.e., "cases") and either break at the first condition that is true or
  * evaluate all conditions that are true. Comparable to a switch statement.
  */
+@Description("Given a ValueWidget, iterates over one or more 'cases' and executes the statements for any case that matches")
 public class IfStatement extends MethodStatement {
     static class Case {
         final Class<? extends JsFunction> functionClass;
@@ -37,17 +37,17 @@ public class IfStatement extends MethodStatement {
         }
     }
 
-    private final ValueWidget<?, ?> valueWidget;
+    private final ValueWidget<?, ?, ?> widget;
     private final boolean breakOnMatch;
     private final List<Case> cases = new ArrayList<>();
     private final List<Statement> elseStatements = new ArrayList<>();
 
-    public IfStatement(ValueWidget<?, ?> valueWidget) {
-        this(valueWidget, true);
+    public IfStatement(ValueWidget<?, ?, ?> widget) {
+        this(widget, true);
     }
 
-    public IfStatement(ValueWidget<?, ?> valueWidget, boolean breakOnMatch) {
-        this.valueWidget = valueWidget;
+    public IfStatement(ValueWidget<?, ?, ?> widget, boolean breakOnMatch) {
+        this.widget = widget;
         this.breakOnMatch = breakOnMatch;
     }
 
@@ -161,7 +161,7 @@ public class IfStatement extends MethodStatement {
         // todo
         js.append("var value=%s('%s');",
                 JsWidgetModule.getQualifiedId(GetFunction.class),
-                valueWidget.getId());
+                this.widget.getId());
 
         js.append("var done=false;");
         int i = 0;
@@ -169,7 +169,7 @@ public class IfStatement extends MethodStatement {
             String value = ValueStatement.valueOf(toolkit, c.valueStatement, widget);
             js.debug("console.log('if',value,'%s',%s);", c.functionClass.getSimpleName(), value);
             js.append("if(!done&&%s(value,%s)){",
-                    JsGlobalModule.getQualifiedId(c.functionClass), value);
+                    JsGlobalModule.getQualifiedId(c.functionClass), value); // if
             js.debug("console.log('case %d is true');", i);
             for (Statement statement : c.statements) {
                 statement.renderJs(toolkit, widget, js);
@@ -177,13 +177,15 @@ public class IfStatement extends MethodStatement {
             if (breakOnMatch) {
                 js.append("done=true;");
             }
-            js.append("}");
+            js.append("};"); // end if
             i++;
         }
         if (!elseStatements.isEmpty()) {
+            js.append("if(!done){");
             for (Statement statement : elseStatements) {
                 statement.renderJs(toolkit, widget, js);
             }
+            js.append("};");
         }
     }
 
@@ -193,7 +195,8 @@ public class IfStatement extends MethodStatement {
             return;
         }
         validated = true;
-        valueWidget.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
         for (Case c : cases) {
             c.valueStatement.validate(toolkit);
             for (Statement statement : c.statements) {

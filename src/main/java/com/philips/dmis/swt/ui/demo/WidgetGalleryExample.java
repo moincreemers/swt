@@ -78,7 +78,6 @@ public class WidgetGalleryExample extends Page {
 
         add(new HtmlHeading("Text Widgets", 3));
         Grid textWidgetsGrid = add(new Grid(3));
-        textWidgetsGrid.setAppearance(WidgetAppearance.BORDERED);
 
         textWidgetsGrid.addAll(new HtmlLabel("Example"), new HtmlLabel("HTML Equivalent"), new HtmlLabel("Description"));
         textWidgetsGrid.addAll(new Panel(new HtmlHeading("Heading 1", 1), new HtmlHeading("Heading 2", 2), new HtmlHeading("Heading 3", 3), new HtmlHeading("Heading 4", 4), new HtmlHeading("Heading 5", 5), new HtmlHeading("Heading 6", 6)), new HtmlParagraph("H1, H2, H3, H4, H5, H6"), new HtmlParagraph(HtmlHeading.class.getSimpleName() + " widget results in the HTML H{1-6} elements."));
@@ -101,7 +100,6 @@ public class WidgetGalleryExample extends Page {
 
         add(new HtmlHeading("Input Widgets", 3));
         Grid inputWidgetsGrid = add(new Grid(3));
-        inputWidgetsGrid.setAppearance(WidgetAppearance.BORDERED);
         inputWidgetsGrid.addAll(new Panel(PanelType.BANNER, new HtmlLabel(new HtmlTextInput(), HtmlLabel.class.getSimpleName())), new HtmlParagraph("LABEL"), new HtmlParagraph(HtmlLabel.class.getSimpleName() + " widgets are typically used in combination with an input field. But they can also be used without. Labels also support icons."));
         inputWidgetsGrid.addAll(new HtmlLink(HtmlLink.class.getSimpleName()), new HtmlParagraph("A"), new HtmlParagraph("Links are functionally equivalent to buttons. Links support icons."));
 
@@ -158,19 +156,16 @@ public class WidgetGalleryExample extends Page {
 
         add(new HtmlHeading("Grid and Table Widgets", 3));
         Grid tableWidgetsGrid = add(new Grid(3));
-        tableWidgetsGrid.setAppearance(WidgetAppearance.BORDERED);
 
         SingleRowPanel singleRowPanel = tableWidgetsGrid.add(new SingleRowPanel(PanelType.TOOLBAR));
         singleRowPanel.addAll(new HtmlButton(icons, "undo"), new HtmlButton(icons, "redo"), new HtmlButton(icons, "save"));
         tableWidgetsGrid.addAll(singleRowPanel, new HtmlParagraph("TABLE or CSS-table"), new HtmlParagraph(SingleRowPanel.class.getSimpleName() + " is a Panel that displays widgets horizontally without breaking to the next line. In this example the PanelType.TOOLBAR is used."));
 
-        Grid gridExample = new Grid(2);
-        gridExample.setAppearance(WidgetAppearance.BORDERED);
-        gridExample.addAll(new HtmlLabel("Selection"), new HtmlLabel("Description"));
-        gridExample.addAll(new HtmlCheckInput(), new HtmlParagraph("Some text 1"));
-        gridExample.addAll(new HtmlCheckInput(), new HtmlParagraph("Some text 2"));
-        gridExample.addAll(new HtmlCheckInput(), new HtmlParagraph("Some text 3"));
-        tableWidgetsGrid.addAll(gridExample, new HtmlParagraph("TABLE or CSS-table"), new HtmlParagraph(Grid.class.getSimpleName() + " is a container widget. Implemented as a CSS-Table."));
+        Grid gridExample = new Grid(3, 3);
+        gridExample.addAll(new Panel(PanelType.INFO), new Panel(PanelType.INFO), new Panel(PanelType.INFO),
+                new Panel(PanelType.INFO), new Panel(PanelType.INFO), new Panel(PanelType.INFO),
+                new Panel(PanelType.INFO), new Panel(PanelType.INFO));
+        tableWidgetsGrid.addAll(gridExample, new HtmlParagraph("CSS-Grid"), new HtmlParagraph(Grid.class.getSimpleName() + " is a container widget. Implemented using the grid layout."));
 
         tableWidgetsGrid.addAll(new HtmlPreformatted(HtmlTable.class.getSimpleName()), new HtmlParagraph("TABLE"), new HtmlParagraph(""));
         tableWidgetsGrid.addAll(new HtmlPreformatted(HtmlTableHeader.class.getSimpleName()), new HtmlParagraph("THEAD"), new HtmlParagraph(""));
@@ -180,7 +175,6 @@ public class WidgetGalleryExample extends Page {
 
         add(new HtmlHeading("Panel Widgets", 3));
         Grid panelWidgetsGrid = add(new Grid(3));
-        panelWidgetsGrid.setAppearance(WidgetAppearance.BORDERED);
 
         panelWidgetsGrid.addAll(new Panel(PanelType.DEFAULT, new HtmlParagraph(Panel.class.getSimpleName())), new HtmlParagraph("DIV"), new HtmlParagraph("PanelType.DEFAULT is a simple panel that has no padding, margin or border."));
         panelWidgetsGrid.addAll(new HtmlParagraph("Heading/Footer Panel"), new HtmlParagraph("DIV"), new HtmlParagraph("PanelType.PAGE_HEADER, PanelType.PAGE_FOOTER, PanelType.NAV_LEFT and PanelType.NAV_RIGHT. Must be added to a page, i.e., not to another container on the page. These 4 panels result in a fixed panel that is not affected by scrolling."));
@@ -196,7 +190,6 @@ public class WidgetGalleryExample extends Page {
 
         add(new HtmlHeading("Special Widgets", 3));
         Grid specialWidgetsGrid = add(new Grid(3));
-        specialWidgetsGrid.setAppearance(WidgetAppearance.BORDERED);
 
         HtmlFrame htmlFrame = new HtmlFrame();
         htmlFrame.onInit(new InitEventHandler(M.SetValue(htmlFrame, V.Const("example.html"))));

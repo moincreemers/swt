@@ -1,9 +1,11 @@
 package com.philips.dmis.swt.ui.toolkit.widgets;
 
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public enum ViewPosition {
+public enum ViewPosition implements HasDefault<ViewPosition> {
     DEFAULT("", ""),
 
     DIALOG_TOP_LEFT("", "tk-dlg-top-left", ViewType.DIALOG),
@@ -43,5 +45,10 @@ public enum ViewPosition {
 
     public List<ViewType> getViewTypes() {
         return viewTypes;
+    }
+
+    @Override
+    public ViewPosition getDefault() {
+        return ViewPosition.DEFAULT;
     }
 }

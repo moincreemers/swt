@@ -42,7 +42,7 @@ public class SetPlaceholderFunction implements JsFunction {
         //js.append("const implements=widget.%s;", ImplementsVariable.ID);
         js.append("const element=document.getElementById(id);");
 
-        js.ifInArray("widgetType", WidgetType.TEXT.name(), WidgetType.SEARCH.name(),
+        js.ifInArray("widgetType", WidgetType.TEXT_FIELD.name(), WidgetType.SEARCH.name(),
                 WidgetType.URL.name(), WidgetType.TELEPHONE.name(),
                 WidgetType.EMAIL.name(), WidgetType.PASSWORD.name(),
                 WidgetType.NUMBER.name()); // if

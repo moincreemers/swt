@@ -4,7 +4,9 @@ import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.js.JsParameter;
 import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Description("Encapsulates one or more statements inside a try-catch-finally block")
 public class TryStatement extends MethodStatement {
     private final List<Statement> statements = new ArrayList<>();
     private final List<Statement> catchStatements = new ArrayList<>();
@@ -66,6 +69,7 @@ public class TryStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertSize("statements", statements, 1);
         for (Statement statement : statements) {
             statement.validate(toolkit);
         }

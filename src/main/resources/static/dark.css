@@ -52,7 +52,7 @@ div.tk-panel-bordered{border-color:#666;}
 div.tk-panel-toolbar{background-color:#333;}
 div.tk-panel-tabpage{background-color:#222;border:1px solid #666}
 div.tk-panel-success{background-color:#066d3e;}
-div.tk-panel-info{background-color:#01579b;}
+div.tk-panel-info{background-color:#01819b;}
 div.tk-panel-warning{background-color:#9a6100;}
 div.tk-panel-error{background-color:#a52b36;}
 div.tk-panel-group{background-color:#202124;}
@@ -112,7 +112,6 @@ div.tk-panel-page-footer{background-color:#000;color:#fff;}
 .tk-fill-bg{background-color:#222;}
 
 div.grid.tk-bordered{border:1px solid #333;}
-div.grid.tk-bordered>div.grid-row>div.grid-cell{border-right:1px solid #333;border-bottom:1px solid #333;}
 
 div.spinner{border-color:#65b2ff;border-top-color:transparent;}
 

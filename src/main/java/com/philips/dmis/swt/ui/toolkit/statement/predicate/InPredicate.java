@@ -33,13 +33,7 @@ public class InPredicate extends PredicateStatement {
             if (i > 0) {
                 js.append(",");
             }
-            if (valueStatement.getType() == JsType.STRING) {
-                js.append("'");
-            }
             valueStatement.renderJs(toolkit, widget, js);
-            if (valueStatement.getType() == JsType.STRING) {
-                js.append("'");
-            }
         }
         js.append("].includes(value);}");
     }

@@ -8,6 +8,7 @@ import com.philips.dmis.swt.ui.toolkit.js.global.GetDocumentHashFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.JsGlobalModule;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetDocumentHashFunction;
 import com.philips.dmis.swt.ui.toolkit.js.global.SetSessionValueFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Page;
@@ -16,9 +17,10 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Closes the current page and returns to the previous page or the default page if no previous page exists")
 public class ClosePageStatement extends MethodStatement {
     private final Class<? extends Page> defaultPageClass;
-    private final ValueStatement valueStatement;
+    private final ValueStatement pageArgument;
     private final boolean useDefaultPage;
 
     public ClosePageStatement() {
@@ -29,16 +31,16 @@ public class ClosePageStatement extends MethodStatement {
         this(null, null, useDefaultPage);
     }
 
-    public ClosePageStatement(ValueStatement valueStatement) {
-        this(valueStatement, null, true);
+    public ClosePageStatement(ValueStatement pageArgument) {
+        this(pageArgument, null, true);
     }
 
-    public ClosePageStatement(ValueStatement valueStatement, boolean useDefaultPage) {
-        this(valueStatement, null, useDefaultPage);
+    public ClosePageStatement(ValueStatement pageArgument, boolean useDefaultPage) {
+        this(pageArgument, null, useDefaultPage);
     }
 
-    public ClosePageStatement(ValueStatement valueStatement, Class<? extends Page> defaultPageClass, boolean useDefaultPage) {
-        this.valueStatement = valueStatement;
+    public ClosePageStatement(ValueStatement pageArgument, Class<? extends Page> defaultPageClass, boolean useDefaultPage) {
+        this.pageArgument = pageArgument;
         this.defaultPageClass = defaultPageClass;
         this.useDefaultPage = useDefaultPage;
     }
@@ -73,8 +75,8 @@ public class ClosePageStatement extends MethodStatement {
         js.append("}else{");
         js.append("h.p=h.o.pop();");
         js.append("};");
-        if (valueStatement != null) {
-            js.append("const data={value:%s};", ValueStatement.valueOf(toolkit, valueStatement, widget));
+        if (pageArgument != null) {
+            js.append("const data={value:%s};", ValueStatement.valueOf(toolkit, pageArgument, widget));
             js.append("data.type=typeof data.value;");
             js.append("const key=(new Date().getTime()).toString(16);");
             js.append("%s(key,JSON.stringify(data));", JsGlobalModule.getQualifiedId(SetSessionValueFunction.class));
@@ -94,15 +96,15 @@ public class ClosePageStatement extends MethodStatement {
                 throw new WidgetConfigurationException("missing default page reference " + defaultPageClass.getName());
             }
         }
-        if (valueStatement != null) {
-            valueStatement.validate(toolkit);
+        if (pageArgument != null) {
+            pageArgument.validate(toolkit);
         }
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        if (valueStatement != null) {
-            statements.add(valueStatement);
+        if (pageArgument != null) {
+            statements.add(pageArgument);
         }
     }
 }

@@ -7,7 +7,9 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SetParameterFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.HasURL;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
@@ -15,15 +17,16 @@ import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Sets one parameter of the provided data source widget")
 public class SetQueryParameterStatement extends MethodStatement {
     private final HasURL hasURL;
-    private final ValueStatement nameStatement;
-    private final ValueStatement valueStatement;
+    private final ValueStatement name;
+    private final ValueStatement value;
 
-    public SetQueryParameterStatement(HasURL hasURL, ValueStatement nameStatement, ValueStatement valueStatement) {
+    public SetQueryParameterStatement(HasURL hasURL, ValueStatement name, ValueStatement value) {
         this.hasURL = hasURL;
-        this.nameStatement = nameStatement;
-        this.valueStatement = valueStatement;
+        this.name = name;
+        this.value = value;
     }
 
     @Override
@@ -42,8 +45,8 @@ public class SetQueryParameterStatement extends MethodStatement {
                 JsWidgetModule.getQualifiedId(SetParameterFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
                 hasURL.asWidget().getId(),
-                ValueStatement.valueOf(toolkit, nameStatement, widget),
-                ValueStatement.valueOf(toolkit, valueStatement, widget));
+                ValueStatement.valueOf(toolkit, name, widget),
+                ValueStatement.valueOf(toolkit, value, widget));
     }
 
     @Override
@@ -52,14 +55,17 @@ public class SetQueryParameterStatement extends MethodStatement {
             return;
         }
         validated = true;
+        StatementUtil.assertWidget("hasURL", hasURL);
         hasURL.asWidget().validate(toolkit);
-        nameStatement.validate(toolkit);
-        valueStatement.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("name", name, JsType.STRING);
+        name.validate(toolkit);
+        StatementUtil.assertRequired("value", value);
+        value.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(nameStatement);
-        statements.add(valueStatement);
+        statements.add(name);
+        statements.add(value);
     }
 }

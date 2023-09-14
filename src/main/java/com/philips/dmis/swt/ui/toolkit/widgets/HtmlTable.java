@@ -4,8 +4,12 @@ import com.philips.dmis.swt.ui.toolkit.events.ClickEventHandler;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
 public class HtmlTable extends Panel {
+    public HtmlTable(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.TABLE);
+    }
+
     public HtmlTable() {
-        this("");
+        this(NAMELESS);
     }
 
     public HtmlTable(String name) {

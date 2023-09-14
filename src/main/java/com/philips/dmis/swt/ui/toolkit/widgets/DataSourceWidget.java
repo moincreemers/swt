@@ -3,32 +3,26 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
-import java.util.List;
 import java.util.*;
 
+@PageXmlElement({"expectServiceResponse", "autoRefresh", "notifySubscribers", "disabledDataAdapters", "cacheType"})
 public abstract class DataSourceWidget extends Widget implements DataSourceSupplier {
     private final Map<HasDataSource<?, ?>, DataSourceUsage> subscribers = new HashMap<>();
     private final List<DataAdapter> dataAdapters = new ArrayList<>();
-    private final boolean expectServiceResponse;
-    private final boolean autoRefresh;
-    private final boolean notifySubscribers;
+    private boolean expectServiceResponse = true;
+    private boolean autoRefresh = true;
+    private boolean notifySubscribers = true;
     private final Set<String> disabledDataAdapters = new HashSet<>();
     private CacheType cacheType = CacheType.DEFAULT;
 
-    public DataSourceWidget(WidgetType widgetType, boolean expectServiceResponse) {
-        this(widgetType, expectServiceResponse, true, true);
+    public DataSourceWidget(WidgetConfigurator widgetConfigurator, WidgetType widgetType) {
+        super(widgetConfigurator, widgetType);
     }
 
-    public DataSourceWidget(WidgetType widgetType, boolean expectServiceResponse, boolean autoRefresh) {
-        this(widgetType, expectServiceResponse, autoRefresh, true);
-    }
-
-    public DataSourceWidget(WidgetType widgetType, boolean expectServiceResponse, boolean autoRefresh, boolean notifySubscribers) {
+    public DataSourceWidget(WidgetType widgetType) {
         super(widgetType);
-        this.expectServiceResponse = expectServiceResponse;
-        this.autoRefresh = autoRefresh;
-        this.notifySubscribers = notifySubscribers;
     }
 
     @Override
@@ -41,14 +35,26 @@ public abstract class DataSourceWidget extends Widget implements DataSourceSuppl
         return expectServiceResponse;
     }
 
+    public void setExpectServiceResponse(boolean expectServiceResponse) {
+        this.expectServiceResponse = expectServiceResponse;
+    }
+
     @Override
     public boolean isAutoRefresh() {
         return autoRefresh;
     }
 
+    public void setAutoRefresh(boolean autoRefresh) {
+        this.autoRefresh = autoRefresh;
+    }
+
     @Override
     public boolean isNotifySubscribers() {
         return notifySubscribers;
+    }
+
+    public void setNotifySubscribers(boolean notifySubscribers) {
+        this.notifySubscribers = notifySubscribers;
     }
 
     @Override

@@ -2,19 +2,25 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.data.DataAdapter;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
+@PageXmlElement({"imageSize", "imageType"})
 public class HtmlImage extends DataBoundWidget<HtmlImage, ValueDataSourceUsage> implements HasSrc<HtmlImage> {
     private ImageSize imageSize = ImageSize.DEFAULT;
     private ImageType imageType = ImageType.DEFAULT;
 
+    public HtmlImage(WidgetConfigurator widgetConfigurator) {
+        super(widgetConfigurator, WidgetType.IMAGE);
+    }
+
     public HtmlImage() {
-        this(ImageType.DEFAULT, "");
+        this(ImageType.DEFAULT, DEFAULT_VALUE_SRC);
     }
 
     public HtmlImage(ImageType imageType) {
-        this(imageType, "");
+        this(imageType, DEFAULT_VALUE_SRC);
     }
 
     public HtmlImage(String src) {

@@ -7,20 +7,23 @@ import com.philips.dmis.swt.ui.toolkit.js.JsWriter;
 import com.philips.dmis.swt.ui.toolkit.js.widget.GetElementFunction;
 import com.philips.dmis.swt.ui.toolkit.js.widget.JsWidgetModule;
 import com.philips.dmis.swt.ui.toolkit.js.widget.SubstituteFunction;
+import com.philips.dmis.swt.ui.toolkit.statement.Description;
 import com.philips.dmis.swt.ui.toolkit.statement.Statement;
+import com.philips.dmis.swt.ui.toolkit.statement.StatementUtil;
 import com.philips.dmis.swt.ui.toolkit.statement.value.ValueStatement;
 import com.philips.dmis.swt.ui.toolkit.widgets.Widget;
 import com.philips.dmis.swt.ui.toolkit.widgets.WidgetConfigurationException;
 
 import java.util.List;
 
+@Description("Displays the provided widget or not depending on the provided boolean value")
 public class SetVisibleStatement extends MethodStatement {
-    private final Widget targetWidget;
-    private final ValueStatement valueStatement;
+    private final Widget widget;
+    private final ValueStatement visible;
 
-    public SetVisibleStatement(Widget widget, ValueStatement valueStatement) {
-        this.targetWidget = widget;
-        this.valueStatement = valueStatement;
+    public SetVisibleStatement(Widget widget, ValueStatement visible) {
+        this.widget = widget;
+        this.visible = visible;
     }
 
     @Override
@@ -38,8 +41,8 @@ public class SetVisibleStatement extends MethodStatement {
         js.append("%s(%s('%s',eventContext)).style.display=(%s==true)?'':'none';",
                 JsWidgetModule.getQualifiedId(GetElementFunction.class),
                 JsWidgetModule.getQualifiedId(SubstituteFunction.class),
-                targetWidget.getId(),
-                ValueStatement.valueOf(toolkit, valueStatement, widget));
+                this.widget.getId(),
+                ValueStatement.valueOf(toolkit, visible, widget));
     }
 
     @Override
@@ -48,12 +51,14 @@ public class SetVisibleStatement extends MethodStatement {
             return;
         }
         validated = true;
-        targetWidget.validate(toolkit);
-        valueStatement.validate(toolkit);
+        StatementUtil.assertWidget("widget", widget);
+        widget.validate(toolkit);
+        StatementUtil.assertRequiredAndReturnType("visible", visible, JsType.BOOLEAN);
+        visible.validate(toolkit);
     }
 
     @Override
     public void getReferences(List<Statement> statements) {
-        statements.add(valueStatement);
+        statements.add(visible);
     }
 }

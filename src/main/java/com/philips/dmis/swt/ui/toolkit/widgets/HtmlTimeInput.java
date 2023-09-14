@@ -5,21 +5,27 @@ import com.philips.dmis.swt.ui.toolkit.events.InputEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyDownEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyPressEventHandler;
 import com.philips.dmis.swt.ui.toolkit.events.KeyUpEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
 import com.philips.dmis.swt.ui.toolkit.js.WidgetType;
 
-public class HtmlTimeInput extends ValueWidget<HtmlTimeInput, ValueDataSourceUsage> implements
-        HasType, HasValue<HtmlTimeInput>, HasKeyInput<HtmlTimeInput>, HasRange<String>, HasStep, HasReadonly,
+public class HtmlTimeInput extends ValueWidget<HtmlTimeInput, String, ValueDataSourceUsage> implements
+        HasType, HasValue<HtmlTimeInput, String>, HasKeyInput<HtmlTimeInput>, HasRange<String>, HasStep, HasReadonly,
         HasRequired, HasAutocomplete, HasList {
+    public HtmlTimeInput(WidgetConfigurator widgetConfigurator, String name) {
+        super(widgetConfigurator, name, WidgetType.TIME, JsType.STRING);
+        setType(TypeType.TIME);
+    }
+
     public HtmlTimeInput() {
-        this("", "");
+        this(NAMELESS, DEFAULT_VALUE_STRING);
     }
 
     public HtmlTimeInput(String name) {
-        this(name, "");
+        this(name, DEFAULT_VALUE_STRING);
     }
 
     public HtmlTimeInput(String name, String value) {
-        super(name, WidgetType.TIME);
+        super(name, WidgetType.TIME, JsType.STRING);
         setType(TypeType.TIME);
         setValue(value);
     }

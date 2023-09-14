@@ -1,6 +1,8 @@
 package com.philips.dmis.swt.ui.toolkit.js.state;
 
-public enum PageRefreshType {
+import com.philips.dmis.swt.ui.toolkit.utils.HasDefault;
+
+public enum PageRefreshType implements HasDefault<PageRefreshType> {
     INIT(JsStateModule.REASON_INIT),
     SHOW(JsStateModule.REASON_SHOW),
     MANUAL(""),
@@ -16,5 +18,10 @@ public enum PageRefreshType {
 
     public String getReason() {
         return reason;
+    }
+
+    @Override
+    public PageRefreshType getDefault() {
+        return SHOW;
     }
 }

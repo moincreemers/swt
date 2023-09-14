@@ -2,32 +2,37 @@ package com.philips.dmis.swt.ui.toolkit.widgets;
 
 import com.philips.dmis.swt.ui.toolkit.Toolkit;
 import com.philips.dmis.swt.ui.toolkit.events.ChangeEventHandler;
+import com.philips.dmis.swt.ui.toolkit.js.JsType;
+import com.philips.dmis.swt.ui.toolkit.utils.PageXmlElement;
 
 import java.util.Map;
 
-public class ValueImpl<T extends Widget> extends NameImpl<T> implements
-        HasValue<T> {
-    private String value = "";
+@PageXmlElement("value")
+public class ValueImpl<T extends Widget, V> extends NameImpl<T> implements
+        HasValue<T, V> {
+    private V value = null;
+    private final JsType jsType;
 
-    public ValueImpl(T widget) {
+    public ValueImpl(T widget, JsType jsType) {
         super(widget);
+        this.jsType = jsType;
     }
 
     @Override
-    public HasValue<T> getValueImpl() {
+    public HasValue<T, V> getValueImpl() {
         return this;
     }
 
     @Override
-    public String getValue() {
+    public V getValue() {
         return value;
     }
 
     @Override
-    public T setValue(String value) {
-        if (value == null) {
-            value = "";
-        }
+    public T setValue(V value) {
+//        if (value == null) {
+//            value = "";
+//        }
         this.value = value;
         return widget;
     }
@@ -46,11 +51,11 @@ public class ValueImpl<T extends Widget> extends NameImpl<T> implements
     @Override
     public void getHtmlAttributes(Map<String, String> htmlAttributes) {
         super.getHtmlAttributes(htmlAttributes);
-        if (value != null && !value.isEmpty()) {
+        if (value != null) {
             if (widget instanceof HtmlFrame || widget instanceof HtmlImageButton) {
-                htmlAttributes.put("src", value);
+                htmlAttributes.put("src", value.toString());
             } else {
-                htmlAttributes.put("value", value);
+                htmlAttributes.put("value", value.toString());
             }
         }
     }
@@ -58,5 +63,12 @@ public class ValueImpl<T extends Widget> extends NameImpl<T> implements
     @Override
     public void validate(Toolkit toolkit) throws WidgetConfigurationException {
 
+    }
+
+    // HASVALUETYPE
+
+    @Override
+    public JsType getReturnType() {
+        return jsType;
     }
 }
